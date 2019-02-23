@@ -24,3 +24,4 @@ testapp/DesktopApp/desktop/lib/jrtplib/src/jrtplib-shared_autogen/
 testapp/DesktopSampleApp/desktop/lib/
 orwelljs/node_modules
 orwelljs/desktop/CMakeFiles
+orwelljs/desktop/bin/*
