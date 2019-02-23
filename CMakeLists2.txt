@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.1.0)
+set(Qt5_DIR "/home/lz/Qt5.11.2/5.11.2/gcc_64" CACHE PATH "Initial cahe" FORCE)
+project(orwell)
+
+add_subdirectory(react-native-desktop-orwell)
