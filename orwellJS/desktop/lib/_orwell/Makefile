@@ -48,10 +48,10 @@ RM = /home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lz/orwell/orwelljs/desktop
+CMAKE_SOURCE_DIR = /home/lz/orwell/orwellJS/desktop
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lz/orwell/orwelljs/desktop
+CMAKE_BINARY_DIR = /home/lz/orwell/orwellJS/desktop
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,14 +126,14 @@ install/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwelljs/desktop/CMakeFiles /home/lz/orwell/orwelljs/desktop/lib/_orwell/CMakeFiles/progress.marks
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwelljs/desktop/CMakeFiles 0
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwellJS/desktop/CMakeFiles /home/lz/orwell/orwellJS/desktop/lib/_orwell/CMakeFiles/progress.marks
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwellJS/desktop/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/clean
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/preinstall
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/preinstall
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 lib/_orwell/CMakeFiles/orwell.dir/rule:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/CMakeFiles/orwell.dir/rule
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/CMakeFiles/orwell.dir/rule
 .PHONY : lib/_orwell/CMakeFiles/orwell.dir/rule
 
 # Convenience name for target.
@@ -168,12 +168,12 @@ orwell: lib/_orwell/CMakeFiles/orwell.dir/rule
 
 # fast build rule for target.
 orwell/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/build
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/build
 .PHONY : orwell/fast
 
 # Convenience name for target.
 lib/_orwell/CMakeFiles/orwell_autogen.dir/rule:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/CMakeFiles/orwell_autogen.dir/rule
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/CMakeFiles/orwell_autogen.dir/rule
 .PHONY : lib/_orwell/CMakeFiles/orwell_autogen.dir/rule
 
 # Convenience name for target.
@@ -183,7 +183,7 @@ orwell_autogen: lib/_orwell/CMakeFiles/orwell_autogen.dir/rule
 
 # fast build rule for target.
 orwell_autogen/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell_autogen.dir/build.make lib/_orwell/CMakeFiles/orwell_autogen.dir/build
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell_autogen.dir/build.make lib/_orwell/CMakeFiles/orwell_autogen.dir/build
 .PHONY : orwell_autogen/fast
 
 FfmpegDecoder.o: FfmpegDecoder.cpp.o
@@ -192,7 +192,7 @@ FfmpegDecoder.o: FfmpegDecoder.cpp.o
 
 # target to build an object file
 FfmpegDecoder.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/FfmpegDecoder.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/FfmpegDecoder.cpp.o
 .PHONY : FfmpegDecoder.cpp.o
 
 FfmpegDecoder.i: FfmpegDecoder.cpp.i
@@ -201,7 +201,7 @@ FfmpegDecoder.i: FfmpegDecoder.cpp.i
 
 # target to preprocess a source file
 FfmpegDecoder.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/FfmpegDecoder.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/FfmpegDecoder.cpp.i
 .PHONY : FfmpegDecoder.cpp.i
 
 FfmpegDecoder.s: FfmpegDecoder.cpp.s
@@ -210,7 +210,7 @@ FfmpegDecoder.s: FfmpegDecoder.cpp.s
 
 # target to generate assembly for a file
 FfmpegDecoder.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/FfmpegDecoder.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/FfmpegDecoder.cpp.s
 .PHONY : FfmpegDecoder.cpp.s
 
 MediaStream.o: MediaStream.cpp.o
@@ -219,7 +219,7 @@ MediaStream.o: MediaStream.cpp.o
 
 # target to build an object file
 MediaStream.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/MediaStream.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/MediaStream.cpp.o
 .PHONY : MediaStream.cpp.o
 
 MediaStream.i: MediaStream.cpp.i
@@ -228,7 +228,7 @@ MediaStream.i: MediaStream.cpp.i
 
 # target to preprocess a source file
 MediaStream.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/MediaStream.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/MediaStream.cpp.i
 .PHONY : MediaStream.cpp.i
 
 MediaStream.s: MediaStream.cpp.s
@@ -237,7 +237,7 @@ MediaStream.s: MediaStream.cpp.s
 
 # target to generate assembly for a file
 MediaStream.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/MediaStream.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/MediaStream.cpp.s
 .PHONY : MediaStream.cpp.s
 
 OpenGlVideoQtQuick.o: OpenGlVideoQtQuick.cpp.o
@@ -246,7 +246,7 @@ OpenGlVideoQtQuick.o: OpenGlVideoQtQuick.cpp.o
 
 # target to build an object file
 OpenGlVideoQtQuick.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/OpenGlVideoQtQuick.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/OpenGlVideoQtQuick.cpp.o
 .PHONY : OpenGlVideoQtQuick.cpp.o
 
 OpenGlVideoQtQuick.i: OpenGlVideoQtQuick.cpp.i
@@ -255,7 +255,7 @@ OpenGlVideoQtQuick.i: OpenGlVideoQtQuick.cpp.i
 
 # target to preprocess a source file
 OpenGlVideoQtQuick.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/OpenGlVideoQtQuick.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/OpenGlVideoQtQuick.cpp.i
 .PHONY : OpenGlVideoQtQuick.cpp.i
 
 OpenGlVideoQtQuick.s: OpenGlVideoQtQuick.cpp.s
@@ -264,7 +264,7 @@ OpenGlVideoQtQuick.s: OpenGlVideoQtQuick.cpp.s
 
 # target to generate assembly for a file
 OpenGlVideoQtQuick.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/OpenGlVideoQtQuick.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/OpenGlVideoQtQuick.cpp.s
 .PHONY : OpenGlVideoQtQuick.cpp.s
 
 QFFmpegGLWidget.o: QFFmpegGLWidget.cpp.o
@@ -273,7 +273,7 @@ QFFmpegGLWidget.o: QFFmpegGLWidget.cpp.o
 
 # target to build an object file
 QFFmpegGLWidget.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/QFFmpegGLWidget.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/QFFmpegGLWidget.cpp.o
 .PHONY : QFFmpegGLWidget.cpp.o
 
 QFFmpegGLWidget.i: QFFmpegGLWidget.cpp.i
@@ -282,7 +282,7 @@ QFFmpegGLWidget.i: QFFmpegGLWidget.cpp.i
 
 # target to preprocess a source file
 QFFmpegGLWidget.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/QFFmpegGLWidget.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/QFFmpegGLWidget.cpp.i
 .PHONY : QFFmpegGLWidget.cpp.i
 
 QFFmpegGLWidget.s: QFFmpegGLWidget.cpp.s
@@ -291,7 +291,7 @@ QFFmpegGLWidget.s: QFFmpegGLWidget.cpp.s
 
 # target to generate assembly for a file
 QFFmpegGLWidget.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/QFFmpegGLWidget.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/QFFmpegGLWidget.cpp.s
 .PHONY : QFFmpegGLWidget.cpp.s
 
 VideoConsumer.o: VideoConsumer.cpp.o
@@ -300,7 +300,7 @@ VideoConsumer.o: VideoConsumer.cpp.o
 
 # target to build an object file
 VideoConsumer.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoConsumer.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoConsumer.cpp.o
 .PHONY : VideoConsumer.cpp.o
 
 VideoConsumer.i: VideoConsumer.cpp.i
@@ -309,7 +309,7 @@ VideoConsumer.i: VideoConsumer.cpp.i
 
 # target to preprocess a source file
 VideoConsumer.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoConsumer.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoConsumer.cpp.i
 .PHONY : VideoConsumer.cpp.i
 
 VideoConsumer.s: VideoConsumer.cpp.s
@@ -318,7 +318,7 @@ VideoConsumer.s: VideoConsumer.cpp.s
 
 # target to generate assembly for a file
 VideoConsumer.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoConsumer.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoConsumer.cpp.s
 .PHONY : VideoConsumer.cpp.s
 
 VideoProducer.o: VideoProducer.cpp.o
@@ -327,7 +327,7 @@ VideoProducer.o: VideoProducer.cpp.o
 
 # target to build an object file
 VideoProducer.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoProducer.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoProducer.cpp.o
 .PHONY : VideoProducer.cpp.o
 
 VideoProducer.i: VideoProducer.cpp.i
@@ -336,7 +336,7 @@ VideoProducer.i: VideoProducer.cpp.i
 
 # target to preprocess a source file
 VideoProducer.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoProducer.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoProducer.cpp.i
 .PHONY : VideoProducer.cpp.i
 
 VideoProducer.s: VideoProducer.cpp.s
@@ -345,7 +345,7 @@ VideoProducer.s: VideoProducer.cpp.s
 
 # target to generate assembly for a file
 VideoProducer.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoProducer.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoProducer.cpp.s
 .PHONY : VideoProducer.cpp.s
 
 VideoSurface.o: VideoSurface.cpp.o
@@ -354,7 +354,7 @@ VideoSurface.o: VideoSurface.cpp.o
 
 # target to build an object file
 VideoSurface.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoSurface.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoSurface.cpp.o
 .PHONY : VideoSurface.cpp.o
 
 VideoSurface.i: VideoSurface.cpp.i
@@ -363,7 +363,7 @@ VideoSurface.i: VideoSurface.cpp.i
 
 # target to preprocess a source file
 VideoSurface.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoSurface.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoSurface.cpp.i
 .PHONY : VideoSurface.cpp.i
 
 VideoSurface.s: VideoSurface.cpp.s
@@ -372,7 +372,7 @@ VideoSurface.s: VideoSurface.cpp.s
 
 # target to generate assembly for a file
 VideoSurface.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoSurface.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/VideoSurface.cpp.s
 .PHONY : VideoSurface.cpp.s
 
 XVideoWidget.o: XVideoWidget.cpp.o
@@ -381,7 +381,7 @@ XVideoWidget.o: XVideoWidget.cpp.o
 
 # target to build an object file
 XVideoWidget.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/XVideoWidget.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/XVideoWidget.cpp.o
 .PHONY : XVideoWidget.cpp.o
 
 XVideoWidget.i: XVideoWidget.cpp.i
@@ -390,7 +390,7 @@ XVideoWidget.i: XVideoWidget.cpp.i
 
 # target to preprocess a source file
 XVideoWidget.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/XVideoWidget.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/XVideoWidget.cpp.i
 .PHONY : XVideoWidget.cpp.i
 
 XVideoWidget.s: XVideoWidget.cpp.s
@@ -399,7 +399,7 @@ XVideoWidget.s: XVideoWidget.cpp.s
 
 # target to generate assembly for a file
 XVideoWidget.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/XVideoWidget.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/XVideoWidget.cpp.s
 .PHONY : XVideoWidget.cpp.s
 
 common_example.o: common_example.cpp.o
@@ -408,7 +408,7 @@ common_example.o: common_example.cpp.o
 
 # target to build an object file
 common_example.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/common_example.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/common_example.cpp.o
 .PHONY : common_example.cpp.o
 
 common_example.i: common_example.cpp.i
@@ -417,7 +417,7 @@ common_example.i: common_example.cpp.i
 
 # target to preprocess a source file
 common_example.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/common_example.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/common_example.cpp.i
 .PHONY : common_example.cpp.i
 
 common_example.s: common_example.cpp.s
@@ -426,7 +426,7 @@ common_example.s: common_example.cpp.s
 
 # target to generate assembly for a file
 common_example.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/common_example.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/common_example.cpp.s
 .PHONY : common_example.cpp.s
 
 main.o: main.cpp.o
@@ -435,7 +435,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/main.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -444,7 +444,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/main.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -453,7 +453,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/main.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 mainwindow.o: mainwindow.cpp.o
@@ -462,7 +462,7 @@ mainwindow.o: mainwindow.cpp.o
 
 # target to build an object file
 mainwindow.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/mainwindow.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/mainwindow.cpp.o
 .PHONY : mainwindow.cpp.o
 
 mainwindow.i: mainwindow.cpp.i
@@ -471,7 +471,7 @@ mainwindow.i: mainwindow.cpp.i
 
 # target to preprocess a source file
 mainwindow.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/mainwindow.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/mainwindow.cpp.i
 .PHONY : mainwindow.cpp.i
 
 mainwindow.s: mainwindow.cpp.s
@@ -480,7 +480,7 @@ mainwindow.s: mainwindow.cpp.s
 
 # target to generate assembly for a file
 mainwindow.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/mainwindow.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/mainwindow.cpp.s
 .PHONY : mainwindow.cpp.s
 
 orwell_autogen/mocs_compilation.o: orwell_autogen/mocs_compilation.cpp.o
@@ -489,7 +489,7 @@ orwell_autogen/mocs_compilation.o: orwell_autogen/mocs_compilation.cpp.o
 
 # target to build an object file
 orwell_autogen/mocs_compilation.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/orwell_autogen/mocs_compilation.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/orwell_autogen/mocs_compilation.cpp.o
 .PHONY : orwell_autogen/mocs_compilation.cpp.o
 
 orwell_autogen/mocs_compilation.i: orwell_autogen/mocs_compilation.cpp.i
@@ -498,7 +498,7 @@ orwell_autogen/mocs_compilation.i: orwell_autogen/mocs_compilation.cpp.i
 
 # target to preprocess a source file
 orwell_autogen/mocs_compilation.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/orwell_autogen/mocs_compilation.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/orwell_autogen/mocs_compilation.cpp.i
 .PHONY : orwell_autogen/mocs_compilation.cpp.i
 
 orwell_autogen/mocs_compilation.s: orwell_autogen/mocs_compilation.cpp.s
@@ -507,7 +507,7 @@ orwell_autogen/mocs_compilation.s: orwell_autogen/mocs_compilation.cpp.s
 
 # target to generate assembly for a file
 orwell_autogen/mocs_compilation.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/orwell_autogen/mocs_compilation.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/orwell_autogen/mocs_compilation.cpp.s
 .PHONY : orwell_autogen/mocs_compilation.cpp.s
 
 utils.o: utils.cpp.o
@@ -516,7 +516,7 @@ utils.o: utils.cpp.o
 
 # target to build an object file
 utils.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/utils.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/utils.cpp.o
 .PHONY : utils.cpp.o
 
 utils.i: utils.cpp.i
@@ -525,7 +525,7 @@ utils.i: utils.cpp.i
 
 # target to preprocess a source file
 utils.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/utils.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/utils.cpp.i
 .PHONY : utils.cpp.i
 
 utils.s: utils.cpp.s
@@ -534,7 +534,7 @@ utils.s: utils.cpp.s
 
 # target to generate assembly for a file
 utils.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/utils.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/utils.cpp.s
 .PHONY : utils.cpp.s
 
 # Help Target
@@ -601,6 +601,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

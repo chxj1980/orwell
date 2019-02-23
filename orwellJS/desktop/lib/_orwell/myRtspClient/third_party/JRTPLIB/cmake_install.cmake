@@ -46,7 +46,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/usr/local/lib/cmake/JRTPLIB" TYPE FILE FILES "/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/cmake/JRTPLIBConfig.cmake")
+file(INSTALL DESTINATION "/usr/local/lib/cmake/JRTPLIB" TYPE FILE FILES "/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/cmake/JRTPLIBConfig.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -58,12 +58,12 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/usr/local/lib/pkgconfig" TYPE FILE FILES "/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/pkgconfig/jrtplib.pc")
+file(INSTALL DESTINATION "/usr/local/lib/pkgconfig" TYPE FILE FILES "/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/pkgconfig/jrtplib.pc")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/cmake_install.cmake")
+  include("/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/cmake_install.cmake")
 
 endif()
 

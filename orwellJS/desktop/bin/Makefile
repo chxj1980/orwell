@@ -48,10 +48,10 @@ RM = /home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lz/orwell/orwelljs/desktop
+CMAKE_SOURCE_DIR = /home/lz/orwell/orwellJS/desktop
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lz/orwell/orwelljs/desktop
+CMAKE_BINARY_DIR = /home/lz/orwell/orwellJS/desktop
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,14 +126,14 @@ install/local/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwelljs/desktop/CMakeFiles /home/lz/orwell/orwelljs/desktop/bin/CMakeFiles/progress.marks
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwelljs/desktop/CMakeFiles 0
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwellJS/desktop/CMakeFiles /home/lz/orwell/orwellJS/desktop/bin/CMakeFiles/progress.marks
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwellJS/desktop/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/clean
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/preinstall
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/preinstall
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 bin/CMakeFiles/DesktopSampleApp.dir/rule:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/DesktopSampleApp.dir/rule
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/DesktopSampleApp.dir/rule
 .PHONY : bin/CMakeFiles/DesktopSampleApp.dir/rule
 
 # Convenience name for target.
@@ -168,12 +168,12 @@ DesktopSampleApp: bin/CMakeFiles/DesktopSampleApp.dir/rule
 
 # fast build rule for target.
 DesktopSampleApp/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/build
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/build
 .PHONY : DesktopSampleApp/fast
 
 # Convenience name for target.
 bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule
 .PHONY : bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule
 
 # Convenience name for target.
@@ -183,7 +183,7 @@ DesktopSampleApp_autogen: bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule
 
 # fast build rule for target.
 DesktopSampleApp_autogen/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp_autogen.dir/build.make bin/CMakeFiles/DesktopSampleApp_autogen.dir/build
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp_autogen.dir/build.make bin/CMakeFiles/DesktopSampleApp_autogen.dir/build
 .PHONY : DesktopSampleApp_autogen/fast
 
 DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.o: DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o
@@ -192,7 +192,7 @@ DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.o: DesktopSampleApp_autogen/EWIEGA4
 
 # target to build an object file
 DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o
 .PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o
 
 DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.i: DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i
@@ -201,7 +201,7 @@ DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.i: DesktopSampleApp_autogen/EWIEGA4
 
 # target to preprocess a source file
 DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i
 .PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i
 
 DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.s: DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s
@@ -210,7 +210,7 @@ DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.s: DesktopSampleApp_autogen/EWIEGA4
 
 # target to generate assembly for a file
 DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s
 .PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s
 
 DesktopSampleApp_autogen/mocs_compilation.o: DesktopSampleApp_autogen/mocs_compilation.cpp.o
@@ -219,7 +219,7 @@ DesktopSampleApp_autogen/mocs_compilation.o: DesktopSampleApp_autogen/mocs_compi
 
 # target to build an object file
 DesktopSampleApp_autogen/mocs_compilation.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.o
 .PHONY : DesktopSampleApp_autogen/mocs_compilation.cpp.o
 
 DesktopSampleApp_autogen/mocs_compilation.i: DesktopSampleApp_autogen/mocs_compilation.cpp.i
@@ -228,7 +228,7 @@ DesktopSampleApp_autogen/mocs_compilation.i: DesktopSampleApp_autogen/mocs_compi
 
 # target to preprocess a source file
 DesktopSampleApp_autogen/mocs_compilation.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.i
 .PHONY : DesktopSampleApp_autogen/mocs_compilation.cpp.i
 
 DesktopSampleApp_autogen/mocs_compilation.s: DesktopSampleApp_autogen/mocs_compilation.cpp.s
@@ -237,7 +237,7 @@ DesktopSampleApp_autogen/mocs_compilation.s: DesktopSampleApp_autogen/mocs_compi
 
 # target to generate assembly for a file
 DesktopSampleApp_autogen/mocs_compilation.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.s
 .PHONY : DesktopSampleApp_autogen/mocs_compilation.cpp.s
 
 __/main.o: __/main.cpp.o
@@ -246,7 +246,7 @@ __/main.o: __/main.cpp.o
 
 # target to build an object file
 __/main.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.o
 .PHONY : __/main.cpp.o
 
 __/main.i: __/main.cpp.i
@@ -255,7 +255,7 @@ __/main.i: __/main.cpp.i
 
 # target to preprocess a source file
 __/main.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.i
 .PHONY : __/main.cpp.i
 
 __/main.s: __/main.cpp.s
@@ -264,7 +264,7 @@ __/main.s: __/main.cpp.s
 
 # target to generate assembly for a file
 __/main.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.s
 .PHONY : __/main.cpp.s
 
 # Help Target
@@ -301,6 +301,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

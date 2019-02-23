@@ -48,10 +48,10 @@ RM = /home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lz/orwell/orwelljs/desktop
+CMAKE_SOURCE_DIR = /home/lz/orwell/orwellJS/desktop
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lz/orwell/orwelljs/desktop
+CMAKE_BINARY_DIR = /home/lz/orwell/orwellJS/desktop
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,14 +126,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwelljs/desktop/CMakeFiles /home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/CMakeFiles/progress.marks
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/myRtspClient/third_party/JRTPLIB/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwelljs/desktop/CMakeFiles 0
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwellJS/desktop/CMakeFiles /home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/CMakeFiles/progress.marks
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/myRtspClient/third_party/JRTPLIB/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwellJS/desktop/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/myRtspClient/third_party/JRTPLIB/clean
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/myRtspClient/third_party/JRTPLIB/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,17 +143,17 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/myRtspClient/third_party/JRTPLIB/preinstall
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/myRtspClient/third_party/JRTPLIB/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/myRtspClient/third_party/JRTPLIB/preinstall
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/_orwell/myRtspClient/third_party/JRTPLIB/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Help Target
@@ -179,6 +179,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

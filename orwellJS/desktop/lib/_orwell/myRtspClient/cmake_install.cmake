@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/cmake_install.cmake")
+  include("/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/cmake_install.cmake")
 
 endif()
 

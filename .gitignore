@@ -29,3 +29,5 @@ orwell_autogen/
 CMakeCache.txt
 cmake_install.cmake
 lib*
+orwellJS/node_modules/*
+orwellJS/node_modules/

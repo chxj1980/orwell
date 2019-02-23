@@ -52,14 +52,14 @@ fi
 # For net case, try and run executor; it is probably OK if this fails - it's
 # just running elsewhere
 if [[ "$executor" == "ReactNetExecutor" ]]; then
-  (node /home/lz/orwell/orwelljs/desktop/bin/ubuntu-server.js 2>&1 > /dev/null) &
+  (node /home/lz/orwell/orwellJS/desktop/bin/ubuntu-server.js 2>&1 > /dev/null) &
 fi
 
 if [[ $on_device == 1 ]]; then
   app_path="/home/phablet/DesktopSampleApp"
 
 # Push binaries
-  adb push /home/lz/orwell/orwelljs/desktop/bin/DesktopSampleApp "$app_path/DesktopSampleApp"
+  adb push /home/lz/orwell/orwellJS/desktop/bin/DesktopSampleApp "$app_path/DesktopSampleApp"
   [ -d "$plugins_path" ] && adb push "$plugins_path" "$app_path/plugins/"
   [ -d "$asset_path" ] && adb push "$asset_path" "$app_path/share/"
 #  adb reverse --no-rebind tcp:8081 tcp:808
@@ -68,6 +68,6 @@ if [[ $on_device == 1 ]]; then
   adb shell "cd $app_path && REACT_SERVER_HOST=$react_host ./DesktopSampleApp --host $react_host $args -- --desktop_file_hint=/usr/share/applications/webbrowser-app.desktop"
 else
 # Run app locally
-  /home/lz/orwell/orwelljs/desktop/bin/DesktopSampleApp $args
+  /home/lz/orwell/orwellJS/desktop/bin/DesktopSampleApp $args
 fi
 

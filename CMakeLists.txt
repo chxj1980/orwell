@@ -18,8 +18,8 @@ find_package(Qt5 COMPONENTS Qml Quick Gui Widgets Multimedia MultimediaWidgets) 
 add_subdirectory(myRtspClient)
 include_directories(myRtspClient/myRtspClient/include)
 
-#qt5_add_resources(QRCS resources.qrc) #what this does?
-#qt5_add_resources(qml_QRC qml.qrc)    #what this does?
+qt5_add_resources(QRCS resources.qrc) #what this does?
+qt5_add_resources(qml_QRC qml.qrc)    #what this does?
 
 file(GLOB orwell_SRCS "*.cpp" "*.ui")
 

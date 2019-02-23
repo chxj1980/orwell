@@ -48,10 +48,10 @@ RM = /home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lz/orwell/orwelljs/desktop
+CMAKE_SOURCE_DIR = /home/lz/orwell/orwellJS/desktop
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lz/orwell/orwelljs/desktop
+CMAKE_BINARY_DIR = /home/lz/orwell/orwellJS/desktop
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,14 +126,14 @@ list_install_components/fast: list_install_components
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwelljs/desktop/CMakeFiles /home/lz/orwell/orwelljs/desktop/lib/CMakeFiles/progress.marks
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwelljs/desktop/CMakeFiles 0
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwellJS/desktop/CMakeFiles /home/lz/orwell/orwellJS/desktop/lib/CMakeFiles/progress.marks
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/orwellJS/desktop/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/clean
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/preinstall
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/preinstall
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 lib/CMakeFiles/copy-qmldir.dir/rule:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/copy-qmldir.dir/rule
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/copy-qmldir.dir/rule
 .PHONY : lib/CMakeFiles/copy-qmldir.dir/rule
 
 # Convenience name for target.
@@ -168,12 +168,12 @@ copy-qmldir: lib/CMakeFiles/copy-qmldir.dir/rule
 
 # fast build rule for target.
 copy-qmldir/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/copy-qmldir.dir/build.make lib/CMakeFiles/copy-qmldir.dir/build
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/copy-qmldir.dir/build.make lib/CMakeFiles/copy-qmldir.dir/build
 .PHONY : copy-qmldir/fast
 
 # Convenience name for target.
 lib/CMakeFiles/react-native.dir/rule:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/react-native.dir/rule
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/react-native.dir/rule
 .PHONY : lib/CMakeFiles/react-native.dir/rule
 
 # Convenience name for target.
@@ -183,12 +183,12 @@ react-native: lib/CMakeFiles/react-native.dir/rule
 
 # fast build rule for target.
 react-native/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/build
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/build
 .PHONY : react-native/fast
 
 # Convenience name for target.
 lib/CMakeFiles/react-native_autogen.dir/rule:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/react-native_autogen.dir/rule
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/react-native_autogen.dir/rule
 .PHONY : lib/CMakeFiles/react-native_autogen.dir/rule
 
 # Convenience name for target.
@@ -198,7 +198,7 @@ react-native_autogen: lib/CMakeFiles/react-native_autogen.dir/rule
 
 # fast build rule for target.
 react-native_autogen/fast:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native_autogen.dir/build.make lib/CMakeFiles/react-native_autogen.dir/build
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native_autogen.dir/build.make lib/CMakeFiles/react-native_autogen.dir/build
 .PHONY : react-native_autogen/fast
 
 alert.o: alert.cpp.o
@@ -207,7 +207,7 @@ alert.o: alert.cpp.o
 
 # target to build an object file
 alert.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/alert.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/alert.cpp.o
 .PHONY : alert.cpp.o
 
 alert.i: alert.cpp.i
@@ -216,7 +216,7 @@ alert.i: alert.cpp.i
 
 # target to preprocess a source file
 alert.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/alert.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/alert.cpp.i
 .PHONY : alert.cpp.i
 
 alert.s: alert.cpp.s
@@ -225,7 +225,7 @@ alert.s: alert.cpp.s
 
 # target to generate assembly for a file
 alert.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/alert.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/alert.cpp.s
 .PHONY : alert.cpp.s
 
 appstate.o: appstate.cpp.o
@@ -234,7 +234,7 @@ appstate.o: appstate.cpp.o
 
 # target to build an object file
 appstate.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/appstate.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/appstate.cpp.o
 .PHONY : appstate.cpp.o
 
 appstate.i: appstate.cpp.i
@@ -243,7 +243,7 @@ appstate.i: appstate.cpp.i
 
 # target to preprocess a source file
 appstate.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/appstate.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/appstate.cpp.i
 .PHONY : appstate.cpp.i
 
 appstate.s: appstate.cpp.s
@@ -252,7 +252,7 @@ appstate.s: appstate.cpp.s
 
 # target to generate assembly for a file
 appstate.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/appstate.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/appstate.cpp.s
 .PHONY : appstate.cpp.s
 
 asynclocalstorage.o: asynclocalstorage.cpp.o
@@ -261,7 +261,7 @@ asynclocalstorage.o: asynclocalstorage.cpp.o
 
 # target to build an object file
 asynclocalstorage.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/asynclocalstorage.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/asynclocalstorage.cpp.o
 .PHONY : asynclocalstorage.cpp.o
 
 asynclocalstorage.i: asynclocalstorage.cpp.i
@@ -270,7 +270,7 @@ asynclocalstorage.i: asynclocalstorage.cpp.i
 
 # target to preprocess a source file
 asynclocalstorage.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/asynclocalstorage.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/asynclocalstorage.cpp.i
 .PHONY : asynclocalstorage.cpp.i
 
 asynclocalstorage.s: asynclocalstorage.cpp.s
@@ -279,7 +279,7 @@ asynclocalstorage.s: asynclocalstorage.cpp.s
 
 # target to generate assembly for a file
 asynclocalstorage.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/asynclocalstorage.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/asynclocalstorage.cpp.s
 .PHONY : asynclocalstorage.cpp.s
 
 attachedproperties.o: attachedproperties.cpp.o
@@ -288,7 +288,7 @@ attachedproperties.o: attachedproperties.cpp.o
 
 # target to build an object file
 attachedproperties.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/attachedproperties.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/attachedproperties.cpp.o
 .PHONY : attachedproperties.cpp.o
 
 attachedproperties.i: attachedproperties.cpp.i
@@ -297,7 +297,7 @@ attachedproperties.i: attachedproperties.cpp.i
 
 # target to preprocess a source file
 attachedproperties.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/attachedproperties.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/attachedproperties.cpp.i
 .PHONY : attachedproperties.cpp.i
 
 attachedproperties.s: attachedproperties.cpp.s
@@ -306,7 +306,7 @@ attachedproperties.s: attachedproperties.cpp.s
 
 # target to generate assembly for a file
 attachedproperties.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/attachedproperties.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/attachedproperties.cpp.s
 .PHONY : attachedproperties.cpp.s
 
 blobprovider.o: blobprovider.cpp.o
@@ -315,7 +315,7 @@ blobprovider.o: blobprovider.cpp.o
 
 # target to build an object file
 blobprovider.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/blobprovider.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/blobprovider.cpp.o
 .PHONY : blobprovider.cpp.o
 
 blobprovider.i: blobprovider.cpp.i
@@ -324,7 +324,7 @@ blobprovider.i: blobprovider.cpp.i
 
 # target to preprocess a source file
 blobprovider.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/blobprovider.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/blobprovider.cpp.i
 .PHONY : blobprovider.cpp.i
 
 blobprovider.s: blobprovider.cpp.s
@@ -333,7 +333,7 @@ blobprovider.s: blobprovider.cpp.s
 
 # target to generate assembly for a file
 blobprovider.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/blobprovider.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/blobprovider.cpp.s
 .PHONY : blobprovider.cpp.s
 
 bridge.o: bridge.cpp.o
@@ -342,7 +342,7 @@ bridge.o: bridge.cpp.o
 
 # target to build an object file
 bridge.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/bridge.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/bridge.cpp.o
 .PHONY : bridge.cpp.o
 
 bridge.i: bridge.cpp.i
@@ -351,7 +351,7 @@ bridge.i: bridge.cpp.i
 
 # target to preprocess a source file
 bridge.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/bridge.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/bridge.cpp.i
 .PHONY : bridge.cpp.i
 
 bridge.s: bridge.cpp.s
@@ -360,7 +360,7 @@ bridge.s: bridge.cpp.s
 
 # target to generate assembly for a file
 bridge.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/bridge.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/bridge.cpp.s
 .PHONY : bridge.cpp.s
 
 clipboard.o: clipboard.cpp.o
@@ -369,7 +369,7 @@ clipboard.o: clipboard.cpp.o
 
 # target to build an object file
 clipboard.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/clipboard.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/clipboard.cpp.o
 .PHONY : clipboard.cpp.o
 
 clipboard.i: clipboard.cpp.i
@@ -378,7 +378,7 @@ clipboard.i: clipboard.cpp.i
 
 # target to preprocess a source file
 clipboard.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/clipboard.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/clipboard.cpp.i
 .PHONY : clipboard.cpp.i
 
 clipboard.s: clipboard.cpp.s
@@ -387,7 +387,7 @@ clipboard.s: clipboard.cpp.s
 
 # target to generate assembly for a file
 clipboard.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/clipboard.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/clipboard.cpp.s
 .PHONY : clipboard.cpp.s
 
 communication/executor.o: communication/executor.cpp.o
@@ -396,7 +396,7 @@ communication/executor.o: communication/executor.cpp.o
 
 # target to build an object file
 communication/executor.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/executor.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/executor.cpp.o
 .PHONY : communication/executor.cpp.o
 
 communication/executor.i: communication/executor.cpp.i
@@ -405,7 +405,7 @@ communication/executor.i: communication/executor.cpp.i
 
 # target to preprocess a source file
 communication/executor.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/executor.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/executor.cpp.i
 .PHONY : communication/executor.cpp.i
 
 communication/executor.s: communication/executor.cpp.s
@@ -414,7 +414,7 @@ communication/executor.s: communication/executor.cpp.s
 
 # target to generate assembly for a file
 communication/executor.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/executor.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/executor.cpp.s
 .PHONY : communication/executor.cpp.s
 
 communication/serverconnection.o: communication/serverconnection.cpp.o
@@ -423,7 +423,7 @@ communication/serverconnection.o: communication/serverconnection.cpp.o
 
 # target to build an object file
 communication/serverconnection.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/serverconnection.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/serverconnection.cpp.o
 .PHONY : communication/serverconnection.cpp.o
 
 communication/serverconnection.i: communication/serverconnection.cpp.i
@@ -432,7 +432,7 @@ communication/serverconnection.i: communication/serverconnection.cpp.i
 
 # target to preprocess a source file
 communication/serverconnection.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/serverconnection.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/serverconnection.cpp.i
 .PHONY : communication/serverconnection.cpp.i
 
 communication/serverconnection.s: communication/serverconnection.cpp.s
@@ -441,7 +441,7 @@ communication/serverconnection.s: communication/serverconnection.cpp.s
 
 # target to generate assembly for a file
 communication/serverconnection.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/serverconnection.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/serverconnection.cpp.s
 .PHONY : communication/serverconnection.cpp.s
 
 communication/websocketexecutor.o: communication/websocketexecutor.cpp.o
@@ -450,7 +450,7 @@ communication/websocketexecutor.o: communication/websocketexecutor.cpp.o
 
 # target to build an object file
 communication/websocketexecutor.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/websocketexecutor.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/websocketexecutor.cpp.o
 .PHONY : communication/websocketexecutor.cpp.o
 
 communication/websocketexecutor.i: communication/websocketexecutor.cpp.i
@@ -459,7 +459,7 @@ communication/websocketexecutor.i: communication/websocketexecutor.cpp.i
 
 # target to preprocess a source file
 communication/websocketexecutor.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/websocketexecutor.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/websocketexecutor.cpp.i
 .PHONY : communication/websocketexecutor.cpp.i
 
 communication/websocketexecutor.s: communication/websocketexecutor.cpp.s
@@ -468,7 +468,7 @@ communication/websocketexecutor.s: communication/websocketexecutor.cpp.s
 
 # target to generate assembly for a file
 communication/websocketexecutor.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/websocketexecutor.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/communication/websocketexecutor.cpp.s
 .PHONY : communication/websocketexecutor.cpp.s
 
 componentdata.o: componentdata.cpp.o
@@ -477,7 +477,7 @@ componentdata.o: componentdata.cpp.o
 
 # target to build an object file
 componentdata.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentdata.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentdata.cpp.o
 .PHONY : componentdata.cpp.o
 
 componentdata.i: componentdata.cpp.i
@@ -486,7 +486,7 @@ componentdata.i: componentdata.cpp.i
 
 # target to preprocess a source file
 componentdata.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentdata.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentdata.cpp.i
 .PHONY : componentdata.cpp.i
 
 componentdata.s: componentdata.cpp.s
@@ -495,7 +495,7 @@ componentdata.s: componentdata.cpp.s
 
 # target to generate assembly for a file
 componentdata.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentdata.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentdata.cpp.s
 .PHONY : componentdata.cpp.s
 
 componentmanagers/activityindicatormanager.o: componentmanagers/activityindicatormanager.cpp.o
@@ -504,7 +504,7 @@ componentmanagers/activityindicatormanager.o: componentmanagers/activityindicato
 
 # target to build an object file
 componentmanagers/activityindicatormanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/activityindicatormanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/activityindicatormanager.cpp.o
 .PHONY : componentmanagers/activityindicatormanager.cpp.o
 
 componentmanagers/activityindicatormanager.i: componentmanagers/activityindicatormanager.cpp.i
@@ -513,7 +513,7 @@ componentmanagers/activityindicatormanager.i: componentmanagers/activityindicato
 
 # target to preprocess a source file
 componentmanagers/activityindicatormanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/activityindicatormanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/activityindicatormanager.cpp.i
 .PHONY : componentmanagers/activityindicatormanager.cpp.i
 
 componentmanagers/activityindicatormanager.s: componentmanagers/activityindicatormanager.cpp.s
@@ -522,7 +522,7 @@ componentmanagers/activityindicatormanager.s: componentmanagers/activityindicato
 
 # target to generate assembly for a file
 componentmanagers/activityindicatormanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/activityindicatormanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/activityindicatormanager.cpp.s
 .PHONY : componentmanagers/activityindicatormanager.cpp.s
 
 componentmanagers/buttonmanager.o: componentmanagers/buttonmanager.cpp.o
@@ -531,7 +531,7 @@ componentmanagers/buttonmanager.o: componentmanagers/buttonmanager.cpp.o
 
 # target to build an object file
 componentmanagers/buttonmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/buttonmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/buttonmanager.cpp.o
 .PHONY : componentmanagers/buttonmanager.cpp.o
 
 componentmanagers/buttonmanager.i: componentmanagers/buttonmanager.cpp.i
@@ -540,7 +540,7 @@ componentmanagers/buttonmanager.i: componentmanagers/buttonmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/buttonmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/buttonmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/buttonmanager.cpp.i
 .PHONY : componentmanagers/buttonmanager.cpp.i
 
 componentmanagers/buttonmanager.s: componentmanagers/buttonmanager.cpp.s
@@ -549,7 +549,7 @@ componentmanagers/buttonmanager.s: componentmanagers/buttonmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/buttonmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/buttonmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/buttonmanager.cpp.s
 .PHONY : componentmanagers/buttonmanager.cpp.s
 
 componentmanagers/imageloader.o: componentmanagers/imageloader.cpp.o
@@ -558,7 +558,7 @@ componentmanagers/imageloader.o: componentmanagers/imageloader.cpp.o
 
 # target to build an object file
 componentmanagers/imageloader.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imageloader.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imageloader.cpp.o
 .PHONY : componentmanagers/imageloader.cpp.o
 
 componentmanagers/imageloader.i: componentmanagers/imageloader.cpp.i
@@ -567,7 +567,7 @@ componentmanagers/imageloader.i: componentmanagers/imageloader.cpp.i
 
 # target to preprocess a source file
 componentmanagers/imageloader.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imageloader.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imageloader.cpp.i
 .PHONY : componentmanagers/imageloader.cpp.i
 
 componentmanagers/imageloader.s: componentmanagers/imageloader.cpp.s
@@ -576,7 +576,7 @@ componentmanagers/imageloader.s: componentmanagers/imageloader.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/imageloader.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imageloader.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imageloader.cpp.s
 .PHONY : componentmanagers/imageloader.cpp.s
 
 componentmanagers/imagemanager.o: componentmanagers/imagemanager.cpp.o
@@ -585,7 +585,7 @@ componentmanagers/imagemanager.o: componentmanagers/imagemanager.cpp.o
 
 # target to build an object file
 componentmanagers/imagemanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imagemanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imagemanager.cpp.o
 .PHONY : componentmanagers/imagemanager.cpp.o
 
 componentmanagers/imagemanager.i: componentmanagers/imagemanager.cpp.i
@@ -594,7 +594,7 @@ componentmanagers/imagemanager.i: componentmanagers/imagemanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/imagemanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imagemanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imagemanager.cpp.i
 .PHONY : componentmanagers/imagemanager.cpp.i
 
 componentmanagers/imagemanager.s: componentmanagers/imagemanager.cpp.s
@@ -603,7 +603,7 @@ componentmanagers/imagemanager.s: componentmanagers/imagemanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/imagemanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imagemanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imagemanager.cpp.s
 .PHONY : componentmanagers/imagemanager.cpp.s
 
 componentmanagers/mediaplayermanager.o: componentmanagers/mediaplayermanager.cpp.o
@@ -612,7 +612,7 @@ componentmanagers/mediaplayermanager.o: componentmanagers/mediaplayermanager.cpp
 
 # target to build an object file
 componentmanagers/mediaplayermanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.o
 .PHONY : componentmanagers/mediaplayermanager.cpp.o
 
 componentmanagers/mediaplayermanager.i: componentmanagers/mediaplayermanager.cpp.i
@@ -621,7 +621,7 @@ componentmanagers/mediaplayermanager.i: componentmanagers/mediaplayermanager.cpp
 
 # target to preprocess a source file
 componentmanagers/mediaplayermanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.i
 .PHONY : componentmanagers/mediaplayermanager.cpp.i
 
 componentmanagers/mediaplayermanager.s: componentmanagers/mediaplayermanager.cpp.s
@@ -630,7 +630,7 @@ componentmanagers/mediaplayermanager.s: componentmanagers/mediaplayermanager.cpp
 
 # target to generate assembly for a file
 componentmanagers/mediaplayermanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.s
 .PHONY : componentmanagers/mediaplayermanager.cpp.s
 
 componentmanagers/modalmanager.o: componentmanagers/modalmanager.cpp.o
@@ -639,7 +639,7 @@ componentmanagers/modalmanager.o: componentmanagers/modalmanager.cpp.o
 
 # target to build an object file
 componentmanagers/modalmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/modalmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/modalmanager.cpp.o
 .PHONY : componentmanagers/modalmanager.cpp.o
 
 componentmanagers/modalmanager.i: componentmanagers/modalmanager.cpp.i
@@ -648,7 +648,7 @@ componentmanagers/modalmanager.i: componentmanagers/modalmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/modalmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/modalmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/modalmanager.cpp.i
 .PHONY : componentmanagers/modalmanager.cpp.i
 
 componentmanagers/modalmanager.s: componentmanagers/modalmanager.cpp.s
@@ -657,7 +657,7 @@ componentmanagers/modalmanager.s: componentmanagers/modalmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/modalmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/modalmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/modalmanager.cpp.s
 .PHONY : componentmanagers/modalmanager.cpp.s
 
 componentmanagers/navigatormanager.o: componentmanagers/navigatormanager.cpp.o
@@ -666,7 +666,7 @@ componentmanagers/navigatormanager.o: componentmanagers/navigatormanager.cpp.o
 
 # target to build an object file
 componentmanagers/navigatormanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/navigatormanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/navigatormanager.cpp.o
 .PHONY : componentmanagers/navigatormanager.cpp.o
 
 componentmanagers/navigatormanager.i: componentmanagers/navigatormanager.cpp.i
@@ -675,7 +675,7 @@ componentmanagers/navigatormanager.i: componentmanagers/navigatormanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/navigatormanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/navigatormanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/navigatormanager.cpp.i
 .PHONY : componentmanagers/navigatormanager.cpp.i
 
 componentmanagers/navigatormanager.s: componentmanagers/navigatormanager.cpp.s
@@ -684,7 +684,7 @@ componentmanagers/navigatormanager.s: componentmanagers/navigatormanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/navigatormanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/navigatormanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/navigatormanager.cpp.s
 .PHONY : componentmanagers/navigatormanager.cpp.s
 
 componentmanagers/pickermanager.o: componentmanagers/pickermanager.cpp.o
@@ -693,7 +693,7 @@ componentmanagers/pickermanager.o: componentmanagers/pickermanager.cpp.o
 
 # target to build an object file
 componentmanagers/pickermanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/pickermanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/pickermanager.cpp.o
 .PHONY : componentmanagers/pickermanager.cpp.o
 
 componentmanagers/pickermanager.i: componentmanagers/pickermanager.cpp.i
@@ -702,7 +702,7 @@ componentmanagers/pickermanager.i: componentmanagers/pickermanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/pickermanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/pickermanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/pickermanager.cpp.i
 .PHONY : componentmanagers/pickermanager.cpp.i
 
 componentmanagers/pickermanager.s: componentmanagers/pickermanager.cpp.s
@@ -711,7 +711,7 @@ componentmanagers/pickermanager.s: componentmanagers/pickermanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/pickermanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/pickermanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/pickermanager.cpp.s
 .PHONY : componentmanagers/pickermanager.cpp.s
 
 componentmanagers/rawtextmanager.o: componentmanagers/rawtextmanager.cpp.o
@@ -720,7 +720,7 @@ componentmanagers/rawtextmanager.o: componentmanagers/rawtextmanager.cpp.o
 
 # target to build an object file
 componentmanagers/rawtextmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/rawtextmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/rawtextmanager.cpp.o
 .PHONY : componentmanagers/rawtextmanager.cpp.o
 
 componentmanagers/rawtextmanager.i: componentmanagers/rawtextmanager.cpp.i
@@ -729,7 +729,7 @@ componentmanagers/rawtextmanager.i: componentmanagers/rawtextmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/rawtextmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/rawtextmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/rawtextmanager.cpp.i
 .PHONY : componentmanagers/rawtextmanager.cpp.i
 
 componentmanagers/rawtextmanager.s: componentmanagers/rawtextmanager.cpp.s
@@ -738,7 +738,7 @@ componentmanagers/rawtextmanager.s: componentmanagers/rawtextmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/rawtextmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/rawtextmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/rawtextmanager.cpp.s
 .PHONY : componentmanagers/rawtextmanager.cpp.s
 
 componentmanagers/scrollviewmanager.o: componentmanagers/scrollviewmanager.cpp.o
@@ -747,7 +747,7 @@ componentmanagers/scrollviewmanager.o: componentmanagers/scrollviewmanager.cpp.o
 
 # target to build an object file
 componentmanagers/scrollviewmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmanager.cpp.o
 .PHONY : componentmanagers/scrollviewmanager.cpp.o
 
 componentmanagers/scrollviewmanager.i: componentmanagers/scrollviewmanager.cpp.i
@@ -756,7 +756,7 @@ componentmanagers/scrollviewmanager.i: componentmanagers/scrollviewmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/scrollviewmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmanager.cpp.i
 .PHONY : componentmanagers/scrollviewmanager.cpp.i
 
 componentmanagers/scrollviewmanager.s: componentmanagers/scrollviewmanager.cpp.s
@@ -765,7 +765,7 @@ componentmanagers/scrollviewmanager.s: componentmanagers/scrollviewmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/scrollviewmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmanager.cpp.s
 .PHONY : componentmanagers/scrollviewmanager.cpp.s
 
 componentmanagers/scrollviewmodel.o: componentmanagers/scrollviewmodel.cpp.o
@@ -774,7 +774,7 @@ componentmanagers/scrollviewmodel.o: componentmanagers/scrollviewmodel.cpp.o
 
 # target to build an object file
 componentmanagers/scrollviewmodel.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmodel.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmodel.cpp.o
 .PHONY : componentmanagers/scrollviewmodel.cpp.o
 
 componentmanagers/scrollviewmodel.i: componentmanagers/scrollviewmodel.cpp.i
@@ -783,7 +783,7 @@ componentmanagers/scrollviewmodel.i: componentmanagers/scrollviewmodel.cpp.i
 
 # target to preprocess a source file
 componentmanagers/scrollviewmodel.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmodel.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmodel.cpp.i
 .PHONY : componentmanagers/scrollviewmodel.cpp.i
 
 componentmanagers/scrollviewmodel.s: componentmanagers/scrollviewmodel.cpp.s
@@ -792,7 +792,7 @@ componentmanagers/scrollviewmodel.s: componentmanagers/scrollviewmodel.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/scrollviewmodel.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmodel.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/scrollviewmodel.cpp.s
 .PHONY : componentmanagers/scrollviewmodel.cpp.s
 
 componentmanagers/slidermanager.o: componentmanagers/slidermanager.cpp.o
@@ -801,7 +801,7 @@ componentmanagers/slidermanager.o: componentmanagers/slidermanager.cpp.o
 
 # target to build an object file
 componentmanagers/slidermanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/slidermanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/slidermanager.cpp.o
 .PHONY : componentmanagers/slidermanager.cpp.o
 
 componentmanagers/slidermanager.i: componentmanagers/slidermanager.cpp.i
@@ -810,7 +810,7 @@ componentmanagers/slidermanager.i: componentmanagers/slidermanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/slidermanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/slidermanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/slidermanager.cpp.i
 .PHONY : componentmanagers/slidermanager.cpp.i
 
 componentmanagers/slidermanager.s: componentmanagers/slidermanager.cpp.s
@@ -819,7 +819,7 @@ componentmanagers/slidermanager.s: componentmanagers/slidermanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/slidermanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/slidermanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/slidermanager.cpp.s
 .PHONY : componentmanagers/slidermanager.cpp.s
 
 componentmanagers/switchmanager.o: componentmanagers/switchmanager.cpp.o
@@ -828,7 +828,7 @@ componentmanagers/switchmanager.o: componentmanagers/switchmanager.cpp.o
 
 # target to build an object file
 componentmanagers/switchmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/switchmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/switchmanager.cpp.o
 .PHONY : componentmanagers/switchmanager.cpp.o
 
 componentmanagers/switchmanager.i: componentmanagers/switchmanager.cpp.i
@@ -837,7 +837,7 @@ componentmanagers/switchmanager.i: componentmanagers/switchmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/switchmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/switchmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/switchmanager.cpp.i
 .PHONY : componentmanagers/switchmanager.cpp.i
 
 componentmanagers/switchmanager.s: componentmanagers/switchmanager.cpp.s
@@ -846,7 +846,7 @@ componentmanagers/switchmanager.s: componentmanagers/switchmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/switchmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/switchmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/switchmanager.cpp.s
 .PHONY : componentmanagers/switchmanager.cpp.s
 
 componentmanagers/textinputmanager.o: componentmanagers/textinputmanager.cpp.o
@@ -855,7 +855,7 @@ componentmanagers/textinputmanager.o: componentmanagers/textinputmanager.cpp.o
 
 # target to build an object file
 componentmanagers/textinputmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textinputmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textinputmanager.cpp.o
 .PHONY : componentmanagers/textinputmanager.cpp.o
 
 componentmanagers/textinputmanager.i: componentmanagers/textinputmanager.cpp.i
@@ -864,7 +864,7 @@ componentmanagers/textinputmanager.i: componentmanagers/textinputmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/textinputmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textinputmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textinputmanager.cpp.i
 .PHONY : componentmanagers/textinputmanager.cpp.i
 
 componentmanagers/textinputmanager.s: componentmanagers/textinputmanager.cpp.s
@@ -873,7 +873,7 @@ componentmanagers/textinputmanager.s: componentmanagers/textinputmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/textinputmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textinputmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textinputmanager.cpp.s
 .PHONY : componentmanagers/textinputmanager.cpp.s
 
 componentmanagers/textmanager.o: componentmanagers/textmanager.cpp.o
@@ -882,7 +882,7 @@ componentmanagers/textmanager.o: componentmanagers/textmanager.cpp.o
 
 # target to build an object file
 componentmanagers/textmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textmanager.cpp.o
 .PHONY : componentmanagers/textmanager.cpp.o
 
 componentmanagers/textmanager.i: componentmanagers/textmanager.cpp.i
@@ -891,7 +891,7 @@ componentmanagers/textmanager.i: componentmanagers/textmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/textmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textmanager.cpp.i
 .PHONY : componentmanagers/textmanager.cpp.i
 
 componentmanagers/textmanager.s: componentmanagers/textmanager.cpp.s
@@ -900,7 +900,7 @@ componentmanagers/textmanager.s: componentmanagers/textmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/textmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/textmanager.cpp.s
 .PHONY : componentmanagers/textmanager.cpp.s
 
 componentmanagers/viewmanager.o: componentmanagers/viewmanager.cpp.o
@@ -909,7 +909,7 @@ componentmanagers/viewmanager.o: componentmanagers/viewmanager.cpp.o
 
 # target to build an object file
 componentmanagers/viewmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/viewmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/viewmanager.cpp.o
 .PHONY : componentmanagers/viewmanager.cpp.o
 
 componentmanagers/viewmanager.i: componentmanagers/viewmanager.cpp.i
@@ -918,7 +918,7 @@ componentmanagers/viewmanager.i: componentmanagers/viewmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/viewmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/viewmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/viewmanager.cpp.i
 .PHONY : componentmanagers/viewmanager.cpp.i
 
 componentmanagers/viewmanager.s: componentmanagers/viewmanager.cpp.s
@@ -927,7 +927,7 @@ componentmanagers/viewmanager.s: componentmanagers/viewmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/viewmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/viewmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/viewmanager.cpp.s
 .PHONY : componentmanagers/viewmanager.cpp.s
 
 componentmanagers/webviewmanager.o: componentmanagers/webviewmanager.cpp.o
@@ -936,7 +936,7 @@ componentmanagers/webviewmanager.o: componentmanagers/webviewmanager.cpp.o
 
 # target to build an object file
 componentmanagers/webviewmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/webviewmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/webviewmanager.cpp.o
 .PHONY : componentmanagers/webviewmanager.cpp.o
 
 componentmanagers/webviewmanager.i: componentmanagers/webviewmanager.cpp.i
@@ -945,7 +945,7 @@ componentmanagers/webviewmanager.i: componentmanagers/webviewmanager.cpp.i
 
 # target to preprocess a source file
 componentmanagers/webviewmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/webviewmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/webviewmanager.cpp.i
 .PHONY : componentmanagers/webviewmanager.cpp.i
 
 componentmanagers/webviewmanager.s: componentmanagers/webviewmanager.cpp.s
@@ -954,7 +954,7 @@ componentmanagers/webviewmanager.s: componentmanagers/webviewmanager.cpp.s
 
 # target to generate assembly for a file
 componentmanagers/webviewmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/webviewmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/webviewmanager.cpp.s
 .PHONY : componentmanagers/webviewmanager.cpp.s
 
 deviceinfo.o: deviceinfo.cpp.o
@@ -963,7 +963,7 @@ deviceinfo.o: deviceinfo.cpp.o
 
 # target to build an object file
 deviceinfo.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/deviceinfo.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/deviceinfo.cpp.o
 .PHONY : deviceinfo.cpp.o
 
 deviceinfo.i: deviceinfo.cpp.i
@@ -972,7 +972,7 @@ deviceinfo.i: deviceinfo.cpp.i
 
 # target to preprocess a source file
 deviceinfo.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/deviceinfo.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/deviceinfo.cpp.i
 .PHONY : deviceinfo.cpp.i
 
 deviceinfo.s: deviceinfo.cpp.s
@@ -981,7 +981,7 @@ deviceinfo.s: deviceinfo.cpp.s
 
 # target to generate assembly for a file
 deviceinfo.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/deviceinfo.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/deviceinfo.cpp.s
 .PHONY : deviceinfo.cpp.s
 
 eventdispatcher.o: eventdispatcher.cpp.o
@@ -990,7 +990,7 @@ eventdispatcher.o: eventdispatcher.cpp.o
 
 # target to build an object file
 eventdispatcher.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/eventdispatcher.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/eventdispatcher.cpp.o
 .PHONY : eventdispatcher.cpp.o
 
 eventdispatcher.i: eventdispatcher.cpp.i
@@ -999,7 +999,7 @@ eventdispatcher.i: eventdispatcher.cpp.i
 
 # target to preprocess a source file
 eventdispatcher.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/eventdispatcher.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/eventdispatcher.cpp.i
 .PHONY : eventdispatcher.cpp.i
 
 eventdispatcher.s: eventdispatcher.cpp.s
@@ -1008,7 +1008,7 @@ eventdispatcher.s: eventdispatcher.cpp.s
 
 # target to generate assembly for a file
 eventdispatcher.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/eventdispatcher.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/eventdispatcher.cpp.s
 .PHONY : eventdispatcher.cpp.s
 
 exceptionsmanager.o: exceptionsmanager.cpp.o
@@ -1017,7 +1017,7 @@ exceptionsmanager.o: exceptionsmanager.cpp.o
 
 # target to build an object file
 exceptionsmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.o
 .PHONY : exceptionsmanager.cpp.o
 
 exceptionsmanager.i: exceptionsmanager.cpp.i
@@ -1026,7 +1026,7 @@ exceptionsmanager.i: exceptionsmanager.cpp.i
 
 # target to preprocess a source file
 exceptionsmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.i
 .PHONY : exceptionsmanager.cpp.i
 
 exceptionsmanager.s: exceptionsmanager.cpp.s
@@ -1035,7 +1035,7 @@ exceptionsmanager.s: exceptionsmanager.cpp.s
 
 # target to generate assembly for a file
 exceptionsmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.s
 .PHONY : exceptionsmanager.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o
@@ -1044,7 +1044,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.o: home/lz/orwel
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i
@@ -1053,7 +1053,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.i: home/lz/orwel
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s
@@ -1062,7 +1062,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.s: home/lz/orwel
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o
@@ -1071,7 +1071,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.o: home/lz/or
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i
@@ -1080,7 +1080,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.i: home/lz/or
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s
@@ -1089,7 +1089,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.s: home/lz/or
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o
@@ -1098,7 +1098,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.o: home/lz/orw
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i
@@ -1107,7 +1107,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.i: home/lz/orw
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s
@@ -1116,7 +1116,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.s: home/lz/orw
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
@@ -1125,7 +1125,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.o: hom
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
@@ -1134,7 +1134,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.i: hom
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
@@ -1143,7 +1143,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.s: hom
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o
@@ -1152,7 +1152,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.o: home/lz/or
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i
@@ -1161,7 +1161,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.i: home/lz/or
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s
@@ -1170,7 +1170,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.s: home/lz/or
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o
@@ -1179,7 +1179,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.o: home/lz/orwe
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i
@@ -1188,7 +1188,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.i: home/lz/orwe
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s
@@ -1197,7 +1197,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.s: home/lz/orwe
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
@@ -1206,7 +1206,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.o: home/lz
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
@@ -1215,7 +1215,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.i: home/lz
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
@@ -1224,7 +1224,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.s: home/lz
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o
@@ -1233,7 +1233,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.o: home/lz/orw
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i
@@ -1242,7 +1242,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.i: home/lz/orw
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s
@@ -1251,7 +1251,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.s: home/lz/orw
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o
@@ -1260,7 +1260,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.o: home/lz/orwell
 
 # target to build an object file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i
@@ -1269,7 +1269,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.i: home/lz/orwell
 
 # target to preprocess a source file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i
 
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s
@@ -1278,7 +1278,7 @@ home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.s: home/lz/orwell
 
 # target to generate assembly for a file
 home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s
 .PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s
 
 layout/flexbox.o: layout/flexbox.cpp.o
@@ -1287,7 +1287,7 @@ layout/flexbox.o: layout/flexbox.cpp.o
 
 # target to build an object file
 layout/flexbox.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/layout/flexbox.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/layout/flexbox.cpp.o
 .PHONY : layout/flexbox.cpp.o
 
 layout/flexbox.i: layout/flexbox.cpp.i
@@ -1296,7 +1296,7 @@ layout/flexbox.i: layout/flexbox.cpp.i
 
 # target to preprocess a source file
 layout/flexbox.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/layout/flexbox.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/layout/flexbox.cpp.i
 .PHONY : layout/flexbox.cpp.i
 
 layout/flexbox.s: layout/flexbox.cpp.s
@@ -1305,7 +1305,7 @@ layout/flexbox.s: layout/flexbox.cpp.s
 
 # target to generate assembly for a file
 layout/flexbox.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/layout/flexbox.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/layout/flexbox.cpp.s
 .PHONY : layout/flexbox.cpp.s
 
 linkingmanager.o: linkingmanager.cpp.o
@@ -1314,7 +1314,7 @@ linkingmanager.o: linkingmanager.cpp.o
 
 # target to build an object file
 linkingmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/linkingmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/linkingmanager.cpp.o
 .PHONY : linkingmanager.cpp.o
 
 linkingmanager.i: linkingmanager.cpp.i
@@ -1323,7 +1323,7 @@ linkingmanager.i: linkingmanager.cpp.i
 
 # target to preprocess a source file
 linkingmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/linkingmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/linkingmanager.cpp.i
 .PHONY : linkingmanager.cpp.i
 
 linkingmanager.s: linkingmanager.cpp.s
@@ -1332,7 +1332,7 @@ linkingmanager.s: linkingmanager.cpp.s
 
 # target to generate assembly for a file
 linkingmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/linkingmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/linkingmanager.cpp.s
 .PHONY : linkingmanager.cpp.s
 
 moduledata.o: moduledata.cpp.o
@@ -1341,7 +1341,7 @@ moduledata.o: moduledata.cpp.o
 
 # target to build an object file
 moduledata.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/moduledata.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/moduledata.cpp.o
 .PHONY : moduledata.cpp.o
 
 moduledata.i: moduledata.cpp.i
@@ -1350,7 +1350,7 @@ moduledata.i: moduledata.cpp.i
 
 # target to preprocess a source file
 moduledata.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/moduledata.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/moduledata.cpp.i
 .PHONY : moduledata.cpp.i
 
 moduledata.s: moduledata.cpp.s
@@ -1359,7 +1359,7 @@ moduledata.s: moduledata.cpp.s
 
 # target to generate assembly for a file
 moduledata.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/moduledata.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/moduledata.cpp.s
 .PHONY : moduledata.cpp.s
 
 modulemethod.o: modulemethod.cpp.o
@@ -1368,7 +1368,7 @@ modulemethod.o: modulemethod.cpp.o
 
 # target to build an object file
 modulemethod.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/modulemethod.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/modulemethod.cpp.o
 .PHONY : modulemethod.cpp.o
 
 modulemethod.i: modulemethod.cpp.i
@@ -1377,7 +1377,7 @@ modulemethod.i: modulemethod.cpp.i
 
 # target to preprocess a source file
 modulemethod.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/modulemethod.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/modulemethod.cpp.i
 .PHONY : modulemethod.cpp.i
 
 modulemethod.s: modulemethod.cpp.s
@@ -1386,7 +1386,7 @@ modulemethod.s: modulemethod.cpp.s
 
 # target to generate assembly for a file
 modulemethod.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/modulemethod.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/modulemethod.cpp.s
 .PHONY : modulemethod.cpp.s
 
 mouseeventsinterceptor.o: mouseeventsinterceptor.cpp.o
@@ -1395,7 +1395,7 @@ mouseeventsinterceptor.o: mouseeventsinterceptor.cpp.o
 
 # target to build an object file
 mouseeventsinterceptor.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/mouseeventsinterceptor.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/mouseeventsinterceptor.cpp.o
 .PHONY : mouseeventsinterceptor.cpp.o
 
 mouseeventsinterceptor.i: mouseeventsinterceptor.cpp.i
@@ -1404,7 +1404,7 @@ mouseeventsinterceptor.i: mouseeventsinterceptor.cpp.i
 
 # target to preprocess a source file
 mouseeventsinterceptor.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/mouseeventsinterceptor.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/mouseeventsinterceptor.cpp.i
 .PHONY : mouseeventsinterceptor.cpp.i
 
 mouseeventsinterceptor.s: mouseeventsinterceptor.cpp.s
@@ -1413,7 +1413,7 @@ mouseeventsinterceptor.s: mouseeventsinterceptor.cpp.s
 
 # target to generate assembly for a file
 mouseeventsinterceptor.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/mouseeventsinterceptor.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/mouseeventsinterceptor.cpp.s
 .PHONY : mouseeventsinterceptor.cpp.s
 
 netinfo.o: netinfo.cpp.o
@@ -1422,7 +1422,7 @@ netinfo.o: netinfo.cpp.o
 
 # target to build an object file
 netinfo.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/netinfo.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/netinfo.cpp.o
 .PHONY : netinfo.cpp.o
 
 netinfo.i: netinfo.cpp.i
@@ -1431,7 +1431,7 @@ netinfo.i: netinfo.cpp.i
 
 # target to preprocess a source file
 netinfo.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/netinfo.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/netinfo.cpp.i
 .PHONY : netinfo.cpp.i
 
 netinfo.s: netinfo.cpp.s
@@ -1440,7 +1440,7 @@ netinfo.s: netinfo.cpp.s
 
 # target to generate assembly for a file
 netinfo.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/netinfo.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/netinfo.cpp.s
 .PHONY : netinfo.cpp.s
 
 networking.o: networking.cpp.o
@@ -1449,7 +1449,7 @@ networking.o: networking.cpp.o
 
 # target to build an object file
 networking.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/networking.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/networking.cpp.o
 .PHONY : networking.cpp.o
 
 networking.i: networking.cpp.i
@@ -1458,7 +1458,7 @@ networking.i: networking.cpp.i
 
 # target to preprocess a source file
 networking.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/networking.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/networking.cpp.i
 .PHONY : networking.cpp.i
 
 networking.s: networking.cpp.s
@@ -1467,7 +1467,7 @@ networking.s: networking.cpp.s
 
 # target to generate assembly for a file
 networking.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/networking.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/networking.cpp.s
 .PHONY : networking.cpp.s
 
 platform.o: platform.cpp.o
@@ -1476,7 +1476,7 @@ platform.o: platform.cpp.o
 
 # target to build an object file
 platform.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/platform.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/platform.cpp.o
 .PHONY : platform.cpp.o
 
 platform.i: platform.cpp.i
@@ -1485,7 +1485,7 @@ platform.i: platform.cpp.i
 
 # target to preprocess a source file
 platform.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/platform.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/platform.cpp.i
 .PHONY : platform.cpp.i
 
 platform.s: platform.cpp.s
@@ -1494,7 +1494,7 @@ platform.s: platform.cpp.s
 
 # target to generate assembly for a file
 platform.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/platform.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/platform.cpp.s
 .PHONY : platform.cpp.s
 
 propertyhandler.o: propertyhandler.cpp.o
@@ -1503,7 +1503,7 @@ propertyhandler.o: propertyhandler.cpp.o
 
 # target to build an object file
 propertyhandler.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/propertyhandler.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/propertyhandler.cpp.o
 .PHONY : propertyhandler.cpp.o
 
 propertyhandler.i: propertyhandler.cpp.i
@@ -1512,7 +1512,7 @@ propertyhandler.i: propertyhandler.cpp.i
 
 # target to preprocess a source file
 propertyhandler.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/propertyhandler.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/propertyhandler.cpp.i
 .PHONY : propertyhandler.cpp.i
 
 propertyhandler.s: propertyhandler.cpp.s
@@ -1521,7 +1521,7 @@ propertyhandler.s: propertyhandler.cpp.s
 
 # target to generate assembly for a file
 propertyhandler.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/propertyhandler.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/propertyhandler.cpp.s
 .PHONY : propertyhandler.cpp.s
 
 react-native_autogen/EWIEGA46WW/qrc_react_resources.o: react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.o
@@ -1530,7 +1530,7 @@ react-native_autogen/EWIEGA46WW/qrc_react_resources.o: react-native_autogen/EWIE
 
 # target to build an object file
 react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.o
 .PHONY : react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.o
 
 react-native_autogen/EWIEGA46WW/qrc_react_resources.i: react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.i
@@ -1539,7 +1539,7 @@ react-native_autogen/EWIEGA46WW/qrc_react_resources.i: react-native_autogen/EWIE
 
 # target to preprocess a source file
 react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.i
 .PHONY : react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.i
 
 react-native_autogen/EWIEGA46WW/qrc_react_resources.s: react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.s
@@ -1548,7 +1548,7 @@ react-native_autogen/EWIEGA46WW/qrc_react_resources.s: react-native_autogen/EWIE
 
 # target to generate assembly for a file
 react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.s
 .PHONY : react-native_autogen/EWIEGA46WW/qrc_react_resources.cpp.s
 
 react-native_autogen/mocs_compilation.o: react-native_autogen/mocs_compilation.cpp.o
@@ -1557,7 +1557,7 @@ react-native_autogen/mocs_compilation.o: react-native_autogen/mocs_compilation.c
 
 # target to build an object file
 react-native_autogen/mocs_compilation.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/mocs_compilation.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/mocs_compilation.cpp.o
 .PHONY : react-native_autogen/mocs_compilation.cpp.o
 
 react-native_autogen/mocs_compilation.i: react-native_autogen/mocs_compilation.cpp.i
@@ -1566,7 +1566,7 @@ react-native_autogen/mocs_compilation.i: react-native_autogen/mocs_compilation.c
 
 # target to preprocess a source file
 react-native_autogen/mocs_compilation.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/mocs_compilation.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/mocs_compilation.cpp.i
 .PHONY : react-native_autogen/mocs_compilation.cpp.i
 
 react-native_autogen/mocs_compilation.s: react-native_autogen/mocs_compilation.cpp.s
@@ -1575,7 +1575,7 @@ react-native_autogen/mocs_compilation.s: react-native_autogen/mocs_compilation.c
 
 # target to generate assembly for a file
 react-native_autogen/mocs_compilation.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/mocs_compilation.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/react-native_autogen/mocs_compilation.cpp.s
 .PHONY : react-native_autogen/mocs_compilation.cpp.s
 
 reactitem.o: reactitem.cpp.o
@@ -1584,7 +1584,7 @@ reactitem.o: reactitem.cpp.o
 
 # target to build an object file
 reactitem.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactitem.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactitem.cpp.o
 .PHONY : reactitem.cpp.o
 
 reactitem.i: reactitem.cpp.i
@@ -1593,7 +1593,7 @@ reactitem.i: reactitem.cpp.i
 
 # target to preprocess a source file
 reactitem.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactitem.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactitem.cpp.i
 .PHONY : reactitem.cpp.i
 
 reactitem.s: reactitem.cpp.s
@@ -1602,7 +1602,7 @@ reactitem.s: reactitem.cpp.s
 
 # target to generate assembly for a file
 reactitem.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactitem.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactitem.cpp.s
 .PHONY : reactitem.cpp.s
 
 reactnetworkaccessmanager.o: reactnetworkaccessmanager.cpp.o
@@ -1611,7 +1611,7 @@ reactnetworkaccessmanager.o: reactnetworkaccessmanager.cpp.o
 
 # target to build an object file
 reactnetworkaccessmanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactnetworkaccessmanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactnetworkaccessmanager.cpp.o
 .PHONY : reactnetworkaccessmanager.cpp.o
 
 reactnetworkaccessmanager.i: reactnetworkaccessmanager.cpp.i
@@ -1620,7 +1620,7 @@ reactnetworkaccessmanager.i: reactnetworkaccessmanager.cpp.i
 
 # target to preprocess a source file
 reactnetworkaccessmanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactnetworkaccessmanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactnetworkaccessmanager.cpp.i
 .PHONY : reactnetworkaccessmanager.cpp.i
 
 reactnetworkaccessmanager.s: reactnetworkaccessmanager.cpp.s
@@ -1629,7 +1629,7 @@ reactnetworkaccessmanager.s: reactnetworkaccessmanager.cpp.s
 
 # target to generate assembly for a file
 reactnetworkaccessmanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactnetworkaccessmanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactnetworkaccessmanager.cpp.s
 .PHONY : reactnetworkaccessmanager.cpp.s
 
 reactplugin.o: reactplugin.cpp.o
@@ -1638,7 +1638,7 @@ reactplugin.o: reactplugin.cpp.o
 
 # target to build an object file
 reactplugin.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactplugin.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactplugin.cpp.o
 .PHONY : reactplugin.cpp.o
 
 reactplugin.i: reactplugin.cpp.i
@@ -1647,7 +1647,7 @@ reactplugin.i: reactplugin.cpp.i
 
 # target to preprocess a source file
 reactplugin.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactplugin.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactplugin.cpp.i
 .PHONY : reactplugin.cpp.i
 
 reactplugin.s: reactplugin.cpp.s
@@ -1656,7 +1656,7 @@ reactplugin.s: reactplugin.cpp.s
 
 # target to generate assembly for a file
 reactplugin.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactplugin.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/reactplugin.cpp.s
 .PHONY : reactplugin.cpp.s
 
 redbox.o: redbox.cpp.o
@@ -1665,7 +1665,7 @@ redbox.o: redbox.cpp.o
 
 # target to build an object file
 redbox.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/redbox.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/redbox.cpp.o
 .PHONY : redbox.cpp.o
 
 redbox.i: redbox.cpp.i
@@ -1674,7 +1674,7 @@ redbox.i: redbox.cpp.i
 
 # target to preprocess a source file
 redbox.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/redbox.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/redbox.cpp.i
 .PHONY : redbox.cpp.i
 
 redbox.s: redbox.cpp.s
@@ -1683,7 +1683,7 @@ redbox.s: redbox.cpp.s
 
 # target to generate assembly for a file
 redbox.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/redbox.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/redbox.cpp.s
 .PHONY : redbox.cpp.s
 
 rootview.o: rootview.cpp.o
@@ -1692,7 +1692,7 @@ rootview.o: rootview.cpp.o
 
 # target to build an object file
 rootview.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/rootview.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/rootview.cpp.o
 .PHONY : rootview.cpp.o
 
 rootview.i: rootview.cpp.i
@@ -1701,7 +1701,7 @@ rootview.i: rootview.cpp.i
 
 # target to preprocess a source file
 rootview.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/rootview.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/rootview.cpp.i
 .PHONY : rootview.cpp.i
 
 rootview.s: rootview.cpp.s
@@ -1710,7 +1710,7 @@ rootview.s: rootview.cpp.s
 
 # target to generate assembly for a file
 rootview.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/rootview.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/rootview.cpp.s
 .PHONY : rootview.cpp.s
 
 sourcecode.o: sourcecode.cpp.o
@@ -1719,7 +1719,7 @@ sourcecode.o: sourcecode.cpp.o
 
 # target to build an object file
 sourcecode.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/sourcecode.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/sourcecode.cpp.o
 .PHONY : sourcecode.cpp.o
 
 sourcecode.i: sourcecode.cpp.i
@@ -1728,7 +1728,7 @@ sourcecode.i: sourcecode.cpp.i
 
 # target to preprocess a source file
 sourcecode.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/sourcecode.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/sourcecode.cpp.i
 .PHONY : sourcecode.cpp.i
 
 sourcecode.s: sourcecode.cpp.s
@@ -1737,7 +1737,7 @@ sourcecode.s: sourcecode.cpp.s
 
 # target to generate assembly for a file
 sourcecode.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/sourcecode.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/sourcecode.cpp.s
 .PHONY : sourcecode.cpp.s
 
 testmodule.o: testmodule.cpp.o
@@ -1746,7 +1746,7 @@ testmodule.o: testmodule.cpp.o
 
 # target to build an object file
 testmodule.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/testmodule.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/testmodule.cpp.o
 .PHONY : testmodule.cpp.o
 
 testmodule.i: testmodule.cpp.i
@@ -1755,7 +1755,7 @@ testmodule.i: testmodule.cpp.i
 
 # target to preprocess a source file
 testmodule.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/testmodule.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/testmodule.cpp.i
 .PHONY : testmodule.cpp.i
 
 testmodule.s: testmodule.cpp.s
@@ -1764,7 +1764,7 @@ testmodule.s: testmodule.cpp.s
 
 # target to generate assembly for a file
 testmodule.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/testmodule.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/testmodule.cpp.s
 .PHONY : testmodule.cpp.s
 
 timing.o: timing.cpp.o
@@ -1773,7 +1773,7 @@ timing.o: timing.cpp.o
 
 # target to build an object file
 timing.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/timing.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/timing.cpp.o
 .PHONY : timing.cpp.o
 
 timing.i: timing.cpp.i
@@ -1782,7 +1782,7 @@ timing.i: timing.cpp.i
 
 # target to preprocess a source file
 timing.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/timing.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/timing.cpp.i
 .PHONY : timing.cpp.i
 
 timing.s: timing.cpp.s
@@ -1791,7 +1791,7 @@ timing.s: timing.cpp.s
 
 # target to generate assembly for a file
 timing.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/timing.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/timing.cpp.s
 .PHONY : timing.cpp.s
 
 uimanager.o: uimanager.cpp.o
@@ -1800,7 +1800,7 @@ uimanager.o: uimanager.cpp.o
 
 # target to build an object file
 uimanager.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/uimanager.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/uimanager.cpp.o
 .PHONY : uimanager.cpp.o
 
 uimanager.i: uimanager.cpp.i
@@ -1809,7 +1809,7 @@ uimanager.i: uimanager.cpp.i
 
 # target to preprocess a source file
 uimanager.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/uimanager.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/uimanager.cpp.i
 .PHONY : uimanager.cpp.i
 
 uimanager.s: uimanager.cpp.s
@@ -1818,7 +1818,7 @@ uimanager.s: uimanager.cpp.s
 
 # target to generate assembly for a file
 uimanager.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/uimanager.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/uimanager.cpp.s
 .PHONY : uimanager.cpp.s
 
 utilities.o: utilities.cpp.o
@@ -1827,7 +1827,7 @@ utilities.o: utilities.cpp.o
 
 # target to build an object file
 utilities.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/utilities.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/utilities.cpp.o
 .PHONY : utilities.cpp.o
 
 utilities.i: utilities.cpp.i
@@ -1836,7 +1836,7 @@ utilities.i: utilities.cpp.i
 
 # target to preprocess a source file
 utilities.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/utilities.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/utilities.cpp.i
 .PHONY : utilities.cpp.i
 
 utilities.s: utilities.cpp.s
@@ -1845,7 +1845,7 @@ utilities.s: utilities.cpp.s
 
 # target to generate assembly for a file
 utilities.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/utilities.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/utilities.cpp.s
 .PHONY : utilities.cpp.s
 
 valuecoercion.o: valuecoercion.cpp.o
@@ -1854,7 +1854,7 @@ valuecoercion.o: valuecoercion.cpp.o
 
 # target to build an object file
 valuecoercion.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/valuecoercion.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/valuecoercion.cpp.o
 .PHONY : valuecoercion.cpp.o
 
 valuecoercion.i: valuecoercion.cpp.i
@@ -1863,7 +1863,7 @@ valuecoercion.i: valuecoercion.cpp.i
 
 # target to preprocess a source file
 valuecoercion.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/valuecoercion.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/valuecoercion.cpp.i
 .PHONY : valuecoercion.cpp.i
 
 valuecoercion.s: valuecoercion.cpp.s
@@ -1872,7 +1872,7 @@ valuecoercion.s: valuecoercion.cpp.s
 
 # target to generate assembly for a file
 valuecoercion.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/valuecoercion.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/valuecoercion.cpp.s
 .PHONY : valuecoercion.cpp.s
 
 websocketmodule.o: websocketmodule.cpp.o
@@ -1881,7 +1881,7 @@ websocketmodule.o: websocketmodule.cpp.o
 
 # target to build an object file
 websocketmodule.cpp.o:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/websocketmodule.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/websocketmodule.cpp.o
 .PHONY : websocketmodule.cpp.o
 
 websocketmodule.i: websocketmodule.cpp.i
@@ -1890,7 +1890,7 @@ websocketmodule.i: websocketmodule.cpp.i
 
 # target to preprocess a source file
 websocketmodule.cpp.i:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/websocketmodule.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/websocketmodule.cpp.i
 .PHONY : websocketmodule.cpp.i
 
 websocketmodule.s: websocketmodule.cpp.s
@@ -1899,7 +1899,7 @@ websocketmodule.s: websocketmodule.cpp.s
 
 # target to generate assembly for a file
 websocketmodule.cpp.s:
-	cd /home/lz/orwell/orwelljs/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/websocketmodule.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/websocketmodule.cpp.s
 .PHONY : websocketmodule.cpp.s
 
 # Help Target
@@ -2117,6 +2117,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/lz/orwell/orwelljs/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/lz/orwell/orwellJS/desktop && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

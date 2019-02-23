@@ -53,7 +53,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtcpunknownpacket.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtpaddress.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtpcollisionlist.h"
-    "/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/rtpconfig.h"
+    "/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/rtpconfig.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtpdebug.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtpdefines.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtperrors.h"
@@ -84,7 +84,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtptimeutilities.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtptransmitter.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtptypes_win.h"
-    "/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/rtptypes.h"
+    "/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/rtptypes.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtpudpv4transmitter.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtpudpv6transmitter.h"
     "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/rtpbyteaddress.h"
@@ -108,7 +108,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/usr/local/lib" TYPE STATIC_LIBRARY FILES "/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.a")
+file(INSTALL DESTINATION "/usr/local/lib" TYPE STATIC_LIBRARY FILES "/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.a")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -126,7 +126,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/usr/local/lib" TYPE SHARED_LIBRARY FILES "/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.so.3.11.1")
+file(INSTALL DESTINATION "/usr/local/lib" TYPE SHARED_LIBRARY FILES "/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.so.3.11.1")
   if(EXISTS "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -150,7 +150,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/usr/local/lib" TYPE SHARED_LIBRARY FILES "/home/lz/orwell/orwelljs/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.so")
+file(INSTALL DESTINATION "/usr/local/lib" TYPE SHARED_LIBRARY FILES "/home/lz/orwell/orwellJS/desktop/lib/_orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.so")
   if(EXISTS "$ENV{DESTDIR}/usr/local/lib/libjrtp.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/libjrtp.so")
     if(CMAKE_INSTALL_DO_STRIP)
