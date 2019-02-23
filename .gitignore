@@ -25,3 +25,4 @@ testapp/DesktopSampleApp/desktop/lib/
 orwelljs/node_modules
 orwelljs/desktop/CMakeFiles
 orwelljs/desktop/bin/*
+orwell_autogen/
