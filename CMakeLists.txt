@@ -12,7 +12,7 @@ set(CMAKE_AUTOMOC ON) # Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOUIC ON) # Create code from a list of Qt designer ui files
 
 find_package(OpenGL REQUIRED)
-find_package(Boost COMPONENTS thread system REQUIRED) #todo: erase system, not necessary I guess
+find_package(Boost COMPONENTS thread system REQUIRED)
 find_package(Qt5 COMPONENTS Qml Quick Gui Widgets Multimedia MultimediaWidgets) #OpenGLWidgets) 
 
 add_subdirectory(myRtspClient)

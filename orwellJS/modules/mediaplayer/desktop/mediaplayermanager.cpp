@@ -1,7 +1,6 @@
 #include "mediaplayermanager.h"
 #include "bridge.h"
 #include "eventdispatcher.h"
-#include "beziercurve.h"
 
 #include <QCoreApplication>
 #include <QDebug>

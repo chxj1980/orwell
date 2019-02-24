@@ -46,4 +46,5 @@
 #include "HAGZTRH3L5/moc_iexecutor.cpp"
 #include "HAGZTRH3L5/moc_serverconnection.cpp"
 #include "HAGZTRH3L5/moc_websocketexecutor.cpp"
+#include "K2GW3622PU/moc_mediaplayermanager.cpp"
 #include "TMD3PGXO7W/moc_flexbox.cpp"

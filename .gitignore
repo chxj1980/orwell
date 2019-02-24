@@ -33,3 +33,4 @@ orwellJS/node_modules/*
 orwellJS/node_modules/
 orwellJS/desktop/lib/
 orwellJS/desktop/bin/
+orwellJS/desktop/modules/mediaplayer/desktop/orwell_subdir/

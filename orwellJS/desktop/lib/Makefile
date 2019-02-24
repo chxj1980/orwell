@@ -56,16 +56,29 @@ CMAKE_BINARY_DIR = /home/lz/orwell/orwellJS/desktop
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
-.PHONY : rebuild_cache/fast
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -77,6 +90,39 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,21 +157,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-lib/CMakeFiles/react-native.dir/rule:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/react-native.dir/rule
-.PHONY : lib/CMakeFiles/react-native.dir/rule
-
-# Convenience name for target.
-react-native: lib/CMakeFiles/react-native.dir/rule
-
-.PHONY : react-native
-
-# fast build rule for target.
-react-native/fast:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/build
-.PHONY : react-native/fast
-
-# Convenience name for target.
 lib/CMakeFiles/copy-qmldir.dir/rule:
 	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/copy-qmldir.dir/rule
 .PHONY : lib/CMakeFiles/copy-qmldir.dir/rule
@@ -139,6 +170,21 @@ copy-qmldir: lib/CMakeFiles/copy-qmldir.dir/rule
 copy-qmldir/fast:
 	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/copy-qmldir.dir/build.make lib/CMakeFiles/copy-qmldir.dir/build
 .PHONY : copy-qmldir/fast
+
+# Convenience name for target.
+lib/CMakeFiles/react-native.dir/rule:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/react-native.dir/rule
+.PHONY : lib/CMakeFiles/react-native.dir/rule
+
+# Convenience name for target.
+react-native: lib/CMakeFiles/react-native.dir/rule
+
+.PHONY : react-native
+
+# fast build rule for target.
+react-native/fast:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/build
+.PHONY : react-native/fast
 
 # Convenience name for target.
 lib/CMakeFiles/react-native_autogen.dir/rule:
@@ -964,6 +1010,33 @@ exceptionsmanager.s: exceptionsmanager.cpp.s
 exceptionsmanager.cpp.s:
 	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.s
 .PHONY : exceptionsmanager.cpp.s
+
+home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.o: home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.o
+
+.PHONY : home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.o
+
+# target to build an object file
+home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.o
+.PHONY : home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.o
+
+home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.i: home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.i
+
+.PHONY : home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.i
+
+# target to preprocess a source file
+home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.i
+.PHONY : home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.i
+
+home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.s: home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.s
+
+.PHONY : home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.s
+
+# target to generate assembly for a file
+home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.s
+.PHONY : home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.s
 
 home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.o
 
@@ -1835,10 +1908,14 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... react-native"
-	@echo "... edit_cache"
+	@echo "... install/strip"
+	@echo "... install/local"
 	@echo "... copy-qmldir"
+	@echo "... edit_cache"
+	@echo "... react-native"
+	@echo "... install"
+	@echo "... rebuild_cache"
+	@echo "... list_install_components"
 	@echo "... react-native_autogen"
 	@echo "... alert.o"
 	@echo "... alert.i"
@@ -1930,6 +2007,9 @@ help:
 	@echo "... exceptionsmanager.o"
 	@echo "... exceptionsmanager.i"
 	@echo "... exceptionsmanager.s"
+	@echo "... home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.o"
+	@echo "... home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.i"
+	@echo "... home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.s"
 	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.o"
 	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.i"
 	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.s"
