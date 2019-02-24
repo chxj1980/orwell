@@ -38,6 +38,8 @@ QString MediaPlayerManager::moduleName() { return "RCTMediaPlayerManager"; }
 
 QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
     QQuickItem* qQuickItem = new OpenGlVideoQtQuick();
+    qQuickItem->setWidth(640);
+    qQuickItem->setHeight(480);
     return qQuickItem;
 }
 

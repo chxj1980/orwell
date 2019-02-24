@@ -1,10 +1,13 @@
 {
-  "name": "DesktopSampleApp",
+  "name": "Orwell",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
+  "desktopExternalModules": [
+    "modules/mediaplayer/desktop"
+  ],
   "dependencies": {
     "react-native": "github:status-im/react-native-desktop"
   }

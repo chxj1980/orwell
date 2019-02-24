@@ -12,16 +12,16 @@ import {
   View
 } from 'react-native';
 
-class DesktopSampleApp extends Component {
+const NativeModules = require('NativeModules');
+const requireNativeComponent = require('requireNativeComponent');
+var OrwellMediaPlayer = requireNativeComponent('RCTMediaPlayer');
+
+
+class Orwell extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.desktop.js
-        </Text>
+        <OrwellMediaPlayer/>
       </View>
     );
   }
@@ -46,5 +46,5 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('DesktopSampleApp', () => DesktopSampleApp);
+AppRegistry.registerComponent('Orwell', () => Orwell);
 
