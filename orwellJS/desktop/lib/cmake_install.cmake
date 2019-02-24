@@ -1,4 +1,4 @@
-# Install script for directory: /home/lz/orwell/react-native-desktop/ReactQt/runtime/src
+# Install script for directory: /home/lz/orwell/orwellJS/node_modules/react-native/ReactQt/runtime/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,11 +35,5 @@ endif()
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
-  include("/home/lz/orwell/orwellJS/desktop/lib/_orwell/cmake_install.cmake")
-
 endif()
 

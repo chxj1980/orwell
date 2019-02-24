@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../../../react-native-desktop/ReactQt/runtime/src/communication/executor.h"
+#include "../../../../node_modules/react-native/ReactQt/runtime/src/communication/executor.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)

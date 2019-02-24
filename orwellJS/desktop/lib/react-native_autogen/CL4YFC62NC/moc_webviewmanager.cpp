@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../../../react-native-desktop/ReactQt/runtime/src/componentmanagers/webviewmanager.h"
+#include "../../../../node_modules/react-native/ReactQt/runtime/src/componentmanagers/webviewmanager.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)

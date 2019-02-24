@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../../../react-native-desktop/ReactQt/runtime/src/bridge.h"
+#include "../../../../node_modules/react-native/ReactQt/runtime/src/bridge.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #include <QtCore/QList>

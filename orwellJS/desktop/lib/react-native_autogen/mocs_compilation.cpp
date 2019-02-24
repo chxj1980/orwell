@@ -3,7 +3,6 @@
 #include "CL4YFC62NC/moc_buttonmanager.cpp"
 #include "CL4YFC62NC/moc_imageloader.cpp"
 #include "CL4YFC62NC/moc_imagemanager.cpp"
-#include "CL4YFC62NC/moc_mediaplayermanager.cpp"
 #include "CL4YFC62NC/moc_modalmanager.cpp"
 #include "CL4YFC62NC/moc_navigatormanager.cpp"
 #include "CL4YFC62NC/moc_pickermanager.cpp"

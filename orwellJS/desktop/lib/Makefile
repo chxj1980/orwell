@@ -56,53 +56,6 @@ CMAKE_BINARY_DIR = /home/lz/orwell/orwellJS/desktop
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -114,15 +67,16 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
 
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
 
-.PHONY : list_install_components/fast
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -157,21 +111,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-lib/CMakeFiles/copy-qmldir.dir/rule:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/copy-qmldir.dir/rule
-.PHONY : lib/CMakeFiles/copy-qmldir.dir/rule
-
-# Convenience name for target.
-copy-qmldir: lib/CMakeFiles/copy-qmldir.dir/rule
-
-.PHONY : copy-qmldir
-
-# fast build rule for target.
-copy-qmldir/fast:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/copy-qmldir.dir/build.make lib/CMakeFiles/copy-qmldir.dir/build
-.PHONY : copy-qmldir/fast
-
-# Convenience name for target.
 lib/CMakeFiles/react-native.dir/rule:
 	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/react-native.dir/rule
 .PHONY : lib/CMakeFiles/react-native.dir/rule
@@ -185,6 +124,21 @@ react-native: lib/CMakeFiles/react-native.dir/rule
 react-native/fast:
 	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/build
 .PHONY : react-native/fast
+
+# Convenience name for target.
+lib/CMakeFiles/copy-qmldir.dir/rule:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 lib/CMakeFiles/copy-qmldir.dir/rule
+.PHONY : lib/CMakeFiles/copy-qmldir.dir/rule
+
+# Convenience name for target.
+copy-qmldir: lib/CMakeFiles/copy-qmldir.dir/rule
+
+.PHONY : copy-qmldir
+
+# fast build rule for target.
+copy-qmldir/fast:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/copy-qmldir.dir/build.make lib/CMakeFiles/copy-qmldir.dir/build
+.PHONY : copy-qmldir/fast
 
 # Convenience name for target.
 lib/CMakeFiles/react-native_autogen.dir/rule:
@@ -606,33 +560,6 @@ componentmanagers/imagemanager.cpp.s:
 	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/imagemanager.cpp.s
 .PHONY : componentmanagers/imagemanager.cpp.s
 
-componentmanagers/mediaplayermanager.o: componentmanagers/mediaplayermanager.cpp.o
-
-.PHONY : componentmanagers/mediaplayermanager.o
-
-# target to build an object file
-componentmanagers/mediaplayermanager.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.o
-.PHONY : componentmanagers/mediaplayermanager.cpp.o
-
-componentmanagers/mediaplayermanager.i: componentmanagers/mediaplayermanager.cpp.i
-
-.PHONY : componentmanagers/mediaplayermanager.i
-
-# target to preprocess a source file
-componentmanagers/mediaplayermanager.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.i
-.PHONY : componentmanagers/mediaplayermanager.cpp.i
-
-componentmanagers/mediaplayermanager.s: componentmanagers/mediaplayermanager.cpp.s
-
-.PHONY : componentmanagers/mediaplayermanager.s
-
-# target to generate assembly for a file
-componentmanagers/mediaplayermanager.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/componentmanagers/mediaplayermanager.cpp.s
-.PHONY : componentmanagers/mediaplayermanager.cpp.s
-
 componentmanagers/modalmanager.o: componentmanagers/modalmanager.cpp.o
 
 .PHONY : componentmanagers/modalmanager.o
@@ -1038,248 +965,248 @@ exceptionsmanager.cpp.s:
 	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.s
 .PHONY : exceptionsmanager.cpp.s
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.o
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.o
-
-# target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.o
-
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i
-
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.i
-
-# target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.i
-
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s
-
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.s
-
-# target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.cpp.s
-
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o
-
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.o
 
 # target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.o
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.i
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.i
 
 # target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.i
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.s
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.s
 
 # target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.cpp.s
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.o
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.o
 
 # target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.o
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.i
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.i
 
 # target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.i
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.s
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.s
 
 # target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.cpp.s
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.o
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.o
 
 # target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.o
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.i
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.i
 
 # target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.i
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.s
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.s
 
 # target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.cpp.s
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.o
 
 # target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.o
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.i
 
 # target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.i
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.s
 
 # target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.cpp.s
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.o
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.o
 
 # target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.o
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.i
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.i
 
 # target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.i
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.s
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.s
 
 # target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.cpp.s
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.o
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.o
 
 # target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.o
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.i
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.i
 
 # target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.i
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.s
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.s
 
 # target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.cpp.s
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.o
 
 # target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.o
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.i
 
 # target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.i
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.s
 
 # target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.cpp.s
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.o: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.o
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.o
 
 # target to build an object file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.o
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.o
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.i: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.i
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.i
 
 # target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.i
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.i
 
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.s: home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.s
 
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.s
 
 # target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.cpp.s
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.cpp.s
+
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.o: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.o
+
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.o
+
+# target to build an object file
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.o
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.o
+
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.i: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.i
+
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.i
+
+# target to preprocess a source file
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.i
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.i
+
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.s: home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.s
+
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.s
+
+# target to generate assembly for a file
+home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.s
+.PHONY : home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp.s
 
 layout/flexbox.o: layout/flexbox.cpp.o
 
@@ -1908,14 +1835,10 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
-	@echo "... install/local"
-	@echo "... copy-qmldir"
-	@echo "... edit_cache"
-	@echo "... react-native"
-	@echo "... install"
 	@echo "... rebuild_cache"
-	@echo "... list_install_components"
+	@echo "... react-native"
+	@echo "... edit_cache"
+	@echo "... copy-qmldir"
 	@echo "... react-native_autogen"
 	@echo "... alert.o"
 	@echo "... alert.i"
@@ -1962,9 +1885,6 @@ help:
 	@echo "... componentmanagers/imagemanager.o"
 	@echo "... componentmanagers/imagemanager.i"
 	@echo "... componentmanagers/imagemanager.s"
-	@echo "... componentmanagers/mediaplayermanager.o"
-	@echo "... componentmanagers/mediaplayermanager.i"
-	@echo "... componentmanagers/mediaplayermanager.s"
 	@echo "... componentmanagers/modalmanager.o"
 	@echo "... componentmanagers/modalmanager.i"
 	@echo "... componentmanagers/modalmanager.s"
@@ -2010,33 +1930,33 @@ help:
 	@echo "... exceptionsmanager.o"
 	@echo "... exceptionsmanager.i"
 	@echo "... exceptionsmanager.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Utils.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGConfig.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGEnums.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGFloatOptional.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGLayout.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNode.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGNodePrint.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/YGStyle.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactCommon/yoga/yoga/Yoga.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Utils.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGConfig.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGEnums.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGFloatOptional.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGLayout.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNode.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGNodePrint.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/YGStyle.s"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.o"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.i"
+	@echo "... home/lz/orwell/orwellJS/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.s"
 	@echo "... layout/flexbox.o"
 	@echo "... layout/flexbox.i"
 	@echo "... layout/flexbox.s"

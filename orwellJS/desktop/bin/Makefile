@@ -56,41 +56,6 @@ CMAKE_BINARY_DIR = /home/lz/orwell/orwellJS/desktop
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -102,27 +67,16 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
 
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
 
-.PHONY : list_install_components/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -157,88 +111,88 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-bin/CMakeFiles/DesktopSampleApp.dir/rule:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/DesktopSampleApp.dir/rule
-.PHONY : bin/CMakeFiles/DesktopSampleApp.dir/rule
+bin/CMakeFiles/Orwell.dir/rule:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/Orwell.dir/rule
+.PHONY : bin/CMakeFiles/Orwell.dir/rule
 
 # Convenience name for target.
-DesktopSampleApp: bin/CMakeFiles/DesktopSampleApp.dir/rule
+Orwell: bin/CMakeFiles/Orwell.dir/rule
 
-.PHONY : DesktopSampleApp
+.PHONY : Orwell
 
 # fast build rule for target.
-DesktopSampleApp/fast:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/build
-.PHONY : DesktopSampleApp/fast
+Orwell/fast:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/build
+.PHONY : Orwell/fast
 
 # Convenience name for target.
-bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule
-.PHONY : bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule
+bin/CMakeFiles/Orwell_autogen.dir/rule:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f CMakeFiles/Makefile2 bin/CMakeFiles/Orwell_autogen.dir/rule
+.PHONY : bin/CMakeFiles/Orwell_autogen.dir/rule
 
 # Convenience name for target.
-DesktopSampleApp_autogen: bin/CMakeFiles/DesktopSampleApp_autogen.dir/rule
+Orwell_autogen: bin/CMakeFiles/Orwell_autogen.dir/rule
 
-.PHONY : DesktopSampleApp_autogen
+.PHONY : Orwell_autogen
 
 # fast build rule for target.
-DesktopSampleApp_autogen/fast:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp_autogen.dir/build.make bin/CMakeFiles/DesktopSampleApp_autogen.dir/build
-.PHONY : DesktopSampleApp_autogen/fast
+Orwell_autogen/fast:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell_autogen.dir/build.make bin/CMakeFiles/Orwell_autogen.dir/build
+.PHONY : Orwell_autogen/fast
 
-DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.o: DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o
+Orwell_autogen/EWIEGA46WW/qrc_main.o: Orwell_autogen/EWIEGA46WW/qrc_main.cpp.o
 
-.PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.o
-
-# target to build an object file
-DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o
-.PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.o
-
-DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.i: DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i
-
-.PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.i
-
-# target to preprocess a source file
-DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i
-.PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.i
-
-DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.s: DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s
-
-.PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.s
-
-# target to generate assembly for a file
-DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s
-.PHONY : DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.cpp.s
-
-DesktopSampleApp_autogen/mocs_compilation.o: DesktopSampleApp_autogen/mocs_compilation.cpp.o
-
-.PHONY : DesktopSampleApp_autogen/mocs_compilation.o
+.PHONY : Orwell_autogen/EWIEGA46WW/qrc_main.o
 
 # target to build an object file
-DesktopSampleApp_autogen/mocs_compilation.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.o
-.PHONY : DesktopSampleApp_autogen/mocs_compilation.cpp.o
+Orwell_autogen/EWIEGA46WW/qrc_main.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/Orwell_autogen/EWIEGA46WW/qrc_main.cpp.o
+.PHONY : Orwell_autogen/EWIEGA46WW/qrc_main.cpp.o
 
-DesktopSampleApp_autogen/mocs_compilation.i: DesktopSampleApp_autogen/mocs_compilation.cpp.i
+Orwell_autogen/EWIEGA46WW/qrc_main.i: Orwell_autogen/EWIEGA46WW/qrc_main.cpp.i
 
-.PHONY : DesktopSampleApp_autogen/mocs_compilation.i
+.PHONY : Orwell_autogen/EWIEGA46WW/qrc_main.i
 
 # target to preprocess a source file
-DesktopSampleApp_autogen/mocs_compilation.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.i
-.PHONY : DesktopSampleApp_autogen/mocs_compilation.cpp.i
+Orwell_autogen/EWIEGA46WW/qrc_main.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/Orwell_autogen/EWIEGA46WW/qrc_main.cpp.i
+.PHONY : Orwell_autogen/EWIEGA46WW/qrc_main.cpp.i
 
-DesktopSampleApp_autogen/mocs_compilation.s: DesktopSampleApp_autogen/mocs_compilation.cpp.s
+Orwell_autogen/EWIEGA46WW/qrc_main.s: Orwell_autogen/EWIEGA46WW/qrc_main.cpp.s
 
-.PHONY : DesktopSampleApp_autogen/mocs_compilation.s
+.PHONY : Orwell_autogen/EWIEGA46WW/qrc_main.s
 
 # target to generate assembly for a file
-DesktopSampleApp_autogen/mocs_compilation.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/DesktopSampleApp_autogen/mocs_compilation.cpp.s
-.PHONY : DesktopSampleApp_autogen/mocs_compilation.cpp.s
+Orwell_autogen/EWIEGA46WW/qrc_main.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/Orwell_autogen/EWIEGA46WW/qrc_main.cpp.s
+.PHONY : Orwell_autogen/EWIEGA46WW/qrc_main.cpp.s
+
+Orwell_autogen/mocs_compilation.o: Orwell_autogen/mocs_compilation.cpp.o
+
+.PHONY : Orwell_autogen/mocs_compilation.o
+
+# target to build an object file
+Orwell_autogen/mocs_compilation.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/Orwell_autogen/mocs_compilation.cpp.o
+.PHONY : Orwell_autogen/mocs_compilation.cpp.o
+
+Orwell_autogen/mocs_compilation.i: Orwell_autogen/mocs_compilation.cpp.i
+
+.PHONY : Orwell_autogen/mocs_compilation.i
+
+# target to preprocess a source file
+Orwell_autogen/mocs_compilation.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/Orwell_autogen/mocs_compilation.cpp.i
+.PHONY : Orwell_autogen/mocs_compilation.cpp.i
+
+Orwell_autogen/mocs_compilation.s: Orwell_autogen/mocs_compilation.cpp.s
+
+.PHONY : Orwell_autogen/mocs_compilation.s
+
+# target to generate assembly for a file
+Orwell_autogen/mocs_compilation.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/Orwell_autogen/mocs_compilation.cpp.s
+.PHONY : Orwell_autogen/mocs_compilation.cpp.s
 
 __/main.o: __/main.cpp.o
 
@@ -246,7 +200,7 @@ __/main.o: __/main.cpp.o
 
 # target to build an object file
 __/main.cpp.o:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.o
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/__/main.cpp.o
 .PHONY : __/main.cpp.o
 
 __/main.i: __/main.cpp.i
@@ -255,7 +209,7 @@ __/main.i: __/main.cpp.i
 
 # target to preprocess a source file
 __/main.cpp.i:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.i
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/__/main.cpp.i
 .PHONY : __/main.cpp.i
 
 __/main.s: __/main.cpp.s
@@ -264,7 +218,7 @@ __/main.s: __/main.cpp.s
 
 # target to generate assembly for a file
 __/main.cpp.s:
-	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/__/main.cpp.s
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/__/main.cpp.s
 .PHONY : __/main.cpp.s
 
 # Help Target
@@ -273,20 +227,16 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
-	@echo "... edit_cache"
-	@echo "... DesktopSampleApp"
-	@echo "... install"
 	@echo "... rebuild_cache"
-	@echo "... list_install_components"
-	@echo "... install/local"
-	@echo "... DesktopSampleApp_autogen"
-	@echo "... DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.o"
-	@echo "... DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.i"
-	@echo "... DesktopSampleApp_autogen/EWIEGA46WW/qrc_main.s"
-	@echo "... DesktopSampleApp_autogen/mocs_compilation.o"
-	@echo "... DesktopSampleApp_autogen/mocs_compilation.i"
-	@echo "... DesktopSampleApp_autogen/mocs_compilation.s"
+	@echo "... Orwell"
+	@echo "... edit_cache"
+	@echo "... Orwell_autogen"
+	@echo "... Orwell_autogen/EWIEGA46WW/qrc_main.o"
+	@echo "... Orwell_autogen/EWIEGA46WW/qrc_main.i"
+	@echo "... Orwell_autogen/EWIEGA46WW/qrc_main.s"
+	@echo "... Orwell_autogen/mocs_compilation.o"
+	@echo "... Orwell_autogen/mocs_compilation.i"
+	@echo "... Orwell_autogen/mocs_compilation.s"
 	@echo "... __/main.o"
 	@echo "... __/main.i"
 	@echo "... __/main.s"

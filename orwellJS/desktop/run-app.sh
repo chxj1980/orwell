@@ -56,18 +56,18 @@ if [[ "$executor" == "ReactNetExecutor" ]]; then
 fi
 
 if [[ $on_device == 1 ]]; then
-  app_path="/home/phablet/DesktopSampleApp"
+  app_path="/home/phablet/Orwell"
 
 # Push binaries
-  adb push /home/lz/orwell/orwellJS/desktop/bin/DesktopSampleApp "$app_path/DesktopSampleApp"
+  adb push /home/lz/orwell/orwellJS/desktop/bin/Orwell "$app_path/Orwell"
   [ -d "$plugins_path" ] && adb push "$plugins_path" "$app_path/plugins/"
   [ -d "$asset_path" ] && adb push "$asset_path" "$app_path/share/"
 #  adb reverse --no-rebind tcp:8081 tcp:808
 
 # Run app on device
-  adb shell "cd $app_path && REACT_SERVER_HOST=$react_host ./DesktopSampleApp --host $react_host $args -- --desktop_file_hint=/usr/share/applications/webbrowser-app.desktop"
+  adb shell "cd $app_path && REACT_SERVER_HOST=$react_host ./Orwell --host $react_host $args -- --desktop_file_hint=/usr/share/applications/webbrowser-app.desktop"
 else
 # Run app locally
-  /home/lz/orwell/orwellJS/desktop/bin/DesktopSampleApp $args
+  /home/lz/orwell/orwellJS/desktop/bin/Orwell $args
 fi
 

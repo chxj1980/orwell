@@ -56,51 +56,16 @@ CMAKE_BINARY_DIR = /home/lz/orwell/orwellJS/desktop
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
 
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
+.PHONY : rebuild_cache/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -112,17 +77,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -157,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named copy-qmldir
-
-# Build rule for target.
-copy-qmldir: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 copy-qmldir
-.PHONY : copy-qmldir
-
-# fast build rule for target.
-copy-qmldir/fast:
-	$(MAKE) -f lib/CMakeFiles/copy-qmldir.dir/build.make lib/CMakeFiles/copy-qmldir.dir/build
-.PHONY : copy-qmldir/fast
-
-#=============================================================================
 # Target rules for targets named react-native
 
 # Build rule for target.
@@ -181,6 +122,19 @@ react-native: cmake_check_build_system
 react-native/fast:
 	$(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/build
 .PHONY : react-native/fast
+
+#=============================================================================
+# Target rules for targets named copy-qmldir
+
+# Build rule for target.
+copy-qmldir: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 copy-qmldir
+.PHONY : copy-qmldir
+
+# fast build rule for target.
+copy-qmldir/fast:
+	$(MAKE) -f lib/CMakeFiles/copy-qmldir.dir/build.make lib/CMakeFiles/copy-qmldir.dir/build
+.PHONY : copy-qmldir/fast
 
 #=============================================================================
 # Target rules for targets named react-native_autogen
@@ -196,134 +150,30 @@ react-native_autogen/fast:
 .PHONY : react-native_autogen/fast
 
 #=============================================================================
-# Target rules for targets named orwell
+# Target rules for targets named Orwell
 
 # Build rule for target.
-orwell: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 orwell
-.PHONY : orwell
+Orwell: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Orwell
+.PHONY : Orwell
 
 # fast build rule for target.
-orwell/fast:
-	$(MAKE) -f lib/_orwell/CMakeFiles/orwell.dir/build.make lib/_orwell/CMakeFiles/orwell.dir/build
-.PHONY : orwell/fast
+Orwell/fast:
+	$(MAKE) -f bin/CMakeFiles/Orwell.dir/build.make bin/CMakeFiles/Orwell.dir/build
+.PHONY : Orwell/fast
 
 #=============================================================================
-# Target rules for targets named orwell_autogen
+# Target rules for targets named Orwell_autogen
 
 # Build rule for target.
-orwell_autogen: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 orwell_autogen
-.PHONY : orwell_autogen
+Orwell_autogen: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Orwell_autogen
+.PHONY : Orwell_autogen
 
 # fast build rule for target.
-orwell_autogen/fast:
-	$(MAKE) -f lib/_orwell/CMakeFiles/orwell_autogen.dir/build.make lib/_orwell/CMakeFiles/orwell_autogen.dir/build
-.PHONY : orwell_autogen/fast
-
-#=============================================================================
-# Target rules for targets named myRtspClient
-
-# Build rule for target.
-myRtspClient: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 myRtspClient
-.PHONY : myRtspClient
-
-# fast build rule for target.
-myRtspClient/fast:
-	$(MAKE) -f lib/_orwell/myRtspClient/CMakeFiles/myRtspClient.dir/build.make lib/_orwell/myRtspClient/CMakeFiles/myRtspClient.dir/build
-.PHONY : myRtspClient/fast
-
-#=============================================================================
-# Target rules for targets named myRtspClient_autogen
-
-# Build rule for target.
-myRtspClient_autogen: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 myRtspClient_autogen
-.PHONY : myRtspClient_autogen
-
-# fast build rule for target.
-myRtspClient_autogen/fast:
-	$(MAKE) -f lib/_orwell/myRtspClient/CMakeFiles/myRtspClient_autogen.dir/build.make lib/_orwell/myRtspClient/CMakeFiles/myRtspClient_autogen.dir/build
-.PHONY : myRtspClient_autogen/fast
-
-#=============================================================================
-# Target rules for targets named jrtplib-shared
-
-# Build rule for target.
-jrtplib-shared: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 jrtplib-shared
-.PHONY : jrtplib-shared
-
-# fast build rule for target.
-jrtplib-shared/fast:
-	$(MAKE) -f lib/_orwell/myRtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared.dir/build.make lib/_orwell/myRtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared.dir/build
-.PHONY : jrtplib-shared/fast
-
-#=============================================================================
-# Target rules for targets named jrtplib-static
-
-# Build rule for target.
-jrtplib-static: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 jrtplib-static
-.PHONY : jrtplib-static
-
-# fast build rule for target.
-jrtplib-static/fast:
-	$(MAKE) -f lib/_orwell/myRtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build.make lib/_orwell/myRtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build
-.PHONY : jrtplib-static/fast
-
-#=============================================================================
-# Target rules for targets named jrtplib-shared_autogen
-
-# Build rule for target.
-jrtplib-shared_autogen: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 jrtplib-shared_autogen
-.PHONY : jrtplib-shared_autogen
-
-# fast build rule for target.
-jrtplib-shared_autogen/fast:
-	$(MAKE) -f lib/_orwell/myRtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared_autogen.dir/build.make lib/_orwell/myRtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared_autogen.dir/build
-.PHONY : jrtplib-shared_autogen/fast
-
-#=============================================================================
-# Target rules for targets named jrtplib-static_autogen
-
-# Build rule for target.
-jrtplib-static_autogen: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 jrtplib-static_autogen
-.PHONY : jrtplib-static_autogen
-
-# fast build rule for target.
-jrtplib-static_autogen/fast:
-	$(MAKE) -f lib/_orwell/myRtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static_autogen.dir/build.make lib/_orwell/myRtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static_autogen.dir/build
-.PHONY : jrtplib-static_autogen/fast
-
-#=============================================================================
-# Target rules for targets named DesktopSampleApp
-
-# Build rule for target.
-DesktopSampleApp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 DesktopSampleApp
-.PHONY : DesktopSampleApp
-
-# fast build rule for target.
-DesktopSampleApp/fast:
-	$(MAKE) -f bin/CMakeFiles/DesktopSampleApp.dir/build.make bin/CMakeFiles/DesktopSampleApp.dir/build
-.PHONY : DesktopSampleApp/fast
-
-#=============================================================================
-# Target rules for targets named DesktopSampleApp_autogen
-
-# Build rule for target.
-DesktopSampleApp_autogen: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 DesktopSampleApp_autogen
-.PHONY : DesktopSampleApp_autogen
-
-# fast build rule for target.
-DesktopSampleApp_autogen/fast:
-	$(MAKE) -f bin/CMakeFiles/DesktopSampleApp_autogen.dir/build.make bin/CMakeFiles/DesktopSampleApp_autogen.dir/build
-.PHONY : DesktopSampleApp_autogen/fast
+Orwell_autogen/fast:
+	$(MAKE) -f bin/CMakeFiles/Orwell_autogen.dir/build.make bin/CMakeFiles/Orwell_autogen.dir/build
+.PHONY : Orwell_autogen/fast
 
 # Help Target
 help:
@@ -331,25 +181,13 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... list_install_components"
-	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... copy-qmldir"
+	@echo "... edit_cache"
 	@echo "... react-native"
+	@echo "... copy-qmldir"
 	@echo "... react-native_autogen"
-	@echo "... orwell"
-	@echo "... orwell_autogen"
-	@echo "... myRtspClient"
-	@echo "... myRtspClient_autogen"
-	@echo "... jrtplib-shared"
-	@echo "... jrtplib-static"
-	@echo "... jrtplib-shared_autogen"
-	@echo "... jrtplib-static_autogen"
-	@echo "... DesktopSampleApp"
-	@echo "... DesktopSampleApp_autogen"
+	@echo "... Orwell"
+	@echo "... Orwell_autogen"
 .PHONY : help
 
 

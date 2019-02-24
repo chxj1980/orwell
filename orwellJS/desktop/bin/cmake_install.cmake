@@ -1,4 +1,4 @@
-# Install script for directory: /home/lz/orwell/react-native-desktop/ReactQt/application/src
+# Install script for directory: /home/lz/orwell/orwellJS/node_modules/react-native/ReactQt/application/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
