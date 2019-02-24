@@ -23,7 +23,7 @@ find_package(Qt5WebSockets REQUIRED)
 find_package(Qt5Svg REQUIRED)
 
 #ORWELL
-add_subdirectory(../../../../CMakeListsReactNative _orwell)
+add_subdirectory(../../../.. _orwell)
 #include_directories(/home/lz/orwell/react-native-desktop/React/Layout)
 include_directories(../../../..)
 include_directories(../../../../myRtspClient/myRtspClient/include)
