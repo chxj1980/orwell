@@ -191,7 +191,6 @@
 #define __FLT128_MAX_EXP__ 16384
 #define __FLT32_MANT_DIG__ 24
 #define __FLOAT_WORD_ORDER__ __ORDER_LITTLE_ENDIAN__
-#define RCT_DEV 1
 #define __STDC_IEC_559_COMPLEX__ 1
 #define __FLT128_HAS_DENORM__ 1
 #define __FLT128_DIG__ 33
@@ -360,7 +359,6 @@
 #define __UINTMAX_MAX__ 0xffffffffffffffffUL
 #define __DEC32_MANT_DIG__ 7
 #define __FLT32X_DENORM_MIN__ 4.94065645841246544176568792868221372e-324F32x
-#define jrtplib_shared_EXPORTS 1
 #define __DBL_MAX_10_EXP__ 308
 #define __LDBL_DENORM_MIN__ 3.64519953188247460252840593361941982e-4951L
 #define __INT16_C(c) c

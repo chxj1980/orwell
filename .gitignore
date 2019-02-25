@@ -34,3 +34,5 @@ orwellJS/node_modules/
 orwellJS/desktop/lib/
 orwellJS/desktop/bin/
 orwellJS/desktop/modules/mediaplayer/desktop/orwell_subdir/
+myRtspClient/third_party/JRTPLIB/src/libjrtp.so.*
+qt/myrtsp/

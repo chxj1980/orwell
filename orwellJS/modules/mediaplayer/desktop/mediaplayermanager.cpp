@@ -37,9 +37,9 @@ MediaPlayerManager::~MediaPlayerManager() {
 QString MediaPlayerManager::moduleName() { return "RCTMediaPlayerManager"; }
 
 QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
-    OpenGlVideoQtQuick* openGlVideoQtQuick = new OpenGlVideoQtQuick();
-    openGlVideoQtQuick->setWidth(50);
-    openGlVideoQtQuick->setHeight(22);
+    OpenGlVideoQtQuick* openGlVideoQtQuick = new OpenGlVideoQtQuick("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
+//    openGlVideoQtQuick->setWidth(50);
+//    openGlVideoQtQuick->setHeight(22);
     std::cout << "returning custom item" << std::endl;
     return openGlVideoQtQuick;
 }

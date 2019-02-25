@@ -15,15 +15,16 @@ find_package(OpenGL REQUIRED)
 find_package(Boost COMPONENTS thread system REQUIRED) #todo: erase system, not necessary I guess
 find_package(Qt5 COMPONENTS Qml Quick Gui Widgets Multimedia MultimediaWidgets) #OpenGLWidgets) 
 
-add_subdirectory(myRtspClient)
-include_directories(myRtspClient/myRtspClient/include)
+add_subdirectory(../myRtspClient myrtsp)
+include_directories(../myRtspClient/myRtspClient/include)
+include_directories(..)
 
-qt5_add_resources(QRCS resources.qrc) #what this does?
+#qt5_add_resources(QRCS resources.qrc) #what this does?
 qt5_add_resources(qml_QRC qml.qrc)    #what this does?
 
-file(GLOB orwell_SRCS "*.cpp" "*.ui")
+file(GLOB orwell_SRCS "../*.cpp" main.cpp "*../.ui")
 
-add_library(orwell SHARED ${orwell_SRCS})
+add_executable(orwell ${orwell_SRCS} ${QRCS} ${qml_QRC})
 
 #TODO: decide either qtquick or qt widgets libs
 target_link_libraries( orwell PRIVATE ${AVCODEC_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} Qt5::Widgets Qt5::Multimedia Qt5::MultimediaWidgets Boost::thread myRtspClient pthread Qt5::Qml Qt5::Quick)

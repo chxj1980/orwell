@@ -12,7 +12,7 @@
 #include "MediaStream.h"
 #include <boost/thread.hpp>
 #include <QTimer>
-#include "reactitem.h"
+//#include "reactitem.h"
 
 
 class OpenGlVideoQtQuickRenderer : public QObject, protected QOpenGLFunctions, public FrameUpdater
