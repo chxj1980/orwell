@@ -19,9 +19,7 @@ class OpenGlVideoQtQuickRenderer : public QObject, protected QOpenGLFunctions, p
     Q_OBJECT
 
 public:
-    OpenGlVideoQtQuickRenderer(/*OpenGlVideoQtQuick* openGlVideoQtQuick*/) : m_t(0) {
-        //this->openGlVideoQtQuick = openGlVideoQtQuick 
-        
+    OpenGlVideoQtQuickRenderer() : m_t(0) {        
     }
     ~OpenGlVideoQtQuickRenderer();
     void updateData(unsigned char**data);
@@ -58,7 +56,7 @@ class OpenGlVideoQtQuick : public QQuickItem
 
 public:
     OpenGlVideoQtQuick();
-
+    OpenGlVideoQtQuick(QString uri);
     QString uri;
 
     qreal t() const { return m_t; }

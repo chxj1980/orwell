@@ -8,6 +8,7 @@
 #include <QUrl>
 #include <QFileOpenEvent>
 #include "OpenGlVideoQtQuick.h"
+#include <iostream>
 
 namespace {
 struct RegisterQMLMetaType {
@@ -36,10 +37,11 @@ MediaPlayerManager::~MediaPlayerManager() {
 QString MediaPlayerManager::moduleName() { return "RCTMediaPlayerManager"; }
 
 QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
-    QQuickItem* qQuickItem = new OpenGlVideoQtQuick();
-    qQuickItem->setWidth(640);
-    qQuickItem->setHeight(480);
-    return qQuickItem;
+    OpenGlVideoQtQuick* openGlVideoQtQuick = new OpenGlVideoQtQuick("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
+    //qQuickItem->setWidth(50);
+    //qQuickItem->setHeight(22);
+    std::cout << "returning custom item" << std::endl;
+    return openGlVideoQtQuick;
 }
 
 

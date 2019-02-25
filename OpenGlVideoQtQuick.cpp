@@ -44,11 +44,21 @@ OpenGlVideoQtQuick::OpenGlVideoQtQuick()
     openGlVideoQtQuickRenderer(nullptr)
 {
     connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick::handleWindowChanged);
+    std::cout << "constructor called" << std::endl;
+
     //setWidth(640);
     //setHeight(480);
     //width=640
     //height=480
 }
+
+OpenGlVideoQtQuick::OpenGlVideoQtQuick(QString uri): m_t(0),
+    openGlVideoQtQuickRenderer(nullptr) {
+        this->uri = uri;
+        connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick::handleWindowChanged);
+        std::cout << "constructor2 called" << std::endl;
+        std::cout << "I got created with uri " << uri.toStdString() << std::endl;
+    }
 
 void OpenGlVideoQtQuick::update()
 {
@@ -70,6 +80,7 @@ void OpenGlVideoQtQuick::setT(qreal t)
 
 void OpenGlVideoQtQuick::handleWindowChanged(QQuickWindow *win)
 {
+    std::cout << "handleWindowChanged called" << std::endl;
     if (win) {
         connect(win, &QQuickWindow::beforeSynchronizing, this, &OpenGlVideoQtQuick::sync, Qt::DirectConnection);
         //connect(win, &QQuickWindow::sceneGraphInvalidated, this, &OpenGlVideoQtQuick::cleanup, Qt::DirectConnection);
@@ -94,8 +105,9 @@ OpenGlVideoQtQuickRenderer::~OpenGlVideoQtQuickRenderer()
 
 void OpenGlVideoQtQuick::sync()
 {
+    //std::cout << "sync called" << std::endl;
     if (!openGlVideoQtQuickRenderer) {
-        openGlVideoQtQuickRenderer = new OpenGlVideoQtQuickRenderer(/*this*/);
+        openGlVideoQtQuickRenderer = new OpenGlVideoQtQuickRenderer();
         connect(window(), &QQuickWindow::beforeRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
         //connect(window(), &QQuickWindow::afterRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &OpenGlVideoQtQuick::update, Qt::DirectConnection);
