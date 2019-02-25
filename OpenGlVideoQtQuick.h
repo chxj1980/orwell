@@ -28,6 +28,22 @@ public:
     void setViewportSize(const QSize &size) { m_viewportSize = size; }
     void setWindow(QQuickWindow *window) { m_window = window; }
 
+    void setWidth(int width) {
+        this->width = width;
+    }
+
+    void setHeight(int height) {
+        this->height = height;
+    }
+
+    void setX(int x) {
+        this->x = x;
+    }
+
+    void setY(int y) {
+        this->y = y;
+    }
+
 public slots:
     void render();
 
@@ -45,6 +61,8 @@ private:
      //TODO: make this variable according to video data
     int width = 1920;
     int height = 1080;
+    int x = 0;
+    int y = 0;
     //boost::thread mediaThread;
 };
 

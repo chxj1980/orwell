@@ -9,9 +9,10 @@ const char *vString2 = GET_STR(
     attribute vec4 vertexIn;
     attribute vec2 textureIn;
     varying vec2 textureOut;
+    uniform mat4 u_transform;   
     void main(void)
     {
-        gl_Position = vertexIn;
+        gl_Position = u_transform * vertexIn;
         textureOut = textureIn;
     }
 );
@@ -120,7 +121,12 @@ void OpenGlVideoQtQuick::sync()
     //openGlVideoQtQuickRenderer->setViewportSize(window()->size() * window()->devicePixelRatio());
     openGlVideoQtQuickRenderer->setT(m_t);
     openGlVideoQtQuickRenderer->setWindow(window());
+    openGlVideoQtQuickRenderer->setWidth(width());
+    openGlVideoQtQuickRenderer->setHeight(height());
+    openGlVideoQtQuickRenderer->setX(x());
+    openGlVideoQtQuickRenderer->setY(y());
 }
+
 
 void OpenGlVideoQtQuickRenderer::updateData(unsigned char**data)
 {
@@ -142,6 +148,9 @@ static const GLfloat tex[] = {
     0.0f, 0.0f,
     1.0f, 0.0f
 };
+float mapToMinus11(float value, float max) {
+        return -1+2*value/max;
+    }
 //TODO: FIX THIS https://stackoverflow.com/a/54773889/6655884
 void OpenGlVideoQtQuickRenderer::render()
 {
@@ -167,7 +176,23 @@ void OpenGlVideoQtQuickRenderer::render()
     }
     program->bind();
 
-    //glViewport(0, 0, 640, 480);
+    QMatrix4x4 transform;
+    transform.setToIdentity();
+    transform.scale(0.5, 0.5);
+    //transform.translate(1,1);
+    transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
+        std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
+
+    std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
+    std::cout << "x: " << x << " y: " << y << std::endl;
+    //QMatrix4x4 translate;
+    //translate.viewport(-width/2, -height/2, width, height);
+    //translate.inverted();
+
+    //transform = translate*transform;
+    program->setUniformValue("u_transform", transform);
+
+    //glViewport(50, 50, 50, 50);
 
     glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
     glEnableVertexAttribArray(A_VER);
