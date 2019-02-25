@@ -14,7 +14,7 @@ set(REACT_NATIVE_DESKTOP_EXTERNAL_PROJECT_DEPS ${REACT_NATIVE_DESKTOP_EXTERNAL_P
                                               orwell
                                               PARENT_SCOPE)
 
-#find_package(Boost COMPONENTS thread system REQUIRED) #todo: erase system, not necessary I guess
+#find_package(Boost COMPONENTS thread system REQUIRED)
 #TODO: use find_package instead of passing the l name
 
 set(REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_LIBS ${REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_LIBS}

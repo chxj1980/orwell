@@ -261,7 +261,7 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 DESKTOP_FONTS:UNINITIALIZED=
 
 //No help, variable specified on the command line.
-EXTERNAL_MODULES_DIR:UNINITIALIZED=modules/mediaplayer/desktop/
+EXTERNAL_MODULES_DIR:UNINITIALIZED=modules/mediaplayer/desktop
 
 //Build with JavaScriptCore enabled
 JAVASCRIPTCORE_ENABLED:BOOL=OFF
@@ -402,7 +402,7 @@ orwell_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libavcodec.so;genera
 orwell_SOURCE_DIR:STATIC=/home/lz/orwell
 
 //Dependencies for the target
-react-native_LIB_DEPENDS:STATIC=general;orwell;general;Boost::thread;general;boost_system;general;Qt5::Core;general;Qt5::Qml;general;Qt5::Quick;general;Qt5::WebSockets;general;Qt5::Svg;
+react-native_LIB_DEPENDS:STATIC=general;orwell;general;boost_thread;general;boost_system;general;Qt5::Core;general;Qt5::Qml;general;Qt5::Quick;general;Qt5::WebSockets;general;Qt5::Svg;
 
 
 ########################
