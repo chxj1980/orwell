@@ -12,6 +12,7 @@
 #include "MediaStream.h"
 #include <boost/thread.hpp>
 #include <QTimer>
+#include "reactitem.h"
 
 
 class OpenGlVideoQtQuickRenderer : public QObject, protected QOpenGLFunctions, public FrameUpdater
@@ -47,7 +48,7 @@ private:
     //boost::thread mediaThread;
 };
 
-class OpenGlVideoQtQuick : public QQuickItem
+class OpenGlVideoQtQuick : public QQuickItem//, public ReactItem
 {
     Q_OBJECT
     Q_PROPERTY(qreal t READ t WRITE setT NOTIFY tChanged)

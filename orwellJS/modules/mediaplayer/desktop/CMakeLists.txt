@@ -8,6 +8,8 @@ set(REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_SRC ${REACT_NATIVE_DESKTOP_EXTERNAL_MO
                                               PARENT_SCOPE)
 
 set(ORWELL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../..)
+set(REACT_QT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../node_modules/react-native/ReactQt/runtime/src)
+
 add_subdirectory(${ORWELL_DIR} orwell_subdir)
 
 set(REACT_NATIVE_DESKTOP_EXTERNAL_PROJECT_DEPS ${REACT_NATIVE_DESKTOP_EXTERNAL_PROJECT_DEPS}
@@ -26,6 +28,7 @@ set(REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_INCLUDE_DIRS ${REACT_NATIVE_DESKTOP_EX
                                               ${ORWELL_DIR}/myRtspClient/myRtspClient/include
                                               ${ORWELL_DIR}/myRtspClient/
                                               ${ORWELL_DIR}/jrtplib
+                                              ${REACT_QT_DIR}
                                               PARENT_SCOPE)
 
 

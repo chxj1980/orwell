@@ -21,7 +21,7 @@ class Orwell extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <OrwellMediaPlayer/>
+        <OrwellMediaPlayer uri="rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0"/>
       </View>
     );
   }

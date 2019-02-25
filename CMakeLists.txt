@@ -17,6 +17,8 @@ find_package(Qt5 COMPONENTS Qml Quick Gui Widgets Multimedia MultimediaWidgets) 
 
 add_subdirectory(myRtspClient)
 include_directories(myRtspClient/myRtspClient/include)
+#this is ugly but what can I do? :( I need to include reactitem.h and I will not download just it to put here
+include_directories(orwellJS/node_modules/react-native/ReactQt/runtime/src)
 
 #qt5_add_resources(QRCS resources.qrc) #what this does?
 #qt5_add_resources(qml_QRC qml.qrc)    #what this does?

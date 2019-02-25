@@ -3,7 +3,6 @@
 
 #include "componentmanagers/viewmanager.h"
 #include "moduleinterface.h"
-
 #include <QVariantMap>
 
 
