@@ -121,6 +121,7 @@ void OpenGlVideoQtQuick::sync()
     //openGlVideoQtQuickRenderer->setViewportSize(window()->size() * window()->devicePixelRatio());
     openGlVideoQtQuickRenderer->setT(m_t);
     openGlVideoQtQuickRenderer->setWindow(window());
+
     openGlVideoQtQuickRenderer->setWidth(width());
     openGlVideoQtQuickRenderer->setHeight(height());
     openGlVideoQtQuickRenderer->setX(x());
@@ -178,13 +179,12 @@ void OpenGlVideoQtQuickRenderer::render()
 
     QMatrix4x4 transform;
     transform.setToIdentity();
-    transform.scale(0.5, 0.5);
+    //transform.scale(0.5, 0.5);
     //transform.translate(1,1);
-    transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
-        std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
-
-    std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
-    std::cout << "x: " << x << " y: " << y << std::endl;
+    //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
+    //std::cout << "real width: " << width << " real height " << height << std::endl;
+    //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
+    //std::cout << "x: " << x << " y: " << y << std::endl;
     //QMatrix4x4 translate;
     //translate.viewport(-width/2, -height/2, width, height);
     //translate.inverted();

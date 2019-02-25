@@ -63,7 +63,6 @@ private:
     int height = 1080;
     int x = 0;
     int y = 0;
-    //boost::thread mediaThread;
 };
 
 class OpenGlVideoQtQuick : public QQuickItem//, public ReactItem

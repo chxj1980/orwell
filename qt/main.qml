@@ -8,13 +8,6 @@ Item {
         y: 0
         width: 640
         height: 480
-        uri: "rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0"
-    }
-    OpenGlVideoQtQuick {
-        x: 640
-        y: 480
-	width: 640
-        height: 480
-        uri: "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_0"
+        uri: "rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0"
     }
 }
