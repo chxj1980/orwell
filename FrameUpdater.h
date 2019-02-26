@@ -11,5 +11,14 @@ implement this interface.
 class FrameUpdater {
    public:
       virtual void updateData(unsigned char**data)= 0;//https://stackoverflow.com/a/36909641/10116440
+      void setFrameWidth(int width) {
+        this->frameWidth = width;
+      }
+
+      void setFrameHeight(int height) {
+         this->frameHeight = height;
+      }
+   int frameWidth = 0;
+   int frameHeight = 0;
 };
 #endif // FRAMEUPDATER_H

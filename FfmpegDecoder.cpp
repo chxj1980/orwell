@@ -74,8 +74,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 			if (!result) {
 				//LOGD("got frame");
 				//UPDATE WIDGET HERE
-				int width = avFrame->width;
-				int height= avFrame->height;
+				//std::cout << "gonna update frame" << std::endl;
 				//std::cout << "width: " << std::to_string(width) << " height: " << std::to_string(height) << std::endl;
 				/*
 				AvPicture* picture;
@@ -103,6 +102,9 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 				qFFmpegGLWidget->updateData(picture->data);
 				*/
 				//qFFmpegGLWidget->updateData(avFrame->data);
+				this->frameUpdater->setFrameWidth(avFrame->width);
+				this->frameUpdater->setFrameHeight(avFrame->height);
+				//std::cout << "setted w,h" << std::endl;
 				this->frameUpdater->updateData(avFrame->data);
 				//frame_ready = true;
 				// FIXME avcodec_send_packet may generate multiple frames.

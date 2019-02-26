@@ -57,7 +57,7 @@ private:
     GLuint texs[3] = { 0 };
     //OpenGlVideoQtQuick* openGlVideoQtQuick;
     unsigned char *datas[3] = { 0 };
-    bool firstRun = true;
+    bool firstRender = true;
      //TODO: make this variable according to video data
     int width = 1920;
     int height = 1080;

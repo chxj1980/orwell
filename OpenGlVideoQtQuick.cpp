@@ -122,18 +122,20 @@ void OpenGlVideoQtQuick::sync()
     openGlVideoQtQuickRenderer->setT(m_t);
     openGlVideoQtQuickRenderer->setWindow(window());
 
-    openGlVideoQtQuickRenderer->setWidth(width());
-    openGlVideoQtQuickRenderer->setHeight(height());
-    openGlVideoQtQuickRenderer->setX(x());
-    openGlVideoQtQuickRenderer->setY(y());
+    //openGlVideoQtQuickRenderer->setWidth(width());
+    //openGlVideoQtQuickRenderer->setHeight(height());
+    //openGlVideoQtQuickRenderer->setX(x());
+    //openGlVideoQtQuickRenderer->setY(y());
 }
 
 
 void OpenGlVideoQtQuickRenderer::updateData(unsigned char**data)
 {
-    memcpy(datas[0], data[0], width*height);
-    memcpy(datas[1], data[1], width*height/4);
-    memcpy(datas[2], data[2], width*height/4);    
+    if (!firstRender) {
+        memcpy(datas[0], data[0], frameWidth*frameHeight);
+        memcpy(datas[1], data[1], frameWidth*frameHeight/4);
+        memcpy(datas[2], data[2], frameWidth*frameHeight/4);
+    }
 }
 
 static const GLfloat ver[] = {
@@ -155,97 +157,100 @@ float mapToMinus11(float value, float max) {
 //TODO: FIX THIS https://stackoverflow.com/a/54773889/6655884
 void OpenGlVideoQtQuickRenderer::render()
 {
-    if (this->firstRun) {
-        std::cout << "Creating QOpenGLShaderProgram " << std::endl;
-        this->firstRun = false;
-        program = new QOpenGLShaderProgram();
-        initializeOpenGLFunctions();
-        //this->m_F  = QOpenGLContext::currentContext()->functions();
+    //Only begin to render if we already know the frameWidth and frameHeight (gathered from cameras)
+    if (this->frameWidth >0 && this->frameHeight>0) {
+        if (this->firstRender) {
+            std::cout << "Creating QOpenGLShaderProgram " << std::endl;
+            program = new QOpenGLShaderProgram();
+            initializeOpenGLFunctions();
+            //this->m_F  = QOpenGLContext::currentContext()->functions();
+            std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
+            datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
+            datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
+            datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
 
-        datas[0] = new unsigned char[width*height];		//Y
-        datas[1] = new unsigned char[width*height/4];	//U
-        datas[2] = new unsigned char[width*height/4];	//V
+            std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString2) << std::endl;
+            std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString2) << std::endl;
 
-        std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString2) << std::endl;
-        std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString2) << std::endl;
+            program->bindAttributeLocation("vertexIn",A_VER);
+            program->bindAttributeLocation("textureIn",T_VER);
+            std::cout << "program->link() = " << program->link() << std::endl;
 
-        program->bindAttributeLocation("vertexIn",A_VER);
-        program->bindAttributeLocation("textureIn",T_VER);
-        std::cout << "program->link() = " << program->link() << std::endl;
+            glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
+            this->firstRender = false;
+        }
+        program->bind();
 
-        glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
+        QMatrix4x4 transform;
+        transform.setToIdentity();
+        transform.scale(1, 1);
+        //transform.translate(1,1);
+        //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
+        //std::cout << "real width: " << width << " real height " << height << std::endl;
+        //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
+        //std::cout << "x: " << x << " y: " << y << std::endl;
+        //QMatrix4x4 translate;
+        //translate.viewport(-width/2, -height/2, width, height);
+        //translate.inverted();
+
+        //transform = translate*transform;
+        program->setUniformValue("u_transform", transform);
+
+        //glViewport(50, 50, 50, 50);
+
+        glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
+        glEnableVertexAttribArray(A_VER);
+
+        glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
+        glEnableVertexAttribArray(T_VER);
+
+        unis[0] = program->uniformLocation("tex_y");
+        unis[1] = program->uniformLocation("tex_u");
+        unis[2] = program->uniformLocation("tex_v");
+        
+        //Y
+        glBindTexture(GL_TEXTURE_2D, texs[0]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+        //U
+        glBindTexture(GL_TEXTURE_2D, texs[1]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width/2, height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+        //V
+        glBindTexture(GL_TEXTURE_2D, texs[2]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width / 2, height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texs[0]);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
+        glUniform1i(unis[0], 0);
+
+
+        glActiveTexture(GL_TEXTURE0+1);
+        glBindTexture(GL_TEXTURE_2D, texs[1]); 
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width/2, height / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
+        glUniform1i(unis[1],1);
+
+
+        glActiveTexture(GL_TEXTURE0+2);
+        glBindTexture(GL_TEXTURE_2D, texs[2]);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width / 2, height / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
+        glUniform1i(unis[2], 2);
+
+        glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+        program->disableAttributeArray(A_VER);
+        program->disableAttributeArray(T_VER);
+        program->release();
+
+        // Not strictly needed for this example, but generally useful for when
+        // mixing with raw OpenGL.
+        //m_window->resetOpenGLState();//COMMENT OR NOT?
     }
-    program->bind();
-
-    QMatrix4x4 transform;
-    transform.setToIdentity();
-    //transform.scale(0.5, 0.5);
-    //transform.translate(1,1);
-    //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
-    //std::cout << "real width: " << width << " real height " << height << std::endl;
-    //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
-    //std::cout << "x: " << x << " y: " << y << std::endl;
-    //QMatrix4x4 translate;
-    //translate.viewport(-width/2, -height/2, width, height);
-    //translate.inverted();
-
-    //transform = translate*transform;
-    program->setUniformValue("u_transform", transform);
-
-    //glViewport(50, 50, 50, 50);
-
-    glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
-    glEnableVertexAttribArray(A_VER);
-
-    glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
-    glEnableVertexAttribArray(T_VER);
-
-    unis[0] = program->uniformLocation("tex_y");
-    unis[1] = program->uniformLocation("tex_u");
-    unis[2] = program->uniformLocation("tex_v");
-    
-    //Y
-    glBindTexture(GL_TEXTURE_2D, texs[0]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-    //U
-    glBindTexture(GL_TEXTURE_2D, texs[1]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width/2, height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-    //V
-    glBindTexture(GL_TEXTURE_2D, texs[2]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width / 2, height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texs[0]);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
-    glUniform1i(unis[0], 0);
-
-
-    glActiveTexture(GL_TEXTURE0+1);
-    glBindTexture(GL_TEXTURE_2D, texs[1]); 
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width/2, height / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
-    glUniform1i(unis[1],1);
-
-
-    glActiveTexture(GL_TEXTURE0+2);
-    glBindTexture(GL_TEXTURE_2D, texs[2]);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width / 2, height / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
-    glUniform1i(unis[2], 2);
-
-    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
-
-    program->disableAttributeArray(A_VER);
-    program->disableAttributeArray(T_VER);
-    program->release();
-
-    // Not strictly needed for this example, but generally useful for when
-    // mixing with raw OpenGL.
-    //m_window->resetOpenGLState();//COMMENT OR NOT?
 }
