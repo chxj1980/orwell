@@ -124,6 +124,21 @@ void OpenGlVideoQtQuick::sync()
     openGlVideoQtQuickRenderer->setY(y());
 }
 
+//https://stackoverflow.com/a/46484719/10116440
+QMatrix4x4 OpenGlVideoQtQuick::getModelMatrix() {
+    QMatrix4x4 result;
+
+    // Compose model matrix from our transform properties in the QML
+    QQmlListProperty<QQuickTransform> transformations = transform();
+    const int count = transformations.count(&transformations);
+    for (int i=0; i<count; i++) {
+        QQuickTransform *transform = transformations.at(&transformations, i);
+        transform->applyTo(&result);
+    }
+
+    return result;
+}
+
 
 void OpenGlVideoQtQuickRenderer::updateData(unsigned char**data)
 {
@@ -151,6 +166,7 @@ static const GLfloat tex[] = {
 float mapToMinus11(float value, float max) {
         return -1+2*value/max;
     }
+
 //TODO: FIX THIS https://stackoverflow.com/a/54773889/6655884
 void OpenGlVideoQtQuickRenderer::render()
 {

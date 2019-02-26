@@ -12,6 +12,8 @@
 #include "MediaStream.h"
 #include <boost/thread.hpp>
 #include <QTimer>
+#include <QMatrix4x4>
+#include <QQmlListProperty>
 //#include "reactitem.h"
 
 
@@ -75,6 +77,7 @@ class OpenGlVideoQtQuick : public QQuickItem//, public ReactItem
 public:
     OpenGlVideoQtQuick();
     OpenGlVideoQtQuick(QString uri);
+    QMatrix4x4 getModelMatrix();
     QString uri;
     qreal t() const { return m_t; }
     void setT(qreal t);
