@@ -189,9 +189,12 @@ void OpenGlVideoQtQuickRenderer::render()
             the QQuickItem.
 
         */ 
-        transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
-        //transform.translate(1,1);
-        transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
+        //transform.translate(mapToMinus11(this->x, frameWidth),-1*mapToMinus11(this->y, frameHeight));
+        transform.translate(1,1);
+        transform.scale(0.5,0.5);
+        //transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
+
+        //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
         //std::cout << "real width: " << width << " real height " << height << std::endl;
         //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
         //std::cout << "x: " << x << " y: " << y << std::endl;
