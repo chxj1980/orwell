@@ -49,8 +49,6 @@ OpenGlVideoQtQuick::OpenGlVideoQtQuick()
 
     //setWidth(640);
     //setHeight(480);
-    //width=640
-    //height=480
 }
 
 OpenGlVideoQtQuick::OpenGlVideoQtQuick(QString uri): m_t(0),
@@ -81,7 +79,6 @@ void OpenGlVideoQtQuick::setT(qreal t)
 
 void OpenGlVideoQtQuick::handleWindowChanged(QQuickWindow *win)
 {
-    std::cout << "handleWindowChanged called" << std::endl;
     if (win) {
         connect(win, &QQuickWindow::beforeSynchronizing, this, &OpenGlVideoQtQuick::sync, Qt::DirectConnection);
         //connect(win, &QQuickWindow::sceneGraphInvalidated, this, &OpenGlVideoQtQuick::cleanup, Qt::DirectConnection);
@@ -121,16 +118,16 @@ void OpenGlVideoQtQuick::sync()
     //openGlVideoQtQuickRenderer->setViewportSize(window()->size() * window()->devicePixelRatio());
     openGlVideoQtQuickRenderer->setT(m_t);
     openGlVideoQtQuickRenderer->setWindow(window());
-
-    //openGlVideoQtQuickRenderer->setWidth(width());
-    //openGlVideoQtQuickRenderer->setHeight(height());
-    //openGlVideoQtQuickRenderer->setX(x());
-    //openGlVideoQtQuickRenderer->setY(y());
+    openGlVideoQtQuickRenderer->setWidth(width());
+    openGlVideoQtQuickRenderer->setHeight(height());
+    openGlVideoQtQuickRenderer->setX(x());
+    openGlVideoQtQuickRenderer->setY(y());
 }
 
 
 void OpenGlVideoQtQuickRenderer::updateData(unsigned char**data)
 {
+    //Before first render, datas pointer isn't even created yet
     if (!firstRender) {
         memcpy(datas[0], data[0], frameWidth*frameHeight);
         memcpy(datas[1], data[1], frameWidth*frameHeight/4);
@@ -183,9 +180,18 @@ void OpenGlVideoQtQuickRenderer::render()
 
         QMatrix4x4 transform;
         transform.setToIdentity();
-        transform.scale(1, 1);
+        /*
+            width and height are the sizes of the QQuickItem, 
+            while frameWidth and frameHeight are the sizes of
+            the frame being decoded. width/frameWidth, and 
+            height/frameHeight are precisely the values we
+            need to scale the image so it gets the size of
+            the QQuickItem.
+
+        */ 
+        transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
         //transform.translate(1,1);
-        //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
+        transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
         //std::cout << "real width: " << width << " real height " << height << std::endl;
         //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
         //std::cout << "x: " << x << " y: " << y << std::endl;
@@ -212,35 +218,35 @@ void OpenGlVideoQtQuickRenderer::render()
         glBindTexture(GL_TEXTURE_2D, texs[0]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
         //U
         glBindTexture(GL_TEXTURE_2D, texs[1]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width/2, height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
         //V
         glBindTexture(GL_TEXTURE_2D, texs[2]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width / 2, height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texs[0]);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
         glUniform1i(unis[0], 0);
 
 
         glActiveTexture(GL_TEXTURE0+1);
         glBindTexture(GL_TEXTURE_2D, texs[1]); 
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width/2, height / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
         glUniform1i(unis[1],1);
 
 
         glActiveTexture(GL_TEXTURE0+2);
         glBindTexture(GL_TEXTURE_2D, texs[2]);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width / 2, height / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
         glUniform1i(unis[2], 2);
 
         glDrawArrays(GL_TRIANGLE_STRIP,0,4);

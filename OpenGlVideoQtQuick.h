@@ -59,8 +59,8 @@ private:
     unsigned char *datas[3] = { 0 };
     bool firstRender = true;
      //TODO: make this variable according to video data
-    int width = 1920;
-    int height = 1080;
+    int width = 0;
+    int height = 0;
     int x = 0;
     int y = 0;
 };
@@ -76,7 +76,6 @@ public:
     OpenGlVideoQtQuick();
     OpenGlVideoQtQuick(QString uri);
     QString uri;
-
     qreal t() const { return m_t; }
     void setT(qreal t);
 //    Q_INVOKABLE void initRtspMedia(const QString &uri);
@@ -86,6 +85,22 @@ public:
            // emit authorChanged();
         }
     }
+    
+    /*
+    
+    void setWidth(qreal width) {
+        this->width = width;
+    }
+    void setHeight(qreal height) {
+        this->height = height;
+    }
+    void setX(qreal x) {
+        this->x = x;
+    }
+    void setY(qreal y) {
+        this->y = y;
+    }
+    */
 
 signals:
     void tChanged();
