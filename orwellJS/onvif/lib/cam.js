@@ -241,8 +241,10 @@ Cam.prototype._request2 = function(options, callback) {
 
 function parseErrors(response) {
 	if (response.ok) {
-		//do nothing
-	} else {
+		return response;
+	} else  if (response==undefined) {
+		throw new Error('undefined response');
+	} else  {
 		throw new Error('Something went wrong');
 	}
 }
@@ -269,9 +271,11 @@ Cam.prototype._request = function(options, callback) {
 	  method: 'post',
 	  headers: headers,
 	  body: options.body
-	}).then(parseErrors).
+	}).
+	//then(x=>{console.log(x); return(x)}).
+	then(parseErrors).
 	then(x => 
-		x.text().then(x => parseSOAPString(x, callback))
+		x? x.text().then(x => parseSOAPString(x, callback)) : null
 	)
 
 };
