@@ -27,13 +27,5 @@ new Cam({
 		, y: 1
 		, zoom: 1
 	});
-	this.getStreamUri({protocol:'RTSP'}, function(err, stream) {
-		http.createServer(function (req, res) {
-			res.writeHead(200, {'Content-Type': 'text/html'});
-			res.end(
-				'<html><body>' +
-				'<embed type="application/x-vlc-plugin" target="' + stream.uri + '"></embed>' +
-				'</boby></html>');
-		}).listen(3030);
-	});
+	
 });

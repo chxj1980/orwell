@@ -79,6 +79,8 @@ void OpenGlVideoQtQuick::setT(qreal t)
 
 void OpenGlVideoQtQuick::handleWindowChanged(QQuickWindow *win)
 {
+        std::cout << "handleWindowChanged called" << std::endl;
+
     if (win) {
         connect(win, &QQuickWindow::beforeSynchronizing, this, &OpenGlVideoQtQuick::sync, Qt::DirectConnection);
         //connect(win, &QQuickWindow::sceneGraphInvalidated, this, &OpenGlVideoQtQuick::cleanup, Qt::DirectConnection);
@@ -109,13 +111,16 @@ void OpenGlVideoQtQuick::sync()
         connect(window(), &QQuickWindow::beforeRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
         //connect(window(), &QQuickWindow::afterRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &OpenGlVideoQtQuick::update, Qt::DirectConnection);
-
+        
+        OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
         MediaStream* camera1 = new MediaStream(this->uri.toStdString());
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
         boost::thread mediaThread(&MediaStream::run, camera1);
     }
     //openGlVideoQtQuickRenderer->setViewportSize(window()->size() * window()->devicePixelRatio());
+    //std::cout << "updating matrix " << std::endl;
+    this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = getModelMatrix();
     openGlVideoQtQuickRenderer->setT(m_t);
     openGlVideoQtQuickRenderer->setWindow(window());
     openGlVideoQtQuickRenderer->setWidth(width());
@@ -206,8 +211,8 @@ void OpenGlVideoQtQuickRenderer::render()
 
         */ 
         //transform.translate(mapToMinus11(this->x, frameWidth),-1*mapToMinus11(this->y, frameHeight));
-        transform.translate(1,1);
-        transform.scale(0.5,0.5);
+        //transform.translate(1,1);
+        //transform.scale(0.5,0.5);
         //transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
 
         //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
@@ -219,7 +224,8 @@ void OpenGlVideoQtQuickRenderer::render()
         //translate.inverted();
 
         //transform = translate*transform;
-        program->setUniformValue("u_transform", transform);
+//        program->setUniformValue("u_transform", transform);
+        program->setUniformValue("u_transform", this->qQuickVideoMatrix);
 
         //glViewport(50, 50, 50, 50);
 

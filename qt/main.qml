@@ -8,6 +8,6 @@ Item {
         y: 0
         width: 640
         height: 360
-        uri: "rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0"
+        uri: "rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0"
     }
 }

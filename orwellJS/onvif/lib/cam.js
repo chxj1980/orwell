@@ -167,7 +167,8 @@ Cam.prototype.connect = function(callback) {
  * @param {Cam~RequestCallback} callback response callback
  * @private
  */
-Cam.prototype._request = function(options, callback) {
+const fetch = require('node-fetch');
+Cam.prototype._request2 = function(options, callback) {
 	var _this = this;
 	var callbackExecuted = false;
 	var reqOptions = options.url || {
@@ -236,6 +237,43 @@ Cam.prototype._request = function(options, callback) {
 	this.emit('rawRequest', options.body);
 	req.write(options.body);
 	req.end();
+};
+
+function parseErrors(response) {
+	if (response.ok) {
+		//do nothing
+	} else {
+		throw new Error('Something went wrong');
+	}
+}
+
+Cam.prototype._request = function(options, callback) {
+	var url;
+	var path = options.service ? (this.uri[options.service] ? this.uri[options.service].path : options.service) : this.path
+	var agent = this.agent;
+	var timeout = this.timeout;
+	if (options.url) {
+		url = options.url
+	} else {
+        	url = "http://" + this.hostname + ":" + this.port + path;
+	}
+	var headers = {
+		'Content-Type': 'application/soap+xml',
+		'Content-Length': Buffer.byteLength(options.body, 'utf8'),//options.body.length chinese will be wrong here
+		charset: 'utf-8'
+	};
+        console.log("fetching to " + url);
+	//TODO: specify AGENT
+	//TODO: parse ALL errors correctly (explain more what ocurred)
+	fetch(url, {
+	  method: 'post',
+	  headers: headers,
+	  body: options.body
+	}).then(parseErrors).
+	then(x => 
+		x.text().then(x => parseSOAPString(x, callback))
+	)
+
 };
 
 /**

@@ -45,6 +45,7 @@ public:
     void setY(int y) {
         this->y = y;
     }
+    QMatrix4x4 qQuickVideoMatrix;
 
 public slots:
     void render();
@@ -123,7 +124,7 @@ private:
 
 };
 
-/*
+
 class OpenGlHelper: public FrameUpdater {
     public:
         OpenGlHelper(OpenGlVideoQtQuick* openGlVideoQtQuick, 
@@ -132,10 +133,12 @@ class OpenGlHelper: public FrameUpdater {
             this->openGlVideoQtQuickRenderer = openGlVideoQtQuickRenderer;
         }
         void updateData(unsigned char**data) { //https://github.com/zhenyouluo/qt-qml-opengles-triangle/blob/e2d95e35f760cbe5805954eee685a2355524d8aa/gles-triangle-view.cpp#L89
-            std::cout << "updating data in helper" << std::endl;
+            //std::cout << "updating data in helper" << std::endl;
             this->openGlVideoQtQuickRenderer->updateData(data);
+            //Updates the view matrix. //TODO: make this update occur less often
+            //this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = this->openGlVideoQtQuick->getModelMatrix();
             //this->openGlVideoQtQuickRenderer->render();
-            std::cout << "uri: " << this->openGlVideoQtQuick->uri.toStdString() << std::endl;
+            //std::cout << "uri: " << this->openGlVideoQtQuick->uri.toStdString() << std::endl;
             //if (this->openGlVideoQtQuick->window()) {
              //   std::cout << "window update" << std::endl;
                 //this->openGlVideoQtQuick->update();
@@ -148,5 +151,5 @@ class OpenGlHelper: public FrameUpdater {
         OpenGlVideoQtQuick * openGlVideoQtQuick;
         OpenGlVideoQtQuickRenderer * openGlVideoQtQuickRenderer;
 };
-*/
+
 #endif // OpenGlVideoQtQuick_H
