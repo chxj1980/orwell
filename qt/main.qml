@@ -3,7 +3,7 @@ import OpenGLComponents 1.0
 Item {
     width: 1280
     height: 720
-    OpenGlVideoQtQuick {
+    OpenGlBufferItem {
         x:0
         y: 0
         width: 640

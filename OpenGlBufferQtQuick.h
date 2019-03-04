@@ -11,8 +11,11 @@
 #include <QMutex>
 #include <QNetworkAccessManager>
 #include <functional>
+#include <boost/thread.hpp>
+#include "MediaStream.h"
 
-class OpenGlBufferItemRenderer: public QQuickFramebufferObject::Renderer, public QOpenGLFunctions
+
+class OpenGlBufferItemRenderer: public QQuickFramebufferObject::Renderer, public QOpenGLFunctions, public FrameUpdater
 {
 public:
     OpenGlBufferItemRenderer();
@@ -47,6 +50,14 @@ public:
     OpenGlBufferItem();
     Renderer *createRenderer() const;
     void updateData(unsigned char**data);
+    Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
+    QString uri;
+    void setUri(const QString &a) {
+        if (a != uri) {
+            uri = a;
+           // emit authorChanged();
+        }
+    }
 
 private:
     QString m_texturePath;
@@ -55,6 +66,7 @@ private:
     QNetworkAccessManager m_manger;
     QMutex m_mutex;
     bool m_textureDirty = false;
+    
 };
 /*
 class OpenGlBufferHelper: public FrameUpdater {
