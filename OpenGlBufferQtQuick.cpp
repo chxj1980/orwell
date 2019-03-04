@@ -50,15 +50,17 @@ const char *tString2 = GET_STR(
 
 
 OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
-    initialization();
+    //initialization();
 }
 
 
 void OpenGlBufferItemRenderer::initialization(){
     qDebug() << "initialization";
 
-    initializeOpenGLFunctions();
+//    makeMVP();
+}
 
+void OpenGlBufferItemRenderer::render(){
     if (this->frameWidth >0 && this->frameHeight>0) {
         if (this->firstRender) {
             std::cout << "Creating QOpenGLShaderProgram " << std::endl;
@@ -85,15 +87,6 @@ void OpenGlBufferItemRenderer::initialization(){
         // Not strictly needed for this example, but generally useful for when
         // mixing with raw OpenGL.
         //m_window->resetOpenGLState();//COMMENT OR NOT?
-    }
-
-//    makeMVP();
-}
-
-void OpenGlBufferItemRenderer::render(){
-
-    if(!m_texture){
-        return;
     }
 
     program->bind();
@@ -212,7 +205,7 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 OpenGlBufferItem::OpenGlBufferItem()
 {
     //setMirrorVertically(true);
-    connect(this,&OpenGlBufferItem::textureImageReady,this,&QQuickItem::update);
+    //connect(this,&OpenGlBufferItem::textureImageReady,this,&QQuickItem::update);
 }
 
 void OpenGlBufferItem::updateData(unsigned char**data)

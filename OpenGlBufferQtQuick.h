@@ -54,4 +54,31 @@ private:
     bool m_textureDirty = false;
 };
 
+class OpenGlBufferHelper: public FrameUpdater {
+    public:
+        OpenGlBufferHelper(OpenGlVideoQtQuick* openGlVideoQtQuick, 
+                     OpenGlBufferItem* openGlBufferItem){
+            this->openGlVideoQtQuick = openGlVideoQtQuick;
+            this->OpenGlBufferItemRenderer = openGlBufferItemRenderer;
+        }
+        void updateData(unsigned char**data) { //https://github.com/zhenyouluo/qt-qml-opengles-triangle/blob/e2d95e35f760cbe5805954eee685a2355524d8aa/gles-triangle-view.cpp#L89
+            //std::cout << "updating data in helper" << std::endl;
+            this->OpenGlBufferItemRenderer->updateData(data);
+            //Updates the view matrix. //TODO: make this update occur less often
+            //this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = this->openGlVideoQtQuick->getModelMatrix();
+            //this->openGlVideoQtQuickRenderer->render();
+            //std::cout << "uri: " << this->openGlVideoQtQuick->uri.toStdString() << std::endl;
+            //if (this->openGlVideoQtQuick->window()) {
+             //   std::cout << "window update" << std::endl;
+                //this->openGlVideoQtQuick->update();
+              //  this->openGlVideoQtQuick->window()->update();
+                //this->openGlVideoQtQuick->setT(m_t);
+                //this->openGlVideoQtQuick->setWindow(window());
+            //}
+        }
+    protected:
+        OpenGlBufferItem * openGlBufferItem;
+        OpenGlBufferItemRenderer * openGlBufferItemRenderer;
+};
+
 #endif // OpenGlBufferItem_H
