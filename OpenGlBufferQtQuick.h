@@ -19,6 +19,7 @@ public:
     void initialization();
     void render() override;
     QOpenGLFramebufferObject* createFramebufferObject(const QSize &size) override;
+    void updateData(unsigned char**data);
     void synchronize(QQuickFramebufferObject *item);
 private:
     QSize m_viewportSize;
@@ -35,6 +36,8 @@ private:
     int height = 0;
     int x = 0;
     int y = 0;
+    int frameWidth = 0;
+    int frameHeight = 0;
 };
 
 class OpenGlBufferItem: public QQuickFramebufferObject
@@ -53,17 +56,17 @@ private:
     QMutex m_mutex;
     bool m_textureDirty = false;
 };
-
+/*
 class OpenGlBufferHelper: public FrameUpdater {
     public:
-        OpenGlBufferHelper(OpenGlVideoQtQuick* openGlVideoQtQuick, 
-                     OpenGlBufferItem* openGlBufferItem){
-            this->openGlVideoQtQuick = openGlVideoQtQuick;
-            this->OpenGlBufferItemRenderer = openGlBufferItemRenderer;
+        OpenGlBufferHelper(OpenGlBufferItem* openGlBufferItem, 
+                           OpenGlBufferItemRenderer* openGlBufferItemRenderer) {
+            this->openGlBufferItem = openGlBufferItem;
+            this->openGlBufferItemRenderer = openGlBufferItemRenderer;
         }
         void updateData(unsigned char**data) { //https://github.com/zhenyouluo/qt-qml-opengles-triangle/blob/e2d95e35f760cbe5805954eee685a2355524d8aa/gles-triangle-view.cpp#L89
             //std::cout << "updating data in helper" << std::endl;
-            this->OpenGlBufferItemRenderer->updateData(data);
+            this->openGlBufferItemRenderer->updateData(data);
             //Updates the view matrix. //TODO: make this update occur less often
             //this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = this->openGlVideoQtQuick->getModelMatrix();
             //this->openGlVideoQtQuickRenderer->render();
@@ -80,5 +83,5 @@ class OpenGlBufferHelper: public FrameUpdater {
         OpenGlBufferItem * openGlBufferItem;
         OpenGlBufferItemRenderer * openGlBufferItemRenderer;
 };
-
+*/
 #endif // OpenGlBufferItem_H

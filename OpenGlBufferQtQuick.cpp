@@ -1,4 +1,4 @@
-#include "OpenGlBufferItem.h"
+#include "OpenGlBufferQtQuick.h"
 #include <QOpenGLFramebufferObjectFormat>
 #include <QRunnable>
 #include <QEventLoop>
@@ -6,14 +6,29 @@
 #include <QNetworkRequest>
 #include <QMutexLocker>
 #include <memory>
+#include <iostream>
 
 
 #define GET_STR(x) #x
 #define A_VER 3
 #define T_VER 4
 
+static const GLfloat ver[] = {
+    -1.0f,-1.0f,
+     1.0f,-1.0f,
+    -1.0f, 1.0f,
+     1.0f, 1.0f
+};
+
+static const GLfloat tex[] = {
+    0.0f, 1.0f,
+    1.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 0.0f
+};
+
 //Simple shader. Outpus the same location as input, I guess
-const char *vString2 = GET_STR(
+const char *vString3 = GET_STR(
     attribute vec4 vertexIn;
     attribute vec2 textureIn;
     varying vec2 textureOut;
@@ -28,7 +43,7 @@ const char *vString2 = GET_STR(
 
 //The matrix below does YUV420P to RGB conversion https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV420p_(and_Y%E2%80%B2V12_or_YV12)_to_RGB888_conversion
 //This texture shader replaces the color of the pixel with the new color, but in RGB. (I guess)
-const char *tString2 = GET_STR(
+const char *tString3 = GET_STR(
     varying vec2 textureOut;
     uniform sampler2D tex_y;
     uniform sampler2D tex_u;
@@ -72,8 +87,8 @@ void OpenGlBufferItemRenderer::render(){
             datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
             datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
 
-            std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString2) << std::endl;
-            std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString2) << std::endl;
+            std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3) << std::endl;
+            std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString3) << std::endl;
 
             program->bindAttributeLocation("vertexIn",A_VER);
             program->bindAttributeLocation("textureIn",T_VER);
@@ -117,7 +132,7 @@ void OpenGlBufferItemRenderer::render(){
 
     //transform = translate*transform;
     //program->setUniformValue("u_transform", transform);
-    program->setUniformValue("u_transform", this->qQuickVideoMatrix);
+    program->setUniformValue("u_transform", transform);
 
     //glViewport(50, 50, 50, 50);
 
@@ -172,14 +187,12 @@ void OpenGlBufferItemRenderer::render(){
     program->disableAttributeArray(T_VER);
     program->release();
 
-    window->resetOpenGLState();
+    //window->resetOpenGLState();
     update();
 }
 
 QOpenGLFramebufferObject *OpenGlBufferItemRenderer::createFramebufferObject(const QSize &size)
 {
-    m_size = size;
-    //makeMVP();
     QOpenGLFramebufferObjectFormat format;
     format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
     format.setSamples(16);
@@ -208,7 +221,7 @@ OpenGlBufferItem::OpenGlBufferItem()
     //connect(this,&OpenGlBufferItem::textureImageReady,this,&QQuickItem::update);
 }
 
-void OpenGlBufferItem::updateData(unsigned char**data)
+void OpenGlBufferItemRenderer::updateData(unsigned char**data)
 {
     //Before first render, datas pointer isn't even created yet
     if (!firstRender) {

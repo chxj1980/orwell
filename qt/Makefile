@@ -314,6 +314,33 @@ home/lz/orwell/MediaStream.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/MediaStream.cpp.s
 .PHONY : home/lz/orwell/MediaStream.cpp.s
 
+home/lz/orwell/OpenGlBufferQtQuick.o: home/lz/orwell/OpenGlBufferQtQuick.cpp.o
+
+.PHONY : home/lz/orwell/OpenGlBufferQtQuick.o
+
+# target to build an object file
+home/lz/orwell/OpenGlBufferQtQuick.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlBufferQtQuick.cpp.o
+.PHONY : home/lz/orwell/OpenGlBufferQtQuick.cpp.o
+
+home/lz/orwell/OpenGlBufferQtQuick.i: home/lz/orwell/OpenGlBufferQtQuick.cpp.i
+
+.PHONY : home/lz/orwell/OpenGlBufferQtQuick.i
+
+# target to preprocess a source file
+home/lz/orwell/OpenGlBufferQtQuick.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlBufferQtQuick.cpp.i
+.PHONY : home/lz/orwell/OpenGlBufferQtQuick.cpp.i
+
+home/lz/orwell/OpenGlBufferQtQuick.s: home/lz/orwell/OpenGlBufferQtQuick.cpp.s
+
+.PHONY : home/lz/orwell/OpenGlBufferQtQuick.s
+
+# target to generate assembly for a file
+home/lz/orwell/OpenGlBufferQtQuick.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlBufferQtQuick.cpp.s
+.PHONY : home/lz/orwell/OpenGlBufferQtQuick.cpp.s
+
 home/lz/orwell/OpenGlVideoQtQuick.o: home/lz/orwell/OpenGlVideoQtQuick.cpp.o
 
 .PHONY : home/lz/orwell/OpenGlVideoQtQuick.o
@@ -664,6 +691,9 @@ help:
 	@echo "... home/lz/orwell/MediaStream.o"
 	@echo "... home/lz/orwell/MediaStream.i"
 	@echo "... home/lz/orwell/MediaStream.s"
+	@echo "... home/lz/orwell/OpenGlBufferQtQuick.o"
+	@echo "... home/lz/orwell/OpenGlBufferQtQuick.i"
+	@echo "... home/lz/orwell/OpenGlBufferQtQuick.s"
 	@echo "... home/lz/orwell/OpenGlVideoQtQuick.o"
 	@echo "... home/lz/orwell/OpenGlVideoQtQuick.i"
 	@echo "... home/lz/orwell/OpenGlVideoQtQuick.s"
