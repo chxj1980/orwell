@@ -10,7 +10,7 @@ implement this interface.
 */
 class FrameUpdater {
    public:
-      virtual void updateData(unsigned char**data)= 0;//https://stackoverflow.com/a/36909641/10116440
+      virtual void updateData(unsigned char**data, int frameWidth, int frameHeight)= 0;//https://stackoverflow.com/a/36909641/10116440
       void setFrameWidth(int width) {
         this->frameWidth = width;
       }

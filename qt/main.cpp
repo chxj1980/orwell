@@ -3,7 +3,6 @@
 #include "FfmpegDecoder.h"
 #include "VideoConsumer.h"
 #include "VideoSurface.h"
-#include "mainwindow.h"
 #include <QApplication>
 #include <QMediaPlayer>
 #include <QPushButton>
@@ -14,7 +13,6 @@
 
 #include <QtQuick/QQuickView>
 
-#include "OpenGlVideoQtQuick.h"
 #include "OpenGlBufferQtQuick.h"
 
 

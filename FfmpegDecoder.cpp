@@ -102,10 +102,10 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 				qFFmpegGLWidget->updateData(picture->data);
 				*/
 				//qFFmpegGLWidget->updateData(avFrame->data);
-				this->frameUpdater->setFrameWidth(avFrame->width);
-				this->frameUpdater->setFrameHeight(avFrame->height);
+				//this->frameUpdater->setFrameWidth(avFrame->width);
+				//this->frameUpdater->setFrameHeight(avFrame->height);
 				//std::cout << "setted w,h" << std::endl;
-				this->frameUpdater->updateData(avFrame->data);
+				this->frameUpdater->updateData(avFrame->data, avFrame->width, avFrame->height);
 				//frame_ready = true;
 				// FIXME avcodec_send_packet may generate multiple frames.
 				// But current implementation handle only one...will lost some of them or get stuck.

@@ -19,10 +19,10 @@ class OpenGlBufferItemRenderer: public QQuickFramebufferObject::Renderer, public
 {
 public:
     OpenGlBufferItemRenderer();
-    void initialization();
+    void initOpenGl();
     void render() override;
     QOpenGLFramebufferObject* createFramebufferObject(const QSize &size) override;
-    void updateData(unsigned char**data);
+    void updateData(unsigned char**data, int frameWidth, int frameHeight);
     void synchronize(QQuickFramebufferObject *item);
 private:
     QSize m_viewportSize;
@@ -49,7 +49,10 @@ class OpenGlBufferItem: public QQuickFramebufferObject
 public:
     OpenGlBufferItem();
     Renderer *createRenderer() const;
-    void updateData(unsigned char**data);
+    //void updateData(unsigned char**data);
+    void componentComplete();
+    void initialization();
+
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
     QString uri;
     void setUri(const QString &a) {
@@ -68,6 +71,7 @@ private:
     bool m_textureDirty = false;
     unsigned char *datas[3] = { 0 };
     bool firstRender = true;
+    OpenGlBufferItemRenderer * openGlBufferItemRenderer;
 
     
 };

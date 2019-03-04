@@ -64,45 +64,43 @@ const char *tString3 = GET_STR(
 );
 
 
-OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(unsigned char**datas){
+OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
     std::cout << "renderer created " << std::endl;
-    this->datas = datas;
-}
-
-
-void OpenGlBufferItemRenderer::initialization(){
 }
 
 void OpenGlBufferItemRenderer::render() {
+    std::cout << "render() ----------------------" << std::endl;
     //this->frameWidth = 1920;
     //this->frameHeight = 1080;
-    if (this->frameWidth >0 && this->frameHeight>0) {
-        if (this->firstRender) {
-            std::cout << "Creating QOpenGLShaderProgram " << std::endl;
-            program = new QOpenGLShaderProgram();
-            initializeOpenGLFunctions();
-            //this->m_F  = QOpenGLContext::currentContext()->functions();
-            std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
-            datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
-            datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
-            datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
+    // Not strictly needed for this example, but generally useful for when
+    // mixing with raw OpenGL.
+    //m_window->resetOpenGLState();//COMMENT OR NOT?
+    if (this->firstRender) {
+        std::cout << "Creating QOpenGLShaderProgram " << std::endl;
+        program = new QOpenGLShaderProgram();
+        std::cout << "75 " << std::endl;
+        initializeOpenGLFunctions();
+        std::cout << "76 " << std::endl;
 
-            std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3) << std::endl;
-            std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString3) << std::endl;
+        //this->m_F  = QOpenGLContext::currentContext()->functions();
+        std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
+        std::cout << "78 " << std::endl;
 
-            program->bindAttributeLocation("vertexIn",A_VER);
-            program->bindAttributeLocation("textureIn",T_VER);
-            std::cout << "program->link() = " << program->link() << std::endl;
+        //datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
+        //datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
+        //datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
 
-            glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
-            this->firstRender = false;
-        }
-        
+        std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3) << std::endl;
+        std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString3) << std::endl;
 
-        // Not strictly needed for this example, but generally useful for when
-        // mixing with raw OpenGL.
-        //m_window->resetOpenGLState();//COMMENT OR NOT?
+        program->bindAttributeLocation("vertexIn",A_VER);
+        program->bindAttributeLocation("textureIn",T_VER);
+        std::cout << "program->link() = " << program->link() << std::endl;
 
+        glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
+        this->firstRender = false;
+    }
+    if (this->frameWidth>0 && this->frameHeight>0) {
         program->bind();
 
         QMatrix4x4 transform;
@@ -203,10 +201,7 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 {
     std::cout << "synchronize called " << std::endl;
     //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
-    MediaStream* camera1 = new MediaStream("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
-    camera1->setFrameUpdater((FrameUpdater *) this);
-    //TODO: put mutex on std::cout of this thread
-    boost::thread mediaThread(&MediaStream::run, camera1); 
+    
     /*
     OpenGlBufferItem *cube = static_cast<OpenGlBufferItem*>(item);
     if(cube->isTextureDirty()){
@@ -225,10 +220,22 @@ OpenGlBufferItem::OpenGlBufferItem()
 {
     //setMirrorVertically(true);
     //connect(this,&OpenGlBufferItem::textureImageReady,this,&QQuickItem::update);
+    this->openGlBufferItemRenderer = new OpenGlBufferItemRenderer;
 }
 
-void OpenGlBufferItem::updateData(unsigned char**data)
+void OpenGlBufferItem::componentComplete() {
+    MediaStream* camera1 = new MediaStream(uri.toStdString());
+    
+    camera1->setFrameUpdater((FrameUpdater *) this->openGlBufferItemRenderer);
+    //TODO: put mutex on std::cout of this thread
+    boost::thread mediaThread(&MediaStream::run, camera1);
+}
+
+void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
 {
+    this->frameWidth = frameWidth;
+    this->frameHeight = frameHeight;
+    //std::cout << "updateData"<< std::endl;
     //Before first render, datas pointer isn't even created yet
     if (!firstRender) {
         std::cout << "updateData first render passed"<< std::endl;
@@ -236,12 +243,15 @@ void OpenGlBufferItem::updateData(unsigned char**data)
         memcpy(datas[0], data[0], frameWidth*frameHeight);
         memcpy(datas[1], data[1], frameWidth*frameHeight/4);
         memcpy(datas[2], data[2], frameWidth*frameHeight/4);
-        //render();
-        update();
+    } else {
+        datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
+        datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
+        datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
+        //update();
     }
 }
 
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
 {
-    return new OpenGlBufferItemRenderer(datas);
+    return this->openGlBufferItemRenderer;
 }
