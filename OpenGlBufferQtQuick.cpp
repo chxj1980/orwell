@@ -64,8 +64,9 @@ const char *tString3 = GET_STR(
 );
 
 
-OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
+OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(unsigned char**datas){
     std::cout << "renderer created " << std::endl;
+    this->datas = datas;
 }
 
 
@@ -73,9 +74,8 @@ void OpenGlBufferItemRenderer::initialization(){
 }
 
 void OpenGlBufferItemRenderer::render() {
-    std::cout << "render()" << std::endl;
-    this->frameWidth = 1920;
-    this->frameHeight = 1080;
+    //this->frameWidth = 1920;
+    //this->frameHeight = 1080;
     if (this->frameWidth >0 && this->frameHeight>0) {
         if (this->firstRender) {
             std::cout << "Creating QOpenGLShaderProgram " << std::endl;
@@ -102,9 +102,6 @@ void OpenGlBufferItemRenderer::render() {
         // Not strictly needed for this example, but generally useful for when
         // mixing with raw OpenGL.
         //m_window->resetOpenGLState();//COMMENT OR NOT?
-        
-        std::cout << "bind - 105 " << std::endl;
-
 
         program->bind();
 
@@ -143,7 +140,6 @@ void OpenGlBufferItemRenderer::render() {
 
         glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
         glEnableVertexAttribArray(T_VER);
-        std::cout << "145 " << std::endl;
 
         unis[0] = program->uniformLocation("tex_y");
         unis[1] = program->uniformLocation("tex_u");
@@ -231,9 +227,8 @@ OpenGlBufferItem::OpenGlBufferItem()
     //connect(this,&OpenGlBufferItem::textureImageReady,this,&QQuickItem::update);
 }
 
-void OpenGlBufferItemRenderer::updateData(unsigned char**data)
+void OpenGlBufferItem::updateData(unsigned char**data)
 {
-    std::cout << "updateData"<< std::endl;
     //Before first render, datas pointer isn't even created yet
     if (!firstRender) {
         std::cout << "updateData first render passed"<< std::endl;
@@ -241,10 +236,12 @@ void OpenGlBufferItemRenderer::updateData(unsigned char**data)
         memcpy(datas[0], data[0], frameWidth*frameHeight);
         memcpy(datas[1], data[1], frameWidth*frameHeight/4);
         memcpy(datas[2], data[2], frameWidth*frameHeight/4);
+        //render();
+        update();
     }
 }
 
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
 {
-    return new OpenGlBufferItemRenderer;
+    return new OpenGlBufferItemRenderer(datas);
 }

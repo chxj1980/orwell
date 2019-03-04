@@ -66,6 +66,9 @@ private:
     QNetworkAccessManager m_manger;
     QMutex m_mutex;
     bool m_textureDirty = false;
+    unsigned char *datas[3] = { 0 };
+    bool firstRender = true;
+
     
 };
 /*
