@@ -21,6 +21,7 @@ public:
     OpenGlBufferItemRenderer();
     void initOpenGl();
     void render() override;
+    void initialization();
     QOpenGLFramebufferObject* createFramebufferObject(const QSize &size) override;
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
     void synchronize(QQuickFramebufferObject *item);
@@ -34,6 +35,7 @@ private:
     //OpenGlVideoQtQuick* openGlVideoQtQuick;
     unsigned char *datas[3] = { 0 };
     bool firstRender = true;
+    bool firstFrameReceived = false;
      //TODO: make this variable according to video data
     int width = 0;
     int height = 0;
@@ -50,9 +52,9 @@ public:
     OpenGlBufferItem();
     Renderer *createRenderer() const;
     //void updateData(unsigned char**data);
-    void componentComplete();
+    //void componentComplete();
     void initialization();
-
+    MediaStream* camera;
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
     QString uri;
     void setUri(const QString &a) {
@@ -71,7 +73,7 @@ private:
     bool m_textureDirty = false;
     unsigned char *datas[3] = { 0 };
     bool firstRender = true;
-    OpenGlBufferItemRenderer * openGlBufferItemRenderer;
+    OpenGlBufferItemRenderer * openGlBufferItemRenderer = new OpenGlBufferItemRenderer;
 
     
 };

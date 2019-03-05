@@ -68,124 +68,129 @@ OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
     std::cout << "renderer created " << std::endl;
 }
 
+
+void OpenGlBufferItemRenderer::initialization(){
+}
+
 void OpenGlBufferItemRenderer::render() {
-    std::cout << "render() ----------------------" << std::endl;
+    std::cout << "render()" << std::endl;
     //this->frameWidth = 1920;
     //this->frameHeight = 1080;
-    // Not strictly needed for this example, but generally useful for when
-    // mixing with raw OpenGL.
-    //m_window->resetOpenGLState();//COMMENT OR NOT?
-    if (this->firstRender) {
-        std::cout << "Creating QOpenGLShaderProgram " << std::endl;
-        program = new QOpenGLShaderProgram();
-        std::cout << "75 " << std::endl;
-        initializeOpenGLFunctions();
-        std::cout << "76 " << std::endl;
+    if (true) {
+        if (this->firstRender) {
+            std::cout << "Creating QOpenGLShaderProgram " << std::endl;
+            program = new QOpenGLShaderProgram();
+            initializeOpenGLFunctions();
+            //this->m_F  = QOpenGLContext::currentContext()->functions();
+            std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
+            
 
-        //this->m_F  = QOpenGLContext::currentContext()->functions();
-        std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
-        std::cout << "78 " << std::endl;
+            std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3) << std::endl;
+            std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString3) << std::endl;
 
-        //datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
-        //datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
-        //datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
+            program->bindAttributeLocation("vertexIn",A_VER);
+            program->bindAttributeLocation("textureIn",T_VER);
+            std::cout << "program->link() = " << program->link() << std::endl;
 
-        std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3) << std::endl;
-        std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString3) << std::endl;
-
-        program->bindAttributeLocation("vertexIn",A_VER);
-        program->bindAttributeLocation("textureIn",T_VER);
-        std::cout << "program->link() = " << program->link() << std::endl;
-
-        glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
-        this->firstRender = false;
-    }
-    if (this->frameWidth>0 && this->frameHeight>0) {
-        program->bind();
-
-        QMatrix4x4 transform;
-        transform.setToIdentity();
-        /*
-            width and height are the sizes of the QQuickItem, 
-            while frameWidth and frameHeight are the sizes of
-            the frame being decoded. width/frameWidth, and 
-            height/frameHeight are precisely the values we
-            need to scale the image so it gets the size of
-            the QQuickItem.
-
-        */ 
-        //transform.translate(mapToMinus11(this->x, frameWidth),-1*mapToMinus11(this->y, frameHeight));
-        //transform.translate(1,1);
-        //transform.scale(0.5,0.5);
-        //transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
-
-        //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
-        //std::cout << "real width: " << width << " real height " << height << std::endl;
-        //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
-        //std::cout << "x: " << x << " y: " << y << std::endl;
-        //QMatrix4x4 translate;
-        //translate.viewport(-width/2, -height/2, width, height);
-        //translate.inverted();
-
-        //transform = translate*transform;
-        //program->setUniformValue("u_transform", transform);
-        program->setUniformValue("u_transform", transform);
-
-        //glViewport(50, 50, 50, 50);
-
-        glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
-        glEnableVertexAttribArray(A_VER);
-
-        glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
-        glEnableVertexAttribArray(T_VER);
-
-        unis[0] = program->uniformLocation("tex_y");
-        unis[1] = program->uniformLocation("tex_u");
-        unis[2] = program->uniformLocation("tex_v");
+            glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
+            this->firstRender = false;
+        }
         
-        //Y
-        glBindTexture(GL_TEXTURE_2D, texs[0]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
-        //U
-        glBindTexture(GL_TEXTURE_2D, texs[1]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+        // Not strictly needed for this example, but generally useful for when
+        // mixing with raw OpenGL.
+        //m_window->resetOpenGLState();//COMMENT OR NOT?
+        
+        if (firstFrameReceived) {
+            program->bind();
 
-        //V
-        glBindTexture(GL_TEXTURE_2D, texs[2]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+            QMatrix4x4 transform;
+            transform.setToIdentity();
+            /*
+                width and height are the sizes of the QQuickItem, 
+                while frameWidth and frameHeight are the sizes of
+                the frame being decoded. width/frameWidth, and 
+                height/frameHeight are precisely the values we
+                need to scale the image so it gets the size of
+                the QQuickItem.
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texs[0]);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
-        glUniform1i(unis[0], 0);
+            */ 
+            //transform.translate(mapToMinus11(this->x, frameWidth),-1*mapToMinus11(this->y, frameHeight));
+            //transform.translate(1,1);
+            //transform.scale(0.5,0.5);
+            //transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
+
+            //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
+            //std::cout << "real width: " << width << " real height " << height << std::endl;
+            //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
+            //std::cout << "x: " << x << " y: " << y << std::endl;
+            //QMatrix4x4 translate;
+            //translate.viewport(-width/2, -height/2, width, height);
+            //translate.inverted();
+
+            //transform = translate*transform;
+            //program->setUniformValue("u_transform", transform);
+            program->setUniformValue("u_transform", transform);
+
+            //glViewport(50, 50, 50, 50);
+
+            glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
+            glEnableVertexAttribArray(A_VER);
+
+            glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
+            glEnableVertexAttribArray(T_VER);
+            std::cout << "145 " << std::endl;
+
+            unis[0] = program->uniformLocation("tex_y");
+            unis[1] = program->uniformLocation("tex_u");
+            unis[2] = program->uniformLocation("tex_v");
+            
+            //Y
+            glBindTexture(GL_TEXTURE_2D, texs[0]);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+            //U
+            glBindTexture(GL_TEXTURE_2D, texs[1]);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+            //V
+            glBindTexture(GL_TEXTURE_2D, texs[2]);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, texs[0]);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
+            glUniform1i(unis[0], 0);
 
 
-        glActiveTexture(GL_TEXTURE0+1);
-        glBindTexture(GL_TEXTURE_2D, texs[1]); 
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
-        glUniform1i(unis[1],1);
+            glActiveTexture(GL_TEXTURE0+1);
+            glBindTexture(GL_TEXTURE_2D, texs[1]); 
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
+            glUniform1i(unis[1],1);
 
 
-        glActiveTexture(GL_TEXTURE0+2);
-        glBindTexture(GL_TEXTURE_2D, texs[2]);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
-        glUniform1i(unis[2], 2);
+            glActiveTexture(GL_TEXTURE0+2);
+            glBindTexture(GL_TEXTURE_2D, texs[2]);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
+            glUniform1i(unis[2], 2);
 
-        glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+            glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
-        program->disableAttributeArray(A_VER);
-        program->disableAttributeArray(T_VER);
-        program->release();
+            program->disableAttributeArray(A_VER);
+            program->disableAttributeArray(T_VER);
+            program->release();
 
-        //window->resetOpenGLState();
-        update();
+            //window->resetOpenGLState();
+            update();
+        } else {
+            update();
+        }
     }
 }
 
@@ -201,7 +206,10 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 {
     std::cout << "synchronize called " << std::endl;
     //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
-    
+    MediaStream* camera1 = new MediaStream("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
+    camera1->setFrameUpdater((FrameUpdater *) this);
+    //TODO: put mutex on std::cout of this thread
+    boost::thread mediaThread(&MediaStream::run, camera1); 
     /*
     OpenGlBufferItem *cube = static_cast<OpenGlBufferItem*>(item);
     if(cube->isTextureDirty()){
@@ -220,38 +228,30 @@ OpenGlBufferItem::OpenGlBufferItem()
 {
     //setMirrorVertically(true);
     //connect(this,&OpenGlBufferItem::textureImageReady,this,&QQuickItem::update);
-    this->openGlBufferItemRenderer = new OpenGlBufferItemRenderer;
-}
-
-void OpenGlBufferItem::componentComplete() {
-    MediaStream* camera1 = new MediaStream(uri.toStdString());
-    
-    camera1->setFrameUpdater((FrameUpdater *) this->openGlBufferItemRenderer);
-    //TODO: put mutex on std::cout of this thread
-    boost::thread mediaThread(&MediaStream::run, camera1);
 }
 
 void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
 {
-    this->frameWidth = frameWidth;
-    this->frameHeight = frameHeight;
-    //std::cout << "updateData"<< std::endl;
+    std::cout << "updateData"<< std::endl;
     //Before first render, datas pointer isn't even created yet
     if (!firstRender) {
         std::cout << "updateData first render passed"<< std::endl;
 
+       
+    }
+    if (!firstFrameReceived) {
+            datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
+            datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
+            datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
+            firstFrameReceived = false;
+    } else {
         memcpy(datas[0], data[0], frameWidth*frameHeight);
         memcpy(datas[1], data[1], frameWidth*frameHeight/4);
         memcpy(datas[2], data[2], frameWidth*frameHeight/4);
-    } else {
-        datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
-        datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
-        datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
-        //update();
     }
 }
 
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
 {
-    return this->openGlBufferItemRenderer;
+    return new OpenGlBufferItemRenderer;
 }
