@@ -17,7 +17,9 @@ make
 ./orwell
 ```
 
-ps: you must have cameras accessible with the IPs and passwords of `qt/main.qml`
+ps: you must have cameras accessible with the IPs and passwords of `qt/main.qml`.
+
+Warning: it'll likely not work with your cameras for now, but it should work with vstarcam cameras
 
 For react native desktop building:
 
@@ -32,3 +34,5 @@ react-native run-desktop
 ```
 
 ps: you must have cameras accessible with the IPs and passwords of `orwellJS/index.desktop.js` (or maybe other places for now)
+
+Warning: it'll likely not work with your cameras for now, but it should work with vstarcam cameras
