@@ -64,8 +64,13 @@ const char *tString3 = GET_STR(
 );
 
 
-OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
+OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(string uri){
     std::cout << "renderer created " << std::endl;
+    //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
+    MediaStream* camera1 = new MediaStream(uri);
+    camera1->setFrameUpdater((FrameUpdater *) this);
+    //TODO: put mutex on std::cout of this thread
+    boost::thread mediaThread(&MediaStream::run, camera1);
 }
 
 
@@ -199,13 +204,7 @@ QOpenGLFramebufferObject *OpenGlBufferItemRenderer::createFramebufferObject(cons
 }
 //https://blog.qt.io/blog/2015/05/11/integrating-custom-opengl-rendering-with-qt-quick-via-qquickframebufferobject/
 void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
-{
-    std::cout << "synchronize called " << std::endl;
-    //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
-    MediaStream* camera1 = new MediaStream("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
-    camera1->setFrameUpdater((FrameUpdater *) this);
-    //TODO: put mutex on std::cout of this thread
-    boost::thread mediaThread(&MediaStream::run, camera1); 
+{ 
     /*
     OpenGlBufferItem *cube = static_cast<OpenGlBufferItem*>(item);
     if(cube->isTextureDirty()){
@@ -249,5 +248,8 @@ void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, i
 
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
 {
-    return new OpenGlBufferItemRenderer;
+    std::cout << "createRenderer called ------------------------" << std::endl;
+    //std::cout << "uri: " << uri.toStdString() << std::endl;
+
+    return new OpenGlBufferItemRenderer(this->uri.toStdString());
 }

@@ -18,7 +18,7 @@
 class OpenGlBufferItemRenderer: public QQuickFramebufferObject::Renderer, public QOpenGLFunctions, public FrameUpdater
 {
 public:
-    OpenGlBufferItemRenderer();
+    OpenGlBufferItemRenderer(string uri);
     void initOpenGl();
     void render() override;
     void initialization();
@@ -73,7 +73,7 @@ private:
     bool m_textureDirty = false;
     unsigned char *datas[3] = { 0 };
     bool firstRender = true;
-    OpenGlBufferItemRenderer * openGlBufferItemRenderer = new OpenGlBufferItemRenderer;
+    OpenGlBufferItemRenderer * openGlBufferItemRenderer;
 
     
 };
