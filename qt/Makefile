@@ -341,6 +341,33 @@ home/lz/orwell/OpenGlBufferQtQuick.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlBufferQtQuick.cpp.s
 .PHONY : home/lz/orwell/OpenGlBufferQtQuick.cpp.s
 
+home/lz/orwell/OpenGlVideoQtQuick.o: home/lz/orwell/OpenGlVideoQtQuick.cpp.o
+
+.PHONY : home/lz/orwell/OpenGlVideoQtQuick.o
+
+# target to build an object file
+home/lz/orwell/OpenGlVideoQtQuick.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick.cpp.o
+.PHONY : home/lz/orwell/OpenGlVideoQtQuick.cpp.o
+
+home/lz/orwell/OpenGlVideoQtQuick.i: home/lz/orwell/OpenGlVideoQtQuick.cpp.i
+
+.PHONY : home/lz/orwell/OpenGlVideoQtQuick.i
+
+# target to preprocess a source file
+home/lz/orwell/OpenGlVideoQtQuick.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick.cpp.i
+.PHONY : home/lz/orwell/OpenGlVideoQtQuick.cpp.i
+
+home/lz/orwell/OpenGlVideoQtQuick.s: home/lz/orwell/OpenGlVideoQtQuick.cpp.s
+
+.PHONY : home/lz/orwell/OpenGlVideoQtQuick.s
+
+# target to generate assembly for a file
+home/lz/orwell/OpenGlVideoQtQuick.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick.cpp.s
+.PHONY : home/lz/orwell/OpenGlVideoQtQuick.cpp.s
+
 home/lz/orwell/VideoConsumer.o: home/lz/orwell/VideoConsumer.cpp.o
 
 .PHONY : home/lz/orwell/VideoConsumer.o
@@ -448,33 +475,6 @@ home/lz/orwell/common_example.s: home/lz/orwell/common_example.cpp.s
 home/lz/orwell/common_example.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/common_example.cpp.s
 .PHONY : home/lz/orwell/common_example.cpp.s
-
-home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.o: home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.o
-
-.PHONY : home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.o
-
-# target to build an object file
-home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.o
-.PHONY : home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.o
-
-home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.i: home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.i
-
-.PHONY : home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.i
-
-# target to preprocess a source file
-home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.i
-.PHONY : home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.i
-
-home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.s: home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.s
-
-.PHONY : home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.s
-
-# target to generate assembly for a file
-home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.s
-.PHONY : home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.cpp.s
 
 home/lz/orwell/utils.o: home/lz/orwell/utils.cpp.o
 
@@ -613,6 +613,9 @@ help:
 	@echo "... home/lz/orwell/OpenGlBufferQtQuick.o"
 	@echo "... home/lz/orwell/OpenGlBufferQtQuick.i"
 	@echo "... home/lz/orwell/OpenGlBufferQtQuick.s"
+	@echo "... home/lz/orwell/OpenGlVideoQtQuick.o"
+	@echo "... home/lz/orwell/OpenGlVideoQtQuick.i"
+	@echo "... home/lz/orwell/OpenGlVideoQtQuick.s"
 	@echo "... home/lz/orwell/VideoConsumer.o"
 	@echo "... home/lz/orwell/VideoConsumer.i"
 	@echo "... home/lz/orwell/VideoConsumer.s"
@@ -625,9 +628,6 @@ help:
 	@echo "... home/lz/orwell/common_example.o"
 	@echo "... home/lz/orwell/common_example.i"
 	@echo "... home/lz/orwell/common_example.s"
-	@echo "... home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.o"
-	@echo "... home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.i"
-	@echo "... home/lz/orwell/react-native-desktop/ReactQt/runtime/src/reactitem.s"
 	@echo "... home/lz/orwell/utils.o"
 	@echo "... home/lz/orwell/utils.i"
 	@echo "... home/lz/orwell/utils.s"

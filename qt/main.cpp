@@ -14,13 +14,13 @@
 #include <QtQuick/QQuickView>
 
 #include "OpenGlBufferQtQuick.h"
-
+#include "OpenGlVideoQtQuick.h"
 
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
     QCoreApplication::addLibraryPath("./");
-    qmlRegisterType<OpenGlBufferItem>("OpenGLComponents", 1, 0, "OpenGlBufferItem");
+    qmlRegisterType<OpenGlVideoQtQuick>("OpenGLComponents", 1, 0, "OpenGlVideoQtQuick");
 
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);

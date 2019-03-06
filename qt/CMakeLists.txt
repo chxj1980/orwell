@@ -24,7 +24,7 @@ include_directories(${REACT_NATIVE_REACTQT_DIR})
 #qt5_add_resources(QRCS resources.qrc) #what this does?
 qt5_add_resources(qml_QRC qml.qrc)    #what this does?
 
-file(GLOB orwell_SRCS "../*.cpp" main.cpp "*../.ui" ${REACT_NATIVE_REACTQT_DIR}/reactitem.cpp)
+file(GLOB orwell_SRCS "../*.cpp" main.cpp "*../.ui")# ${REACT_NATIVE_REACTQT_DIR}/reactitem.cpp)
 
 add_executable(orwell ${orwell_SRCS} ${QRCS} ${qml_QRC})
 
