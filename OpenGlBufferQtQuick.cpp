@@ -7,7 +7,7 @@
 #include <QMutexLocker>
 #include <memory>
 #include <iostream>
-
+#include <QTimer>
 
 #define GET_STR(x) #x
 #define A_VER 3
@@ -73,10 +73,7 @@ void OpenGlBufferItemRenderer::initialization(){
 }
 
 void OpenGlBufferItemRenderer::render() {
-    std::cout << "render()" << std::endl;
-    //this->frameWidth = 1920;
-    //this->frameHeight = 1080;
-    if (true) {
+    if (firstFrameReceived) {
         if (this->firstRender) {
             std::cout << "Creating QOpenGLShaderProgram " << std::endl;
             program = new QOpenGLShaderProgram();
@@ -84,7 +81,6 @@ void OpenGlBufferItemRenderer::render() {
             //this->m_F  = QOpenGLContext::currentContext()->functions();
             std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
             
-
             std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3) << std::endl;
             std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString3) << std::endl;
 
@@ -100,105 +96,105 @@ void OpenGlBufferItemRenderer::render() {
         // Not strictly needed for this example, but generally useful for when
         // mixing with raw OpenGL.
         //m_window->resetOpenGLState();//COMMENT OR NOT?
+
+        program->bind();
+
+        QMatrix4x4 transform;
+        transform.setToIdentity();
+        /*
+            width and height are the sizes of the QQuickItem, 
+            while frameWidth and frameHeight are the sizes of
+            the frame being decoded. width/frameWidth, and 
+            height/frameHeight are precisely the values we
+            need to scale the image so it gets the size of
+            the QQuickItem.
+
+        */ 
+        //transform.translate(mapToMinus11(this->x, frameWidth),-1*mapToMinus11(this->y, frameHeight));
+        //transform.translate(1,1);
+        //transform.scale(0.5,0.5);
+        //transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
+
+        //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
+        //std::cout << "real width: " << width << " real height " << height << std::endl;
+        //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
+        //std::cout << "x: " << x << " y: " << y << std::endl;
+        //QMatrix4x4 translate;
+        //translate.viewport(-width/2, -height/2, width, height);
+        //translate.inverted();
+
+        //transform = translate*transform;
+        //program->setUniformValue("u_transform", transform);
+        program->setUniformValue("u_transform", transform);
+
+        //glViewport(50, 50, 50, 50);
+
+        glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
+        glEnableVertexAttribArray(A_VER);
+
+        glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
+        glEnableVertexAttribArray(T_VER);
+
+        unis[0] = program->uniformLocation("tex_y");
+        unis[1] = program->uniformLocation("tex_u");
+        unis[2] = program->uniformLocation("tex_v");
         
-        if (firstFrameReceived) {
-            program->bind();
+        //Y
+        glBindTexture(GL_TEXTURE_2D, texs[0]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
-            QMatrix4x4 transform;
-            transform.setToIdentity();
-            /*
-                width and height are the sizes of the QQuickItem, 
-                while frameWidth and frameHeight are the sizes of
-                the frame being decoded. width/frameWidth, and 
-                height/frameHeight are precisely the values we
-                need to scale the image so it gets the size of
-                the QQuickItem.
+        //U
+        glBindTexture(GL_TEXTURE_2D, texs[1]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
-            */ 
-            //transform.translate(mapToMinus11(this->x, frameWidth),-1*mapToMinus11(this->y, frameHeight));
-            //transform.translate(1,1);
-            //transform.scale(0.5,0.5);
-            //transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
+        //V
+        glBindTexture(GL_TEXTURE_2D, texs[2]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
-            //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
-            //std::cout << "real width: " << width << " real height " << height << std::endl;
-            //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
-            //std::cout << "x: " << x << " y: " << y << std::endl;
-            //QMatrix4x4 translate;
-            //translate.viewport(-width/2, -height/2, width, height);
-            //translate.inverted();
-
-            //transform = translate*transform;
-            //program->setUniformValue("u_transform", transform);
-            program->setUniformValue("u_transform", transform);
-
-            //glViewport(50, 50, 50, 50);
-
-            glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
-            glEnableVertexAttribArray(A_VER);
-
-            glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
-            glEnableVertexAttribArray(T_VER);
-            std::cout << "145 " << std::endl;
-
-            unis[0] = program->uniformLocation("tex_y");
-            unis[1] = program->uniformLocation("tex_u");
-            unis[2] = program->uniformLocation("tex_v");
-            
-            //Y
-            glBindTexture(GL_TEXTURE_2D, texs[0]);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-            //U
-            glBindTexture(GL_TEXTURE_2D, texs[1]);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-            //V
-            glBindTexture(GL_TEXTURE_2D, texs[2]);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, texs[0]);
-            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
-            glUniform1i(unis[0], 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texs[0]);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
+        glUniform1i(unis[0], 0);
 
 
-            glActiveTexture(GL_TEXTURE0+1);
-            glBindTexture(GL_TEXTURE_2D, texs[1]); 
-            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
-            glUniform1i(unis[1],1);
+        glActiveTexture(GL_TEXTURE0+1);
+        glBindTexture(GL_TEXTURE_2D, texs[1]); 
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
+        glUniform1i(unis[1],1);
 
 
-            glActiveTexture(GL_TEXTURE0+2);
-            glBindTexture(GL_TEXTURE_2D, texs[2]);
-            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
-            glUniform1i(unis[2], 2);
+        glActiveTexture(GL_TEXTURE0+2);
+        glBindTexture(GL_TEXTURE_2D, texs[2]);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
+        glUniform1i(unis[2], 2);
 
-            glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+        glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
-            program->disableAttributeArray(A_VER);
-            program->disableAttributeArray(T_VER);
-            program->release();
+        program->disableAttributeArray(A_VER);
+        program->disableAttributeArray(T_VER);
+        program->release();
 
-            //window->resetOpenGLState();
-            update();
-        } else {
-            update();
-        }
+        //window->resetOpenGLState();
+       // std::cout << "program released" << std::endl;
+
+        update();
+    } else {
+        update();
     }
+
 }
 
 QOpenGLFramebufferObject *OpenGlBufferItemRenderer::createFramebufferObject(const QSize &size)
 {
     QOpenGLFramebufferObjectFormat format;
     format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
-    format.setSamples(16);
+    //format.setSamples(16);
     return new QOpenGLFramebufferObject(size, format);
 }
 //https://blog.qt.io/blog/2015/05/11/integrating-custom-opengl-rendering-with-qt-quick-via-qquickframebufferobject/
@@ -228,22 +224,22 @@ OpenGlBufferItem::OpenGlBufferItem()
 {
     //setMirrorVertically(true);
     //connect(this,&OpenGlBufferItem::textureImageReady,this,&QQuickItem::update);
+    //QTimer *timer = new QTimer(this);
+    //connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    //timer->start(5000);
+    
 }
 
 void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
 {
-    std::cout << "updateData"<< std::endl;
+    this->frameWidth = frameWidth;
+    this->frameHeight = frameHeight;
     //Before first render, datas pointer isn't even created yet
-    if (!firstRender) {
-        std::cout << "updateData first render passed"<< std::endl;
-
-       
-    }
     if (!firstFrameReceived) {
-            datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
-            datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
-            datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
-            firstFrameReceived = false;
+        datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
+        datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
+        datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
+        firstFrameReceived = true;
     } else {
         memcpy(datas[0], data[0], frameWidth*frameHeight);
         memcpy(datas[1], data[1], frameWidth*frameHeight/4);
