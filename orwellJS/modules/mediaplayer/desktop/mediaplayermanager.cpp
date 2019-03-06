@@ -8,6 +8,8 @@
 #include <QUrl>
 #include <QFileOpenEvent>
 #include "OpenGlBufferQtQuick.h"
+#include "OpenGlVideoQtQuick.h"
+
 #include <iostream>
 
 namespace {
@@ -37,12 +39,14 @@ MediaPlayerManager::~MediaPlayerManager() {
 QString MediaPlayerManager::moduleName() { return "RCTMediaPlayerManager"; }
 
 QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
-    OpenGlBufferItem* openGlBufferItem = new OpenGlBufferItem();
-    openGlBufferItem->setUri("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
+    //OpenGlBufferItem* item = new OpenGlBufferItem();
+    OpenGlVideoQtQuick* item = new OpenGlVideoQtQuick();
+
+    item->setUri("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
 //    openGlVideoQtQuick->setWidth(50);
 //    openGlVideoQtQuick->setHeight(22);
     std::cout << "returning custom item" << std::endl;
-    return openGlBufferItem;
+    return item;
 }
 
 

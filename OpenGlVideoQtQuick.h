@@ -77,17 +77,17 @@ class OpenGlVideoQtQuick : public QQuickItem//, public ReactItem
 
 public:
     OpenGlVideoQtQuick();
-    OpenGlVideoQtQuick(QString uri);
+    OpenGlVideoQtQuick(std::string uri);
     QMatrix4x4 getModelMatrix();
-    QString uri;
     qreal t() const { return m_t; }
     void setT(qreal t);
 //    Q_INVOKABLE void initRtspMedia(const QString &uri);
+    std::string uri;
+    //void setUri(const std::string uri) {
+    //    this->uri = uri;
+    //}
     void setUri(const QString &a) {
-        if (a != uri) {
-            uri = a;
-           // emit authorChanged();
-        }
+        uri = a.toStdString();
     }
     
     /*

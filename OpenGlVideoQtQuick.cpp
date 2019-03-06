@@ -51,12 +51,12 @@ OpenGlVideoQtQuick::OpenGlVideoQtQuick()
     //setHeight(480);
 }
 
-OpenGlVideoQtQuick::OpenGlVideoQtQuick(QString uri): m_t(0),
+OpenGlVideoQtQuick::OpenGlVideoQtQuick(std::string uri): m_t(0),
     openGlVideoQtQuickRenderer(nullptr) {
         this->uri = uri;
         connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick::handleWindowChanged);
         std::cout << "constructor2 called" << std::endl;
-        std::cout << "I got created with uri " << uri.toStdString() << std::endl;
+        std::cout << "I got created with uri " << uri << std::endl;
     }
 
 void OpenGlVideoQtQuick::update()
@@ -113,7 +113,7 @@ void OpenGlVideoQtQuick::sync()
         connect(window(), &QQuickWindow::afterRendering, this, &OpenGlVideoQtQuick::update, Qt::DirectConnection);
         
         //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
-        MediaStream* camera1 = new MediaStream(this->uri.toStdString());
+        MediaStream* camera1 = new MediaStream(this->uri);
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
         boost::thread mediaThread(&MediaStream::run, camera1);
