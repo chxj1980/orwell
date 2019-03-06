@@ -200,6 +200,7 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
     MediaStream* camera1 = new MediaStream(this->uri);
     camera1->setFrameUpdater((FrameUpdater *) this);
     //TODO: put mutex on std::cout of this thread
+    //TODO: make this thread actualy run here instead of on a thread, I guess.
     boost::thread mediaThread(&MediaStream::run, camera1);
     /*
     OpenGlBufferItem *cube = static_cast<OpenGlBufferItem*>(item);
