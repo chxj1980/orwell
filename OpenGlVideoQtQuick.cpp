@@ -229,7 +229,7 @@ void OpenGlVideoQtQuickRenderer::render()
 //        program->setUniformValue("u_transform", transform);
         program->setUniformValue("u_transform", this->qQuickVideoMatrix);
 
-        glViewport(0, 360, 640, 360);
+        glViewport(this->x, this->y, this->width, this->height);
 
         glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
         glEnableVertexAttribArray(A_VER);
