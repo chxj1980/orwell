@@ -70,11 +70,12 @@ OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(string uri){
 
 
 void OpenGlBufferItemRenderer::render() {
+    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     if (firstFrameReceived) {
         if (this->firstRender) {
             std::cout << "Creating QOpenGLShaderProgram " << std::endl;
             program = new QOpenGLShaderProgram();
-            initializeOpenGLFunctions();
+            f->initializeOpenGLFunctions();
             //this->m_F  = QOpenGLContext::currentContext()->functions();
             std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
             
@@ -85,7 +86,7 @@ void OpenGlBufferItemRenderer::render() {
             program->bindAttributeLocation("textureIn",T_VER);
             std::cout << "program->link() = " << program->link() << std::endl;
 
-            glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
+            f->glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
             this->firstRender = false;
         }
         
@@ -126,52 +127,52 @@ void OpenGlBufferItemRenderer::render() {
 
         //glViewport(50, 50, 50, 50);
 
-        glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
-        glEnableVertexAttribArray(A_VER);
+        f->glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
+        f->glEnableVertexAttribArray(A_VER);
 
-        glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
-        glEnableVertexAttribArray(T_VER);
+        f->glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
+        f->glEnableVertexAttribArray(T_VER);
 
         unis[0] = program->uniformLocation("tex_y");
         unis[1] = program->uniformLocation("tex_u");
         unis[2] = program->uniformLocation("tex_v");
         
         //Y
-        glBindTexture(GL_TEXTURE_2D, texs[0]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+        f->glBindTexture(GL_TEXTURE_2D, texs[0]);
+        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
         //U
-        glBindTexture(GL_TEXTURE_2D, texs[1]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+        f->glBindTexture(GL_TEXTURE_2D, texs[1]);
+        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
         //V
-        glBindTexture(GL_TEXTURE_2D, texs[2]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+        f->glBindTexture(GL_TEXTURE_2D, texs[2]);
+        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texs[0]);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
-        glUniform1i(unis[0], 0);
-
-
-        glActiveTexture(GL_TEXTURE0+1);
-        glBindTexture(GL_TEXTURE_2D, texs[1]); 
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
-        glUniform1i(unis[1],1);
+        f->glActiveTexture(GL_TEXTURE0);
+        f->glBindTexture(GL_TEXTURE_2D, texs[0]);
+        f->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
+        f->glUniform1i(unis[0], 0);
 
 
-        glActiveTexture(GL_TEXTURE0+2);
-        glBindTexture(GL_TEXTURE_2D, texs[2]);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
-        glUniform1i(unis[2], 2);
+        f->glActiveTexture(GL_TEXTURE0+1);
+        f->glBindTexture(GL_TEXTURE_2D, texs[1]); 
+        f->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
+        f->glUniform1i(unis[1],1);
 
-        glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+        f->glActiveTexture(GL_TEXTURE0+2);
+        f->glBindTexture(GL_TEXTURE_2D, texs[2]);
+        f->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
+        f->glUniform1i(unis[2], 2);
+
+        f->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
         program->disableAttributeArray(A_VER);
         program->disableAttributeArray(T_VER);
@@ -195,7 +196,9 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 {
     OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
 
-    std::cout << "renderer created " << std::endl;
+    std::cout << "synchronize called " << std::endl;
+    std::cout << "starting new renderer for uri " << this-> uri << std::endl;
+
     //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
     MediaStream* camera1 = new MediaStream(this->uri);
     camera1->setFrameUpdater((FrameUpdater *) this);
