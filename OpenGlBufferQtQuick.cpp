@@ -251,5 +251,5 @@ QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
     //std::cout << "createRenderer called ------------------------" << std::endl;
     //std::cout << "uri: " << uri.toStdString() << std::endl;
     //TODO: how do I know createRenderer will be called after uri is setted? I'm assuming it does.
-    return new OpenGlBufferItemRenderer(this->uri.toStdString());
+    return new OpenGlBufferItemRenderer(this->uri);
 }

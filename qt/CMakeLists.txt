@@ -15,14 +15,16 @@ find_package(OpenGL REQUIRED)
 find_package(Boost COMPONENTS thread system REQUIRED) #todo: erase system, not necessary I guess
 find_package(Qt5 COMPONENTS Qml Quick Gui Widgets Multimedia MultimediaWidgets) #OpenGLWidgets) 
 
+set(REACT_NATIVE_REACTQT_DIR "../react-native-desktop/ReactQt/runtime/src/") 
 add_subdirectory(../myRtspClient myrtsp)
 include_directories(../myRtspClient/myRtspClient/include)
 include_directories(..)
+include_directories(${REACT_NATIVE_REACTQT_DIR})
 
 #qt5_add_resources(QRCS resources.qrc) #what this does?
 qt5_add_resources(qml_QRC qml.qrc)    #what this does?
 
-file(GLOB orwell_SRCS "../*.cpp" main.cpp "*../.ui")
+file(GLOB orwell_SRCS "../*.cpp" main.cpp "*../.ui" ${REACT_NATIVE_REACTQT_DIR}/reactitem.cpp)
 
 add_executable(orwell ${orwell_SRCS} ${QRCS} ${qml_QRC})
 

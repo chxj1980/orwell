@@ -13,7 +13,7 @@
 #include <functional>
 #include <boost/thread.hpp>
 #include "MediaStream.h"
-
+#include "reactitem.h"
 
 class OpenGlBufferItemRenderer: public QQuickFramebufferObject::Renderer, public QOpenGLFunctions, public FrameUpdater
 {
@@ -45,7 +45,7 @@ private:
     string uri;
 };
 
-class OpenGlBufferItem: public QQuickFramebufferObject
+class OpenGlBufferItem: public QQuickFramebufferObject//, public ReactItem
 {
     Q_OBJECT
 public:
@@ -56,12 +56,12 @@ public:
     void initialization();
     MediaStream* camera;
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
-    QString uri;
+    std::string uri;
+    //void setUri(const std::string uri) {
+    //    this->uri = uri;
+    //}
     void setUri(const QString &a) {
-        if (a != uri) {
-            uri = a;
-           // emit authorChanged();
-        }
+        uri = a.toStdString();
     }
 
 private:
