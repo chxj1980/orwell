@@ -6,9 +6,29 @@ Orwell implements the video decoder and (ffmpeg) and video player in C++ for eac
 
 # How to build
 
+I don't expect you to successfully build it yet because you need access to my cameras but if you insist
+
+For the little QT/QML visualizer (just for debugging):
+
 ```
+cd qt
 cmake .
 make
+./orwell
 ```
 
-then simply run `./orwell`
+ps: you must have cameras accessible with the IPs and passwords of `qt/main.qml`
+
+For react native desktop building:
+
+```
+cd orwellJS
+#1st shell
+npm start #starts bundler
+#2nd shell
+node node_modules/react-native/ubuntu-server.js #starts js server
+#3rd shell
+react-native run-desktop
+```
+
+ps: you must have cameras accessible with the IPs and passwords of `orwellJS/index.desktop.js` (or maybe other places for now)
