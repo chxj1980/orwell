@@ -65,17 +65,9 @@ const char *tString3 = GET_STR(
 
 
 OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(string uri){
-    std::cout << "renderer created " << std::endl;
-    //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
-    MediaStream* camera1 = new MediaStream(uri);
-    camera1->setFrameUpdater((FrameUpdater *) this);
-    //TODO: put mutex on std::cout of this thread
-    boost::thread mediaThread(&MediaStream::run, camera1);
+    this->uri = uri;
 }
 
-
-void OpenGlBufferItemRenderer::initialization(){
-}
 
 void OpenGlBufferItemRenderer::render() {
     if (firstFrameReceived) {
@@ -187,12 +179,8 @@ void OpenGlBufferItemRenderer::render() {
 
         //window->resetOpenGLState();
        // std::cout << "program released" << std::endl;
-
-        update();
-    } else {
-        update();
-    }
-
+    } 
+    update();
 }
 
 QOpenGLFramebufferObject *OpenGlBufferItemRenderer::createFramebufferObject(const QSize &size)
@@ -204,7 +192,15 @@ QOpenGLFramebufferObject *OpenGlBufferItemRenderer::createFramebufferObject(cons
 }
 //https://blog.qt.io/blog/2015/05/11/integrating-custom-opengl-rendering-with-qt-quick-via-qquickframebufferobject/
 void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
-{ 
+{
+    OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
+
+    std::cout << "renderer created " << std::endl;
+    //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
+    MediaStream* camera1 = new MediaStream(this->uri);
+    camera1->setFrameUpdater((FrameUpdater *) this);
+    //TODO: put mutex on std::cout of this thread
+    boost::thread mediaThread(&MediaStream::run, camera1);
     /*
     OpenGlBufferItem *cube = static_cast<OpenGlBufferItem*>(item);
     if(cube->isTextureDirty()){
@@ -248,8 +244,8 @@ void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, i
 
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
 {
-    std::cout << "createRenderer called ------------------------" << std::endl;
+    //std::cout << "createRenderer called ------------------------" << std::endl;
     //std::cout << "uri: " << uri.toStdString() << std::endl;
-
+    //TODO: how do I know createRenderer will be called after uri is setted? I'm assuming it does.
     return new OpenGlBufferItemRenderer(this->uri.toStdString());
 }

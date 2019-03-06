@@ -21,7 +21,6 @@ public:
     OpenGlBufferItemRenderer(string uri);
     void initOpenGl();
     void render() override;
-    void initialization();
     QOpenGLFramebufferObject* createFramebufferObject(const QSize &size) override;
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
     void synchronize(QQuickFramebufferObject *item);
@@ -43,6 +42,7 @@ private:
     int y = 0;
     int frameWidth = 0;
     int frameHeight = 0;
+    string uri;
 };
 
 class OpenGlBufferItem: public QQuickFramebufferObject
