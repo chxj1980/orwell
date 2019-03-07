@@ -120,7 +120,7 @@ void OpenGlVideoQtQuick::sync()
     }
     //openGlVideoQtQuickRenderer->setViewportSize(window()->size() * window()->devicePixelRatio());
     //std::cout << "updating matrix " << std::endl;
-    this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = getModelMatrix();
+    //this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = getModelMatrix();
     openGlVideoQtQuickRenderer->setT(m_t);
     openGlVideoQtQuickRenderer->setWindow(window());
     openGlVideoQtQuickRenderer->setWidth(width());
@@ -130,6 +130,7 @@ void OpenGlVideoQtQuick::sync()
 }
 
 //https://stackoverflow.com/a/46484719/10116440
+/*
 QMatrix4x4 OpenGlVideoQtQuick::getModelMatrix() {
     QMatrix4x4 result;
 
@@ -143,7 +144,7 @@ QMatrix4x4 OpenGlVideoQtQuick::getModelMatrix() {
 
     return result;
 }
-
+*/
 
 void OpenGlVideoQtQuickRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
 {

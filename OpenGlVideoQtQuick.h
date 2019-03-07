@@ -14,6 +14,7 @@
 #include <QTimer>
 #include <QMatrix4x4>
 #include <QQmlListProperty>
+#include "reactitem.h"
 //#include "reactitem.h"
 
 
@@ -68,7 +69,8 @@ private:
     int y = 0;
 };
 
-class OpenGlVideoQtQuick : public QQuickItem//, public ReactItem
+class OpenGlVideoQtQuick : public QQuickItem
+//class OpenGlVideoQtQuick : public ReactItem
 {
     Q_OBJECT
     Q_PROPERTY(qreal t READ t WRITE setT NOTIFY tChanged)
