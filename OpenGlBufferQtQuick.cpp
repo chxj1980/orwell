@@ -90,7 +90,6 @@ void OpenGlBufferItemRenderer::render() {
             this->firstRender = false;
         }
         
-
         // Not strictly needed for this example, but generally useful for when
         // mixing with raw OpenGL.
         //m_window->resetOpenGLState();//COMMENT OR NOT?
@@ -99,33 +98,7 @@ void OpenGlBufferItemRenderer::render() {
 
         QMatrix4x4 transform;
         transform.setToIdentity();
-        /*
-            width and height are the sizes of the QQuickItem, 
-            while frameWidth and frameHeight are the sizes of
-            the frame being decoded. width/frameWidth, and 
-            height/frameHeight are precisely the values we
-            need to scale the image so it gets the size of
-            the QQuickItem.
-
-        */ 
-        //transform.translate(mapToMinus11(this->x, frameWidth),-1*mapToMinus11(this->y, frameHeight));
-        //transform.translate(1,1);
-        //transform.scale(0.5,0.5);
-        //transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
-
-        //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
-        //std::cout << "real width: " << width << " real height " << height << std::endl;
-        //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
-        //std::cout << "x: " << x << " y: " << y << std::endl;
-        //QMatrix4x4 translate;
-        //translate.viewport(-width/2, -height/2, width, height);
-        //translate.inverted();
-
-        //transform = translate*transform;
-        //program->setUniformValue("u_transform", transform);
         program->setUniformValue("u_transform", transform);
-
-        //glViewport(50, 50, 50, 50);
 
         f->glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
         f->glEnableVertexAttribArray(A_VER);
@@ -178,8 +151,6 @@ void OpenGlBufferItemRenderer::render() {
         program->disableAttributeArray(T_VER);
         program->release();
 
-        //window->resetOpenGLState();
-       // std::cout << "program released" << std::endl;
     } 
     update();
 }
@@ -199,34 +170,15 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
     std::cout << "synchronize called " << std::endl;
     std::cout << "starting new renderer for uri " << this-> uri << std::endl;
 
-    //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
     MediaStream* camera1 = new MediaStream(this->uri);
     camera1->setFrameUpdater((FrameUpdater *) this);
     //TODO: put mutex on std::cout of this thread
     //TODO: make this thread actualy run here instead of on a thread, I guess.
     boost::thread mediaThread(&MediaStream::run, camera1);
-    /*
-    OpenGlBufferItem *cube = static_cast<OpenGlBufferItem*>(item);
-    if(cube->isTextureDirty()){
-        delete m_texture;
-        m_texture = nullptr;
-        m_texture = new QOpenGLTexture(cube->textureImage().mirrored());
-        m_texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-        m_texture->setMagnificationFilter(QOpenGLTexture::Linear);
-        cube->setTextureDirty(false);
-    }
-    window = cube->window();
-    */
 }
 
-OpenGlBufferItem::OpenGlBufferItem()
-{
-    //setMirrorVertically(true);
-    //connect(this,&OpenGlBufferItem::textureImageReady,this,&QQuickItem::update);
-    //QTimer *timer = new QTimer(this);
-    //connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    //timer->start(5000);
-    
+OpenGlBufferItem::OpenGlBufferItem(){
+    std::cout << "buffer item created" << std::endl;
 }
 
 void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
@@ -248,7 +200,7 @@ void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, i
 
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
 {
-    //std::cout << "createRenderer called ------------------------" << std::endl;
+    std::cout << "createRenderer called ------------------------" << std::endl;
     //std::cout << "uri: " << uri.toStdString() << std::endl;
     //TODO: how do I know createRenderer will be called after uri is setted? I'm assuming it does.
     return new OpenGlBufferItemRenderer(this->uri);
