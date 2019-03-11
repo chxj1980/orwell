@@ -20,7 +20,8 @@ int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
     QCoreApplication::addLibraryPath("./");
-    qmlRegisterType<OpenGlVideoQtQuick>("OpenGLComponents", 1, 0, "OpenGlVideoQtQuick");
+    qmlRegisterType<OpenGlVideoQtQuick>("OpenGlVideoQtQuick", 1, 0, "OpenGlVideoQtQuick");
+    qmlRegisterType<OpenGlVideoQtQuick>("OpenGlBufferQtQuick", 1, 0, "OpenGlBufferQtQuick");
 
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);

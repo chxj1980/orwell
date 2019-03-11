@@ -1,5 +1,7 @@
 import QtQuick 2.0
-import OpenGLComponents 1.0
+import OpenGlVideoQtQuick 1.0
+import OpenGlBufferQtQuick 1.0
+
 Grid {
     columns: 2
     spacing: 2    
