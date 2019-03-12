@@ -177,10 +177,6 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
     boost::thread mediaThread(&MediaStream::run, camera1);
 }
 
-OpenGlBufferItem::OpenGlBufferItem(){
-    std::cout << "buffer item created" << std::endl;
-}
-
 void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
 {
     this->frameWidth = frameWidth;

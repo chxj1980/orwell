@@ -49,7 +49,6 @@ class OpenGlBufferItem: public QQuickFramebufferObject//, public ReactItem
 {
     Q_OBJECT
 public:
-    OpenGlBufferItem();
     Renderer *createRenderer() const;
     //void updateData(unsigned char**data);
     //void componentComplete();
