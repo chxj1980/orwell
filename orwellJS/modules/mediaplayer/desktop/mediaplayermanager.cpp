@@ -39,7 +39,7 @@ MediaPlayerManager::~MediaPlayerManager() {
 QString MediaPlayerManager::moduleName() { return "RCTMediaPlayerManager"; }
 
 QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
-    OpenGlBufferItem* item = new OpenGlBufferItem();
+    OpenGlBufferItem* item = new OpenGlBufferItem;
     //OpenGlVideoQtQuick* item = new OpenGlVideoQtQuick();
 
     item->setUri("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");

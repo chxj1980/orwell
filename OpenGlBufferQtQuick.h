@@ -48,10 +48,12 @@ private:
 class OpenGlBufferItem: public QQuickFramebufferObject//, public ReactItem
 {
     Q_OBJECT
+
 public:
     Renderer *createRenderer() const;
     //void updateData(unsigned char**data);
     //void componentComplete();
+    OpenGlBufferItem() {}
     void initialization();
     MediaStream* camera;
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
@@ -62,6 +64,18 @@ public:
     void setUri(const QString &a) {
         uri = a.toStdString();
     }
+    
+    explicit OpenGlBufferItem(QQuickItem* parent){
+        if(parent){
+            connect(parent, SIGNAL(widthChanged()), this, SLOT(parentWidthChanged()));
+            connect(parent, SIGNAL(heightChanged()), this, SLOT(parentHeightChanged()));
+            setWidth(parent->width());
+            setHeight(parent->height());
+        }
+        else
+            qWarning() << "MyItem must be initialized with a parent.";
+    }
+    
 
 private:
     QString m_texturePath;
@@ -74,6 +88,13 @@ private:
     bool firstRender = true;
     OpenGlBufferItemRenderer * openGlBufferItemRenderer;
 
+private slots:
+    void parentWidthChanged(){
+        setWidth(parentItem()->width());
+    }
+    void parentHeightChanged(){
+        setHeight(parentItem()->height());
+    }
     
 };
 /*

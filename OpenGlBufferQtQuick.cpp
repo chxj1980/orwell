@@ -53,8 +53,8 @@ const char *tString3 = GET_STR(
         vec3 yuv;
         vec3 rgb;
         yuv.x = texture2D(tex_y, textureOut).r;
-        yuv.y = texture2D(tex_u, textureOut).r - 0.5;
-        yuv.z = texture2D(tex_v, textureOut).r - 0.5;
+        yuv.y = texture2D(tex_u, textureOut).r;
+        yuv.z = texture2D(tex_v, textureOut).r;
         rgb = mat3(1.0, 1.0, 1.0,
             0.0, -0.39465, 2.03211,
             1.13983, -0.58060, 0.0) * yuv;
@@ -71,6 +71,9 @@ OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(string uri){
 
 void OpenGlBufferItemRenderer::render() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+    f->glClearColor(0.f, 0.f, 0.f, 0.f);
+    f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //QOpenGLContext::currentContext()->makeCurrent();
     if (firstFrameReceived) {
         if (this->firstRender) {
             std::cout << "Creating QOpenGLShaderProgram " << std::endl;
@@ -87,7 +90,26 @@ void OpenGlBufferItemRenderer::render() {
             std::cout << "program->link() = " << program->link() << std::endl;
 
             f->glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
+
+            //Y
+            f->glBindTexture(GL_TEXTURE_2D, texs[0]);
+            f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+            f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            //U
+            f->glBindTexture(GL_TEXTURE_2D, texs[1]);
+            f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+            f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            //V
+            f->glBindTexture(GL_TEXTURE_2D, texs[2]);
+            f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+            f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+
             this->firstRender = false;
+        
         }
         
         // Not strictly needed for this example, but generally useful for when
@@ -110,23 +132,6 @@ void OpenGlBufferItemRenderer::render() {
         unis[1] = program->uniformLocation("tex_u");
         unis[2] = program->uniformLocation("tex_v");
         
-        //Y
-        f->glBindTexture(GL_TEXTURE_2D, texs[0]);
-        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-        //U
-        f->glBindTexture(GL_TEXTURE_2D, texs[1]);
-        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-        //V
-        f->glBindTexture(GL_TEXTURE_2D, texs[2]);
-        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
         f->glActiveTexture(GL_TEXTURE0);
         f->glBindTexture(GL_TEXTURE_2D, texs[0]);
@@ -150,7 +155,9 @@ void OpenGlBufferItemRenderer::render() {
         program->disableAttributeArray(A_VER);
         program->disableAttributeArray(T_VER);
         program->release();
-
+        //f->doneCurrent();
+        //QOpenGLContext::doneCurrent()
+        //QOpenGLContext::currentContext()->doneCurrent();
     } 
     update();
 }
@@ -165,6 +172,7 @@ QOpenGLFramebufferObject *OpenGlBufferItemRenderer::createFramebufferObject(cons
 //https://blog.qt.io/blog/2015/05/11/integrating-custom-opengl-rendering-with-qt-quick-via-qquickframebufferobject/
 void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 {
+    //https://github.com/quitejonny/tangram-es/blob/b457b7fc59e3e0f3c6d7bc26a0b5fe62098376fb/platforms/qt/tangram/tangramquickrenderer.cpp#L54
     OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
 
     std::cout << "synchronize called " << std::endl;
