@@ -10,8 +10,8 @@
 #include <QTimer>
 
 #define GET_STR(x) #x
-#define A_VER 3
-#define T_VER 4
+#define A_VER 0
+#define T_VER 1
 
 static const GLfloat ver[] = {
     -1.0f,-1.0f,
@@ -36,7 +36,7 @@ const char *vString3 = GET_STR(
     void main(void)
     {
         gl_Position = u_transform * vertexIn;
-        textureOut = textureIn;
+        textureOut = vec2(textureIn.x, 1.0 - textureIn.y);
     }
 );
 
@@ -53,8 +53,8 @@ const char *tString3 = GET_STR(
         vec3 yuv;
         vec3 rgb;
         yuv.x = texture2D(tex_y, textureOut).r;
-        yuv.y = texture2D(tex_u, textureOut).r;
-        yuv.z = texture2D(tex_v, textureOut).r;
+        yuv.y = texture2D(tex_u, textureOut).r - 0.5;
+        yuv.z = texture2D(tex_v, textureOut).r - 0.5;
         rgb = mat3(1.0, 1.0, 1.0,
             0.0, -0.39465, 2.03211,
             1.13983, -0.58060, 0.0) * yuv;
@@ -115,6 +115,8 @@ void OpenGlBufferItemRenderer::render() {
         // Not strictly needed for this example, but generally useful for when
         // mixing with raw OpenGL.
         //m_window->resetOpenGLState();//COMMENT OR NOT?
+        GLint originTextureUnit;
+        f->glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);
 
         program->bind();
 
@@ -155,6 +157,8 @@ void OpenGlBufferItemRenderer::render() {
         program->disableAttributeArray(A_VER);
         program->disableAttributeArray(T_VER);
         program->release();
+
+        f->glActiveTexture(originTextureUnit);
         //f->doneCurrent();
         //QOpenGLContext::doneCurrent()
         //QOpenGLContext::currentContext()->doneCurrent();
