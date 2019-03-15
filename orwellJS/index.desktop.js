@@ -21,12 +21,7 @@ class Orwell extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{width: 200, height: 100}}>
-          < OrwellMediaPlayer/>
-        </View>
-        <View style={{width: 200, height: 100}}>
-          < OrwellMediaPlayer/>
-        </View>
+            < OrwellMediaPlayer/>
 
       </View>
     );
