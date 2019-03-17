@@ -9,7 +9,8 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  FlatList
 } from 'react-native';
 
 const NativeModules = require('react-native').NativeModules;
@@ -28,10 +29,12 @@ class Orwell extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <OrwellMediaPlayer uri="rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0" width={640} height={360}/>
-      </View>
-    );
+      <FlatList
+        data={[{uri: 'rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0'}, {uri: 'rtsp://admin:19929394@192.168.0.104:10554/tcp/av0_0'}]}
+        renderItem={({item}) => <OrwellMediaPlayer uri={item.uri} width={640} height={360}/>}
+      />
+    )
+    
   }
 }
 

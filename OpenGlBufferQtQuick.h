@@ -72,14 +72,12 @@ public:
     //    this->uri = uri;
     //}
     void setPUri(const QString &a) {
-        std::cout << "setting ... " << std::endl;
         p_uri = a;
     }
     void _setWidth(qreal width) {
         p_width = width;
     }
     void _setHeight(qreal height) {
-        std::cout << "setting p_height "<< height << std::endl;
         p_height = height;
     }
     void setUri(const QString &a) {
@@ -119,32 +117,5 @@ private slots:
     }
     
 };
-/*
-class OpenGlBufferHelper: public FrameUpdater {
-    public:
-        OpenGlBufferHelper(OpenGlBufferItem* openGlBufferItem, 
-                           OpenGlBufferItemRenderer* openGlBufferItemRenderer) {
-            this->openGlBufferItem = openGlBufferItem;
-            this->openGlBufferItemRenderer = openGlBufferItemRenderer;
-        }
-        void updateData(unsigned char**data) { //https://github.com/zhenyouluo/qt-qml-opengles-triangle/blob/e2d95e35f760cbe5805954eee685a2355524d8aa/gles-triangle-view.cpp#L89
-            //std::cout << "updating data in helper" << std::endl;
-            this->openGlBufferItemRenderer->updateData(data);
-            //Updates the view matrix. //TODO: make this update occur less often
-            //this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = this->openGlVideoQtQuick->getModelMatrix();
-            //this->openGlVideoQtQuickRenderer->render();
-            //std::cout << "uri: " << this->openGlVideoQtQuick->uri.toStdString() << std::endl;
-            //if (this->openGlVideoQtQuick->window()) {
-             //   std::cout << "window update" << std::endl;
-                //this->openGlVideoQtQuick->update();
-              //  this->openGlVideoQtQuick->window()->update();
-                //this->openGlVideoQtQuick->setT(m_t);
-                //this->openGlVideoQtQuick->setWindow(window());
-            //}
-        }
-    protected:
-        OpenGlBufferItem * openGlBufferItem;
-        OpenGlBufferItemRenderer * openGlBufferItemRenderer;
-};
-*/
+
 #endif // OpenGlBufferItem_H
