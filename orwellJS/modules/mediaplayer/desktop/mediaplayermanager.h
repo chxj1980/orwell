@@ -16,9 +16,12 @@ class MediaPlayerManager : public ViewManager {
 public:
     Q_INVOKABLE MediaPlayerManager(QObject* parent = 0);
     ~MediaPlayerManager();
-
+    Q_INVOKABLE void test(QString text, const ModuleInterface::ListArgumentBlock& resolve, const ModuleInterface::ListArgumentBlock& reject);
     virtual ViewManager* viewManager() override;
     virtual QString moduleName() override;
+    QList<ModuleMethod *> methodsToExport();
+    //QVariantMap constantsToExport();
+    void setBridge(Bridge *bridge);
 
 protected:
     virtual QQuickItem* createView(const QVariantMap& properties) override;

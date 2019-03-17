@@ -209,6 +209,8 @@ void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, i
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
 {
     std::cout << "createRenderer called ------------------------" << std::endl;
+    std::cout << "QPROPERT p_uri = " << this->p_uri.toStdString() << std::endl;
+    std::cout << "p_height = " << this->p_height << std::endl;
     //std::cout << "uri: " << uri.toStdString() << std::endl;
     //TODO: how do I know createRenderer will be called after uri is setted? I'm assuming it does.
     return new OpenGlBufferItemRenderer(this->uri);

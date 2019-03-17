@@ -24,6 +24,10 @@ public:
     QOpenGLFramebufferObject* createFramebufferObject(const QSize &size) override;
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
     void synchronize(QQuickFramebufferObject *item);
+    //Q_PROPERTY int p_width = 0;
+    //Q_PROPERTY int p_height = 0;
+
+
 private:
     QSize m_viewportSize;
     qreal m_t;
@@ -56,14 +60,32 @@ public:
     OpenGlBufferItem() {}
     void initialization();
     MediaStream* camera;
-    Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
+    QString p_uri;
     std::string uri;
+    qreal p_width;
+    qreal p_height;
+    Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
+    Q_PROPERTY(QString p_uri WRITE setPUri);
+    Q_PROPERTY(qreal p_height WRITE _setHeight);
+    Q_PROPERTY(qreal p_width WRITE _setWidth);
     //void setUri(const std::string uri) {
     //    this->uri = uri;
     //}
+    void setPUri(const QString &a) {
+        std::cout << "setting ... " << std::endl;
+        p_uri = a;
+    }
+    void _setWidth(qreal width) {
+        p_width = width;
+    }
+    void _setHeight(qreal height) {
+        std::cout << "setting p_height " << std::endl;
+        p_height = height;
+    }
     void setUri(const QString &a) {
         uri = a.toStdString();
     }
+
     
     explicit OpenGlBufferItem(QQuickItem* parent){
         if(parent){

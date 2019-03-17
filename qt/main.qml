@@ -7,16 +7,23 @@ Grid {
     spacing: 2    
     width: 1280
     height: 720
+ 
+    OpenGlBufferQtQuick {
+        width: 640
+        height: 360
+        uri: "rtsp://admin:19929394@192.168.0.104:10554/tcp/av0_0"
+    }
+
     OpenGlBufferQtQuick {
         width: 640
         height: 360
         uri: "rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0"
     }
+
     OpenGlBufferQtQuick {
         width: 640
         height: 360
-        uri: "rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_0"
+        uri: "rtsp://admin:19929394@192.168.0.106:10554/tcp/av0_0"
     }
-    
     
 }

@@ -9,6 +9,7 @@
 #include <QFileOpenEvent>
 #include "OpenGlBufferQtQuick.h"
 #include "OpenGlVideoQtQuick.h"
+ #include <QScreen> 
 
 #include <iostream>
 
@@ -35,8 +36,23 @@ ViewManager* MediaPlayerManager::viewManager() {
 MediaPlayerManager::~MediaPlayerManager() {
 }
 
+QList<ModuleMethod *> MediaPlayerManager::methodsToExport() {
+  return QList<ModuleMethod *>{};
+}
+
+void MediaPlayerManager::setBridge(Bridge *bridge) {
+  Q_D(MediaPlayerManager);
+
+  d->bridge = bridge;
+}
+
 
 QString MediaPlayerManager::moduleName() { return "RCTMediaPlayerManager"; }
+
+void MediaPlayerManager::test(QString text, const ModuleInterface::ListArgumentBlock& resolve, const ModuleInterface::ListArgumentBlock& reject) {
+  Q_D(MediaPlayerManager);
+  std::cout << text.toStdString() << std::endl;
+}
 
 QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
     OpenGlBufferItem* item = new OpenGlBufferItem;

@@ -12,17 +12,24 @@ import {
   View
 } from 'react-native';
 
-const NativeModules = require('NativeModules');
+const NativeModules = require('react-native').NativeModules;
 const requireNativeComponent = require('requireNativeComponent');
 var OrwellMediaPlayer = requireNativeComponent('RCTMediaPlayer');
 
-
 class Orwell extends Component {
+  componentDidMount() {
+    console.log("000-----------");
+    console.log(OrwellMediaPlayer);
+    console.log(JSON.stringify(OrwellMediaPlayer));
+    //console.log(OrwellMediaPlayer.test("hello --------------------- .... ////"));
+    console.log(NativeModules.MediaPlayerManager);
+    console.log(NativeModules.MediaPlayerManager.test("hello ---------------------- //",()=>undefined, ()=>undefined));
+
+  }
   render() {
     return (
       <View style={styles.container}>
-            < OrwellMediaPlayer/>
-
+        <OrwellMediaPlayer uri="300" height={200} width={200}/>
       </View>
     );
   }

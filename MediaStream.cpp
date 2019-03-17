@@ -47,9 +47,7 @@ void MediaStream::setFrameUpdater(FrameUpdater* frameUpdater) {
 
 void MediaStream::run() {
 	init();
-	while (true) {
-		receiveFrame();
-	}
+	receiveFrame();
 }
 
 //int main(int argc, char *argv[])
@@ -137,11 +135,12 @@ int MediaStream::receiveFrame() {
 			}
 			if(try_times > 5) {
 				printf("try_times > 5\n");
+				break;
 				return 1;
 			}
-			//try_times++;
+			try_times++;
 		}
-
+		
 		ffmpegDecoder.decodeFrame(frameBuffer, size);
 	}
 	return 0;
