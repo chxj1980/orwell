@@ -64,8 +64,8 @@ const char *tString3 = GET_STR(
 );
 
 
-OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(string uri){
-    this->uri = uri;
+OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
+    //this->uri = uri;
 }
 
 
@@ -180,13 +180,15 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
     OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
 
     std::cout << "synchronize called " << std::endl;
-    std::cout << "starting new renderer for uri " << this-> uri << std::endl;
+   // std::cout << "starting new renderer for uri " << this-> openGlBufferItem->uri << std::endl;
+    std::cout << "experimental uri " << openGlBufferItem->p_uri.toStdString() << std::endl;
+    MediaStream* mediaStream = new MediaStream(openGlBufferItem->p_uri.toStdString());
+    //MediaStream* mediaStream = new MediaStream(openGlBufferItem->uri);
 
-    MediaStream* camera1 = new MediaStream(this->uri);
-    camera1->setFrameUpdater((FrameUpdater *) this);
+    mediaStream->setFrameUpdater((FrameUpdater *) this);
     //TODO: put mutex on std::cout of this thread
     //TODO: make this thread actualy run here instead of on a thread, I guess.
-    boost::thread mediaThread(&MediaStream::run, camera1);
+    boost::thread mediaThread(&MediaStream::run, mediaStream);
 }
 
 void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
@@ -213,5 +215,5 @@ QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
     std::cout << "p_height = " << this->p_height << std::endl;
     //std::cout << "uri: " << uri.toStdString() << std::endl;
     //TODO: how do I know createRenderer will be called after uri is setted? I'm assuming it does.
-    return new OpenGlBufferItemRenderer(this->uri);
+    return new OpenGlBufferItemRenderer();
 }

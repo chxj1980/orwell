@@ -18,7 +18,7 @@
 class OpenGlBufferItemRenderer: public QQuickFramebufferObject::Renderer, public QOpenGLFunctions, public FrameUpdater
 {
 public:
-    OpenGlBufferItemRenderer(string uri);
+    OpenGlBufferItemRenderer();
     void initOpenGl();
     void render() override;
     QOpenGLFramebufferObject* createFramebufferObject(const QSize &size) override;
@@ -79,7 +79,7 @@ public:
         p_width = width;
     }
     void _setHeight(qreal height) {
-        std::cout << "setting p_height " << std::endl;
+        std::cout << "setting p_height "<< height << std::endl;
         p_height = height;
     }
     void setUri(const QString &a) {

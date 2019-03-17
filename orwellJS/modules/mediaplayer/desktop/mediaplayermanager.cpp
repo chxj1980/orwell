@@ -56,12 +56,18 @@ void MediaPlayerManager::test(QString text, const ModuleInterface::ListArgumentB
 
 QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
     OpenGlBufferItem* item = new OpenGlBufferItem;
+    //for(QVariantMap::const_iterator iter = properties.begin(); iter != properties.end(); ++iter) {
+      //std::cout << iter.key().toStdString() <<std::endl;
+    //}
+
+    std::cout << properties["width"].toInt() << std::endl;
+    std::cout << properties["height"].toInt() << std::endl;
     //OpenGlVideoQtQuick* item = new OpenGlVideoQtQuick();
 
-    item->setUri("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
+    //item->setUri("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
     //item->render();
-    item->setWidth(640);
-    item->setHeight(360);
+    item->setWidth(properties["width"].toInt());
+    item->setHeight(properties["height"].toInt());
     std::cout << "returning custom item" << std::endl;
     return item;
 }
