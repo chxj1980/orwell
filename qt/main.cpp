@@ -15,12 +15,16 @@
 
 #include "OpenGlBufferQtQuick.h"
 #include "OpenGlVideoQtQuick.h"
+#include "OpenGlVideoQtQuick2.h"
+
 
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
     QCoreApplication::addLibraryPath("./");
     qmlRegisterType<OpenGlVideoQtQuick>("OpenGlVideoQtQuick", 1, 0, "OpenGlVideoQtQuick");
+    qmlRegisterType<OpenGlVideoQtQuick2>("OpenGlVideoQtQuick2", 1, 0, "OpenGlVideoQtQuick2");
+
     qmlRegisterType<OpenGlBufferItem>("OpenGlBufferQtQuick", 1, 0, "OpenGlBufferQtQuick");
 
     QQuickView view;

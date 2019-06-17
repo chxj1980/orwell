@@ -1,5 +1,5 @@
-#ifndef OpenGlVideoQtQuick_H
-#define OpenGlVideoQtQuick_H
+#ifndef OpenGlVideoQtQuick2_H
+#define OpenGlVideoQtQuick2_H
 
 #include <QtQuick/QQuickItem>
 #include <QtGui/QOpenGLShaderProgram>
@@ -18,14 +18,14 @@
 //#include "reactitem.h"
 
 
-class OpenGlVideoQtQuickRenderer : public QObject, protected QOpenGLFunctions, public FrameUpdater
+class OpenGlVideoQtQuick2Renderer2 : public QObject, protected QOpenGLFunctions, public FrameUpdater
 {
     Q_OBJECT
 
 public:
-    OpenGlVideoQtQuickRenderer() : m_t(0) {        
+    OpenGlVideoQtQuick2Renderer2() : m_t(0) {        
     }
-    ~OpenGlVideoQtQuickRenderer();
+    ~OpenGlVideoQtQuick2Renderer2();
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
     void setT(qreal t) { m_t = t; }
     void setViewportSize(const QSize &size) { m_viewportSize = size; }
@@ -59,7 +59,7 @@ private:
     QQuickWindow *m_window;
     GLuint unis[3] = {0};
     GLuint texs[3] = { 0 };
-    //OpenGlVideoQtQuick* openGlVideoQtQuick;
+    //OpenGlVideoQtQuick2* OpenGlVideoQtQuick2;
     unsigned char *datas[3] = { 0 };
     bool firstRender = true;
      //TODO: make this variable according to video data
@@ -69,8 +69,8 @@ private:
     int y = 0;
 };
 
-//class OpenGlVideoQtQuick : public QQuickItem
-class OpenGlVideoQtQuick : public ReactItem
+//class OpenGlVideoQtQuick2 : public QQuickItem
+class OpenGlVideoQtQuick2 : public ReactItem
 {
     Q_OBJECT
     Q_PROPERTY(qreal t READ t WRITE setT NOTIFY tChanged)
@@ -78,8 +78,8 @@ class OpenGlVideoQtQuick : public ReactItem
 
 
 public:
-    OpenGlVideoQtQuick();
-    OpenGlVideoQtQuick(std::string uri);
+    OpenGlVideoQtQuick2();
+    OpenGlVideoQtQuick2(std::string uri);
     QMatrix4x4 getModelMatrix();
     qreal t() const { return m_t; }
     void setT(qreal t);
@@ -122,36 +122,36 @@ private slots:
 
 private:
     qreal m_t;
-    OpenGlVideoQtQuickRenderer *openGlVideoQtQuickRenderer;
+    OpenGlVideoQtQuick2Renderer2 *openGlVideoQtQuick2Renderer2;
 
 };
 
 /*
 class OpenGlHelper: public FrameUpdater {
     public:
-        OpenGlHelper(OpenGlVideoQtQuick* openGlVideoQtQuick, 
-                     OpenGlVideoQtQuickRenderer* openGlVideoQtQuickRenderer){
-            this->openGlVideoQtQuick = openGlVideoQtQuick;
-            this->openGlVideoQtQuickRenderer = openGlVideoQtQuickRenderer;
+        OpenGlHelper(OpenGlVideoQtQuick2* OpenGlVideoQtQuick2, 
+                     OpenGlVideoQtQuick2Renderer2* OpenGlVideoQtQuick2Renderer2){
+            this->OpenGlVideoQtQuick2 = OpenGlVideoQtQuick2;
+            this->OpenGlVideoQtQuick2Renderer2 = OpenGlVideoQtQuick2Renderer2;
         }
         void updateData(unsigned char**data) { //https://github.com/zhenyouluo/qt-qml-opengles-triangle/blob/e2d95e35f760cbe5805954eee685a2355524d8aa/gles-triangle-view.cpp#L89
             //std::cout << "updating data in helper" << std::endl;
-            this->openGlVideoQtQuickRenderer->updateData(data, 0, 0);
+            this->OpenGlVideoQtQuick2Renderer2->updateData(data, 0, 0);
             //Updates the view matrix. //TODO: make this update occur less often
-            //this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = this->openGlVideoQtQuick->getModelMatrix();
-            //this->openGlVideoQtQuickRenderer->render();
-            //std::cout << "uri: " << this->openGlVideoQtQuick->uri.toStdString() << std::endl;
-            //if (this->openGlVideoQtQuick->window()) {
+            //this->OpenGlVideoQtQuick2Renderer2->qQuickVideoMatrix = this->OpenGlVideoQtQuick2->getModelMatrix();
+            //this->OpenGlVideoQtQuick2Renderer2->render();
+            //std::cout << "uri: " << this->OpenGlVideoQtQuick2->uri.toStdString() << std::endl;
+            //if (this->OpenGlVideoQtQuick2->window()) {
              //   std::cout << "window update" << std::endl;
-                //this->openGlVideoQtQuick->update();
-              //  this->openGlVideoQtQuick->window()->update();
-                //this->openGlVideoQtQuick->setT(m_t);
-                //this->openGlVideoQtQuick->setWindow(window());
+                //this->OpenGlVideoQtQuick2->update();
+              //  this->OpenGlVideoQtQuick2->window()->update();
+                //this->OpenGlVideoQtQuick2->setT(m_t);
+                //this->OpenGlVideoQtQuick2->setWindow(window());
             //}
         }
     protected:
-        OpenGlVideoQtQuick * openGlVideoQtQuick;
-        OpenGlVideoQtQuickRenderer * openGlVideoQtQuickRenderer;
+        OpenGlVideoQtQuick2 * OpenGlVideoQtQuick2;
+        OpenGlVideoQtQuick2Renderer2 * OpenGlVideoQtQuick2Renderer2;
 };
 */
-#endif // OpenGlVideoQtQuick_H
+#endif // OpenGlVideoQtQuick2_H

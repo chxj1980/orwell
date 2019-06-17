@@ -8,9 +8,9 @@ ARG QT_FILE_LINK=http://download.qt.io/official_releases/qt/5.11/5.11.3/single/q
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     cmake build-essential \
-    libavcodec-dev libavformat-dev libavdevice-dev libavfilter-dev libavutil-dev \
+    libavcodec-dev libavformat-dev libavdevice-dev libavfilter-dev libavutil-dev libboost-dev libboost-thread-dev \
     libgl-dev perl python git wget unzip \
-    libboost-dev libboost-thread-dev 
+    
     #qt5-default qml-module-qtquick-controls2 libqt5qml5 qml-module-qtquick2 qml-module-qtquick-window2
 
 #RUN apt-get update && apt install -y qtmultimedia5-dev qtbase5-dev libqt5multimedia5-plugins libqt5opengl5-dev

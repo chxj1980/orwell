@@ -182,8 +182,8 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
     std::cout << "synchronize called " << std::endl;
    // std::cout << "starting new renderer for uri " << this-> openGlBufferItem->uri << std::endl;
     std::cout << "experimental uri " << openGlBufferItem->p_uri.toStdString() << std::endl;
-    MediaStream* mediaStream = new MediaStream(openGlBufferItem->p_uri.toStdString());
-    //MediaStream* mediaStream = new MediaStream(openGlBufferItem->uri);
+    //MediaStream* mediaStream = new MediaStream(openGlBufferItem->p_uri.toStdString());
+    MediaStream* mediaStream = new MediaStream(openGlBufferItem->uri);
 
     mediaStream->setFrameUpdater((FrameUpdater *) this);
     //TODO: put mutex on std::cout of this thread
@@ -213,7 +213,7 @@ QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
     std::cout << "createRenderer called ------------------------" << std::endl;
     std::cout << "QPROPERT p_uri = " << this->p_uri.toStdString() << std::endl;
     std::cout << "p_height = " << this->p_height << std::endl;
-    //std::cout << "uri: " << uri.toStdString() << std::endl;
+    std::cout << "uri: " << uri << std::endl;
     //TODO: how do I know createRenderer will be called after uri is setted? I'm assuming it does.
     return new OpenGlBufferItemRenderer();
 }
