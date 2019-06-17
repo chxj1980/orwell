@@ -5,7 +5,7 @@
 #define T_VER 4
 
 //Simple shader. Outpus the same location as input, I guess
-const char *vstring3 = GET_STR(
+const char *vString4 = GET_STR(
     attribute vec4 vertexIn;
     attribute vec2 textureIn;
     varying vec2 textureOut;
@@ -20,7 +20,7 @@ const char *vstring3 = GET_STR(
 
 //The matrix below does YUV420P to RGB conversion https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV420p_(and_Y%E2%80%B2V12_or_YV12)_to_RGB888_conversion
 //This texture shader replaces the color of the pixel with the new color, but in RGB. (I guess)
-const char *tString3 = GET_STR(
+const char *tString4 = GET_STR(
     varying vec2 textureOut;
     uniform sampler2D tex_y;
     uniform sampler2D tex_u;
@@ -171,7 +171,7 @@ static const GLfloat tex[] = {
     0.0f, 0.0f,
     1.0f, 0.0f
 };
-float mapToMinus11(float value, float max) {
+float mapToMinus11_(float value, float max) {
         return -1+2*value/max;
 }
 
@@ -191,8 +191,8 @@ void OpenGlVideoQtQuick2Renderer2::render()
             datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
             datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
 
-            std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3) << std::endl;
-            std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vstring3) << std::endl;
+            std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString4) << std::endl;
+            std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString4) << std::endl;
 
             program->bindAttributeLocation("vertexIn",A_VER);
             program->bindAttributeLocation("textureIn",T_VER);
