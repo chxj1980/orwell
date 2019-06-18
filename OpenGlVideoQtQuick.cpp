@@ -46,9 +46,6 @@ OpenGlVideoQtQuick::OpenGlVideoQtQuick()
 {
     connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick::handleWindowChanged);
     std::cout << "constructor called" << std::endl;
-
-    //setWidth(640);
-    //setHeight(480);
 }
 
 OpenGlVideoQtQuick::OpenGlVideoQtQuick(std::string uri): m_t(0),
@@ -67,25 +64,11 @@ void OpenGlVideoQtQuick::update()
         window()->update();
 }
 
-void OpenGlVideoQtQuick::setT(qreal t)
-{
-    if (t == m_t)
-        return;
-    m_t = t;
-    emit tChanged();
-    if (window())
-        window()->update();
-}
 
 void OpenGlVideoQtQuick::handleWindowChanged(QQuickWindow *win)
 {
-        std::cout << "handleWindowChanged called" << std::endl;
-
     if (win) {
         connect(win, &QQuickWindow::beforeSynchronizing, this, &OpenGlVideoQtQuick::sync, Qt::DirectConnection);
-        //connect(win, &QQuickWindow::sceneGraphInvalidated, this, &OpenGlVideoQtQuick::cleanup, Qt::DirectConnection);
-        // If we allow QML to do the clearing, they would clear what we paint
-        // and nothing would show.
         win->setClearBeforeRendering(false);
     }
 }
@@ -109,42 +92,17 @@ void OpenGlVideoQtQuick::sync()
     if (!openGlVideoQtQuickRenderer) {
         openGlVideoQtQuickRenderer = new OpenGlVideoQtQuickRenderer();
         connect(window(), &QQuickWindow::beforeRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
-        //connect(window(), &QQuickWindow::afterRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &OpenGlVideoQtQuick::update, Qt::DirectConnection);
         
-        //OpenGlHelper* openGlHelper = new OpenGlHelper(this, openGlVideoQtQuickRenderer);
         MediaStream* camera1 = new MediaStream(this->uri);
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
         boost::thread mediaThread(&MediaStream::run, camera1);
     }
-    //openGlVideoQtQuickRenderer->setViewportSize(window()->size() * window()->devicePixelRatio());
-    //std::cout << "updating matrix " << std::endl;
-    //this->openGlVideoQtQuickRenderer->qQuickVideoMatrix = getModelMatrix();
-    openGlVideoQtQuickRenderer->setT(m_t);
-    openGlVideoQtQuickRenderer->setWindow(window());
-    openGlVideoQtQuickRenderer->setWidth(width());
-    openGlVideoQtQuickRenderer->setHeight(height());
-    openGlVideoQtQuickRenderer->setX(x());
-    openGlVideoQtQuickRenderer->setY(y());
+    
 }
 
-//https://stackoverflow.com/a/46484719/10116440
-/*
-QMatrix4x4 OpenGlVideoQtQuick::getModelMatrix() {
-    QMatrix4x4 result;
 
-    // Compose model matrix from our transform properties in the QML
-    QQmlListProperty<QQuickTransform> transformations = transform();
-    const int count = transformations.count(&transformations);
-    for (int i=0; i<count; i++) {
-        QQuickTransform *transform = transformations.at(&transformations, i);
-        transform->applyTo(&result);
-    }
-
-    return result;
-}
-*/
 
 void OpenGlVideoQtQuickRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
 {
@@ -171,9 +129,6 @@ static const GLfloat tex[] = {
     0.0f, 0.0f,
     1.0f, 0.0f
 };
-float mapToMinus11(float value, float max) {
-        return -1+2*value/max;
-    }
 
 //TODO: FIX THIS https://stackoverflow.com/a/54773889/6655884
 void OpenGlVideoQtQuickRenderer::render()
@@ -213,24 +168,8 @@ void OpenGlVideoQtQuickRenderer::render()
             the QQuickItem.
 
         */ 
-        //transform.translate(mapToMinus11(this->x, frameWidth),-1*mapToMinus11(this->y, frameHeight));
-        //transform.translate(1,1);
-        //transform.scale(0.5,0.5);
-        //transform.scale((float)width/(float)frameWidth, (float)height/(float)frameHeight);
-
-        //transform.translate(mapToMinus11(this->x, width),-1*mapToMinus11(this->y, height));
-        //std::cout << "real width: " << width << " real height " << height << std::endl;
-        //std::cout << "width: " << mapToMinus11(this->x, width) << " height " << mapToMinus11(this->y, height) << std::endl;
-        //std::cout << "x: " << x << " y: " << y << std::endl;
-        //QMatrix4x4 translate;
-        //translate.viewport(-width/2, -height/2, width, height);
-        //translate.inverted();
-
-        //transform = translate*transform;
-//        program->setUniformValue("u_transform", transform);
         program->setUniformValue("u_transform", this->qQuickVideoMatrix);
-
-        glViewport(this->x, this->y, this->width, this->height);
+        //glViewport(this->x, this->y, this->width, this->height);
 
         glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
         glEnableVertexAttribArray(A_VER);
@@ -282,9 +221,5 @@ void OpenGlVideoQtQuickRenderer::render()
         program->disableAttributeArray(A_VER);
         program->disableAttributeArray(T_VER);
         program->release();
-
-        // Not strictly needed for this example, but generally useful for when
-        // mixing with raw OpenGL.
-        //m_window->resetOpenGLState();//COMMENT OR NOT?
     }
 }

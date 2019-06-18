@@ -178,6 +178,81 @@ float mapToMinus11_(float value, float max) {
 //TODO: FIX THIS https://stackoverflow.com/a/54773889/6655884
 void OpenGlVideoQtQuick2Renderer2::render()
 {
+    frameWidth = 1280;
+    frameHeight = 720;
+    if (this->firstRender) {
+        std::cout << "Creating QOpenGLShaderProgram " << std::endl;
+        program = new QOpenGLShaderProgram();
+        initializeOpenGLFunctions();
+        //this->m_F  = QOpenGLContext::currentContext()->functions();
+        std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
+        datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
+        datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
+        datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
+
+        std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString4) << std::endl;
+        std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString4) << std::endl;
+
+        program->bindAttributeLocation("vertexIn",A_VER);
+        program->bindAttributeLocation("textureIn",T_VER);
+        std::cout << "program->link() = " << program->link() << std::endl;
+
+        glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
+        this->firstRender = false;
+        program->bind();
+    }
+
+
+    glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
+    glEnableVertexAttribArray(A_VER);
+
+    glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
+    glEnableVertexAttribArray(T_VER);
+
+    unis[0] = program->uniformLocation("tex_y");
+    unis[1] = program->uniformLocation("tex_u");
+    unis[2] = program->uniformLocation("tex_v");
+    
+    //Y
+    glBindTexture(GL_TEXTURE_2D, texs[0]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+    //U
+    glBindTexture(GL_TEXTURE_2D, texs[1]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+    //V
+    glBindTexture(GL_TEXTURE_2D, texs[2]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texs[0]);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
+    glUniform1i(unis[0], 0);
+
+
+    glActiveTexture(GL_TEXTURE0+1);
+    glBindTexture(GL_TEXTURE_2D, texs[1]); 
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
+    glUniform1i(unis[1],1);
+
+
+    glActiveTexture(GL_TEXTURE0+2);
+    glBindTexture(GL_TEXTURE_2D, texs[2]);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
+    glUniform1i(unis[2], 2);
+        
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+    program->disableAttributeArray(A_VER);
+    program->disableAttributeArray(T_VER);
+    program->release();
  /*   
     //Only begin to render if we already know the frameWidth and frameHeight (gathered from cameras)
     if (this->frameWidth >0 && this->frameHeight>0) {

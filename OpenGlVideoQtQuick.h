@@ -27,42 +27,22 @@ public:
     }
     ~OpenGlVideoQtQuickRenderer();
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
-    void setT(qreal t) { m_t = t; }
-    void setViewportSize(const QSize &size) { m_viewportSize = size; }
     void setWindow(QQuickWindow *window) { m_window = window; }
 
-    void setWidth(int width) {
-        this->width = width;
-    }
-
-    void setHeight(int height) {
-        this->height = height;
-    }
-
-    void setX(int x) {
-        this->x = x;
-    }
-
-    void setY(int y) {
-        this->y = y;
-    }
     QMatrix4x4 qQuickVideoMatrix;
 
 public slots:
     void render();
 
 private:
-    //std::string a;
     QSize m_viewportSize;
     qreal m_t;
     QOpenGLShaderProgram* program;
     QQuickWindow *m_window;
     GLuint unis[3] = {0};
     GLuint texs[3] = { 0 };
-    //OpenGlVideoQtQuick* openGlVideoQtQuick;
     unsigned char *datas[3] = { 0 };
     bool firstRender = true;
-     //TODO: make this variable according to video data
     int width = 0;
     int height = 0;
     int x = 0;
@@ -80,33 +60,11 @@ class OpenGlVideoQtQuick : public ReactItem
 public:
     OpenGlVideoQtQuick();
     OpenGlVideoQtQuick(std::string uri);
-    QMatrix4x4 getModelMatrix();
-    qreal t() const { return m_t; }
-    void setT(qreal t);
-//    Q_INVOKABLE void initRtspMedia(const QString &uri);
     std::string uri;
-    //void setUri(const std::string uri) {
-    //    this->uri = uri;
-    //}
     void setUri(const QString &a) {
         uri = a.toStdString();
     }
     
-    /*
-    
-    void setWidth(qreal width) {
-        this->width = width;
-    }
-    void setHeight(qreal height) {
-        this->height = height;
-    }
-    void setX(qreal x) {
-        this->x = x;
-    }
-    void setY(qreal y) {
-        this->y = y;
-    }
-    */
 
 signals:
     void tChanged();
@@ -121,7 +79,6 @@ private slots:
     void handleWindowChanged(QQuickWindow *win);
 
 private:
-    qreal m_t;
     OpenGlVideoQtQuickRenderer *openGlVideoQtQuickRenderer;
 
 };
