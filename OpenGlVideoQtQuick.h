@@ -29,7 +29,12 @@ public:
     ~OpenGlVideoQtQuickRenderer();
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
     void setWindow(QQuickWindow *window) { m_window = window; }
-
+    void setDimensions(int x, int y, int width, int height) {
+        this->x = x;
+        this->y = y;
+        this->width = width;
+        this->height = height;
+    }
     QMatrix4x4 qQuickVideoMatrix;
 
 public slots:
@@ -65,6 +70,7 @@ public:
     void setUri(const QString &a) {
         uri = a.toStdString();
     }
+
     
 
 signals:
@@ -81,7 +87,6 @@ private slots:
 
 private:
     OpenGlVideoQtQuickRenderer *openGlVideoQtQuickRenderer;
-
 };
 
 /*

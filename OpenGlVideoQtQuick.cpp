@@ -93,6 +93,7 @@ void OpenGlVideoQtQuick::sync()
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
         boost::thread mediaThread(&MediaStream::run, camera1);
+        openGlVideoQtQuickRenderer->setDimensions(x(),y(),width(),height());
     }   
 }
 
@@ -163,7 +164,7 @@ void OpenGlVideoQtQuickRenderer::render()
 
         */ 
         program->setUniformValue("u_transform", this->qQuickVideoMatrix);
-        //glViewport(this->x, this->y, this->width, this->height);
+        glViewport(this->x, this->y, this->width, this->height);
 
         glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
         glEnableVertexAttribArray(A_VER);
