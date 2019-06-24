@@ -414,6 +414,7 @@ ReactItem::ReactItem(QQuickItem* parent) : QQuickPaintedItem(parent), d_ptr(new 
 ReactItem::~ReactItem() {}
 
 void ReactItem::paint(QPainter* painter) {
+    
     Q_D(ReactItem);
 
     painter->setRenderHint(QPainter::Antialiasing);
@@ -572,5 +573,7 @@ void ReactItem::paint(QPainter* painter) {
             path.addRoundedRect(area, d->borderRadius, d->borderRadius);
             painter->fillPath(path, d->backgroundColor);
         }
+    
     }
+    
 }

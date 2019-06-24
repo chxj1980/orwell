@@ -40,15 +40,13 @@ const char *tString2 = GET_STR(
 
 );
 
-OpenGlVideoQtQuick::OpenGlVideoQtQuick()
-    : m_t(0),
-    openGlVideoQtQuickRenderer(nullptr)
+OpenGlVideoQtQuick::OpenGlVideoQtQuick():openGlVideoQtQuickRenderer(nullptr)
 {
     connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick::handleWindowChanged);
     std::cout << "constructor called" << std::endl;
 }
 
-OpenGlVideoQtQuick::OpenGlVideoQtQuick(std::string uri): m_t(0),
+OpenGlVideoQtQuick::OpenGlVideoQtQuick(std::string uri):
     openGlVideoQtQuickRenderer(nullptr) {
         this->uri = uri;
         connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick::handleWindowChanged);
@@ -58,8 +56,6 @@ OpenGlVideoQtQuick::OpenGlVideoQtQuick(std::string uri): m_t(0),
 
 void OpenGlVideoQtQuick::update()
 {
-    //std::cout << "onTimer called!" << std::endl;
-
     if (window())
         window()->update();
 }
@@ -88,7 +84,6 @@ OpenGlVideoQtQuickRenderer::~OpenGlVideoQtQuickRenderer()
 
 void OpenGlVideoQtQuick::sync()
 {
-    //std::cout << "sync called" << std::endl;
     if (!openGlVideoQtQuickRenderer) {
         openGlVideoQtQuickRenderer = new OpenGlVideoQtQuickRenderer();
         connect(window(), &QQuickWindow::beforeRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
@@ -98,8 +93,7 @@ void OpenGlVideoQtQuick::sync()
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
         boost::thread mediaThread(&MediaStream::run, camera1);
-    }
-    
+    }   
 }
 
 

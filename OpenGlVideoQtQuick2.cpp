@@ -41,38 +41,20 @@ const char *tString4 = GET_STR(
 );
 
 OpenGlVideoQtQuick2::OpenGlVideoQtQuick2()
-    : m_t(0),
-    openGlVideoQtQuick2Renderer2(nullptr)
+    : openGlVideoQtQuick2Renderer2(nullptr)
 {
     connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick2::handleWindowChanged);
     std::cout << "constructor called" << std::endl;
-
-    //setWidth(640);
-    //setHeight(480);
 }
 
-OpenGlVideoQtQuick2::OpenGlVideoQtQuick2(std::string uri): m_t(0),
+OpenGlVideoQtQuick2::OpenGlVideoQtQuick2(std::string uri):
     openGlVideoQtQuick2Renderer2(nullptr) {
         this->uri = uri;
         connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick2::handleWindowChanged);
-        std::cout << "constructor2 called" << std::endl;
-        std::cout << "I got created with uri " << uri << std::endl;
     }
 
 void OpenGlVideoQtQuick2::update()
 {
-    //std::cout << "onTimer called!" << std::endl;
-
-    if (window())
-        window()->update();
-}
-
-void OpenGlVideoQtQuick2::setT(qreal t)
-{
-    if (t == m_t)
-        return;
-    m_t = t;
-    emit tChanged();
     if (window())
         window()->update();
 }
@@ -113,20 +95,22 @@ void OpenGlVideoQtQuick2::sync()
         connect(window(), &QQuickWindow::afterRendering, this, &OpenGlVideoQtQuick2::update, Qt::DirectConnection);
         
         //OpenGlHelper* openGlHelper = new OpenGlHelper(this, OpenGlVideoQtQuick2Renderer2);
-        MediaStream* camera1 = new MediaStream(this->uri);
-        camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuick2Renderer2);
+        //MediaStream* camera1 = new MediaStream(this->uri);
+        //camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuick2Renderer2);
         //TODO: put mutex on std::cout of this thread
-        boost::thread mediaThread(&MediaStream::run, camera1);
+        //boost::thread mediaThread(&MediaStream::run, camera1);
     }
     //OpenGlVideoQtQuick2Renderer2->setViewportSize(window()->size() * window()->devicePixelRatio());
     //std::cout << "updating matrix " << std::endl;
     //this->OpenGlVideoQtQuick2Renderer2->qQuickVideoMatrix = getModelMatrix();
+    /*
     openGlVideoQtQuick2Renderer2->setT(m_t);
     openGlVideoQtQuick2Renderer2->setWindow(window());
     openGlVideoQtQuick2Renderer2->setWidth(width());
     openGlVideoQtQuick2Renderer2->setHeight(height());
     openGlVideoQtQuick2Renderer2->setX(x());
     openGlVideoQtQuick2Renderer2->setY(y());
+    */
 }
 
 //https://stackoverflow.com/a/46484719/10116440
@@ -148,6 +132,7 @@ QMatrix4x4 OpenGlVideoQtQuick2::getModelMatrix() {
 
 void OpenGlVideoQtQuick2Renderer2::updateData(unsigned char**data, int frameWidth, int frameHeight)
 {
+
     this->frameWidth = frameWidth;
     this->frameHeight = frameHeight;
     //Before first render, datas pointer isn't even created yet
@@ -171,9 +156,6 @@ static const GLfloat tex[] = {
     0.0f, 0.0f,
     1.0f, 0.0f
 };
-float mapToMinus11_(float value, float max) {
-        return -1+2*value/max;
-}
 
 //TODO: FIX THIS https://stackoverflow.com/a/54773889/6655884
 void OpenGlVideoQtQuick2Renderer2::render()
@@ -199,9 +181,22 @@ void OpenGlVideoQtQuick2Renderer2::render()
 
         glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
         this->firstRender = false;
-        program->bind();
+        
     }
+    program->bind();
 
+    QMatrix4x4 transform;
+    transform.setToIdentity();
+        /*
+            width and height are the sizes of the QQuickItem, 
+            while frameWidth and frameHeight are the sizes of
+            the frame being decoded. width/frameWidth, and 
+            height/frameHeight are precisely the values we
+            need to scale the image so it gets the size of
+            the QQuickItem.
+
+        */ 
+    program->setUniformValue("u_transform", this->qQuickVideoMatrix);
 
     glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
     glEnableVertexAttribArray(A_VER);
@@ -247,7 +242,7 @@ void OpenGlVideoQtQuick2Renderer2::render()
     glBindTexture(GL_TEXTURE_2D, texs[2]);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
     glUniform1i(unis[2], 2);
-        
+    
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
     program->disableAttributeArray(A_VER);

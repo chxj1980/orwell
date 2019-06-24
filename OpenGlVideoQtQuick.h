@@ -14,6 +14,7 @@
 #include <QTimer>
 #include <QMatrix4x4>
 #include <QQmlListProperty>
+#include <QQuickPaintedItem>
 #include "reactitem.h"
 //#include "reactitem.h"
 
@@ -23,7 +24,7 @@ class OpenGlVideoQtQuickRenderer : public QObject, protected QOpenGLFunctions, p
     Q_OBJECT
 
 public:
-    OpenGlVideoQtQuickRenderer() : m_t(0) {        
+    OpenGlVideoQtQuickRenderer() {        
     }
     ~OpenGlVideoQtQuickRenderer();
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
@@ -35,8 +36,6 @@ public slots:
     void render();
 
 private:
-    QSize m_viewportSize;
-    qreal m_t;
     QOpenGLShaderProgram* program;
     QQuickWindow *m_window;
     GLuint unis[3] = {0};
@@ -50,12 +49,14 @@ private:
 };
 
 //class OpenGlVideoQtQuick : public QQuickItem
-class OpenGlVideoQtQuick : public ReactItem
+class OpenGlVideoQtQuick : public QQuickPaintedItem
+//class OpenGlVideoQtQuick : public ReactItem
 {
     Q_OBJECT
-    Q_PROPERTY(qreal t READ t WRITE setT NOTIFY tChanged)
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
-
+protected:
+    void paint(QPainter* painter){};
+    QSGNode * updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *updatePaintNodeData) {}// https://stackoverflow.com/questions/56658299/opengl-strange-behaviour-in-qt-when-inheriting-from-qquickitem-versus-qquickpain
 
 public:
     OpenGlVideoQtQuick();
