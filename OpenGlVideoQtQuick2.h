@@ -67,8 +67,8 @@ private:
 };
 
 //class OpenGlVideoQtQuick2 : public QQuickItem
-class OpenGlVideoQtQuick2 : public QQuickPaintedItem
-//class OpenGlVideoQtQuick2 : public ReactItem
+//class OpenGlVideoQtQuick2 : public QQuickPaintedItem
+class OpenGlVideoQtQuick2 : public ReactItem
 {
     Q_OBJECT
     //Q_PROPERTY(qreal t READ t WRITE setT NOTIFY tChanged)

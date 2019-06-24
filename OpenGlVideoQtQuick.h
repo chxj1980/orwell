@@ -54,8 +54,8 @@ private:
 };
 
 //class OpenGlVideoQtQuick : public QQuickItem
-class OpenGlVideoQtQuick : public QQuickPaintedItem
-//class OpenGlVideoQtQuick : public ReactItem
+//class OpenGlVideoQtQuick : public QQuickPaintedItem
+class OpenGlVideoQtQuick : public ReactItem
 {
     Q_OBJECT
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)

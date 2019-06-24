@@ -93,7 +93,8 @@ void OpenGlVideoQtQuick::sync()
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
         boost::thread mediaThread(&MediaStream::run, camera1);
-        openGlVideoQtQuickRenderer->setDimensions(x(),y(),width(),height());
+        openGlVideoQtQuickRenderer->setDimensions(x(),y()+300,width(),height());
+        std::cout <<  "x: " << x() << " y: " << y()<< std::endl;
     }   
 }
 
