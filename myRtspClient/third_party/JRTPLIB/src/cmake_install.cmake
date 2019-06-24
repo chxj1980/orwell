@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "Debug")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -112,39 +112,50 @@ file(INSTALL DESTINATION "/usr/local/lib" TYPE STATIC_LIBRARY FILES "/home/lz/or
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  foreach(file
-      "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1"
-      "$ENV{DESTDIR}/usr/local/lib/libjrtp.so"
-      )
-    if(EXISTS "${file}" AND
-       NOT IS_SYMLINK "${file}")
-      file(RPATH_CHECK
-           FILE "${file}"
-           RPATH "")
-    endif()
-  endforeach()
+  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1")
+    file(RPATH_CHECK
+         FILE "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1"
+         RPATH "")
+  endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/usr/local/lib/libjrtp.so.3.11.1;/usr/local/lib/libjrtp.so")
+   "/usr/local/lib/libjrtp.so.3.11.1")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/usr/local/lib" TYPE SHARED_LIBRARY FILES
-    "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.so.3.11.1"
-    "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.so"
-    )
-  foreach(file
-      "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1"
-      "$ENV{DESTDIR}/usr/local/lib/libjrtp.so"
-      )
-    if(EXISTS "${file}" AND
-       NOT IS_SYMLINK "${file}")
-      if(CMAKE_INSTALL_DO_STRIP)
-        execute_process(COMMAND "/usr/bin/strip" "${file}")
-      endif()
+file(INSTALL DESTINATION "/usr/local/lib" TYPE SHARED_LIBRARY FILES "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.so.3.11.1")
+  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1")
+    if(CMAKE_INSTALL_DO_STRIP)
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/local/lib/libjrtp.so.3.11.1")
     endif()
-  endforeach()
+  endif()
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/libjrtp.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/libjrtp.so")
+    file(RPATH_CHECK
+         FILE "$ENV{DESTDIR}/usr/local/lib/libjrtp.so"
+         RPATH "")
+  endif()
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/usr/local/lib/libjrtp.so")
+  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+file(INSTALL DESTINATION "/usr/local/lib" TYPE SHARED_LIBRARY FILES "/home/lz/orwell/myRtspClient/third_party/JRTPLIB/src/libjrtp.so")
+  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/libjrtp.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/libjrtp.so")
+    if(CMAKE_INSTALL_DO_STRIP)
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/local/lib/libjrtp.so")
+    endif()
+  endif()
 endif()
 
