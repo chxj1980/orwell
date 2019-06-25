@@ -153,7 +153,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 			break;
 		default:
 			//LOGE("avcodec_send_packet returned error %d:%s", result, av_error(result).c_str());
-			std::cout << "avcodec_send_packet returned error" << result /*av_error(result).c_str()*/ << std::endl;
+			//std::cout << "avcodec_send_packet returned error" << result /*av_error(result).c_str()*/ << std::endl;
 
 			break;
 		}

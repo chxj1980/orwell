@@ -50,6 +50,7 @@ void MediaStream::run() {
 	while (true) {
 		while (init()!=0) {}
 		receiveFrame();
+		break;//
 	}
 }
 
@@ -71,6 +72,7 @@ int MediaStream::init()
 	/* Check whether server return '200'(OK) */
 	if(!rtspClient.IsResponse_200_OK()) {
 		printf("DoOPTIONS error\n");
+		printf("%s\n", rtspClient.GetSDP().c_str());
 		//init();
 		return 2;
 	}
@@ -78,6 +80,7 @@ int MediaStream::init()
 	/* Send DESCRIBE command to server */
 	if(rtspClient.DoDESCRIBE() != RTSP_NO_ERROR) {
 		printf("DoDESCRIBE error\n");
+		printf("%s\n", rtspClient.GetSDP().c_str());
 		//init();
 		return 3;
 	}
@@ -86,6 +89,7 @@ int MediaStream::init()
 	if(!rtspClient.IsResponse_200_OK()) {
 		printf("DoDESCRIBE error\n");
 		//init();
+		printf("%s\n", rtspClient.GetSDP().c_str());
 		return 4;
 	}
 
@@ -102,6 +106,7 @@ int MediaStream::init()
 
 	if(rtspClient.DoSETUP("video", true) != RTSP_NO_ERROR) {//TODO: this DoSETUP actually works only for vstarcam cameras, change it to work with anything
 		printf("DoSETUP error\n");
+		printf("%s\n", rtspClient.GetResponse().c_str());
 		return 6;
 	}
 	rtspClient.SetVideoByeFromServerClbk(ByeFromServerClbk2);
@@ -121,6 +126,7 @@ int MediaStream::init()
 	 * session, the same as 'audio'.*/
 	if(rtspClient.DoPLAY("video", NULL, NULL, NULL) != RTSP_NO_ERROR) {
 		printf("DoPLAY error\n");
+		printf("%s\n", rtspClient.GetResponse().c_str());
 		return 8;
 	}
 	

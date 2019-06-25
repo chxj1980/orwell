@@ -154,7 +154,7 @@ void OpenGlVideoQtQuickRenderer::render()
 
             GLint dims[2] = {0, 0};
             glGetIntegerv(GL_MAX_VIEWPORT_DIMS, dims);
-            std::cout << "dimenson x: " << dims[0] << "dimenson y:" << dims[1] << std::endl;
+            std::cout << "dimenson x: " << dims[0] << " dimenson y:" << dims[1] << std::endl;
 
             this->firstRender = false;
         }
