@@ -47,10 +47,10 @@ void MediaStream::setFrameUpdater(FrameUpdater* frameUpdater) {
 
 void MediaStream::run() {
 	//init();
-	while (init()!=0) {
-		
+	while (true) {
+		while (init()!=0) {}
+		receiveFrame();
 	}
-	receiveFrame();
 }
 
 //int main(int argc, char *argv[])
@@ -190,9 +190,10 @@ int MediaStream::receiveFrame() {
 			}
 			try_times++;
 		}
-		
 		ffmpegDecoder.decodeFrame(frameBuffer, size);
 	}
+	printf("WHILE LOOP BOKEN ----------------\n");
+
 	return 0;
 
 	/* lower the 'write' times to improve performance */
