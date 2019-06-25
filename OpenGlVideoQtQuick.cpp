@@ -93,10 +93,7 @@ void OpenGlVideoQtQuick::sync()
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
         boost::thread mediaThread(&MediaStream::run, camera1);
-        openGlVideoQtQuickRenderer->setDimensions(x(),y()+300,width(),height());
-        GLint * params;
-        glGetIntegerv(GL_MAX_VIEWPORT_DIMS, params)<<std::endl;
-        std::cout << "dimenson x: " << params;
+        openGlVideoQtQuickRenderer->setDimensions(x(),y(),width(),height());
         std::cout <<  "x: " << x() << " y: " << y()<< std::endl;
     }   
 }
@@ -152,6 +149,15 @@ void OpenGlVideoQtQuickRenderer::render()
             std::cout << "program->link() = " << program->link() << std::endl;
 
             glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
+
+            GLint params;
+            glGetIntegerv(GL_MAX_VIEWPORT_DIMS, &params);
+            std::cout << "dimenson: " << params;
+
+            GLint dims[2] = {9999, 9999};
+            glGetIntegerv(GL_MAX_VIEWPORT_DIMS, dims);
+            std::cout << "dimenson x:" << dims[0] << "dimenson y:" << dims[1];
+
             this->firstRender = false;
         }
         program->bind();

@@ -62,10 +62,13 @@ int MediaStream::init()
 
 	rtspClient.DoDESCRIBE();
 	std::cout << "DoDESCRIBE() " << std::endl ;
+	//printf("SDP: %s\n", rtspClient.GetSDP().c_str());
 
 	/* Parse SDP message after sending DESCRIBE command */
 	rtspClient.ParseSDP();
 	std::cout << "ParseSDP() " << std::endl ;
+	//printf("SDP: %s\n", rtspClient.GetSDP().c_str());
+
 
 	/* Send SETUP command to set up all 'audio' and 'video' 
 	 * sessions which SDP refers. */

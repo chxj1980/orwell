@@ -44,8 +44,8 @@ private:
     QOpenGLShaderProgram* program;
     QQuickWindow *m_window;
     GLuint unis[3] = {0};
-    GLuint texs[3] = { 0 };
-    unsigned char *datas[3] = { 0 };
+    GLuint texs[3] = {0};
+    unsigned char *datas[3] = {0};
     bool firstRender = true;
     int width = 0;
     int height = 0;
