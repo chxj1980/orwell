@@ -183,6 +183,7 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
    // std::cout << "starting new renderer for uri " << this-> openGlBufferItem->uri << std::endl;
     std::cout << "experimental uri " << openGlBufferItem->p_uri.toStdString() << std::endl;
     //MediaStream* mediaStream = new MediaStream(openGlBufferItem->p_uri.toStdString());
+    std::cout << "starting mediaStream with uri: " << this->uri << std::endl;
     MediaStream* mediaStream = new MediaStream(openGlBufferItem->uri);
 
     mediaStream->setFrameUpdater((FrameUpdater *) this);

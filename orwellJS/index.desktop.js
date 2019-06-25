@@ -29,15 +29,15 @@ class Orwell extends Component {
   }
   render() {
     return (
-      <FlatList
-        data={[{uri: 'rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0'}, {uri: 'rtsp://admin:19929394@192.168.0.104:10554/tcp/av0_0'}]}
-        renderItem={({item}) => <OrwellMediaPlayer uri={item.uri} width={640} height={360}/>}
-      />
+      <OrwellMediaPlayer uri='rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0' width={640} height={360}/>
     )
     
   }
 }
-
+//<FlatList
+//data={[{uri: 'rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0'}, {uri: 'rtsp://admin:19929394@192.168.0.104:10554/tcp/av0_0'}]}
+//renderItem={({item}) => <OrwellMediaPlayer uri={item.uri} width={640} height={360}/>}
+//>
 const styles = StyleSheet.create({
   container: {
     flex: 1,

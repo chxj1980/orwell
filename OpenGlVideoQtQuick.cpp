@@ -43,15 +43,12 @@ const char *tString2 = GET_STR(
 OpenGlVideoQtQuick::OpenGlVideoQtQuick():openGlVideoQtQuickRenderer(nullptr)
 {
     connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick::handleWindowChanged);
-    std::cout << "constructor called" << std::endl;
 }
 
 OpenGlVideoQtQuick::OpenGlVideoQtQuick(std::string uri):
     openGlVideoQtQuickRenderer(nullptr) {
         this->uri = uri;
         connect(this, &QQuickItem::windowChanged, this, &OpenGlVideoQtQuick::handleWindowChanged);
-        std::cout << "constructor2 called" << std::endl;
-        std::cout << "I got created with uri " << uri << std::endl;
     }
 
 void OpenGlVideoQtQuick::update()
@@ -88,7 +85,7 @@ void OpenGlVideoQtQuick::sync()
         openGlVideoQtQuickRenderer = new OpenGlVideoQtQuickRenderer();
         connect(window(), &QQuickWindow::beforeRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &OpenGlVideoQtQuick::update, Qt::DirectConnection);
-        
+        std::cout << "starting mediaStream with uri: " << this->uri << std::endl;
         MediaStream* camera1 = new MediaStream(this->uri);
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
@@ -149,14 +146,15 @@ void OpenGlVideoQtQuickRenderer::render()
             std::cout << "program->link() = " << program->link() << std::endl;
 
             glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
-
+            /*
             GLint params;
             glGetIntegerv(GL_MAX_VIEWPORT_DIMS, &params);
-            std::cout << "dimenson: " << params;
+            std::cout << "dimenson: " << params << std::endl;
+            */
 
-            GLint dims[2] = {9999, 9999};
+            GLint dims[2] = {0, 0};
             glGetIntegerv(GL_MAX_VIEWPORT_DIMS, dims);
-            std::cout << "dimenson x:" << dims[0] << "dimenson y:" << dims[1];
+            std::cout << "dimenson x: " << dims[0] << "dimenson y:" << dims[1] << std::endl;
 
             this->firstRender = false;
         }

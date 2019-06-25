@@ -46,44 +46,91 @@ void MediaStream::setFrameUpdater(FrameUpdater* frameUpdater) {
 }
 
 void MediaStream::run() {
-	init();
+	//init();
+	while (init()!=0) {
+		
+	}
 	receiveFrame();
 }
 
 //int main(int argc, char *argv[])
 int MediaStream::init()
 {
-	std::cout << "MediaStream::init() " << std::endl ;
+	std::cout << "----------------- MediaStream::init() ----------------- " << std::endl ;
 	bool r = ffmpegDecoder.init();
 	if(!r) std::cout << "problem with ffmpeg decoder init"  << std::endl;
     //ffmpegDecoder.setOpenGLWidget(&xVideoWidget);
 
 	ffmpegDecoder.setFrameUpdater(frameUpdater);
-
-	rtspClient.DoDESCRIBE();
-	std::cout << "DoDESCRIBE() " << std::endl ;
-	//printf("SDP: %s\n", rtspClient.GetSDP().c_str());
+	printf("DoOPTIONS():\n");
+	if(rtspClient.DoOPTIONS() != RTSP_NO_ERROR) {
+		printf("DoOPTIONS error\n");
+		return 1;
+	}
+	//printf("%s\n", rtspClient.GetResponse().c_str());
+	/* Check whether server return '200'(OK) */
+	if(!rtspClient.IsResponse_200_OK()) {
+		printf("DoOPTIONS error\n");
+		//init();
+		return 2;
+	}
+	printf("DoDESCRIBE():\n");
+	/* Send DESCRIBE command to server */
+	if(rtspClient.DoDESCRIBE() != RTSP_NO_ERROR) {
+		printf("DoDESCRIBE error\n");
+		//init();
+		return 3;
+	}
+	//printf("%s\n", rtspClient.GetResponse().c_str());
+	/* Check whether server return '200'(OK) */
+	if(!rtspClient.IsResponse_200_OK()) {
+		printf("DoDESCRIBE error\n");
+		//init();
+		return 4;
+	}
 
 	/* Parse SDP message after sending DESCRIBE command */
-	rtspClient.ParseSDP();
-	std::cout << "ParseSDP() " << std::endl ;
-	//printf("SDP: %s\n", rtspClient.GetSDP().c_str());
-
+	//printf("%s\n", rtspClient.GetSDP().c_str());
+	if(rtspClient.ParseSDP() != RTSP_NO_ERROR) {
+		printf("ParseSDP error\n");
+		return 5;
+	}
 
 	/* Send SETUP command to set up all 'audio' and 'video' 
 	 * sessions which SDP refers. */
+	printf("DoSETUP():\n");
 
-    /* USE TCP for receving */
-	rtspClient.DoSETUP("video", true);
+	if(rtspClient.DoSETUP("video", true) != RTSP_NO_ERROR) {//TODO: this DoSETUP actually works only for vstarcam cameras, change it to work with anything
+		printf("DoSETUP error\n");
+		return 6;
+	}
 	rtspClient.SetVideoByeFromServerClbk(ByeFromServerClbk2);
-	std::cout << "DoSETUP() " << std::endl ;
+	//printf("%s\n", rtspClient.GetResponse().c_str());
+	
+	/* Check whether server return '200'(OK) */
+	if(!rtspClient.IsResponse_200_OK()) {
+		printf("DoSETUP error\n");
+		return 7;
+	}
 
 	printf("start PLAY\n");
-	//printf("SDP: %s\n", rtspClient.GetSDP().c_str());
-
-	/* Send PLAY command to play only 'video' sessions.*/
-	rtspClient.DoPLAY("video");
-	std::cout << "doplay started" << std::endl;
+	/* Send PLAY command to play only 'video' sessions.
+	 * note(FIXME): 
+	 * if there are several 'video' session 
+	 * refered in SDP, only play the first 'video' 
+	 * session, the same as 'audio'.*/
+	if(rtspClient.DoPLAY("video", NULL, NULL, NULL) != RTSP_NO_ERROR) {
+		printf("DoPLAY error\n");
+		return 8;
+	}
+	
+	//printf("%s\n", rtspClient.GetResponse().c_str());
+	/* Check whether server return '200'(OK) */
+	if(!rtspClient.IsResponse_200_OK()) {
+		printf("DoPLAY error\n");
+		return 9;
+	}
+	return 0;
 }
 
 int MediaStream::receiveFrame() {

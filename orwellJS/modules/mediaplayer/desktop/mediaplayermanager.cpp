@@ -9,7 +9,7 @@
 #include <QFileOpenEvent>
 #include "OpenGlBufferQtQuick.h"
 #include "OpenGlVideoQtQuick.h"
- #include <QScreen> 
+#include <QScreen> 
 
 #include <iostream>
 
@@ -64,7 +64,7 @@ QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
     std::cout << properties["height"].toInt() << std::endl;
     //OpenGlVideoQtQuick* item = new OpenGlVideoQtQuick();
 
-    //item->setUri("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0");
+    //item->setUri("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
     //item->render();
     item->setWidth(properties["width"].toInt());
     item->setHeight(properties["height"].toInt());

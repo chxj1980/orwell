@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ViewManager_t {
-    QByteArrayData data[9];
-    char stringdata0[64];
+    QByteArrayData data[10];
+    char stringdata0[82];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,11 +39,12 @@ QT_MOC_LITERAL(4, 42, 4), // "view"
 QT_MOC_LITERAL(5, 47, 1), // "x"
 QT_MOC_LITERAL(6, 49, 1), // "y"
 QT_MOC_LITERAL(7, 51, 5), // "width"
-QT_MOC_LITERAL(8, 57, 6) // "height"
+QT_MOC_LITERAL(8, 57, 6), // "height"
+QT_MOC_LITERAL(9, 64, 17) // "requestRootPolish"
 
     },
     "ViewManager\0sendOnLayoutToJs\0\0QQuickItem*\0"
-    "view\0x\0y\0width\0height"
+    "view\0x\0y\0width\0height\0requestRootPolish"
 };
 #undef QT_MOC_LITERAL
 
@@ -53,7 +54,7 @@ static const uint qt_meta_data_ViewManager[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -61,10 +62,12 @@ static const uint qt_meta_data_ViewManager[] = {
        0,       // signalCount
 
  // methods: name, argc, parameters, tag, flags
-       1,    5,   19,    2, 0x02 /* Public */,
+       1,    5,   24,    2, 0x02 /* Public */,
+       9,    0,   35,    2, 0x02 /* Public */,
 
  // methods: parameters
     QMetaType::Void, 0x80000000 | 3, QMetaType::Float, QMetaType::Float, QMetaType::Float, QMetaType::Float,    4,    5,    6,    7,    8,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -76,6 +79,7 @@ void ViewManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->sendOnLayoutToJs((*reinterpret_cast< QQuickItem*(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2])),(*reinterpret_cast< float(*)>(_a[3])),(*reinterpret_cast< float(*)>(_a[4])),(*reinterpret_cast< float(*)>(_a[5]))); break;
+        case 1: _t->requestRootPolish(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -121,13 +125,13 @@ int ViewManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 2;
     }
     return _id;
 }
