@@ -6,7 +6,7 @@ Orwell is intended to implement the video decoder and (ffmpeg) and video player 
 
 # What works rigth now?
 
-There is a QT client in `qt` folder for testing purposes, and a desktop react native client (which is supposed to be the app we're building) in orwellJS which is almost working. Both examples should show the image of a Vstarcam camera for a few seconds. The qt and react native should work on linux, windows and mac. There is no work in iOS or Android for now, but I intend to do it someday. 
+There is a QT client in `qt` folder for testing purposes, and a desktop react native client (which is supposed to be the app we're building) in orwellJS which is almost working. Both examples should show the image of a Vstarcam camera for a few seconds. The qt and react native should work on linux, windows and mac, but I compiled only in linux. There is no work in iOS or Android for now, but I intend to do it someday. 
 
 Can you help me? I'd be nice to have people working on different parts of the project.
 
@@ -45,7 +45,7 @@ For react native desktop building:
 ```
 cd orwellJS
 #1st shell
-npm install #CURRENTLY NOT WORKING, willinstall buggy version, see below how to temporary fix it
+npm install #CURRENTLY NOT WORKING, will install buggy version, see below how to temporary fix it
 npm start #starts bundler. 
 #2nd shell
 node node_modules/react-native/ubuntu-server.js #starts js server
