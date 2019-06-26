@@ -67,6 +67,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
     //https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 	//int ret = avcodec_decode_video2(avCodecContext, avFrame, &frameFinished, avPacket);
 	//while (true) {}
+	av_log_set_level(AV_LOG_QUIET);
 	int result = avcodec_send_packet(avCodecContext, avPacket);
 	if (!result) {
 		for ( ; !result ; ) {

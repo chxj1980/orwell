@@ -50,7 +50,7 @@ void MediaStream::run() {
 	while (true) {
 		while (init()!=0) {}
 		receiveFrame();
-		break;//
+		//break;
 	}
 }
 
