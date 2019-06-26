@@ -2,7 +2,13 @@
 
 Orwell is meant to be a modern Network Video Recorder built on top of React Native with support for Windows, Android, iOS, macOS and Linux.
 
-Orwell implements the video decoder and (ffmpeg) and video player in C++ for each of these devices. 
+Orwell is intended to implement the video decoder and (ffmpeg) and video player in C++ for each of these devices. 
+
+# What works rigth now?
+
+There is a QT client in `qt` folder for testing purposes, and a desktop react native client in orwellJS which is almost working. Both examples should show the image of a Vstarcam camera for a few seconds. The qt and react native should work on linux, windows and mac. There is no work in iOS or Android for now, but I intend to do it someday. 
+
+Can you help me? I'd be nice to have people working on different parts of the project.
 
 # How to build
 
