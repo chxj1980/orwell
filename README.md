@@ -2,7 +2,7 @@
 
 Orwell is meant to be a modern Network Video Recorder built on top of React Native with support for Windows, Android, iOS, macOS and Linux.
 
-Orwell is intended to implement the video decoder and (ffmpeg) and video player in C++ for each of these devices. 
+Orwell is intended to implement the video receiver and decoder in C++ so it is the same in all devices. Only the displaying of the video is specific for each device. In case of desktop, it's QT based, in Android it's Java based, and in iOS it's C++/Objective-C based. The user interface will be coded in react native so the same code will work on all devices, with the difference only being in the mobile/desktop layouts.
 
 # What works rigth now?
 
