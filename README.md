@@ -6,7 +6,7 @@ Orwell is intended to implement the video receiver and decoder in C++ so it is t
 
 # What works rigth now?
 
-There is a QT client in `qt` folder for testing purposes, and a desktop react native client (which is supposed to be the app we're building) in orwellJS which is almost working. Both examples should show the image of a Vstarcam camera for a few seconds. The qt and react native should work on linux, windows and mac, but I compiled only in linux. There is no work in iOS or Android for now, but I intend to do it someday. 
+There is a QT client in `qt` folder for testing purposes, and a desktop react native client (which is supposed to be the app we're building) in orwellJS which is almost working. Both examples should show the image of a Vstarcam camera for a few seconds. The qt and react native should work on linux, windows and mac, but I compiled only in linux for now. There is no code for iOS or Android yet, but I intend to do it someday. 
 
 Can you help me? I'd be nice to have people working on different parts of the project.
 
