@@ -12,9 +12,9 @@ Can you help me? I'd be nice to have people working on different parts of the pr
 
 # How to build
 
-First of all, see the dockerfile in `/docker` to understand how your system might look like for the installation to work 
+First of all, see the dockerfile in `docker` folder to understand how your system might look like for the installation to work 
 
-I don't expect you to successfully build it yet because you need access to my cameras but if you insist
+I don't expect you to successfully see camera images yet because you need access to my cameras but if you insist
 
 For the little QT/QML visualizer (just for debugging):
 
