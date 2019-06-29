@@ -158,7 +158,7 @@ void OpenGlVideoQtQuickRenderer::render()
 
             GLint dims[2] = {0, 0};
             glGetIntegerv(GL_MAX_VIEWPORT_DIMS, dims);
-            std::cout << "dimenson x: " << dims[0] << " dimenson y:" << dims[1] << std::endl;
+            std::cout << "dimenson x: " << dims[0] << " dimenson y: " << dims[1] << std::endl;
 
             this->firstRender = false;
         }
@@ -178,7 +178,8 @@ void OpenGlVideoQtQuickRenderer::render()
         program->setUniformValue("u_transform", this->qQuickVideoMatrix);
         //glViewport(this->x, this->y, this->width, this->height);
         int y = (m_window->size()* m_window->devicePixelRatio()).height() - m_viewportSize.height() -  m_position.y();
-        glViewport(m_position.x(), y, m_viewportSize.width(), m_viewportSize.height());
+        //glViewport(m_position.x(), y, m_viewportSize.width(), m_viewportSize.height());
+
         //std::cout << m_position.x() << ", " << y << ", "<< m_viewportSize.width() << ", " << m_viewportSize.height() << std::endl;
         //glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());
 
