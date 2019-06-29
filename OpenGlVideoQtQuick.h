@@ -29,6 +29,8 @@ public:
     ~OpenGlVideoQtQuickRenderer();
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
     void setWindow(QQuickWindow *window) { m_window = window; }
+    void setViewportSize(const QSize &size) { m_viewportSize = size; }
+    void setPosition(const QPoint &position) { m_position = position; }
     void setDimensions(int x, int y, int width, int height) {
         this->x = x;
         this->y = y;
@@ -45,12 +47,14 @@ private:
     QQuickWindow *m_window;
     GLuint unis[3] = {0};
     GLuint texs[3] = {0};
+    QSize m_viewportSize;
     unsigned char *datas[3] = {0};
     bool firstRender = true;
     int width = 0;
     int height = 0;
     int x = 0;
     int y = 0;
+    QPoint m_position;
 };
 
 //class OpenGlVideoQtQuick : public QQuickItem
