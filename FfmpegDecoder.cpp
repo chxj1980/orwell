@@ -115,6 +115,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 			} else if ((result < 0) && (result != AVERROR(EAGAIN)) && (result != AVERROR_EOF)) {
 				//LOGE("avcodec_receive_frame returned error %d:%s", result, av_error(result).c_str());
 				std::cout << "avcodec_receive_frame returned error " << result /*av_error(result).c_str()*/ << std::endl;
+				break;
 			} else {
 				switch (result) {
 				case AVERROR(EAGAIN):
@@ -123,6 +124,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 					std::cout << "avcodec_receive_frame EAGAIN" << std::endl;
 
 					result = 0;
+					break;
 					//goto ret;//???
 				case AVERROR_EOF:
 					// buffer flushed
@@ -130,6 +132,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 					std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
 
 					result = 0;
+					break;
 					//goto ret;//??
 				default:
 					//LOGE("avcodec_receive_frame returned error %d:%s", result, av_error(result).c_str());
