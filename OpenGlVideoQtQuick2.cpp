@@ -93,12 +93,10 @@ void OpenGlVideoQtQuick2::sync()
         connect(window(), &QQuickWindow::beforeRendering, openGlVideoQtQuick2Renderer2, &OpenGlVideoQtQuick2Renderer2::render, Qt::DirectConnection);
         //connect(window(), &QQuickWindow::afterRendering, OpenGlVideoQtQuick2Renderer2, &OpenGlVideoQtQuick2Renderer2::render, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &OpenGlVideoQtQuick2::update, Qt::DirectConnection);
-        
-        //OpenGlHelper* openGlHelper = new OpenGlHelper(this, OpenGlVideoQtQuick2Renderer2);
-        //MediaStream* camera1 = new MediaStream(this->uri);
-        //camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuick2Renderer2);
-        //TODO: put mutex on std::cout of this thread
-        //boost::thread mediaThread(&MediaStream::run, camera1);
+        openGlVideoQtQuick2Renderer2->setDimensions(x(),y(),width(),height());
+        openGlVideoQtQuick2Renderer2->setViewportSize(this->size().toSize() * window()->devicePixelRatio());
+        openGlVideoQtQuick2Renderer2->setWindow(window());
+        openGlVideoQtQuick2Renderer2->setPosition(this->position().toPoint());
     }
     //OpenGlVideoQtQuick2Renderer2->setViewportSize(window()->size() * window()->devicePixelRatio());
     //std::cout << "updating matrix " << std::endl;
@@ -184,6 +182,8 @@ void OpenGlVideoQtQuick2Renderer2::render()
         
     }
     program->bind();
+    int y = (m_window->size()* m_window->devicePixelRatio()).height() - m_viewportSize.height() -  m_position.y();
+    glViewport(m_position.x(), y, m_viewportSize.width(), m_viewportSize.height());
 
     QMatrix4x4 transform;
     transform.setToIdentity();

@@ -29,23 +29,14 @@ public:
     }
     ~OpenGlVideoQtQuick2Renderer2();
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
-    void setViewportSize(const QSize &size) { m_viewportSize = size; }
     void setWindow(QQuickWindow *window) { m_window = window; }
-
-    void setWidth(int width) {
-        this->width = width;
-    }
-
-    void setHeight(int height) {
-        this->height = height;
-    }
-
-    void setX(int x) {
+    void setViewportSize(const QSize &size) { m_viewportSize = size; }
+    void setPosition(const QPoint &position) { m_position = position; }
+    void setDimensions(int x, int y, int width, int height) {
         this->x = x;
-    }
-
-    void setY(int y) {
         this->y = y;
+        this->width = width;
+        this->height = height;
     }
     QMatrix4x4 qQuickVideoMatrix;
 
@@ -64,6 +55,7 @@ private:
     int height = 0;
     int x = 0;
     int y = 0;
+    QPoint m_position;
 };
 
 //class OpenGlVideoQtQuick2 : public QQuickItem

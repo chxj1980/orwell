@@ -31,12 +31,7 @@ public:
     void setWindow(QQuickWindow *window) { m_window = window; }
     void setViewportSize(const QSize &size) { m_viewportSize = size; }
     void setPosition(const QPoint &position) { m_position = position; }
-    void setDimensions(int x, int y, int width, int height) {
-        this->x = x;
-        this->y = y;
-        this->width = width;
-        this->height = height;
-    }
+
     QMatrix4x4 qQuickVideoMatrix;
 
 public slots:
@@ -50,10 +45,7 @@ private:
     QSize m_viewportSize;
     unsigned char *datas[3] = {0};
     bool firstRender = true;
-    int width = 0;
-    int height = 0;
-    int x = 0;
-    int y = 0;
+
     QPoint m_position;
 };
 

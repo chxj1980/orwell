@@ -90,7 +90,7 @@ void OpenGlVideoQtQuick::sync()
         camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
         boost::thread mediaThread(&MediaStream::run, camera1);
-        openGlVideoQtQuickRenderer->setDimensions(x(),y(),width(),height());
+        //openGlVideoQtQuickRenderer->setDimensions(x(),y(),width(),height());
         openGlVideoQtQuickRenderer->setViewportSize(this->size().toSize() * window()->devicePixelRatio());
         openGlVideoQtQuickRenderer->setWindow(window());
         openGlVideoQtQuickRenderer->setPosition(this->position().toPoint());
@@ -178,7 +178,7 @@ void OpenGlVideoQtQuickRenderer::render()
         program->setUniformValue("u_transform", this->qQuickVideoMatrix);
         //glViewport(this->x, this->y, this->width, this->height);
         int y = (m_window->size()* m_window->devicePixelRatio()).height() - m_viewportSize.height() -  m_position.y();
-        //glViewport(m_position.x(), y, m_viewportSize.width(), m_viewportSize.height());
+        glViewport(m_position.x(), y, m_viewportSize.width(), m_viewportSize.height());
 
         //std::cout << m_position.x() << ", " << y << ", "<< m_viewportSize.width() << ", " << m_viewportSize.height() << std::endl;
         //glViewport(0, 0, m_viewportSize.width(), m_viewportSize.height());

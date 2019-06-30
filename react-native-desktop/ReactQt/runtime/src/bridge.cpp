@@ -594,7 +594,7 @@ void Bridge::injectModules() {
 
 void Bridge::processResult(const QJsonDocument& doc) {
     Q_D(Bridge);
-    std::cout << "JSON DOCUMENT ------- //// ------- " << std::endl << strJson(doc.toJson(QJsonDocument::Compact)) << std::endl;
+
     if (doc.isNull())
         return;
 
