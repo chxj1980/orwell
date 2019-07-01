@@ -87,9 +87,9 @@ public:
         datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
         datas[2] = new unsigned char[frameWidth*frameHeight/4]; //V
 
-        unis[0] = program()->uniformLocation("tex_y");
-        unis[1] = program()->uniformLocation("tex_u");
-        unis[2] = program()->uniformLocation("tex_v");
+        //unis[0] = program()->uniformLocation("tex_y");
+        //unis[1] = program()->uniformLocation("tex_u");
+        //unis[2] = program()->uniformLocation("tex_v");
 
         glFuncs->glGenTextures(3, texs);
     }
@@ -105,7 +105,7 @@ public:
         glFuncs->glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
         glFuncs->glEnableVertexAttribArray(T_VER);
         */
-       
+
         //Y
         glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
         glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -145,8 +145,10 @@ public:
     }
 
     void resolveUniforms() override
-    {
-        //id_color = program()->uniformLocation("color");
+    {        
+        unis[0] = program()->uniformLocation("tex_y");
+        unis[1] = program()->uniformLocation("tex_u");
+        unis[2] = program()->uniformLocation("tex_v");
     }
 
 private:
