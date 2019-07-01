@@ -24,13 +24,15 @@ struct State
     unsigned char *datas[3] = {0};
     bool firstRender = true;
     int test = 0;
-
+    //TODO: why can't I change the State's frameWidth and frameHeight???
     void updateData(unsigned char**data, int frameWidth, int frameHeight)
     {
-        this->frameWidth = frameWidth;
-        this->frameHeight = frameHeight;
-
+        std::cout << "updating data " << std::endl;
+        //frameWidth = w;
+        //frameHeight = h;
+        //std::cout << "frameWidth: " << w << " frameHeight: " << h << std::endl;
         if (firstRender) {
+            std::cout << "first render, creating datas " << std::endl;
             datas[0] = new unsigned char[frameWidth*frameHeight];  //Y
             datas[1] = new unsigned char[frameWidth*frameHeight/4];//U
             datas[2] = new unsigned char[frameWidth*frameHeight/4];//V
@@ -40,6 +42,8 @@ struct State
         memcpy(datas[0], data[0], frameWidth*frameHeight);
         memcpy(datas[1], data[1], frameWidth*frameHeight/4);
         memcpy(datas[2], data[2], frameWidth*frameHeight/4);
+        std::cout << "finished updating data " << std::endl;
+
     }
 
     
@@ -206,9 +210,9 @@ class Node: public QSGGeometryNode, public FrameUpdater
             setGeometry(g);
             setFlag(QSGNode::OwnsGeometry, true);
 
-            //stream = new MediaStream("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
-            //stream->setFrameUpdater((FrameUpdater *) this);
-            //boost::thread mediaThread(&MediaStream::run, stream);
+            stream = new MediaStream("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
+            stream->setFrameUpdater((FrameUpdater *) this);
+            boost::thread mediaThread(&MediaStream::run, stream);
         }
 
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
@@ -218,7 +222,7 @@ class Node: public QSGGeometryNode, public FrameUpdater
         }
 
     private:
-        QSGSimpleMaterial<Shader> *material;
+        QSGSimpleMaterial<State> *material;
         //QScopedPointer<QSGTexture> m_source;
         //QScopedPointer<QSGTexture> m_target;
         bool firstRender = false;
