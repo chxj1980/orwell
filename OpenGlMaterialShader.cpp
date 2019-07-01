@@ -38,10 +38,9 @@ public:
                     attribute vec4 vertexIn;
                     attribute vec2 textureIn;
                     varying vec2 textureOut;
-                    uniform mat4 u_transform;   
                     void main(void)
                     {
-                        gl_Position = u_transform * vertexIn;
+                        gl_Position = vertexIn;
                         textureOut = textureIn;
                     }
             );
@@ -96,7 +95,7 @@ public:
 
     void updateState(const State *state, const State *) override
     {
-        //TODO: do verification of old state and new state here. Don't know why but do it.
+        //TODO: do verification of old state and new state here. Don't know why but do it, I think it has to do with performance
 
         //Y
         glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
@@ -121,18 +120,19 @@ public:
         glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
         glFuncs->glUniform1i(unis[0], 0);
 
-
         glFuncs->glActiveTexture(GL_TEXTURE0+1);
         glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]); 
         glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
         glFuncs->glUniform1i(unis[1],1);
 
-
         glFuncs->glActiveTexture(GL_TEXTURE0+2);
         glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
         glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
         glFuncs->glUniform1i(unis[2], 2);
+
         glFuncs->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+        //release some things here
     }
 
     void resolveUniforms() override
@@ -159,7 +159,7 @@ class Node : public QSGGeometryNode
         {
             QSGSimpleMaterial<Shader> *material = Shader::createMaterial();
             setMaterial(material);
-            //setFlag(OwnsMaterial, true);
+            setFlag(OwnsMaterial, true);
             //setProgress(1.0);
 
             /*
@@ -196,9 +196,22 @@ class Item : public QQuickItem
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
 
-
     public:
         std::string uri;
+
+        QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override
+        {
+            Node *n = static_cast<Node *>(node);
+            if (!node)
+                n = new Node();
+
+            //QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
+            //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
+
+            n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);//what is this?
+
+            return n;
+        }
 
         Item()
         {
@@ -226,19 +239,5 @@ class Item : public QQuickItem
 
     private:
         QColor m_color;
-
-    public:
-        QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override
-        {
-            ColorNode *n = static_cast<ColorNode *>(node);
-            if (!node)
-                n = new ColorNode();
-
-            QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
-            static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
-
-            n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
-
-            return n;
-        }
+        
 };
