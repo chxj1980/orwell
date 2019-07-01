@@ -17,9 +17,11 @@
 
 struct State
 {
-    QColor color;
+    //What should be my State?
+    //QColor color;
 
     int compare(const State *other) const {
+        /*
         uint rgb = color.rgba();
         uint otherRgb = other->color.rgba();
 
@@ -30,6 +32,8 @@ struct State
         } else {
             return 1;
         }
+        */
+       return 1;
     }
 };
 
