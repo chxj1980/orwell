@@ -25,25 +25,6 @@ class OpenGlMaterialQQuickItem: public QQuickItem
         void setUri(const QString &a) {
             uri = a.toStdString();
         }
-        /*
-        void setColor(const QColor &color) {
-            if (m_color != color) {
-                m_color = color;
-                emit colorChanged();
-                update();
-            }
-        }
-
-        QColor color() const {
-            return m_color;
-        }
-        */
-
-    signals:
-        //void colorChanged();
-
-    private:
-        //QColor m_color;
         
 };
 #endif 
