@@ -10,6 +10,8 @@
 #include "OpenGlBufferQtQuick.h"
 #include "OpenGlVideoQtQuick.h"
 #include "OpenGlVideoQtQuick2.h"
+#include "OpenGlMaterialQQuickItem.h"
+
 #include <QScreen> 
 
 #include <iostream>
@@ -63,14 +65,14 @@ QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
 
     std::cout << "width:  (((((( " << properties["width"].toInt() << std::endl;
     std::cout << "height: (((((( " << properties["height"].toInt() << std::endl;
-    OpenGlVideoQtQuick* item = new OpenGlVideoQtQuick();
-
+    //OpenGlVideoQtQuick* item = new OpenGlVideoQtQuick();
+    OpenGlMaterialQQuickItem* item = new OpenGlMaterialQQuickItem();
     //OpenGlVideoQtQuick2* item = new OpenGlVideoQtQuick2();
 
     item->setUri("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
     //item->render();
-    item->setWidth(200);
-    item->setHeight(200);
+    item->setWidth(640);
+    item->setHeight(360);
     std::cout << "returning custom item" << std::endl;
     return item;
 }

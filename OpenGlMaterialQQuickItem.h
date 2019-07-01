@@ -5,11 +5,11 @@
 #include "MediaStream.h"
 #include "reactitem.h"
 
-class OpenGlMaterialQQuickItem: public QQuickItem
+//class OpenGlMaterialQQuickItem: public QQuickItem
+class OpenGlMaterialQQuickItem: public ReactItem
 {
     //Q_OBJECT
 
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
 
     public:

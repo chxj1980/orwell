@@ -10,9 +10,8 @@
 #include <QOpenGLFunctions>
 #include "OpenGlMaterialQQuickItem.h"
 #include <iostream>
+#include <QObject>
 //https://github.com/KDE/plasma-framework/blob/e7329b95ed3e654e7b5edb4cf7c044b91f8d4d0a/src/declarativeimports/core/fadingnode.cpp
-
-//#include "OpenGlMaterialShader.moc"//??????
 
 #define GET_STR(x) #x
 #define VERTEX_ATTRIBUTE 3
@@ -119,7 +118,6 @@ class Shader : public QSGSimpleMaterialShader<State>
 
         void initialize()
         {
-            std::cout << "shader initialization" << std::endl;
             if (!program()->isLinked()) {
                 return; //shader not linked, exit otherwise we crash, BUG: 336272
             }
@@ -133,7 +131,6 @@ class Shader : public QSGSimpleMaterialShader<State>
 
         void updateState(const State *state, const State *) override
         {
-            program()->setUniformValue("qt_Opacity", 1);
             //Y
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -180,14 +177,14 @@ class Shader : public QSGSimpleMaterialShader<State>
         }
 };
 
-class Node: public QSGGeometryNode, public FrameUpdater
+class Node: public QSGGeometryNode, public FrameUpdater//, public QObject
 {
+    //Q_OBJECT
+
     public:
         State state;
-        QQuickItem* item;
         Node()
-        {
-            //QSGSimpleMaterial<State> *material = new QSGSimpleMaterial<State>(state,createShader);
+        {            
             material = Shader::createMaterial();
             setMaterial(material);
             setFlag(OwnsMaterial, true);
@@ -202,18 +199,23 @@ class Node: public QSGGeometryNode, public FrameUpdater
             boost::thread mediaThread(&MediaStream::run, stream);
         }
 
+        void setItem(QQuickItem* item) {
+            this->item = item;
+        }
+
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
-            //std::cout << "material->state().frameWidth " << material->state()->frameWidth << std::endl;
+            
             material->state()->updateData(data, frameWidth, frameHeight);
-            item->update();//todo: take this out
-            markDirty(QSGNode::DirtyMaterial | QSGNode::DirtyGeometry);//is this really needed?
+            markDirty(QSGNode::DirtyMaterial);//is this really needed?
+            QMetaObject::invokeMethod(item, &QQuickItem::update, Qt::QueuedConnection);
         }
 
     private:
         QSGSimpleMaterial<State> *material;
         MediaStream* stream;
-        
+        QQuickItem* item;
+
 };
 
 QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNodeData *) //override
@@ -221,7 +223,7 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNo
     Node *n = static_cast<Node *>(node);
     if (!node)
         n = new Node();
-    n->item = this;
+    n->setItem(this);
     QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
     //This is how we change things, because updatePaintNode is the safe place to do it 
     //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
@@ -231,4 +233,4 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNo
     return n;
 }
 
-        
+//#include "OpenGlMaterialQtQuick.moc"
