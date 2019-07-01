@@ -27,9 +27,8 @@ struct State
     //TODO: why can't I change the State's frameWidth and frameHeight???
     void updateData(unsigned char**data, int frameWidth, int frameHeight)
     {
-        std::cout << "updating data " << std::endl;
-        //frameWidth = w;
-        //frameHeight = h;
+        this->frameWidth = frameWidth;
+        this->frameHeight = frameHeight;
         //std::cout << "frameWidth: " << w << " frameHeight: " << h << std::endl;
         if (firstRender) {
             std::cout << "first render, creating datas " << std::endl;
@@ -42,8 +41,6 @@ struct State
         memcpy(datas[0], data[0], frameWidth*frameHeight);
         memcpy(datas[1], data[1], frameWidth*frameHeight/4);
         memcpy(datas[2], data[2], frameWidth*frameHeight/4);
-        std::cout << "finished updating data " << std::endl;
-
     }
 
     
@@ -194,13 +191,21 @@ class Shader : public QSGSimpleMaterialShader<State>
             unis[2] = program()->uniformLocation("tex_v");
         }
 };
-
+/*
+static QSGMaterialShader *createShader()                        
+{                                                               
+    return new Shader;                                          
+}
+*/
 class Node: public QSGGeometryNode, public FrameUpdater
 {
     public:
+        State state;
         Node()
         {
-            QSGSimpleMaterial<State> *material = Shader::createMaterial();
+            //std::cout << "state.frameWidth: " << state.frameWidth << std::endl;
+            //QSGSimpleMaterial<State> *material = new QSGSimpleMaterial<State>(state,createShader);
+            material = Shader::createMaterial();
             setMaterial(material);
             setFlag(OwnsMaterial, true);
             //setProgress(1.0);
@@ -217,6 +222,8 @@ class Node: public QSGGeometryNode, public FrameUpdater
 
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
+            //std::cout << "gonna update data " << std::endl;
+            //std::cout << "material->state().frameWidth " << material->state()->frameWidth << std::endl;
             material->state()->updateData(data, frameWidth, frameHeight);
             markDirty(QSGNode::DirtyMaterial);//is this really needed?
         }
