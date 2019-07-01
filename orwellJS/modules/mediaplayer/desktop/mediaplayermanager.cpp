@@ -61,7 +61,7 @@ QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
       //std::cout << iter.key().toStdString() <<std::endl;
     //}
 
-    std::cout << "width: (((((( " << properties["width"].toInt() << std::endl;
+    std::cout << "width:  (((((( " << properties["width"].toInt() << std::endl;
     std::cout << "height: (((((( " << properties["height"].toInt() << std::endl;
     OpenGlVideoQtQuick* item = new OpenGlVideoQtQuick();
 

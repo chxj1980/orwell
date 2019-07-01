@@ -37,7 +37,6 @@ const char *tString4 = GET_STR(
             1.13983, -0.58060, 0.0) * yuv;
         gl_FragColor = vec4(1.0,0,0, 1.0);
     }
-
 );
 
 OpenGlVideoQtQuick2::OpenGlVideoQtQuick2()
