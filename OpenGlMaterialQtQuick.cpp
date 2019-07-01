@@ -10,6 +10,7 @@
 #include <QOpenGLFunctions>
 #include "OpenGlMaterialQQuickItem.h"
 #include <iostream>
+//https://github.com/KDE/plasma-framework/blob/e7329b95ed3e654e7b5edb4cf7c044b91f8d4d0a/src/declarativeimports/core/fadingnode.cpp
 
 //#include "OpenGlMaterialShader.moc"//??????
 
@@ -117,7 +118,7 @@ class Shader : public QSGSimpleMaterialShader<State>
             glFuncs->glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
             glFuncs->glEnableVertexAttribArray(T_VER);
             */
-
+            program()->setUniformValue("qt_Opacity", 1);
             //Y
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -157,7 +158,7 @@ class Shader : public QSGSimpleMaterialShader<State>
         }
 
         void resolveUniforms() override
-        {        
+        {
             unis[0] = program()->uniformLocation("tex_y");
             unis[1] = program()->uniformLocation("tex_u");
             unis[2] = program()->uniformLocation("tex_v");
@@ -190,21 +191,21 @@ private:
 class Node: public QSGGeometryNode, public FrameUpdater
 {
     public:
-        //Node(QSGTexture *source, QSGTexture *target):m_source(source),m_target(target)
         Node()
         {
             QSGSimpleMaterial<State> *material = Shader::createMaterial();
             setMaterial(material);
             setFlag(OwnsMaterial, true);
             //setProgress(1.0);
-            stream = new MediaStream("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
-            //stream->setFrameUpdater((FrameUpdater *) this);
-            //boost::thread mediaThread(&MediaStream::run, stream);
 
             QSGGeometry *g = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4);
             QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
             setGeometry(g);
             setFlag(QSGNode::OwnsGeometry, true);
+
+            //stream = new MediaStream("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
+            //stream->setFrameUpdater((FrameUpdater *) this);
+            //boost::thread mediaThread(&MediaStream::run, stream);
         }
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
@@ -234,7 +235,7 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNo
     if (!node)
         n = new Node();
 
-    //QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
+    QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
     //This is how we change things, because updatePaintNode is the safe place to do it 
     //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
 
