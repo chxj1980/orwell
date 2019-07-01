@@ -9,6 +9,7 @@
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>
 #include "OpenGlMaterialQQuickItem.h"
+#include <iostream>
 
 //#include "OpenGlMaterialShader.moc"//??????
 
@@ -47,12 +48,13 @@ class Shader : public QSGSimpleMaterialShader<State>
 
         const char *vertexShader() const override {
             return GET_STR(
+                        uniform highp mat4 qt_Matrix;
                         attribute vec4 vertexIn;
                         attribute vec2 textureIn;
                         varying vec2 textureOut;
                         void main(void)
                         {
-                            gl_Position = vertexIn;
+                            gl_Position = qt_Matrix * vertexIn;
                             textureOut = textureIn;
                         }
                 );
@@ -64,6 +66,7 @@ class Shader : public QSGSimpleMaterialShader<State>
                         uniform sampler2D tex_y;
                         uniform sampler2D tex_u;
                         uniform sampler2D tex_v;
+                        uniform lowp float qt_Opacity;
                         void main(void)
                         {
                             vec3 yuv;
@@ -74,7 +77,7 @@ class Shader : public QSGSimpleMaterialShader<State>
                             rgb = mat3(1.0, 1.0, 1.0,
                                 0.0, -0.39465, 2.03211,
                                 1.13983, -0.58060, 0.0) * yuv;
-                            gl_FragColor = vec4(rgb, 1.0);
+                            gl_FragColor = vec4(rgb, 1.0) * qt_Opacity;
                         }
                     );
         }
@@ -196,12 +199,11 @@ class Node: public QSGGeometryNode//,public FrameUpdater
             //stream->setFrameUpdater((FrameUpdater *) this);
             //boost::thread mediaThread(&MediaStream::run, stream);
 
-            /*
+            
             QSGGeometry *g = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4);
             QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
             setGeometry(g);
             setFlag(QSGNode::OwnsGeometry, true);
-            */
         }
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
@@ -237,7 +239,6 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNo
     //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
 
     n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);//what is this?
-
     return n;
 }
 
