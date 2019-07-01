@@ -22,23 +22,27 @@ struct State
     int frameWidth = 1920;
     int frameHeight = 1080;
     unsigned char *datas[3] = {0};
-    datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
-    datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
-    datas[2] = new unsigned char[frameWidth*frameHeight/4]; //V
+    bool firstRender = true;
+    int test = 0;
 
     void updateData(unsigned char**data, int frameWidth, int frameHeight)
     {
         this->frameWidth = frameWidth;
         this->frameHeight = frameHeight;
 
-        //Before first render, datas pointer isn't even created yet
-        //firstRender = false; //temporary
-        //if (!firstRender) {
+        if (firstRender) {
+            datas[0] = new unsigned char[frameWidth*frameHeight];  //Y
+            datas[1] = new unsigned char[frameWidth*frameHeight/4];//U
+            datas[2] = new unsigned char[frameWidth*frameHeight/4];//V
+            firstRender = false;
+        }
+
         memcpy(datas[0], data[0], frameWidth*frameHeight);
         memcpy(datas[1], data[1], frameWidth*frameHeight/4);
         memcpy(datas[2], data[2], frameWidth*frameHeight/4);
-        //}
     }
+
+    
 
     int compare(const State *other) const {
         /*
@@ -60,12 +64,13 @@ struct State
 class Shader : public QSGSimpleMaterialShader<State>
 {
     QSG_DECLARE_SIMPLE_COMPARABLE_SHADER(Shader, State);
+    private:
+        QOpenGLFunctions *glFuncs = nullptr;
+        GLuint unis[3] = {0};
+        GLuint texs[3] = {0};
+        QSize m_viewportSize;
+        bool firstRender = true;
     public:
-        /*
-        int frameWidth = 1920;
-        int frameHeight = 1080;
-        unsigned char *datas[3] = {0};
-        */
         const char *vertexShader() const override {
             return GET_STR(
                         uniform highp mat4 qt_Matrix;
@@ -117,12 +122,6 @@ class Shader : public QSGSimpleMaterialShader<State>
             QSGSimpleMaterialShader<State>::initialize();
             glFuncs = QOpenGLContext::currentContext()->functions();
             program()->bind();
-            
-            /*
-            datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
-            datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
-            datas[2] = new unsigned char[frameWidth*frameHeight/4]; //V 
-            */
 
             glFuncs->glGenTextures(3, texs);
         }
@@ -130,6 +129,12 @@ class Shader : public QSGSimpleMaterialShader<State>
         void updateState(const State *state, const State *) override
         {
             std::cout << "updateState called" << std::endl;
+            //if (firstRender) {
+                //state->datas[0] = new unsigned char[state->frameWidth*state->frameHeight];	//Y
+                //state->datas[1] = new unsigned char[state->frameWidth*state->frameHeight/4];//U
+                //state->datas[2] = new unsigned char[state->frameWidth*state->frameHeight/4];//V 
+                //firstRender = false;
+            //}
             //TODO: do verification of old state and new state here. Don't know why but do it, I think it has to do with performance
         
             /*
@@ -144,33 +149,33 @@ class Shader : public QSGSimpleMaterialShader<State>
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth, state->frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
             //U
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth/2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth/2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
             //V
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth / 2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
             glFuncs->glActiveTexture(GL_TEXTURE0);
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, state->datas[0]);
+            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth, state->frameHeight, GL_RED, GL_UNSIGNED_BYTE, state->datas[0]);
             glFuncs->glUniform1i(unis[0], 0);
 
             glFuncs->glActiveTexture(GL_TEXTURE0+1);
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]); 
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[1]);
+            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth/2, state->frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[1]);
             glFuncs->glUniform1i(unis[1],1);
 
             glFuncs->glActiveTexture(GL_TEXTURE0+2);
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[2]);
+            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth / 2, state->frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[2]);
             glFuncs->glUniform1i(unis[2], 2);
 
             glFuncs->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
@@ -184,29 +189,6 @@ class Shader : public QSGSimpleMaterialShader<State>
             unis[1] = program()->uniformLocation("tex_u");
             unis[2] = program()->uniformLocation("tex_v");
         }
-
-private:
-    int id_color;
-    QOpenGLFunctions *glFuncs = nullptr;
-    GLuint unis[3] = {0};
-    GLuint texs[3] = {0};
-    QSize m_viewportSize;
-    bool firstRender = true;
-    /*
-    //Do I need to use these things?
-    static const GLfloat ver[] = {
-        -1.0f,-1.0f,
-        1.0f,-1.0f,
-        -1.0f, 1.0f,
-        1.0f, 1.0f
-    };
-    static const GLfloat tex[] = {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 0.0f
-    };
-    */
 };
 
 class Node: public QSGGeometryNode, public FrameUpdater
