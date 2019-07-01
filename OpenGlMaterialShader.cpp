@@ -9,6 +9,7 @@
 #include <QOpenGLFunctions>
 
 #define GET_STR(x) #x
+#define VERTEX_ATTRIBUTE 3
 
 struct State
 {
@@ -32,7 +33,6 @@ class Shader : public QSGSimpleMaterialShader<State>
 {
     QSG_DECLARE_SIMPLE_COMPARABLE_SHADER(Shader, State);
 public:
-
     const char *vertexShader() const override {
         return GET_STR(
                     attribute vec4 vertexIn;
@@ -69,7 +69,8 @@ public:
 
     QList<QByteArray> attributes() const override
     {
-        return QList<QByteArray>() << "aVertex" << "aTexCoord";
+        //return QList<QByteArray>() << "vertexIn" << VERTEX_ATTRIBUTE;
+        return {QByteArrayLiteral("vertexIn"), QByteArrayLiteral("textureIn")};
     }
 
     void initialize()
@@ -96,7 +97,15 @@ public:
     void updateState(const State *state, const State *) override
     {
         //TODO: do verification of old state and new state here. Don't know why but do it, I think it has to do with performance
+       
+        /*
+        glFuncs->glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
+        glFuncs->glEnableVertexAttribArray(A_VER);
 
+        glFuncs->glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
+        glFuncs->glEnableVertexAttribArray(T_VER);
+        */
+       
         //Y
         glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
         glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -150,6 +159,19 @@ private:
     bool firstRender = true;
     int frameWidth = 1920;
     int frameHeight = 1080;
+    static const GLfloat ver[] = {
+        -1.0f,-1.0f,
+        1.0f,-1.0f,
+        -1.0f, 1.0f,
+        1.0f, 1.0f
+    };
+
+    static const GLfloat tex[] = {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f
+    };
 };
 
 class Node : public QSGGeometryNode
