@@ -78,6 +78,7 @@ public:
         if (!program()->isLinked()) {
             return; //shader not linked, exit otherwise we crash, BUG: 336272
         }
+        
         QSGSimpleMaterialShader<State>::initialize(); //What is this?
         glFuncs = QOpenGLContext::currentContext()->functions();
         program()->bind();
@@ -151,6 +152,27 @@ private:
     int frameHeight = 1080;
 };
 
+Node::Node(QSGTexture *source, QSGTexture *target):
+    m_source(source),
+    m_target(target)
+{
+    QSGSimpleMaterial<Shader> *m = Shader::createMaterial();
+    setMaterial(m);
+    //setFlag(OwnsMaterial, true);
+    //setProgress(1.0);
+
+    /*
+    QSGGeometry *g = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4);
+    QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
+    setGeometry(g);
+    setFlag(QSGNode::OwnsGeometry, true);
+    */
+}
+
+Node::~Node()
+{
+}
+/*
 class ColorNode : public QSGGeometryNode
 {
 public:
@@ -167,6 +189,7 @@ public:
 
     QSGGeometry m_geometry;
 };
+*/
 
 class Item : public QQuickItem
 {
