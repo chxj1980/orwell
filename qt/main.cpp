@@ -16,7 +16,7 @@
 #include "OpenGlBufferQtQuick.h"
 #include "OpenGlVideoQtQuick.h"
 #include "OpenGlVideoQtQuick2.h"
-
+#include "OpenGlMaterialQQuickItem.h"
 
 int main(int argc, char **argv)
 {
@@ -24,8 +24,8 @@ int main(int argc, char **argv)
     QCoreApplication::addLibraryPath("./");
     qmlRegisterType<OpenGlVideoQtQuick>("OpenGlVideoQtQuick", 1, 0, "OpenGlVideoQtQuick");
     qmlRegisterType<OpenGlVideoQtQuick2>("OpenGlVideoQtQuick2", 1, 0, "OpenGlVideoQtQuick2");
-
     qmlRegisterType<OpenGlBufferItem>("OpenGlBufferQtQuick", 1, 0, "OpenGlBufferQtQuick");
+    qmlRegisterType<OpenGlMaterialQQuickItem>("OpenGlMaterialQQuickItem", 1, 0, "OpenGlMaterialQQuickItem");
 
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);

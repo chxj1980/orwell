@@ -1,3 +1,4 @@
+#include <QtQuick/QQuickItem>
 #include <qguiapplication.h>
 #include <qsgmaterial.h>
 #include <qsgnode.h>
@@ -7,6 +8,9 @@
 #include <qsgsimplematerial.h>
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>
+#include "OpenGlMaterialQQuickItem.h"
+
+//#include "OpenGlMaterialShader.moc"//??????
 
 #define GET_STR(x) #x
 #define VERTEX_ATTRIBUTE 3
@@ -33,6 +37,10 @@ class Shader : public QSGSimpleMaterialShader<State>
 {
     QSG_DECLARE_SIMPLE_COMPARABLE_SHADER(Shader, State);
     public:
+        int frameWidth = 1920;
+        int frameHeight = 1080;
+        unsigned char *datas[3] = {0};
+
         const char *vertexShader() const override {
             return GET_STR(
                         attribute vec4 vertexIn;
@@ -152,10 +160,7 @@ private:
     GLuint unis[3] = {0};
     GLuint texs[3] = {0};
     QSize m_viewportSize;
-    unsigned char *datas[3] = {0};
     bool firstRender = true;
-    int frameWidth = 1920;
-    int frameHeight = 1080;
     /*
     //Do I need to use these things?
     static const GLfloat ver[] = {
@@ -176,9 +181,10 @@ private:
 class Node: public QSGGeometryNode//,public FrameUpdater
 {
     public:
-        Node(QSGTexture *source, QSGTexture *target):m_source(source),m_target(target)
+        //Node(QSGTexture *source, QSGTexture *target):m_source(source),m_target(target)
+        Node()
         {
-            QSGSimpleMaterial<Shader> *material = Shader::createMaterial();
+            QSGSimpleMaterial<State> *material = Shader::createMaterial();
             setMaterial(material);
             setFlag(OwnsMaterial, true);
             //setProgress(1.0);
@@ -195,77 +201,40 @@ class Node: public QSGGeometryNode//,public FrameUpdater
         }
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
-            material->frameWidth = frameWidth;
-            material->frameHeight = frameHeight;
+            //material->frameWidth = frameWidth;
+            //material->frameHeight = frameHeight;
 
             //Before first render, datas pointer isn't even created yet
             firstRender = false; //temporary
             if (!firstRender) {
-                memcpy(material->datas[0], data[0], frameWidth*frameHeight);
-                memcpy(material->datas[1], data[1], frameWidth*frameHeight/4);
-                memcpy(material->datas[2], data[2], frameWidth*frameHeight/4);
+                //memcpy(material->datas[0], data[0], frameWidth*frameHeight);
+                //memcpy(material->datas[1], data[1], frameWidth*frameHeight/4);
+                //memcpy(material->datas[2], data[2], frameWidth*frameHeight/4);
             }
         }
 
     private:
         QSGSimpleMaterial<Shader> *material;
-        QScopedPointer<QSGTexture> m_source;
-        QScopedPointer<QSGTexture> m_target;
+        //QScopedPointer<QSGTexture> m_source;
+        //QScopedPointer<QSGTexture> m_target;
+        bool firstRender = false;
         //MediaStream* stream;
+};
+
+
+QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNodeData *) //override
+{
+    Node *n = static_cast<Node *>(node);
+    if (!node)
+        n = new Node();
+
+    //QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
+    //This is how we change things, because updatePaintNode is the safe place to do it 
+    //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
+
+    n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);//what is this?
+
+    return n;
 }
 
-
-class Item: public QQuickItem
-{
-    Q_OBJECT
-
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
-
-    public:
-        std::string uri;
-
-        QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override
-        {
-            Node *n = static_cast<Node *>(node);
-            if (!node)
-                n = new Node();
-
-            //QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
-            //This is how we change things, because updatePaintNode is the safe place to do it 
-            //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
-
-            n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);//what is this?
-
-            return n;
-        }
-
-        Item()
-        {
-            setFlag(ItemHasContents, true);
-        }
-
-        void setUri(const QString &a) {
-            uri = a.toStdString();
-        }
-        /*
-        void setColor(const QColor &color) {
-            if (m_color != color) {
-                m_color = color;
-                emit colorChanged();
-                update();
-            }
-        }
-
-        QColor color() const {
-            return m_color;
-        }
-        */
-
-    signals:
-        //void colorChanged();
-
-    private:
-        //QColor m_color;
         
-};
