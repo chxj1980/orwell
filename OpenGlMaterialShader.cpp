@@ -78,7 +78,7 @@ public:
         if (!program()->isLinked()) {
             return; //shader not linked, exit otherwise we crash, BUG: 336272
         }
-        
+
         QSGSimpleMaterialShader<State>::initialize(); //What is this?
         glFuncs = QOpenGLContext::currentContext()->functions();
         program()->bind();
@@ -152,44 +152,42 @@ private:
     int frameHeight = 1080;
 };
 
-Node::Node(QSGTexture *source, QSGTexture *target):
-    m_source(source),
-    m_target(target)
+class Node : public QSGGeometryNode
 {
-    QSGSimpleMaterial<Shader> *m = Shader::createMaterial();
-    setMaterial(m);
-    //setFlag(OwnsMaterial, true);
-    //setProgress(1.0);
+    public:
+        Node(QSGTexture *source, QSGTexture *target):m_source(source),m_target(target)
+        {
+            QSGSimpleMaterial<Shader> *material = Shader::createMaterial();
+            setMaterial(material);
+            //setFlag(OwnsMaterial, true);
+            //setProgress(1.0);
 
-    /*
-    QSGGeometry *g = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4);
-    QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
-    setGeometry(g);
-    setFlag(QSGNode::OwnsGeometry, true);
-    */
+            /*
+            QSGGeometry *g = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4);
+            QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
+            setGeometry(g);
+            setFlag(QSGNode::OwnsGeometry, true);
+            */
+        }
+        void updateData(unsigned char**data, int frameWidth, int frameHeight)
+        {
+            material->frameWidth = frameWidth;
+            material->frameHeight = frameHeight;
+
+            //Before first render, datas pointer isn't even created yet
+            firstRender = false; //temporary
+            if (!firstRender) {
+                memcpy(material->datas[0], data[0], frameWidth*frameHeight);
+                memcpy(material->datas[1], data[1], frameWidth*frameHeight/4);
+                memcpy(material->datas[2], data[2], frameWidth*frameHeight/4);
+            }
+        }
+
+    private:
+        QScopedPointer<QSGTexture> m_source;
+        QScopedPointer<QSGTexture> m_target;
 }
 
-Node::~Node()
-{
-}
-/*
-class ColorNode : public QSGGeometryNode
-{
-public:
-    ColorNode()
-        : m_geometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4)
-    {
-        setGeometry(&m_geometry);
-
-        QSGSimpleMaterial<State> *material = Shader::createMaterial();
-        material->setFlag(QSGMaterial::Blending);
-        setMaterial(material);
-        setFlag(OwnsMaterial);
-    }
-
-    QSGGeometry m_geometry;
-};
-*/
 
 class Item : public QQuickItem
 {
@@ -199,48 +197,48 @@ class Item : public QQuickItem
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
 
 
-public:
-    std::string uri;
+    public:
+        std::string uri;
 
-    Item()
-    {
-        setFlag(ItemHasContents, true);
-    }
-
-    void setUri(const QString &a) {
-        uri = a.toStdString();
-    }
-
-    void setColor(const QColor &color) {
-        if (m_color != color) {
-            m_color = color;
-            emit colorChanged();
-            update();
+        Item()
+        {
+            setFlag(ItemHasContents, true);
         }
-    }
 
-    QColor color() const {
-        return m_color;
-    }
+        void setUri(const QString &a) {
+            uri = a.toStdString();
+        }
 
-signals:
-    void colorChanged();
+        void setColor(const QColor &color) {
+            if (m_color != color) {
+                m_color = color;
+                emit colorChanged();
+                update();
+            }
+        }
 
-private:
-  QColor m_color;
+        QColor color() const {
+            return m_color;
+        }
 
-public:
-    QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override
-    {
-        ColorNode *n = static_cast<ColorNode *>(node);
-        if (!node)
-            n = new ColorNode();
+    signals:
+        void colorChanged();
 
-        QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
-        static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
+    private:
+        QColor m_color;
 
-        n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
+    public:
+        QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override
+        {
+            ColorNode *n = static_cast<ColorNode *>(node);
+            if (!node)
+                n = new ColorNode();
 
-        return n;
-    }
+            QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
+            static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
+
+            n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
+
+            return n;
+        }
 };
