@@ -1,3 +1,10 @@
+#ifndef OpenGlMaterialQQuickItem_H
+#define OpenGlMaterialQQuickItem_H
+
+#include <boost/thread.hpp>
+#include "MediaStream.h"
+#include "reactitem.h"
+
 class OpenGlMaterialQQuickItem: public QQuickItem
 {
     //Q_OBJECT
@@ -39,3 +46,4 @@ class OpenGlMaterialQQuickItem: public QQuickItem
         //QColor m_color;
         
 };
+#endif 

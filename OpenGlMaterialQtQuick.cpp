@@ -89,6 +89,7 @@ class Shader : public QSGSimpleMaterialShader<State>
 
         void initialize()
         {
+            std::cout << "shader initialization" << std::endl;
             if (!program()->isLinked()) {
                 return; //shader not linked, exit otherwise we crash, BUG: 336272
             }
@@ -106,6 +107,7 @@ class Shader : public QSGSimpleMaterialShader<State>
 
         void updateState(const State *state, const State *) override
         {
+            std::cout << "updateState called" << std::endl;
             //TODO: do verification of old state and new state here. Don't know why but do it, I think it has to do with performance
         
             /*
@@ -185,7 +187,7 @@ private:
     */
 };
 
-class Node: public QSGGeometryNode//,public FrameUpdater
+class Node: public QSGGeometryNode, public FrameUpdater
 {
     public:
         //Node(QSGTexture *source, QSGTexture *target):m_source(source),m_target(target)
@@ -195,11 +197,10 @@ class Node: public QSGGeometryNode//,public FrameUpdater
             setMaterial(material);
             setFlag(OwnsMaterial, true);
             //setProgress(1.0);
-
+            stream = new MediaStream("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
             //stream->setFrameUpdater((FrameUpdater *) this);
             //boost::thread mediaThread(&MediaStream::run, stream);
 
-            
             QSGGeometry *g = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4);
             QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
             setGeometry(g);
@@ -224,9 +225,8 @@ class Node: public QSGGeometryNode//,public FrameUpdater
         //QScopedPointer<QSGTexture> m_source;
         //QScopedPointer<QSGTexture> m_target;
         bool firstRender = false;
-        //MediaStream* stream;
+        MediaStream* stream;
 };
-
 
 QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNodeData *) //override
 {
