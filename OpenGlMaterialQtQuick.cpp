@@ -19,8 +19,26 @@
 
 struct State
 {
-    //What should be my State?
-    //QColor color;
+    int frameWidth = 1920;
+    int frameHeight = 1080;
+    unsigned char *datas[3] = {0};
+    datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
+    datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
+    datas[2] = new unsigned char[frameWidth*frameHeight/4]; //V
+
+    void updateData(unsigned char**data, int frameWidth, int frameHeight)
+    {
+        this->frameWidth = frameWidth;
+        this->frameHeight = frameHeight;
+
+        //Before first render, datas pointer isn't even created yet
+        //firstRender = false; //temporary
+        //if (!firstRender) {
+        memcpy(datas[0], data[0], frameWidth*frameHeight);
+        memcpy(datas[1], data[1], frameWidth*frameHeight/4);
+        memcpy(datas[2], data[2], frameWidth*frameHeight/4);
+        //}
+    }
 
     int compare(const State *other) const {
         /*
@@ -43,10 +61,11 @@ class Shader : public QSGSimpleMaterialShader<State>
 {
     QSG_DECLARE_SIMPLE_COMPARABLE_SHADER(Shader, State);
     public:
+        /*
         int frameWidth = 1920;
         int frameHeight = 1080;
         unsigned char *datas[3] = {0};
-
+        */
         const char *vertexShader() const override {
             return GET_STR(
                         uniform highp mat4 qt_Matrix;
@@ -99,9 +118,11 @@ class Shader : public QSGSimpleMaterialShader<State>
             glFuncs = QOpenGLContext::currentContext()->functions();
             program()->bind();
             
+            /*
             datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
             datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
-            datas[2] = new unsigned char[frameWidth*frameHeight/4]; //V
+            datas[2] = new unsigned char[frameWidth*frameHeight/4]; //V 
+            */
 
             glFuncs->glGenTextures(3, texs);
         }
@@ -139,17 +160,17 @@ class Shader : public QSGSimpleMaterialShader<State>
 
             glFuncs->glActiveTexture(GL_TEXTURE0);
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, datas[0]);
+            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, state->datas[0]);
             glFuncs->glUniform1i(unis[0], 0);
 
             glFuncs->glActiveTexture(GL_TEXTURE0+1);
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]); 
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[1]);
+            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth/2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[1]);
             glFuncs->glUniform1i(unis[1],1);
 
             glFuncs->glActiveTexture(GL_TEXTURE0+2);
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, datas[2]);
+            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[2]);
             glFuncs->glUniform1i(unis[2], 2);
 
             glFuncs->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
@@ -207,18 +228,11 @@ class Node: public QSGGeometryNode, public FrameUpdater
             //stream->setFrameUpdater((FrameUpdater *) this);
             //boost::thread mediaThread(&MediaStream::run, stream);
         }
+
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
-            //material->frameWidth = frameWidth;
-            //material->frameHeight = frameHeight;
-
-            //Before first render, datas pointer isn't even created yet
-            firstRender = false; //temporary
-            if (!firstRender) {
-                //memcpy(material->datas[0], data[0], frameWidth*frameHeight);
-                //memcpy(material->datas[1], data[1], frameWidth*frameHeight/4);
-                //memcpy(material->datas[2], data[2], frameWidth*frameHeight/4);
-            }
+            material->state()->updateData(data, frameWidth, frameHeight);
+            markDirty(QSGNode::DirtyMaterial);//is this really needed?
         }
 
     private:
