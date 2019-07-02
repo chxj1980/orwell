@@ -180,19 +180,24 @@ class Node: public QSGGeometryNode, public FrameUpdater
             QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
             setGeometry(g);
             setFlag(QSGNode::OwnsGeometry, true);
-
-            stream = new MediaStream("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
-            stream->setFrameUpdater((FrameUpdater *) this);
-            boost::thread mediaThread(&MediaStream::run, stream);
         }
 
         void setItem(QQuickItem* item) {
             this->item = item;
         }
 
+        void setUri(std::string uri) {
+            this->uri = uri;
+        }
+
+        void beginStream() {
+            stream = new MediaStream(uri);
+            stream->setFrameUpdater((FrameUpdater *) this);
+            boost::thread mediaThread(&MediaStream::run, stream);
+        }
+
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
-            
             material->state()->updateData(data, frameWidth, frameHeight);
             markDirty(QSGNode::DirtyMaterial);//is this really needed?
             QMetaObject::invokeMethod(item, &QQuickItem::update, Qt::QueuedConnection);
@@ -202,15 +207,20 @@ class Node: public QSGGeometryNode, public FrameUpdater
         QSGSimpleMaterial<State> *material;
         MediaStream* stream;
         QQuickItem* item;
+        std::string uri;
 
 };
 
 QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNodeData *) //override
 {
     Node *n = static_cast<Node *>(node);
-    if (!node)
+    if (!node) {
         n = new Node();
-    n->setItem(this);
+        n->setItem(this);
+        n->setUri(this->uri);//TODO: How do I know that when updatePaintNode is called, the object will already have a defined uri?
+        n->beginStream();
+
+    }
     QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
     //This is how we change things, because updatePaintNode is the safe place to do it 
     //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;

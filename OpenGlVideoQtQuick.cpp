@@ -235,4 +235,3 @@ void OpenGlVideoQtQuickRenderer::render()
         program->release();
     }
 }
-

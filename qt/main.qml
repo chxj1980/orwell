@@ -58,6 +58,22 @@ Grid {
     OpenGlMaterialQQuickItem {
         width: 640
         height: 360
+        uri: "rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0"
+    }
+    OpenGlMaterialQQuickItem {
+        width: 640
+        height: 360
+        uri: "rtsp://admin:19929394@192.168.1.198:10554/tcp/av0_0"
+    }
+    OpenGlMaterialQQuickItem {
+        width: 640
+        height: 360
+        uri: "rtsp://admin:19929394@192.168.1.72:10554/tcp/av0_0"
+    }
+    OpenGlMaterialQQuickItem {
+        width: 640
+        height: 360
+        uri: "rtsp://admin:19929394@192.168.1.155:10554/tcp/av0_0"
     }
     //        p_uri: "rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0"
 

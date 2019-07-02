@@ -24,9 +24,9 @@ class OpenGlMaterialQQuickItem: public ReactItem
 {
     Q_OBJECT
     Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
-    Q_PROPERTY(QString p_uri WRITE setPUri);
-    Q_PROPERTY(qreal p_height WRITE _setHeight);
-    Q_PROPERTY(qreal p_width WRITE _setWidth);
+    //Q_PROPERTY(QString p_uri WRITE setPUri);
+    //Q_PROPERTY(qreal p_height WRITE _setHeight);
+    //Q_PROPERTY(qreal p_width WRITE _setWidth);
 
     public:
         std::string uri;

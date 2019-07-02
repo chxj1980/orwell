@@ -783,32 +783,32 @@ home/lz/orwell/OpenGlBufferQtQuick.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlBufferQtQuick.cpp.s
 .PHONY : home/lz/orwell/OpenGlBufferQtQuick.cpp.s
 
-home/lz/orwell/OpenGlMaterialQtQuick.o: home/lz/orwell/OpenGlMaterialQtQuick.cpp.o
+home/lz/orwell/OpenGlMaterialQQuickItem.o: home/lz/orwell/OpenGlMaterialQQuickItem.cpp.o
 
-.PHONY : home/lz/orwell/OpenGlMaterialQtQuick.o
+.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.o
 
 # target to build an object file
-home/lz/orwell/OpenGlMaterialQtQuick.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQtQuick.cpp.o
-.PHONY : home/lz/orwell/OpenGlMaterialQtQuick.cpp.o
+home/lz/orwell/OpenGlMaterialQQuickItem.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQQuickItem.cpp.o
+.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.cpp.o
 
-home/lz/orwell/OpenGlMaterialQtQuick.i: home/lz/orwell/OpenGlMaterialQtQuick.cpp.i
+home/lz/orwell/OpenGlMaterialQQuickItem.i: home/lz/orwell/OpenGlMaterialQQuickItem.cpp.i
 
-.PHONY : home/lz/orwell/OpenGlMaterialQtQuick.i
+.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.i
 
 # target to preprocess a source file
-home/lz/orwell/OpenGlMaterialQtQuick.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQtQuick.cpp.i
-.PHONY : home/lz/orwell/OpenGlMaterialQtQuick.cpp.i
+home/lz/orwell/OpenGlMaterialQQuickItem.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQQuickItem.cpp.i
+.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.cpp.i
 
-home/lz/orwell/OpenGlMaterialQtQuick.s: home/lz/orwell/OpenGlMaterialQtQuick.cpp.s
+home/lz/orwell/OpenGlMaterialQQuickItem.s: home/lz/orwell/OpenGlMaterialQQuickItem.cpp.s
 
-.PHONY : home/lz/orwell/OpenGlMaterialQtQuick.s
+.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.s
 
 # target to generate assembly for a file
-home/lz/orwell/OpenGlMaterialQtQuick.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQtQuick.cpp.s
-.PHONY : home/lz/orwell/OpenGlMaterialQtQuick.cpp.s
+home/lz/orwell/OpenGlMaterialQQuickItem.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQQuickItem.cpp.s
+.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.cpp.s
 
 home/lz/orwell/OpenGlVideoQtQuick.o: home/lz/orwell/OpenGlVideoQtQuick.cpp.o
 
@@ -1143,9 +1143,9 @@ help:
 	@echo "... home/lz/orwell/OpenGlBufferQtQuick.o"
 	@echo "... home/lz/orwell/OpenGlBufferQtQuick.i"
 	@echo "... home/lz/orwell/OpenGlBufferQtQuick.s"
-	@echo "... home/lz/orwell/OpenGlMaterialQtQuick.o"
-	@echo "... home/lz/orwell/OpenGlMaterialQtQuick.i"
-	@echo "... home/lz/orwell/OpenGlMaterialQtQuick.s"
+	@echo "... home/lz/orwell/OpenGlMaterialQQuickItem.o"
+	@echo "... home/lz/orwell/OpenGlMaterialQQuickItem.i"
+	@echo "... home/lz/orwell/OpenGlMaterialQQuickItem.s"
 	@echo "... home/lz/orwell/OpenGlVideoQtQuick.o"
 	@echo "... home/lz/orwell/OpenGlVideoQtQuick.i"
 	@echo "... home/lz/orwell/OpenGlVideoQtQuick.s"
