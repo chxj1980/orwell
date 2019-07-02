@@ -1,16 +1,5 @@
-#include <QtQuick/QQuickItem>
-#include <qguiapplication.h>
-#include <qsgmaterial.h>
-#include <qsgnode.h>
-#include <qquickitem.h>
-#include <qquickview.h>
-#include <qsgsimplerectnode.h>
-#include <qsgsimplematerial.h>
-#include <QOpenGLContext>
-#include <QOpenGLFunctions>
 #include "OpenGlMaterialQQuickItem.h"
-#include <iostream>
-#include <QObject>
+
 //https://github.com/KDE/plasma-framework/blob/e7329b95ed3e654e7b5edb4cf7c044b91f8d4d0a/src/declarativeimports/core/fadingnode.cpp
 
 #define GET_STR(x) #x
@@ -177,10 +166,8 @@ class Shader : public QSGSimpleMaterialShader<State>
         }
 };
 
-class Node: public QSGGeometryNode, public FrameUpdater//, public QObject
+class Node: public QSGGeometryNode, public FrameUpdater
 {
-    //Q_OBJECT
-
     public:
         State state;
         Node()
