@@ -33,8 +33,6 @@ struct State
             memcpy(datas[2], data[2], frameWidth*frameHeight/4);
         }
 
-        
-
         int compare(const State *other) const {
             std::cout << "compare called " << std::endl;
             /*
@@ -219,10 +217,8 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNo
         n->setItem(this);
         n->setUri(this->uri);//TODO: How do I know that when updatePaintNode is called, the object will already have a defined uri?
         n->beginStream();
-
     }
     QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
-    //This is how we change things, because updatePaintNode is the safe place to do it 
     //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
     
 
@@ -230,4 +226,3 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNo
     return n;
 }
 
-//#include "OpenGlMaterialQtQuick.moc"

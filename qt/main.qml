@@ -6,7 +6,7 @@ import OpenGlMaterialQQuickItem 1.0
 
 Grid {
     columns: 2
-    spacing: 2    
+    spacing: 0    
     width: 1280
     height: 720
  /*
