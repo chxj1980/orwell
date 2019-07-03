@@ -23,14 +23,17 @@
 class OpenGlMaterialQQuickItem: public ReactItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString uri WRITE setUri)// NOTIFY uriChanged)
-    //Q_PROPERTY(QString p_uri WRITE setPUri);
-    //Q_PROPERTY(qreal p_height WRITE _setHeight);
-    //Q_PROPERTY(qreal p_width WRITE _setWidth);
+    Q_PROPERTY(QString uri WRITE setUri READ getUri)// NOTIFY uriChanged)
+    Q_PROPERTY(QString p_uri WRITE setPUri READ getPUri);
+    Q_PROPERTY(qreal p_height WRITE _setHeight READ getPHeight);
+    Q_PROPERTY(qreal p_width WRITE _setWidth READ getPWidth);
+    //void setUri(const std::string uri) {
+    //    this->uri = uri;
+    //}
+    
+    
 
     public:
-        std::string uri;
-
         QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
 
         OpenGlMaterialQQuickItem()
@@ -39,9 +42,52 @@ class OpenGlMaterialQQuickItem: public ReactItem
         }
 
         void setUri(const QString &a) {
-            uri = a.toStdString();
-            std::cout << "OpenGlMaterialQQuickItem created with uri " << uri << std::endl;
+            uri = a;
+            std::cout << "OpenGlMaterialQQuickItem created with uri " << uri.toStdString() << std::endl;
         }
+
+        void setPUri(const QString &a) {
+            p_uri = a;
+            std::cout << "OpenGlMaterialQQuickItem created with uri " << p_uri.toStdString() << std::endl;
+        }
+
+        QString getUri() {
+            return this->uri;
+        }
+
+        QString getPUri() {
+            return this->p_uri;
+        }
+
+        qreal getPHeight() {
+            return this->p_height;
+        }
+
+        qreal getPWidth() {
+            return this->p_width;
+        }
+
+        void _setWidth(qreal width) {
+            p_width = width;
+        }
+        void _setHeight(qreal height) {
+            p_height = height;
+        }
+    
+    private:
+        QString uri;
+        QString p_uri;
+        qreal p_width;
+        qreal p_height;
+    /*
+    private slots:
+        void parentWidthChanged(){
+            setWidth(parentItem()->width());
+        }
+        void parentHeightChanged(){
+            setHeight(parentItem()->height());
+        }
+    */
         
 };
 #endif  //OpenGlMaterialQQuickItem_H

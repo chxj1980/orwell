@@ -190,6 +190,7 @@ class Node: public QSGGeometryNode, public FrameUpdater
 
         void beginStream() {
             stream = new MediaStream(uri);
+            std::cout << "beginning stream to uri " << uri << std::endl;
             stream->setFrameUpdater((FrameUpdater *) this);
             boost::thread mediaThread(&MediaStream::run, stream);
         }
@@ -215,7 +216,12 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNo
     if (!node) {
         n = new Node();
         n->setItem(this);
-        n->setUri(this->uri);//TODO: How do I know that when updatePaintNode is called, the object will already have a defined uri?
+        if (!this->getUri().isEmpty()) 
+            n->setUri(this->uri.toStdString()); //TODO: How do I know that when updatePaintNode is called, the object will already have a defined uri?
+        else if (!this->getPUri().isEmpty())
+            n->setUri(this->p_uri.toStdString());
+        else 
+            std::cout << "NO URI PASSED TO OBJECT" << std::endl;
         n->beginStream();
     }
     QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));

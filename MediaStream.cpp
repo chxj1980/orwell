@@ -57,15 +57,15 @@ void MediaStream::run() {
 //int main(int argc, char *argv[])
 int MediaStream::init()
 {
-	std::cout << "----------------- MediaStream::init() ----------------- " << std::endl ;
+	//std::cout << "----------------- MediaStream::init() ----------------- " << std::endl ;
 	bool r = ffmpegDecoder.init();
 	if(!r) std::cout << "problem with ffmpeg decoder init"  << std::endl;
     //ffmpegDecoder.setOpenGLWidget(&xVideoWidget);
 
 	ffmpegDecoder.setFrameUpdater(frameUpdater);
-	printf("DoOPTIONS():\n");
+	//printf("DoOPTIONS():\n");
 	if(rtspClient.DoOPTIONS() != RTSP_NO_ERROR) {
-		printf("DoOPTIONS error\n");
+		//printf("DoOPTIONS error\n");
 		return 1;
 	}
 	//printf("%s\n", rtspClient.GetResponse().c_str());
@@ -76,7 +76,7 @@ int MediaStream::init()
 		//init();
 		return 2;
 	}
-	printf("DoDESCRIBE():\n");
+	//printf("DoDESCRIBE():\n");
 	/* Send DESCRIBE command to server */
 	if(rtspClient.DoDESCRIBE() != RTSP_NO_ERROR) {
 		printf("DoDESCRIBE error\n");
@@ -102,7 +102,7 @@ int MediaStream::init()
 
 	/* Send SETUP command to set up all 'audio' and 'video' 
 	 * sessions which SDP refers. */
-	printf("DoSETUP():\n");
+	//printf("DoSETUP():\n");
 
 	if(rtspClient.DoSETUP("video", true) != RTSP_NO_ERROR) {//TODO: this DoSETUP actually works only for vstarcam cameras, change it to work with anything
 		printf("DoSETUP error\n");
@@ -118,7 +118,7 @@ int MediaStream::init()
 		return 7;
 	}
 
-	printf("start PLAY\n");
+	//printf("start PLAY\n");
 	/* Send PLAY command to play only 'video' sessions.
 	 * note(FIXME): 
 	 * if there are several 'video' session 

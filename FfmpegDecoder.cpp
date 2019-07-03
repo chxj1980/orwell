@@ -19,7 +19,7 @@ FfmpegDecoder::FfmpegDecoder()
 	//av_register_all(); DEPRECATED, no need to use anymore
 	avcodec_register_all();
 	avFrame = av_frame_alloc();
-	std::cout << "ffmpegdecoder created" << std::endl;
+	//std::cout << "ffmpegdecoder created" << std::endl;
 }
 
 FfmpegDecoder::~FfmpegDecoder()
@@ -28,23 +28,23 @@ FfmpegDecoder::~FfmpegDecoder()
 }
 
 void FfmpegDecoder::setFrameUpdater(FrameUpdater * frameUpdater) {
-	std::cout << "openglwidget setted" << std::endl;
+	//std::cout << "openglwidget setted" << std::endl;
 	this->frameUpdater = frameUpdater;
 }
 
 bool FfmpegDecoder::init()
 {
-	std::cout << "FfmpegDecoder init!"  << std::endl;
+	//std::cout << "FfmpegDecoder init!"  << std::endl;
 
 	avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
 
 	if (!avCodec) {return false;}
-	std::cout << "avCodec worked!"  << std::endl;
+	//std::cout << "avCodec worked!"  << std::endl;
 
 	avCodecContext = avcodec_alloc_context3(avCodec);
 
 	if (avcodec_open2(avCodecContext, avCodec, NULL) < 0)  return false;
-	std::cout << "avcodec_open2 worked" << std::endl;
+	//std::cout << "avcodec_open2 worked" << std::endl;
 
 	return true;
 }
