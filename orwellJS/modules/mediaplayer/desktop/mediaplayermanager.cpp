@@ -71,8 +71,8 @@ QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
 
     //item->setUri("rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0");
     //item->render();
-    //item->setWidth(640);
-    //item->setHeight(360);
+    item->setWidth(640);
+    item->setHeight(360);
     std::cout << "returning custom item" << std::endl;
     return item;
 }
