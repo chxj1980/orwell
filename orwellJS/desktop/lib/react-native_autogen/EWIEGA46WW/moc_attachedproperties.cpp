@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'attachedproperties.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.2)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.13.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "../../../../node_modules/react-native/ReactQt/runtime/src/attachedproperties.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'attachedproperties.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.2. It"
+#error "This file was generated using the moc from 5.13.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -49,7 +50,7 @@ QT_MOC_LITERAL(6, 77, 16) // "PropertyHandler*"
 static const uint qt_meta_data_AttachedProperties[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -73,7 +74,7 @@ void AttachedProperties::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
 
 #ifndef QT_NO_PROPERTIES
     if (_c == QMetaObject::ReadProperty) {
-        AttachedProperties *_t = static_cast<AttachedProperties *>(_o);
+        auto *_t = static_cast<AttachedProperties *>(_o);
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
@@ -84,7 +85,7 @@ void AttachedProperties::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         default: break;
         }
     } else if (_c == QMetaObject::WriteProperty) {
-        AttachedProperties *_t = static_cast<AttachedProperties *>(_o);
+        auto *_t = static_cast<AttachedProperties *>(_o);
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
@@ -103,10 +104,14 @@ void AttachedProperties::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject AttachedProperties::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_AttachedProperties.data,
-      qt_meta_data_AttachedProperties,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject AttachedProperties::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_AttachedProperties.data,
+    qt_meta_data_AttachedProperties,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *AttachedProperties::metaObject() const

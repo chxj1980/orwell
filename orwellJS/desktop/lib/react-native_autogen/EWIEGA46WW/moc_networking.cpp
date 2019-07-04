@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'networking.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.2)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.13.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "../../../../node_modules/react-native/ReactQt/runtime/src/networking.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'networking.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.2. It"
+#error "This file was generated using the moc from 5.13.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -57,7 +58,7 @@ QT_MOC_LITERAL(13, 137, 9) // "requestId"
 static const uint qt_meta_data_Networking[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        2,   14, // methods
@@ -81,7 +82,7 @@ static const uint qt_meta_data_Networking[] = {
 void Networking::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        Networking *_t = static_cast<Networking *>(_o);
+        auto *_t = static_cast<Networking *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->sendRequest((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QUrl(*)>(_a[2])),(*reinterpret_cast< const QVariantMap(*)>(_a[3])),(*reinterpret_cast< const QVariantMap(*)>(_a[4])),(*reinterpret_cast< const QString(*)>(_a[5])),(*reinterpret_cast< bool(*)>(_a[6])),(*reinterpret_cast< qlonglong(*)>(_a[7])),(*reinterpret_cast< bool(*)>(_a[8])),(*reinterpret_cast< double(*)>(_a[9]))); break;
@@ -91,10 +92,14 @@ void Networking::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject Networking::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_Networking.data,
-      qt_meta_data_Networking,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject Networking::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_Networking.data,
+    qt_meta_data_Networking,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *Networking::metaObject() const

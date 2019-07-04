@@ -29,14 +29,14 @@ Or if you want everything manually (this is how I do because ubuntu's cmake that
 
 ```
 cd qt
-/home/lz/cmake-3.14.5-Linux-x86_64/bin/cmake -DCMAKE_PREFIX_PATH=/home/lz/Qt/5.12.3/gcc_64 -DCMAKE_BUILD_TYPE=Debug .
+/home/lz/cmake-3.14.5-Linux-x86_64/bin/cmake -DCMAKE_PREFIX_PATH=/home/lz/Qt/5.13.0/gcc_64 -DCMAKE_BUILD_TYPE=Debug .
 make
 ./orwell
 ```
 
 ps: you must have cameras accessible with the IPs and passwords of `qt/main.qml`.
 
-ps: if you're me, use `/home/lz/cmake-3.14.5-Linux-x86_64/bin/cmake -DCMAKE_PREFIX_PATH=/home/lz/Qt2/5.11.2/gcc_64 -DCMAKE_BUILD_TYPE=Debug .`
+ps: if you're me, use `/home/lz/cmake-3.14.5-Linux-x86_64/bin/cmake -DCMAKE_PREFIX_PATH=/home/lz/Qt/5.13.0/gcc_64 -DCMAKE_BUILD_TYPE=Debug .`
 
 Warning: it'll likely not work with your cameras for now, but it should work with vstarcam cameras
 

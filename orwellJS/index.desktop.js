@@ -19,20 +19,12 @@ var OrwellMediaPlayer = requireNativeComponent('RCTMediaPlayer');
 
 class Orwell extends Component {
   componentDidMount() {
-    console.log("000-----------");
-    console.log(OrwellMediaPlayer);
-    console.log(JSON.stringify(OrwellMediaPlayer));
-    //console.log(OrwellMediaPlayer.test("hello --------------------- .... ////"));
-    console.log(NativeModules.MediaPlayerManager);
-    console.log(NativeModules.MediaPlayerManager.test("hello ---------------------- //",()=>undefined, ()=>undefined));
-
+    
   }
   render() {
     return (
-      <View style={{flex: 1, flexDirection: 'row'}}>
         <OrwellMediaPlayer uri='rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0' width={640} height={360}/>
         <OrwellMediaPlayer uri='rtsp://admin:19929394@192.168.1.72:10554/tcp/av0_0' width={640} height={360}/>
-      </View>
     )
     
   }

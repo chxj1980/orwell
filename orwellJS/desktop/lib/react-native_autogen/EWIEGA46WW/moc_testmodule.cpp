@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'testmodule.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.2)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.13.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "../../../../node_modules/react-native/ReactQt/runtime/src/testmodule.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'testmodule.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.2. It"
+#error "This file was generated using the moc from 5.13.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -44,7 +45,7 @@ QT_MOC_LITERAL(3, 26, 17) // "markTestCompleted"
 static const uint qt_meta_data_TestModule[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        2,   14, // methods
@@ -72,7 +73,7 @@ static const uint qt_meta_data_TestModule[] = {
 void TestModule::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        TestModule *_t = static_cast<TestModule *>(_o);
+        auto *_t = static_cast<TestModule *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->testCompleted(); break;
@@ -92,10 +93,14 @@ void TestModule::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject TestModule::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_TestModule.data,
-      qt_meta_data_TestModule,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject TestModule::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_TestModule.data,
+    qt_meta_data_TestModule,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *TestModule::metaObject() const

@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'rootview.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.2)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.13.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "../../../../node_modules/react-native/ReactQt/runtime/src/rootview.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'rootview.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.2. It"
+#error "This file was generated using the moc from 5.13.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -73,7 +74,7 @@ QT_MOC_LITERAL(23, 339, 15) // "externalModules"
 static const uint qt_meta_data_RootView[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
       14,   14, // methods
@@ -149,7 +150,7 @@ static const uint qt_meta_data_RootView[] = {
 void RootView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        RootView *_t = static_cast<RootView *>(_o);
+        auto *_t = static_cast<RootView *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->liveReloadChanged(); break;
@@ -229,7 +230,7 @@ void RootView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
     }
 #ifndef QT_NO_PROPERTIES
     else if (_c == QMetaObject::ReadProperty) {
-        RootView *_t = static_cast<RootView *>(_o);
+        auto *_t = static_cast<RootView *>(_o);
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
@@ -244,7 +245,7 @@ void RootView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         default: break;
         }
     } else if (_c == QMetaObject::WriteProperty) {
-        RootView *_t = static_cast<RootView *>(_o);
+        auto *_t = static_cast<RootView *>(_o);
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
@@ -264,10 +265,14 @@ void RootView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject RootView::staticMetaObject = {
-    { &ReactItem::staticMetaObject, qt_meta_stringdata_RootView.data,
-      qt_meta_data_RootView,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject RootView::staticMetaObject = { {
+    &ReactItem::staticMetaObject,
+    qt_meta_stringdata_RootView.data,
+    qt_meta_data_RootView,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *RootView::metaObject() const

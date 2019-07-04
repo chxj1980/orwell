@@ -187,7 +187,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //No help, variable specified on the command line.
-CMAKE_PREFIX_PATH:UNINITIALIZED=/home/lz/Qt2/5.11.2/gcc_64
+CMAKE_PREFIX_PATH:UNINITIALIZED=/home/lz/Qt/5.13.0/gcc_64
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
@@ -339,40 +339,40 @@ Project_BINARY_DIR:STATIC=/home/lz/orwell/orwellJS/desktop
 Project_SOURCE_DIR:STATIC=/home/lz/orwell/orwellJS/desktop
 
 //The directory containing a CMake configuration file for Qt5Concurrent.
-Qt5Concurrent_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Concurrent
+Qt5Concurrent_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Concurrent
 
 //The directory containing a CMake configuration file for Qt5Core.
-Qt5Core_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Core
+Qt5Core_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Core
 
 //The directory containing a CMake configuration file for Qt5Gui.
-Qt5Gui_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Gui
+Qt5Gui_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Gui
 
 //The directory containing a CMake configuration file for Qt5MultimediaWidgets.
-Qt5MultimediaWidgets_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5MultimediaWidgets
+Qt5MultimediaWidgets_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5MultimediaWidgets
 
 //The directory containing a CMake configuration file for Qt5Multimedia.
-Qt5Multimedia_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Multimedia
+Qt5Multimedia_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Multimedia
 
 //The directory containing a CMake configuration file for Qt5Network.
-Qt5Network_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Network
+Qt5Network_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Network
 
 //The directory containing a CMake configuration file for Qt5Qml.
-Qt5Qml_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Qml
+Qt5Qml_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Qml
 
 //The directory containing a CMake configuration file for Qt5Quick.
-Qt5Quick_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Quick
+Qt5Quick_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Quick
 
 //The directory containing a CMake configuration file for Qt5Svg.
-Qt5Svg_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Svg
+Qt5Svg_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Svg
 
 //The directory containing a CMake configuration file for Qt5WebSockets.
-Qt5WebSockets_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5WebSockets
+Qt5WebSockets_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5WebSockets
 
 //The directory containing a CMake configuration file for Qt5Widgets.
-Qt5Widgets_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5Widgets
+Qt5Widgets_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5Widgets
 
 //The directory containing a CMake configuration file for Qt5.
-Qt5_DIR:PATH=/home/lz/Qt2/5.11.2/gcc_64/lib/cmake/Qt5
+Qt5_DIR:PATH=/home/lz/Qt/5.13.0/gcc_64/lib/cmake/Qt5
 
 //Secure RTP (SRTP) support
 SRTP_ENABLED:BOOL=OFF

@@ -1,11 +1,12 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'reactplugin.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.2)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.13.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "../../../../node_modules/react-native/ReactQt/runtime/src/reactplugin.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
@@ -13,7 +14,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'reactplugin.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.2. It"
+#error "This file was generated using the moc from 5.13.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -42,7 +43,7 @@ QT_MOC_LITERAL(0, 0, 11) // "ReactPlugin"
 static const uint qt_meta_data_ReactPlugin[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -63,10 +64,14 @@ void ReactPlugin::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject ReactPlugin::staticMetaObject = {
-    { &QQmlExtensionPlugin::staticMetaObject, qt_meta_stringdata_ReactPlugin.data,
-      qt_meta_data_ReactPlugin,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject ReactPlugin::staticMetaObject = { {
+    &QQmlExtensionPlugin::staticMetaObject,
+    qt_meta_stringdata_ReactPlugin.data,
+    qt_meta_data_ReactPlugin,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *ReactPlugin::metaObject() const
@@ -88,79 +93,24 @@ int ReactPlugin::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     return _id;
 }
 
-QT_PLUGIN_METADATA_SECTION const uint qt_section_alignment_dummy = 42;
-
-#ifdef QT_NO_DEBUG
-
 QT_PLUGIN_METADATA_SECTION
-static const unsigned char qt_pluginMetaData[] = {
-    'Q', 'T', 'M', 'E', 'T', 'A', 'D', 'A', 'T', 'A', ' ', ' ',
-    'q',  'b',  'j',  's',  0x01, 0x00, 0x00, 0x00,
-    0xd8, 0x00, 0x00, 0x00, 0x0b, 0x00, 0x00, 0x00,
-    0xc4, 0x00, 0x00, 0x00, 0x13, 0x03, 0x00, 0x00,
-    0x03, 0x00, 'I',  'I',  'D',  0x00, 0x00, 0x00,
-    '(',  0x00, 0x00, 0x00, 'o',  0x00, 'r',  0x00,
-    'g',  0x00, '.',  0x00, 'q',  0x00, 't',  0x00,
-    '-',  0x00, 'p',  0x00, 'r',  0x00, 'o',  0x00,
-    'j',  0x00, 'e',  0x00, 'c',  0x00, 't',  0x00,
-    '.',  0x00, 'Q',  0x00, 't',  0x00, '.',  0x00,
-    'Q',  0x00, 'Q',  0x00, 'm',  0x00, 'l',  0x00,
-    'E',  0x00, 'x',  0x00, 't',  0x00, 'e',  0x00,
-    'n',  0x00, 's',  0x00, 'i',  0x00, 'o',  0x00,
-    'n',  0x00, 'I',  0x00, 'n',  0x00, 't',  0x00,
-    'e',  0x00, 'r',  0x00, 'f',  0x00, 'a',  0x00,
-    'c',  0x00, 'e',  0x00, 0x9b, 0x0f, 0x00, 0x00,
-    0x09, 0x00, 'c',  'l',  'a',  's',  's',  'N', 
-    'a',  'm',  'e',  0x00, 0x0b, 0x00, 'R',  'e', 
-    'a',  'c',  't',  'P',  'l',  'u',  'g',  'i', 
-    'n',  0x00, 0x00, 0x00, 'Z',  '`',  0xa1, 0x00,
-    0x07, 0x00, 'v',  'e',  'r',  's',  'i',  'o', 
-    'n',  0x00, 0x00, 0x00, 0x11, 0x00, 0x00, 0x00,
-    0x05, 0x00, 'd',  'e',  'b',  'u',  'g',  0x00,
-    0x15, 0x17, 0x00, 0x00, 0x08, 0x00, 'M',  'e', 
-    't',  'a',  'D',  'a',  't',  'a',  0x00, 0x00,
-    0x0c, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
-    0xa8, 0x00, 0x00, 0x00, 'l',  0x00, 0x00, 0x00,
-    0x9c, 0x00, 0x00, 0x00, 0x8c, 0x00, 0x00, 0x00
+static constexpr unsigned char qt_pluginMetaData[] = {
+    'Q', 'T', 'M', 'E', 'T', 'A', 'D', 'A', 'T', 'A', ' ', '!',
+    // metadata version, Qt version, architectural requirements
+    0, QT_VERSION_MAJOR, QT_VERSION_MINOR, qPluginArchRequirements(),
+    0xbf, 
+    // "IID"
+    0x02,  0x78,  0x28,  'o',  'r',  'g',  '.',  'q', 
+    't',  '-',  'p',  'r',  'o',  'j',  'e',  'c', 
+    't',  '.',  'Q',  't',  '.',  'Q',  'Q',  'm', 
+    'l',  'E',  'x',  't',  'e',  'n',  's',  'i', 
+    'o',  'n',  'I',  'n',  't',  'e',  'r',  'f', 
+    'a',  'c',  'e', 
+    // "className"
+    0x03,  0x6b,  'R',  'e',  'a',  'c',  't',  'P', 
+    'l',  'u',  'g',  'i',  'n', 
+    0xff, 
 };
-
-#else // QT_NO_DEBUG
-
-QT_PLUGIN_METADATA_SECTION
-static const unsigned char qt_pluginMetaData[] = {
-    'Q', 'T', 'M', 'E', 'T', 'A', 'D', 'A', 'T', 'A', ' ', ' ',
-    'q',  'b',  'j',  's',  0x01, 0x00, 0x00, 0x00,
-    0xd8, 0x00, 0x00, 0x00, 0x0b, 0x00, 0x00, 0x00,
-    0xc4, 0x00, 0x00, 0x00, 0x13, 0x03, 0x00, 0x00,
-    0x03, 0x00, 'I',  'I',  'D',  0x00, 0x00, 0x00,
-    '(',  0x00, 0x00, 0x00, 'o',  0x00, 'r',  0x00,
-    'g',  0x00, '.',  0x00, 'q',  0x00, 't',  0x00,
-    '-',  0x00, 'p',  0x00, 'r',  0x00, 'o',  0x00,
-    'j',  0x00, 'e',  0x00, 'c',  0x00, 't',  0x00,
-    '.',  0x00, 'Q',  0x00, 't',  0x00, '.',  0x00,
-    'Q',  0x00, 'Q',  0x00, 'm',  0x00, 'l',  0x00,
-    'E',  0x00, 'x',  0x00, 't',  0x00, 'e',  0x00,
-    'n',  0x00, 's',  0x00, 'i',  0x00, 'o',  0x00,
-    'n',  0x00, 'I',  0x00, 'n',  0x00, 't',  0x00,
-    'e',  0x00, 'r',  0x00, 'f',  0x00, 'a',  0x00,
-    'c',  0x00, 'e',  0x00, 0x95, 0x0f, 0x00, 0x00,
-    0x08, 0x00, 'M',  'e',  't',  'a',  'D',  'a', 
-    't',  'a',  0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
-    0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x1b, 0x13, 0x00, 0x00, 0x09, 0x00, 'c',  'l', 
-    'a',  's',  's',  'N',  'a',  'm',  'e',  0x00,
-    0x0b, 0x00, 'R',  'e',  'a',  'c',  't',  'P', 
-    'l',  'u',  'g',  'i',  'n',  0x00, 0x00, 0x00,
-    '1',  0x00, 0x00, 0x00, 0x05, 0x00, 'd',  'e', 
-    'b',  'u',  'g',  0x00, 'Z',  '`',  0xa1, 0x00,
-    0x07, 0x00, 'v',  'e',  'r',  's',  'i',  'o', 
-    'n',  0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
-    'l',  0x00, 0x00, 0x00, 0x88, 0x00, 0x00, 0x00,
-    0xa8, 0x00, 0x00, 0x00, 0xb4, 0x00, 0x00, 0x00
-};
-#endif // QT_NO_DEBUG
-
 QT_MOC_EXPORT_PLUGIN(ReactPlugin, ReactPlugin)
 
 QT_WARNING_POP

@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'sourcecode.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.2)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.13.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+#include <memory>
 #include "../../../../node_modules/react-native/ReactQt/runtime/src/sourcecode.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'sourcecode.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.2. It"
+#error "This file was generated using the moc from 5.13.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -59,7 +60,7 @@ QT_MOC_LITERAL(13, 175, 10) // "retryCount"
 static const uint qt_meta_data_SourceCode[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        5,   14, // methods
@@ -103,7 +104,7 @@ static const uint qt_meta_data_SourceCode[] = {
 void SourceCode::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        SourceCode *_t = static_cast<SourceCode *>(_o);
+        auto *_t = static_cast<SourceCode *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->scriptUrlChanged(); break;
@@ -158,7 +159,7 @@ void SourceCode::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     }
 #ifndef QT_NO_PROPERTIES
     else if (_c == QMetaObject::ReadProperty) {
-        SourceCode *_t = static_cast<SourceCode *>(_o);
+        auto *_t = static_cast<SourceCode *>(_o);
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
@@ -168,7 +169,7 @@ void SourceCode::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         default: break;
         }
     } else if (_c == QMetaObject::WriteProperty) {
-        SourceCode *_t = static_cast<SourceCode *>(_o);
+        auto *_t = static_cast<SourceCode *>(_o);
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
@@ -180,10 +181,14 @@ void SourceCode::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
 #endif // QT_NO_PROPERTIES
 }
 
-QT_INIT_METAOBJECT const QMetaObject SourceCode::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_SourceCode.data,
-      qt_meta_data_SourceCode,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject SourceCode::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_SourceCode.data,
+    qt_meta_data_SourceCode,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *SourceCode::metaObject() const
