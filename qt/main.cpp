@@ -1,8 +1,6 @@
 #include <iostream>
 #include "MediaStream.h"
 #include "FfmpegDecoder.h"
-#include "VideoConsumer.h"
-#include "VideoSurface.h"
 #include <QApplication>
 #include <QMediaPlayer>
 #include <QPushButton>

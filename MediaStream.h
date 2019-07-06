@@ -2,14 +2,12 @@
 #define MEDIASTREAM_H
 #include <iostream>
 #include "FfmpegDecoder.h"
-#include "VideoConsumer.h"
 #include "rtspClient.h"
 #include "FrameUpdater.h"
 
 class MediaStream {
 	std::string   uri;
 	FfmpegDecoder ffmpegDecoder;
-	VideoConsumer videoConsumer;
 	FrameUpdater* frameUpdater;
 	RtspClient    rtspClient;
 	//bool ByeFromServerFlag = false;

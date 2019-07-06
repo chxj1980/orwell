@@ -14,17 +14,12 @@
 //
 
 #include <iostream>
-#include "rtspClient.h"
-#include "FfmpegDecoder.h"
-#include "VideoConsumer.h"
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include "MediaStream.h"
-#include "VideoConsumer.h"
 
 using std::cout;
 using std::endl;
