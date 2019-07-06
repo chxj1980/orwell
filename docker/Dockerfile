@@ -3,21 +3,44 @@ MAINTAINER Lucas Zanella (me@lucaszanella.com)
 #https://askubuntu.com/questions/508503/whats-the-development-package-for-qt5-in-14-04
 
 #TODO: make download secure
-ARG QT_FILE_LINK=http://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.zip
+ARG QT_SOURCE_LINK=http://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.zip
+ARG QT_INSTALLER_LINK=http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
+
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    cmake build-essential \
+    cmake build-essential ca-certificates \
     libavcodec-dev libavformat-dev libavdevice-dev libavfilter-dev libavutil-dev libboost-dev libboost-thread-dev \
-    libgl-dev perl python git wget unzip \
-    
+    libgl-dev perl python git wget unzip 
     #qt5-default qml-module-qtquick-controls2 libqt5qml5 qml-module-qtquick2 qml-module-qtquick-window2
 
+
+#Installs modern qt, ubuntu's one is old 
+ADD qt-installer-noninteractive.qs /home/qt-installer-noninteractive.qs
+
+RUN wget --progress=bar:force -O qt.run $QT_INSTALLER_LINK
+RUN chmod +x qt.run && ./qt.run -platform minimal --script /home/qt-installer-noninteractive.qs 
+
+#CMAKE INSTALLATION. TODO: make it download a stable version, don't use git clone
+RUN git clone https://github.com/Kitware/CMake \
+    && cd CMake && ./bootstrap && make && make install \
+    && cd .. && rm -rf CMake
+
+#RTSP library needs a user on linux, it's also the place where QT gets installed, don't change it
+RUN useradd -ms /bin/bash dev
+USER dev
+WORKDIR /home/dev/orwell
+
+ENTRYPOINT "/bin/bash"
+
+
+# For when Ubuntu gets sufficiently modern QT:
 #RUN apt-get update && apt install -y qtmultimedia5-dev qtbase5-dev libqt5multimedia5-plugins libqt5opengl5-dev
 # TODO  && echo "Unzipping..." && unzip -qq qt.zip && ls
 
-#ARG QT_FILE_LINK=http://download.qt.io/official_releases/qt/5.12/5.12.2/single/qt-everywhere-src-5.12.2.tar.xz
-#RUN wget --progress=bar:force -O qt.tar.xz $QT_FILE_LINK && mkdir qt
+
+# Download qt source and build it (too much building, so we're not using it)
+#RUN wget --progress=bar:force -O qt.tar.xz $make && mkdir qt
 #RUN echo "Unzipping..." && tar xf qt.tar.xz -C qt --strip-components=1 \
 #    && rm qt.tar.xz
 #RUN cd qt && ls && ./configure \
@@ -28,21 +51,3 @@ RUN apt-get update \
 #    && make && make install \
 #    && cd .. \
 #    && rm -rf qt
-
-ADD qt-installer-noninteractive.qs /home/qt-installer-noninteractive.qs
-ARG QT_FILE_LINK=http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
-RUN wget --progress=bar:force -O qt.run $QT_FILE_LINK
-RUN apt update && apt install -y ca-certificates
-RUN chmod +x qt.run && ./qt.run -platform minimal --script /home/qt-installer-noninteractive.qs 
-
-#CMAKE INSTALLATION //TODO: make it download a stable version
-RUN git clone https://github.com/Kitware/CMake \
-    && cd CMake && ./bootstrap && make && make install \
-    && cd .. && rm -rf CMake
-
-RUN useradd -ms /bin/bash dev
-
-USER dev
-WORKDIR /home/dev/orwell
-
-ENTRYPOINT "/bin/bash"

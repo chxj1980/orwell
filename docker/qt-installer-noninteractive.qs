@@ -22,7 +22,8 @@ Controller.prototype.IntroductionPageCallback = function() {
 
 Controller.prototype.TargetDirectoryPageCallback = function()
 {
-    gui.currentPageWidget().TargetDirectoryLineEdit.setText(installer.value("HomeDir") + "/Qt");
+    //dev is the user in our docker image
+    gui.currentPageWidget().TargetDirectoryLineEdit.setText(installer.value("HomeDir") + "/dev/" + "/Qt");
     gui.clickButton(buttons.NextButton);
 }
 
@@ -30,8 +31,8 @@ Controller.prototype.ComponentSelectionPageCallback = function() {
     var widget = gui.currentPageWidget();
 
     widget.deselectAll();
-    widget.selectComponent("qt.55.gcc_64");
-    widget.selectComponent("qt.55.qtquickcontrols");
+    widget.selectComponent("qt.513.gcc_64");
+    widget.selectComponent("qt.513.qtquickcontrols");
 
     // widget.deselectComponent("qt.tools.qtcreator");
     // widget.deselectComponent("qt.55.qt3d");
@@ -62,9 +63,9 @@ Controller.prototype.ReadyForInstallationPageCallback = function()
 }
 
 Controller.prototype.FinishedPageCallback = function() {
-var checkBoxForm = gui.currentPageWidget().LaunchQtCreatorCheckBoxForm;
-if (checkBoxForm && checkBoxForm.launchQtCreatorCheckBox) {
-    checkBoxForm.launchQtCreatorCheckBox.checked = false;
-}
+    var checkBoxForm = gui.currentPageWidget().LaunchQtCreatorCheckBoxForm;
+    if (checkBoxForm && checkBoxForm.launchQtCreatorCheckBox) {
+        checkBoxForm.launchQtCreatorCheckBox.checked = false;
+    }
     gui.clickButton(buttons.FinishButton);
 }

@@ -1,1 +1,1 @@
-docker build -t orwell .
+sudo docker build -t orwell .
