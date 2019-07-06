@@ -14,7 +14,11 @@ Can you help me? I'd be nice to have people working on different parts of the pr
 
 First of all, see the dockerfile in `docker` folder to understand how your system might look like for the installation to work 
 
-I don't expect you to successfully see camera images yet because you need access to my cameras but if you insist
+## QT little app (debugging only)
+
+This little app is used for debugging. It runs the QT module that is injected into React Native Desktop (which is based on QT).
+
+#### If you have an updated QT installed on your machine (like Qt 5.11 or later)
 
 For the little QT/QML visualizer (just for debugging):
 
@@ -24,12 +28,15 @@ cmake .
 make
 ./orwell
 ```
+#### If you have locally installed cmake or want to point the locally installed QT directly:
+
+If you don't have qt already, download here: https://www.qt.io/download-qt-installer
 
 Or if you want everything manually (this is how I do because ubuntu's cmake that comes with package system has a bug n the -DCMAKE_PREFIX_PATH variable):
 
 ```
 cd qt
-/home/lz/cmake-3.14.5-Linux-x86_64/bin/cmake -DCMAKE_PREFIX_PATH=/home/lz/Qt/5.13.0/gcc_64 -DCMAKE_BUILD_TYPE=Debug .
+/home/lz/cmake-3.14.5-Linux-x86_64/bin/cmake -DCMAKE_PREFIX_PATH=/home/$USER/Qt/5.13.0/gcc_64 -DCMAKE_BUILD_TYPE=Debug .
 make
 ./orwell
 ```
@@ -38,7 +45,7 @@ ps: you must have cameras accessible with the IPs and passwords of `qt/main.qml`
 
 Warning: it'll likely not work with your cameras for now, but it should work with vstarcam cameras
 
-For react native desktop building:
+## React Native app (actual app we want to build)
 
 ```
 cd orwellJS
