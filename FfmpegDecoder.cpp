@@ -67,129 +67,58 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
     //https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 	//int ret = avcodec_decode_video2(avCodecContext, avFrame, &frameFinished, avPacket);
 	//while (true) {}
-	av_log_set_level(AV_LOG_QUIET);
+	av_log_set_level(AV_LOG_QUIET); //no output from ffmpeg
+	bool stop = false;
 	int result = avcodec_send_packet(avCodecContext, avPacket);
 	if (!result) {
-		for ( ; !result ; ) {
+		while (!result) {
 			result = avcodec_receive_frame(avCodecContext, avFrame);
 			if (!result) {
-				//LOGD("got frame");
-				//UPDATE WIDGET HERE
-				//std::cout << "gonna update frame" << std::endl;
-				//std::cout << "width: " << std::to_string(width) << " height: " << std::to_string(height) << std::endl;
-				/*
-				AvPicture* picture;
-				picture = avcodec_alloc_frame();
-				int ret = avpicture_alloc(picture, AV_PIX_FMT_YUV420P, width, height);
-				//mVideoRender->setSize(width,height);
-				//mVideoRender->start();
-				//if(ret==0)
-				//	picInit=true;
-
-				
-				
-				//avpicture_fill(&picture, video_buf, AV_PIX_FMT_YUV420P,width, height);
-
-				//Context for scaling
-				swsContext = sws_getCachedContext(swsContext, width, height, avCodecContext->pix_fmt,
-														width,height,AV_PIX_FMT_YUV420P, SWS_FAST_BILINEAR,
-														NULL, NULL, NULL);
-
-				///if (!convertContext) qDebug("Cannot initialize the conversion context\n");
-
-				//Lets scale our frame
-				int rr = sws_scale(swsContext, avFrame->data, avFrame->linesize,
-								0, avFrame->height, picture->data, picture->linesize);
-				qFFmpegGLWidget->updateData(picture->data);
-				*/
-				//qFFmpegGLWidget->updateData(avFrame->data);
-				//this->frameUpdater->setFrameWidth(avFrame->width);
-				//this->frameUpdater->setFrameHeight(avFrame->height);
-				//std::cout << "setted w,h" << std::endl;
 				this->frameUpdater->updateData(avFrame->data, avFrame->width, avFrame->height);
-				//frame_ready = true;
-				// FIXME avcodec_send_packet may generate multiple frames.
-				// But current implementation handle only one...will lost some of them or get stuck.
-				// If you need all frames, get them and put them into queue and handle them on other thread.
 				break;
 			} else if ((result < 0) && (result != AVERROR(EAGAIN)) && (result != AVERROR_EOF)) {
 				//LOGE("avcodec_receive_frame returned error %d:%s", result, av_error(result).c_str());
-				std::cout << "avcodec_receive_frame returned error " << result /*av_error(result).c_str()*/ << std::endl;
+				std::cout << "avcodec_receive_frame returned error " << result /*<< *av_err2str(result).c_str()*/ << std::endl;
 				break;
 			} else {
 				switch (result) {
-				case AVERROR(EAGAIN):
-					// decoded frame not ready yet
-					//LOGV("avcodec_receive_frame EAGAIN");
-					std::cout << "avcodec_receive_frame EAGAIN" << std::endl;
+					case AVERROR(EAGAIN):
+						result = 0;
+						break;
+					case AVERROR_EOF:
+						// buffer flushed
+						std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
 
-					result = 0;
-					break;
-					//goto ret;//???
-				case AVERROR_EOF:
-					// buffer flushed
-					//LOGV("avcodec_receive_frame AVERROR_EOF");
-					std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
-
-					result = 0;
-					break;
-					//goto ret;//??
-				default:
-					//LOGE("avcodec_receive_frame returned error %d:%s", result, av_error(result).c_str());
-					std::cout << "avcodec_receive_frame returned error" << result /*av_error(result).c_str()*/ << std::endl;
-
+						result = 0;
+						break;
+					default:
+						std::cout << "avcodec_receive_frame returned error, stopping..." << result /*<< av_err2str(result).c_str()*/ << std::endl;
+						break;
+					//Error happened, should break anyway
 					break;
 				}
 			}
 		}
 	} else {
 		switch (result) {
-		case AVERROR(EAGAIN):
-			//LOGE("avcodec_send_packet EAGAIN");
-			std::cout << "avcodec_send_packet EAGAIN" << std::endl;
+			case AVERROR(EAGAIN):
+				//LOGE("avcodec_send_packet EAGAIN");
+				std::cout << "avcodec_send_packet EAGAIN" << std::endl;
 
-			break;
-		case AVERROR_EOF:
-			//LOGE("avcodec_send_packet AVERROR_EOF");
-			std::cout << "avcodec_send_packet AVERROR_EOF" << std::endl;
+				break;
+			case AVERROR_EOF:
+				//LOGE("avcodec_send_packet AVERROR_EOF");
+				std::cout << "avcodec_send_packet AVERROR_EOF" << std::endl;
 
-			result = 0;
-			break;
-		default:
-			//LOGE("avcodec_send_packet returned error %d:%s", result, av_error(result).c_str());
-			//std::cout << "avcodec_send_packet returned error" << result /*av_error(result).c_str()*/ << std::endl;
+				result = 0;
+				break;
+			default:
+				//LOGE("avcodec_send_packet returned error %d:%s", result, av_error(result).c_str());
+				//std::cout << "avcodec_send_packet returned error" << result /*av_error(result).c_str()*/ << std::endl;
 
-			break;
+				break;
 		}
 	}
-
-	//if (frameFinished) avFrame->pts = av_frame_get_best_effort_timestamp(avFrame);
-	/*
-	if (ret < 0) {
-		packetPending = 0;
-	} else {
-
-		avPacket.dts = avPacket.pts = AV_NOPTS_VALUE;
-		if (avPacket.data)
-		{
-			packetPending = 0;
-		}
-		else  if (!frameFinished)
-		{
-			packetPending = 0;
-		}
-	}
-	
-
-	if(!packetPending) break;
-	*/
-	
-    
-	//width* = avFrame->width;
-	//height* = avFrame->height;
-	//bytesPerLine* = avFrame->linesize[0];
-
-	//av_free_packet(avPacket);
 
 	if (frameFinished) {
 		/*
@@ -241,7 +170,6 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 		*/
 		
 		av_frame_unref(avFrame);
-
 	}
 	
 }

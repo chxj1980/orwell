@@ -17,6 +17,7 @@
 #include <QQuickPaintedItem>
 #include <QSGSimpleMaterial>
 #include "reactitem.h"
+#include "flexbox.h"
 
 
 //class OpenGlMaterialQQuickItem: public QQuickItem
@@ -27,13 +28,15 @@ class OpenGlMaterialQQuickItem: public ReactItem
     Q_PROPERTY(QString p_uri WRITE setPUri READ getPUri);
     Q_PROPERTY(qreal p_height WRITE _setHeight READ getPHeight);
     Q_PROPERTY(qreal p_width WRITE _setWidth READ getPWidth);
-    //void setUri(const std::string uri) {
-    //    this->uri = uri;
-    //}
-    
-    
+
 
     public:
+    
+        //Flexbox flexbox(this);
+        //flexbox.setControl(this);
+        //flexbox.setViewManager();
+    
+
         QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
 
         OpenGlMaterialQQuickItem()
@@ -73,6 +76,10 @@ class OpenGlMaterialQQuickItem: public ReactItem
         void _setHeight(qreal height) {
             p_height = height;
         }
+
+    protected:
+        void paint(QPainter* painter){}
+
     
     private:
         QString uri;

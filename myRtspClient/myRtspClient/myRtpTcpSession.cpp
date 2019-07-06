@@ -347,7 +347,7 @@ void MyRTPTCPSession::OnNewSource(RTPSourceData *dat)
 
 	// struct in_addr inaddr;
 	// inaddr.s_addr = htonl(ip);
-	std::cout << "Adding destination" << std::endl;
+	//std::cout << "Adding destination" << std::endl;
 }
 
 void MyRTPTCPSession::OnBYEPacket(RTPSourceData *dat)

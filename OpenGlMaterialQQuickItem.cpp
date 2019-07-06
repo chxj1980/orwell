@@ -11,10 +11,11 @@ struct State
         int frameWidth = 1920;
         int frameHeight = 1080;
         unsigned char *datas[3] = {0};
+        unsigned int frameNumber = 0;
+        std::string uri;
 
     private:
         bool firstRender = true;
-
     public:
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
@@ -31,10 +32,31 @@ struct State
             memcpy(datas[0], data[0], frameWidth*frameHeight);
             memcpy(datas[1], data[1], frameWidth*frameHeight/4);
             memcpy(datas[2], data[2], frameWidth*frameHeight/4);
+            /*
+            if (frameNumber + 1 > frameNumber) 
+                frameNumber ++; //Avoid integer overflow. Only works for unsigned int.
+            else
+                frameNumber=0//Reset to 0
+            */
+           this->frameNumber++;//No overflow occurs, because it's unsigned int
+            if (uri=="rtsp://admin:19929394@192.168.1.155:10554/tcp/av0_0")
+                std::cout << "-----/////***** UPDATED NUMBER!!!" << std::endl;
         }
+/*
+        void markNewData() {
+            this->newData = true;
+        }
+*/
+        int compare(const State *olderState) const {
+            //std::cout << "compare called " << std::endl;
 
-        int compare(const State *other) const {
-            std::cout << "compare called " << std::endl;
+            //std::cout << "compare called for uri " << uri << " and the result is " << this->frameNumber << " - " << olderState->frameNumber << std::endl;
+            //std::cout << "frameNumber: " << this->frameNumber << " olderState frameNumber: " << olderState->frameNumber << std::endl;
+            if (this->frameNumber == olderState->frameNumber) {
+                return 0;
+            } else {
+                return 1;
+            }
             /*
             uint rgb = color.rgba();
             uint otherRgb = other->color.rgba();
@@ -47,14 +69,14 @@ struct State
                 return 1;
             }
             */
-            return -1;
+            //return -1;
         }
 };
 
 class Shader : public QSGSimpleMaterialShader<State>
 {
-    //QSG_DECLARE_SIMPLE_COMPARABLE_SHADER(Shader, State);
-    QSG_DECLARE_SIMPLE_SHADER(Shader, State);
+    QSG_DECLARE_SIMPLE_COMPARABLE_SHADER(Shader, State);
+    //QSG_DECLARE_SIMPLE_SHADER(Shader, State);
     private:
         QOpenGLFunctions *glFuncs = nullptr;
         GLuint unis[3] = {0};
@@ -116,26 +138,28 @@ class Shader : public QSGSimpleMaterialShader<State>
             glFuncs->glGenTextures(3, texs);//TODO: delete these textures on exit
         }
 
-        void updateState(const State *state, const State *) override
+        void updateState(const State *state, const State *oldState) override
         {
-            //Y
-            glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
-            glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth, state->frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+            if (firstRender) {
+                //Y
+                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
+                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth, state->frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
-            //U
-            glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]);
-            glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth/2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+                //U
+                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]);
+                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth/2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
 
-            //V
-            glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
-            glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth / 2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
+                //V
+                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
+                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth / 2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+                firstRender = false;
+            }
             glFuncs->glActiveTexture(GL_TEXTURE0);
             glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
             glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth, state->frameHeight, GL_RED, GL_UNSIGNED_BYTE, state->datas[0]);
@@ -153,6 +177,14 @@ class Shader : public QSGSimpleMaterialShader<State>
 
             glFuncs->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
+            /*
+            glFuncs->glActiveTexture(GL_TEXTURE0);
+            glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
+            glFuncs->glActiveTexture(GL_TEXTURE0+1);
+            glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
+            glFuncs->glActiveTexture(GL_TEXTURE0+2);
+            glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
+            */
             //release some things here?
         }
 
@@ -186,11 +218,12 @@ class Node: public QSGGeometryNode, public FrameUpdater
 
         void setUri(std::string uri) {
             this->uri = uri;
+            material->state()->uri = uri;
         }
 
         void beginStream() {
             stream = new MediaStream(uri);
-            std::cout << "beginning stream to uri " << uri << std::endl;
+            //std::cout << "beginning stream to uri " << uri << std::endl;
             stream->setFrameUpdater((FrameUpdater *) this);
             boost::thread mediaThread(&MediaStream::run, stream);
         }
@@ -198,6 +231,7 @@ class Node: public QSGGeometryNode, public FrameUpdater
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
             material->state()->updateData(data, frameWidth, frameHeight);
+            //material->state()->markNewData();
             markDirty(QSGNode::DirtyMaterial);//is this really needed?
             QMetaObject::invokeMethod(item, &QQuickItem::update, Qt::QueuedConnection);
         }

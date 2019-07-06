@@ -195,8 +195,9 @@ int MediaStream::receiveFrame() {
 				return 1;
 			}
 			try_times++;
+		} else {
+			ffmpegDecoder.decodeFrame(frameBuffer, size);
 		}
-		ffmpegDecoder.decodeFrame(frameBuffer, size);
 	}
 	printf("WHILE LOOP BOKEN ----------------\n");
 
