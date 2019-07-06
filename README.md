@@ -12,7 +12,17 @@ Can you help me? I'd be nice to have people working on different parts of the pr
 
 # How to build
 
-First of all, see the dockerfile in `docker` folder to understand how your system might look like for the installation to work 
+See the dockerfile in `docker` folder to understand how your system might look like for the installation to work, or follow below:
+
+In Ubuntu, you should install these:
+
+```
+sudo apt update && sudo apt install -y cmake build-essential ca-certificates \
+    libavcodec-dev libavformat-dev libavdevice-dev libavfilter-dev libavutil-dev libboost-dev libboost-thread-dev \
+    libgl-dev perl python git wget unzip 
+```
+
+and also have a modern QT installtion on `/home/$USER`. Explained below.
 
 ## QT little app (debugging only)
 

@@ -6,14 +6,11 @@ MAINTAINER Lucas Zanella (me@lucaszanella.com)
 ARG QT_SOURCE_LINK=http://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.zip
 ARG QT_INSTALLER_LINK=http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
 
-
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     cmake build-essential ca-certificates \
     libavcodec-dev libavformat-dev libavdevice-dev libavfilter-dev libavutil-dev libboost-dev libboost-thread-dev \
     libgl-dev perl python git wget unzip 
-    #qt5-default qml-module-qtquick-controls2 libqt5qml5 qml-module-qtquick2 qml-module-qtquick-window2
-
 
 #Installs modern qt, ubuntu's one is old 
 ADD qt-installer-noninteractive.qs /home/qt-installer-noninteractive.qs
@@ -35,7 +32,7 @@ ENTRYPOINT "/bin/bash"
 
 
 # For when Ubuntu gets sufficiently modern QT:
-#RUN apt-get update && apt install -y qtmultimedia5-dev qtbase5-dev libqt5multimedia5-plugins libqt5opengl5-dev
+#RUN apt-get update && apt install -y qtmultimedia5-dev qtbase5-dev libqt5multimedia5-plugins libqt5opengl5-dev qt5-default qml-module-qtquick-controls2 libqt5qml5 qml-module-qtquick2 qml-module-qtquick-window2
 # TODO  && echo "Unzipping..." && unzip -qq qt.zip && ls
 
 
