@@ -7,10 +7,15 @@ set(REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_SRC ${REACT_NATIVE_DESKTOP_EXTERNAL_MO
                                               ${CMAKE_CURRENT_SOURCE_DIR}/mediaplayermanager.cpp
                                               PARENT_SCOPE)
 
-set(ORWELL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../..)
+
+#Root of the project
+set(ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../..)
+#Place where lies QT cpp files (are used in react native desktop as modules)
+set(QT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../cpp/desktop)
+#React QT directory
 set(REACT_QT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../node_modules/react-native/ReactQt/runtime/src)
 
-add_subdirectory(${ORWELL_DIR} orwell_subdir)
+add_subdirectory(${QT_DIR} orwell_subdir)
 
 set(REACT_NATIVE_DESKTOP_EXTERNAL_PROJECT_DEPS ${REACT_NATIVE_DESKTOP_EXTERNAL_PROJECT_DEPS}
                                               orwell
@@ -24,11 +29,13 @@ set(REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_LIBS ${REACT_NATIVE_DESKTOP_EXTERNAL_M
                                               PARENT_SCOPE)
 
 set(REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_INCLUDE_DIRS ${REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_INCLUDE_DIRS}
-                                              ${ORWELL_DIR}
-                                              ${ORWELL_DIR}/myRtspClient/myRtspClient/include
-                                              ${ORWELL_DIR}/myRtspClient/
-                                              ${ORWELL_DIR}/jrtplib
+                                              ${QT_DIR}
+                                              ${ROOT}/myRtspClient/myRtspClient/include
+                                              ${ROOT}/myRtspClient
+                                              ${ROOT}/jrtplib
+					      ${QT_DIR}/../common
                                               ${REACT_QT_DIR}
+                                              ${REACT_QT_DIR}/layout
                                               PARENT_SCOPE)
 
 

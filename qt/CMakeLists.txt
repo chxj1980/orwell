@@ -18,6 +18,7 @@ find_package(Qt5 COMPONENTS Qml Quick Gui Widgets Multimedia MultimediaWidgets) 
 set(REACT_NATIVE_REACTQT_DIR "../react-native-desktop/ReactQt/runtime/src/") 
 add_subdirectory(../myRtspClient myrtsp)
 include_directories(../myRtspClient/myRtspClient/include)
+include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
 include_directories(${REACT_NATIVE_REACTQT_DIR})
 include_directories(${REACT_NATIVE_REACTQT_DIR}/layout)
@@ -27,10 +28,11 @@ qt5_add_resources(qml_QRC qml.qrc)    #what this does?
 
 add_subdirectory(../react-native-desktop RND)
 
-file(GLOB orwell_SRCS "../*.cpp" main.cpp "*../.ui")
+file(GLOB orwell_SRCS "../cpp/common/*.cpp" "../cpp/desktop/*.cpp" main.cpp)
 
 add_executable(orwell ${orwell_SRCS} ${QRCS} ${qml_QRC})
 add_dependencies(orwell react-native)
+
 #TODO: decide either qtquick or qt widgets libs
 target_link_libraries( orwell PRIVATE ${AVCODEC_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} 
 		       Qt5::Widgets Qt5::Multimedia Qt5::MultimediaWidgets Boost::thread Qt5::Qml Qt5::Quick 

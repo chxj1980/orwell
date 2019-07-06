@@ -702,167 +702,167 @@ copy-RNTester/fast:
 	$(MAKE) -f RND/RNTester/CMakeFiles/copy-RNTester.dir/build.make RND/RNTester/CMakeFiles/copy-RNTester.dir/build
 .PHONY : copy-RNTester/fast
 
-home/lz/orwell/FfmpegDecoder.o: home/lz/orwell/FfmpegDecoder.cpp.o
+home/lz/orwell/cpp/common/FfmpegDecoder.o: home/lz/orwell/cpp/common/FfmpegDecoder.cpp.o
 
-.PHONY : home/lz/orwell/FfmpegDecoder.o
-
-# target to build an object file
-home/lz/orwell/FfmpegDecoder.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/FfmpegDecoder.cpp.o
-.PHONY : home/lz/orwell/FfmpegDecoder.cpp.o
-
-home/lz/orwell/FfmpegDecoder.i: home/lz/orwell/FfmpegDecoder.cpp.i
-
-.PHONY : home/lz/orwell/FfmpegDecoder.i
-
-# target to preprocess a source file
-home/lz/orwell/FfmpegDecoder.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/FfmpegDecoder.cpp.i
-.PHONY : home/lz/orwell/FfmpegDecoder.cpp.i
-
-home/lz/orwell/FfmpegDecoder.s: home/lz/orwell/FfmpegDecoder.cpp.s
-
-.PHONY : home/lz/orwell/FfmpegDecoder.s
-
-# target to generate assembly for a file
-home/lz/orwell/FfmpegDecoder.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/FfmpegDecoder.cpp.s
-.PHONY : home/lz/orwell/FfmpegDecoder.cpp.s
-
-home/lz/orwell/MediaStream.o: home/lz/orwell/MediaStream.cpp.o
-
-.PHONY : home/lz/orwell/MediaStream.o
+.PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.o
 
 # target to build an object file
-home/lz/orwell/MediaStream.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/MediaStream.cpp.o
-.PHONY : home/lz/orwell/MediaStream.cpp.o
+home/lz/orwell/cpp/common/FfmpegDecoder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegDecoder.cpp.o
+.PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.cpp.o
 
-home/lz/orwell/MediaStream.i: home/lz/orwell/MediaStream.cpp.i
+home/lz/orwell/cpp/common/FfmpegDecoder.i: home/lz/orwell/cpp/common/FfmpegDecoder.cpp.i
 
-.PHONY : home/lz/orwell/MediaStream.i
+.PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.i
 
 # target to preprocess a source file
-home/lz/orwell/MediaStream.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/MediaStream.cpp.i
-.PHONY : home/lz/orwell/MediaStream.cpp.i
+home/lz/orwell/cpp/common/FfmpegDecoder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegDecoder.cpp.i
+.PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.cpp.i
 
-home/lz/orwell/MediaStream.s: home/lz/orwell/MediaStream.cpp.s
+home/lz/orwell/cpp/common/FfmpegDecoder.s: home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s
 
-.PHONY : home/lz/orwell/MediaStream.s
+.PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.s
 
 # target to generate assembly for a file
-home/lz/orwell/MediaStream.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/MediaStream.cpp.s
-.PHONY : home/lz/orwell/MediaStream.cpp.s
+home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s
+.PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s
 
-home/lz/orwell/OpenGlBufferQtQuick.o: home/lz/orwell/OpenGlBufferQtQuick.cpp.o
+home/lz/orwell/cpp/common/MediaStream.o: home/lz/orwell/cpp/common/MediaStream.cpp.o
 
-.PHONY : home/lz/orwell/OpenGlBufferQtQuick.o
+.PHONY : home/lz/orwell/cpp/common/MediaStream.o
 
 # target to build an object file
-home/lz/orwell/OpenGlBufferQtQuick.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlBufferQtQuick.cpp.o
-.PHONY : home/lz/orwell/OpenGlBufferQtQuick.cpp.o
+home/lz/orwell/cpp/common/MediaStream.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/MediaStream.cpp.o
+.PHONY : home/lz/orwell/cpp/common/MediaStream.cpp.o
 
-home/lz/orwell/OpenGlBufferQtQuick.i: home/lz/orwell/OpenGlBufferQtQuick.cpp.i
+home/lz/orwell/cpp/common/MediaStream.i: home/lz/orwell/cpp/common/MediaStream.cpp.i
 
-.PHONY : home/lz/orwell/OpenGlBufferQtQuick.i
+.PHONY : home/lz/orwell/cpp/common/MediaStream.i
 
 # target to preprocess a source file
-home/lz/orwell/OpenGlBufferQtQuick.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlBufferQtQuick.cpp.i
-.PHONY : home/lz/orwell/OpenGlBufferQtQuick.cpp.i
+home/lz/orwell/cpp/common/MediaStream.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/MediaStream.cpp.i
+.PHONY : home/lz/orwell/cpp/common/MediaStream.cpp.i
 
-home/lz/orwell/OpenGlBufferQtQuick.s: home/lz/orwell/OpenGlBufferQtQuick.cpp.s
+home/lz/orwell/cpp/common/MediaStream.s: home/lz/orwell/cpp/common/MediaStream.cpp.s
 
-.PHONY : home/lz/orwell/OpenGlBufferQtQuick.s
+.PHONY : home/lz/orwell/cpp/common/MediaStream.s
 
 # target to generate assembly for a file
-home/lz/orwell/OpenGlBufferQtQuick.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlBufferQtQuick.cpp.s
-.PHONY : home/lz/orwell/OpenGlBufferQtQuick.cpp.s
+home/lz/orwell/cpp/common/MediaStream.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/MediaStream.cpp.s
+.PHONY : home/lz/orwell/cpp/common/MediaStream.cpp.s
 
-home/lz/orwell/OpenGlMaterialQQuickItem.o: home/lz/orwell/OpenGlMaterialQQuickItem.cpp.o
+home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o: home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o
 
-.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o
 
 # target to build an object file
-home/lz/orwell/OpenGlMaterialQQuickItem.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQQuickItem.cpp.o
-.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.cpp.o
+home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o
 
-home/lz/orwell/OpenGlMaterialQQuickItem.i: home/lz/orwell/OpenGlMaterialQQuickItem.cpp.i
+home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.i: home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.i
 
-.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.i
 
 # target to preprocess a source file
-home/lz/orwell/OpenGlMaterialQQuickItem.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQQuickItem.cpp.i
-.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.cpp.i
+home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.i
 
-home/lz/orwell/OpenGlMaterialQQuickItem.s: home/lz/orwell/OpenGlMaterialQQuickItem.cpp.s
+home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.s: home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.s
 
-.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.s
 
 # target to generate assembly for a file
-home/lz/orwell/OpenGlMaterialQQuickItem.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlMaterialQQuickItem.cpp.s
-.PHONY : home/lz/orwell/OpenGlMaterialQQuickItem.cpp.s
+home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.s
 
-home/lz/orwell/OpenGlVideoQtQuick.o: home/lz/orwell/OpenGlVideoQtQuick.cpp.o
+home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.o: home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.o
 
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.o
 
 # target to build an object file
-home/lz/orwell/OpenGlVideoQtQuick.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick.cpp.o
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick.cpp.o
+home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.o
 
-home/lz/orwell/OpenGlVideoQtQuick.i: home/lz/orwell/OpenGlVideoQtQuick.cpp.i
+home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.i: home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.i
 
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.i
 
 # target to preprocess a source file
-home/lz/orwell/OpenGlVideoQtQuick.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick.cpp.i
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick.cpp.i
+home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.i
 
-home/lz/orwell/OpenGlVideoQtQuick.s: home/lz/orwell/OpenGlVideoQtQuick.cpp.s
+home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.s: home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.s
 
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.s
 
 # target to generate assembly for a file
-home/lz/orwell/OpenGlVideoQtQuick.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick.cpp.s
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick.cpp.s
+home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.s
 
-home/lz/orwell/OpenGlVideoQtQuick2.o: home/lz/orwell/OpenGlVideoQtQuick2.cpp.o
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.o: home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.o
 
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick2.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.o
 
 # target to build an object file
-home/lz/orwell/OpenGlVideoQtQuick2.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick2.cpp.o
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick2.cpp.o
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.o
 
-home/lz/orwell/OpenGlVideoQtQuick2.i: home/lz/orwell/OpenGlVideoQtQuick2.cpp.i
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.i: home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.i
 
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick2.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.i
 
 # target to preprocess a source file
-home/lz/orwell/OpenGlVideoQtQuick2.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick2.cpp.i
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick2.cpp.i
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.i
 
-home/lz/orwell/OpenGlVideoQtQuick2.s: home/lz/orwell/OpenGlVideoQtQuick2.cpp.s
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.s: home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.s
 
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick2.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.s
 
 # target to generate assembly for a file
-home/lz/orwell/OpenGlVideoQtQuick2.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/OpenGlVideoQtQuick2.cpp.s
-.PHONY : home/lz/orwell/OpenGlVideoQtQuick2.cpp.s
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.cpp.s
+
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.o: home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.o
+
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.o
+
+# target to build an object file
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.o
+
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.i: home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.i
+
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.i
+
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.s: home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.s
+
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.cpp.s
 
 main.o: main.cpp.o
 
@@ -999,24 +999,24 @@ help:
 	@echo "... copy-Movies"
 	@echo "... copy-UIExplorer"
 	@echo "... copy-RNTester"
-	@echo "... home/lz/orwell/FfmpegDecoder.o"
-	@echo "... home/lz/orwell/FfmpegDecoder.i"
-	@echo "... home/lz/orwell/FfmpegDecoder.s"
-	@echo "... home/lz/orwell/MediaStream.o"
-	@echo "... home/lz/orwell/MediaStream.i"
-	@echo "... home/lz/orwell/MediaStream.s"
-	@echo "... home/lz/orwell/OpenGlBufferQtQuick.o"
-	@echo "... home/lz/orwell/OpenGlBufferQtQuick.i"
-	@echo "... home/lz/orwell/OpenGlBufferQtQuick.s"
-	@echo "... home/lz/orwell/OpenGlMaterialQQuickItem.o"
-	@echo "... home/lz/orwell/OpenGlMaterialQQuickItem.i"
-	@echo "... home/lz/orwell/OpenGlMaterialQQuickItem.s"
-	@echo "... home/lz/orwell/OpenGlVideoQtQuick.o"
-	@echo "... home/lz/orwell/OpenGlVideoQtQuick.i"
-	@echo "... home/lz/orwell/OpenGlVideoQtQuick.s"
-	@echo "... home/lz/orwell/OpenGlVideoQtQuick2.o"
-	@echo "... home/lz/orwell/OpenGlVideoQtQuick2.i"
-	@echo "... home/lz/orwell/OpenGlVideoQtQuick2.s"
+	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.o"
+	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.i"
+	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.s"
+	@echo "... home/lz/orwell/cpp/common/MediaStream.o"
+	@echo "... home/lz/orwell/cpp/common/MediaStream.i"
+	@echo "... home/lz/orwell/cpp/common/MediaStream.s"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.i"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.s"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.o"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.i"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.s"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.o"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.i"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick.s"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.o"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.i"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlVideoQtQuick2.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

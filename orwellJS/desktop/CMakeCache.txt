@@ -381,13 +381,13 @@ SRTP_ENABLED:BOOL=OFF
 SWSCALE_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libswscale.so
 
 //Value Computed by CMake
-jrtplib_BINARY_DIR:STATIC=/home/lz/orwell/orwellJS/desktop/modules/mediaplayer/desktop/orwell_subdir/myRtspClient/third_party/JRTPLIB
+jrtplib_BINARY_DIR:STATIC=/home/lz/orwell/orwellJS/desktop/modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB
 
 //Value Computed by CMake
 jrtplib_SOURCE_DIR:STATIC=/home/lz/orwell/myRtspClient/third_party/JRTPLIB
 
 //Value Computed by CMake
-myRtspClient_BINARY_DIR:STATIC=/home/lz/orwell/orwellJS/desktop/modules/mediaplayer/desktop/orwell_subdir/myRtspClient
+myRtspClient_BINARY_DIR:STATIC=/home/lz/orwell/orwellJS/desktop/modules/mediaplayer/desktop/orwell_subdir/_myrtspClient
 
 //Dependencies for the target
 myRtspClient_LIB_DEPENDS:STATIC=general;jrtplib-shared;
@@ -402,7 +402,7 @@ orwell_BINARY_DIR:STATIC=/home/lz/orwell/orwellJS/desktop/modules/mediaplayer/de
 orwell_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libavcodec.so;general;/usr/lib/x86_64-linux-gnu/libavutil.so;general;/usr/lib/x86_64-linux-gnu/libswscale.so;general;Qt5::Widgets;general;Qt5::Multimedia;general;Qt5::MultimediaWidgets;general;Boost::thread;general;myRtspClient;general;pthread;general;Qt5::Qml;general;Qt5::Quick;
 
 //Value Computed by CMake
-orwell_SOURCE_DIR:STATIC=/home/lz/orwell
+orwell_SOURCE_DIR:STATIC=/home/lz/orwell/cpp/desktop
 
 //Dependencies for the target
 react-native_LIB_DEPENDS:STATIC=general;orwell;general;boost_thread;general;boost_system;general;Qt5::Core;general;Qt5::Qml;general;Qt5::Quick;general;Qt5::WebSockets;general;Qt5::Svg;general;Qt5::Concurrent;
