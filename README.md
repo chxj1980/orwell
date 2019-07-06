@@ -45,7 +45,7 @@ ps: you must have cameras accessible with the IPs and passwords of `qt/main.qml`
 
 Warning: it'll likely not work with your cameras for now, but it should work with vstarcam cameras
 
-## React Native app (actual app we want to build)
+## React Native Desktop app
 
 ```
 cd orwellJS
@@ -72,3 +72,11 @@ react-native desktop
 then coopy the contents of `node_modules` to orwellJS, this will make what `npm install` were supposed to do. This is currently an issue here: https://github.com/status-im/react-native-desktop/issues/457
 
 Warning: it'll likely not work with your cameras for now, but it should work with vstarcam cameras
+
+## React Native Android app
+
+To be done.
+
+## React Native iOS app
+
+To be done.
