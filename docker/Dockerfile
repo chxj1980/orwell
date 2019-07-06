@@ -12,12 +12,6 @@ RUN apt-get update \
     libavcodec-dev libavformat-dev libavdevice-dev libavfilter-dev libavutil-dev libboost-dev libboost-thread-dev \
     libgl-dev perl python git wget unzip 
 
-#Installs modern qt, ubuntu's one is old 
-ADD qt-installer-noninteractive.qs /home/qt-installer-noninteractive.qs
-
-RUN wget --progress=bar:force -O qt.run $QT_INSTALLER_LINK
-RUN chmod +x qt.run && ./qt.run -platform minimal --script /home/qt-installer-noninteractive.qs 
-
 #CMAKE INSTALLATION. TODO: make it download a stable version, don't use git clone
 RUN git clone https://github.com/Kitware/CMake \
     && cd CMake && ./bootstrap && make && make install \
@@ -27,6 +21,12 @@ RUN git clone https://github.com/Kitware/CMake \
 RUN useradd -ms /bin/bash dev
 USER dev
 WORKDIR /home/dev/orwell
+
+#Installs modern qt, ubuntu's one is old 
+ADD qt-installer-noninteractive.qs /home/qt-installer-noninteractive.qs
+
+RUN wget --progress=bar:force -O qt.run $QT_INSTALLER_LINK
+RUN chmod +x qt.run && ./qt.run -platform minimal --script /home/qt-installer-noninteractive.qs 
 
 ENTRYPOINT "/bin/bash"
 
