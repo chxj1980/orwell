@@ -55,7 +55,8 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	if (frameLength <= 0) return;
 
 	int frameFinished = 0;
-
+	if (this->uri =="rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_0")
+			std::cout << " allocatin packet for " << this->uri << std::endl;
 	AVPacket* avPacket = av_packet_alloc();
 	if (!avPacket) std::cout << "av packet error" << std::endl;
 	//AVRational tb = avCodecContext->time_base; //For fixed-fps content, timebase should be 1/framerate and timestamp increments should be identically 1. This often, but not always is the inverse of the frame rate or field rate for video. 1/time_base is not the average frame rate if the frame rate is not constant.
@@ -65,9 +66,8 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	avPacket->data = frameBuffer;
 
     //https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
-	//int ret = avcodec_decode_video2(avCodecContext, avFrame, &frameFinished, avPacket);
-	//while (true) {}
-	av_log_set_level(AV_LOG_QUIET); //no output from ffmpeg
+	//no output from ffmpeg
+	av_log_set_level(AV_LOG_QUIET); 
 	bool stop = false;
 	int result = avcodec_send_packet(avCodecContext, avPacket);
 	if (!result) {
@@ -82,21 +82,24 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 				break;
 			} else {
 				switch (result) {
+					//Not exactly an error, we just have to wait for more data
 					case AVERROR(EAGAIN):
 						result = 0;
 						break;
+					//To be done: what does this error mean? I think it's literally the end of an mp4 file
 					case AVERROR_EOF:
 						// buffer flushed
 						std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
-
 						result = 0;
 						break;
+					//To be done: describe what error is this in std cout before stopping
 					default:
 						std::cout << "avcodec_receive_frame returned error, stopping..." << result /*<< av_err2str(result).c_str()*/ << std::endl;
 						break;
 					//Error happened, should break anyway
 					break;
 				}
+				break;
 			}
 		}
 	} else {
@@ -115,11 +118,10 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 			default:
 				//LOGE("avcodec_send_packet returned error %d:%s", result, av_error(result).c_str());
 				//std::cout << "avcodec_send_packet returned error" << result /*av_error(result).c_str()*/ << std::endl;
-
+				std::cout << "ffmpeg default unknown error for " << this->uri << std::endl;
 				break;
 		}
 	}
-
 	if (frameFinished) {
 		/*
 		double dpts = NAN;
@@ -171,5 +173,4 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 		
 		av_frame_unref(avFrame);
 	}
-	
 }

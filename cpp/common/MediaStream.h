@@ -17,6 +17,8 @@ class MediaStream {
 		int init();
 		int receiveFrame();
 		void run();
+	private:
+		bool firstConnection = true;
 
 		//void ByeFromServerClbk();
 };

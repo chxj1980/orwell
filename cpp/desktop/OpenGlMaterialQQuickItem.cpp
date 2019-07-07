@@ -140,6 +140,10 @@ class Shader : public QSGSimpleMaterialShader<State>
 
         void updateState(const State *state, const State *oldState) override
         {
+            //if (state->uri=="rtsp://admin:19929394@192.168.0.100:10554/tcp/av0_0")
+                //std::cout << "-----/////***** updateState called for rtsp://admin:19929394@192.168.0.100:10554/tcp/av0_0" << std::endl;
+            glFuncs->glClearColor(0.f, 0.f, 0.f, 0.f);
+            glFuncs->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             if (firstRender) {
                 //Y
                 glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
@@ -209,7 +213,7 @@ class Node: public QSGGeometryNode, public FrameUpdater
             QSGGeometry *g = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), 4);
             QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
             setGeometry(g);
-            setFlag(QSGNode::OwnsGeometry, true);
+            setFlag(OwnsGeometry, true);
         }
 
         void setItem(QQuickItem* item) {
@@ -231,6 +235,7 @@ class Node: public QSGGeometryNode, public FrameUpdater
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
             material->state()->updateData(data, frameWidth, frameHeight);
+            //std::cout << "updateData called for " << this->uri << std::endl;
             //material->state()->markNewData();
             markDirty(QSGNode::DirtyMaterial);//is this really needed?
             QMetaObject::invokeMethod(item, &QQuickItem::update, Qt::QueuedConnection);

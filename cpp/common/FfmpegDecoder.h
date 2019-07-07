@@ -11,6 +11,8 @@ extern "C"
 #include <libavutil/frame.h>
 #include <libavdevice/avdevice.h>
 }
+#include <iostream>
+
 
 class FfmpegDecoder
 {
@@ -24,6 +26,9 @@ public:
 	void setPlayState(bool pause);
 	void setRecordState(bool record);
 	void setFrameUpdater(FrameUpdater * frameUpdater);
+
+	//For debug purposes:
+	std::string uri;
 
 private:
 

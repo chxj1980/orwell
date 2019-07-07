@@ -31,9 +31,7 @@ void ByeFromServerClbk2()
 	ByeFromServerFlag2 = true;
 }
 //TODO: if uri is rtsp, do one thing. If it's a .mp4 file, do other thing
-MediaStream::MediaStream (std::string uri):rtspClient(uri) {
-	//rtspClient     = RtspClient(uri);//why the hell this line gives segmentation fault? TODO: make a minimal working example with it
-	//ffmpegDecoder  = FfmpegDecoder();
+MediaStream::MediaStream (std::string uri):rtspClient(uri),uri(uri) {
 }
 
 void MediaStream::setFrameUpdater(FrameUpdater* frameUpdater) {
@@ -49,15 +47,20 @@ void MediaStream::run() {
 	}
 }
 
-//int main(int argc, char *argv[])
 int MediaStream::init()
-{
-	//std::cout << "----------------- MediaStream::init() ----------------- " << std::endl ;
+{	
+	if (firstConnection) {
+		std::cout << "RTSP connection for " << this->uri << std::endl;
+	} else {
+		std::cout << "RTSP reconnection for " << this->uri << std::endl;
+	}
+	firstConnection = false;
+	
 	bool r = ffmpegDecoder.init();
 	if(!r) std::cout << "problem with ffmpeg decoder init"  << std::endl;
-    //ffmpegDecoder.setOpenGLWidget(&xVideoWidget);
 
 	ffmpegDecoder.setFrameUpdater(frameUpdater);
+	ffmpegDecoder.uri = this->uri;
 	//printf("DoOPTIONS():\n");
 	if(rtspClient.DoOPTIONS() != RTSP_NO_ERROR) {
 		//printf("DoOPTIONS error\n");
@@ -176,8 +179,11 @@ int MediaStream::receiveFrame() {
     }
 	*/ 
     /* Get SPS, PPS, VPS manually end */
+	unsigned int a = 0;
+
     while (true) {
 		size_t size = 0;
+		a++;
 
 		if(!rtspClient.GetMediaData("video", frameBuffer, &size, bufferSize)) {
 			if(ByeFromServerFlag2) {
@@ -185,7 +191,7 @@ int MediaStream::receiveFrame() {
 				return 0;
 			}
 			if(try_times > 5) {
-				printf("try_times > 5\n");
+				std::cout << "RTSP connection lost for " << this->uri << std::endl;
 				break;
 				return 1;
 			}
@@ -194,8 +200,6 @@ int MediaStream::receiveFrame() {
 			ffmpegDecoder.decodeFrame(frameBuffer, size);
 		}
 	}
-	printf("WHILE LOOP BOKEN ----------------\n");
-
 	return 0;
 
 	/* lower the 'write' times to improve performance */
