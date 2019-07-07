@@ -65,63 +65,47 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	avPacket->data = frameBuffer;
 
     //https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
-	//no output from ffmpeg
+	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET); 
-	int result = avcodec_send_packet(avCodecContext, avPacket);
-	if (!result) {
-		while (!result) {
-			result = avcodec_receive_frame(avCodecContext, avFrame);
-			if (!result) {
-				this->frameUpdater->updateData(avFrame->data, avFrame->width, avFrame->height);
-				break;
-			} else if ((result < 0) && (result != AVERROR(EAGAIN)) && (result != AVERROR_EOF)) {
-				//LOGE("avcodec_receive_frame returned error %d:%s", result, av_error(result).c_str());
-				std::cout << "avcodec_receive_frame returned error " << result /*<< *av_err2str(result).c_str()*/ << std::endl;
-				break;
-			} else {
-				switch (result) {
-					//Not exactly an error, we just have to wait for more data
-					case AVERROR(EAGAIN):
-						result = 0;
-						break;
-					//To be done: what does this error mean? I think it's literally the end of an mp4 file
-					case AVERROR_EOF:
-						// buffer flushed
-						std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
-						result = 0;
-						break;
-					//To be done: describe what error is this in std cout before stopping
-					default:
-						std::cout << "avcodec_receive_frame returned error, stopping..." << result /*<< av_err2str(result).c_str()*/ << std::endl;
-						break;
-					//Error happened, should break anyway
+	int sendPacketResult = avcodec_send_packet(avCodecContext, avPacket);
+	if (!sendPacketResult) {
+		int receiveFrameResult = avcodec_receive_frame(avCodecContext, avFrame);
+		if (!receiveFrameResult) {
+			this->frameUpdater->updateData(avFrame->data, avFrame->width, avFrame->height);
+		} else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF)) {
+			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult /*<< *av_err2str(result).c_str()*/ << std::endl;
+		} else {
+			switch (receiveFrameResult) {
+				//Not exactly an error, we just have to wait for more data
+				case AVERROR(EAGAIN):
 					break;
-				}
+				//To be done: what does this error mean? I think it's literally the end of an mp4 file
+				case AVERROR_EOF:
+					std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
+					break;
+				//To be done: describe what error is this in std cout before stopping
+				default:
+					std::cout << "avcodec_receive_frame returned error, stopping..." << receiveFrameResult /*<< av_err2str(result).c_str()*/ << std::endl;
+					break;
+				//Error happened, should break anyway
 				break;
 			}
 		}
 	} else {
-		switch (result) {
+		switch (sendPacketResult) {
 			case AVERROR(EAGAIN):
-				//LOGE("avcodec_send_packet EAGAIN");
 				std::cout << "avcodec_send_packet EAGAIN" << std::endl;
-
 				break;
 			case AVERROR_EOF:
-				//LOGE("avcodec_send_packet AVERROR_EOF");
 				std::cout << "avcodec_send_packet AVERROR_EOF" << std::endl;
-
-				result = 0;
 				break;
 			//To be done: debug which erros are these. Last time I checked it was a bunch of -1094995529 errors
 			default:
-				//LOGE("avcodec_send_packet returned error %d:%s", result, av_error(result).c_str());
-				//std::cout << "avcodec_send_packet returned error" << result /*av_error(result).c_str()*/ << std::endl;
 				//std::cout << "ffmpeg default unknown error number " << result << " for " << this->uri << std::endl;
 				break;
 		}
 	}
-	if (frameFinished) {
+	//if (frameFinished) {
 		/*
 		double dpts = NAN;
 
@@ -137,8 +121,8 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 		pts = (frame->pts == AV_NOPTS_VALUE) ? NAN : frame->pts * av_q2d(tb);
 		*/
 
-		int width = avFrame->width;
-		int height= avFrame->height;
+		//int width = avFrame->width;
+		//int height= avFrame->height;
 		/*
 		AvPicture* picture;
 		picture = avcodec_alloc_frame();
@@ -170,6 +154,6 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 		}
 		*/
 		
-		av_frame_unref(avFrame);
-	}
+		//av_frame_unref(avFrame);
+	//}
 }

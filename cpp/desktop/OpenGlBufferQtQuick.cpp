@@ -65,7 +65,6 @@ const char *tString3 = GET_STR(
 
 
 OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
-    //this->uri = uri;
 }
 
 
@@ -110,7 +109,6 @@ void OpenGlBufferItemRenderer::render() {
             f->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
             f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
 
             this->firstRender = false;
         
@@ -182,8 +180,6 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 {
     //https://github.com/quitejonny/tangram-es/blob/b457b7fc59e3e0f3c6d7bc26a0b5fe62098376fb/platforms/qt/tangram/tangramquickrenderer.cpp#L54
     OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
-   // std::cout << "starting new renderer for uri " << this-> openGlBufferItem->uri << std::endl;
-    //MediaStream* mediaStream = new MediaStream(openGlBufferItem->p_uri.toStdString());
     MediaStream* mediaStream = new MediaStream(openGlBufferItem->uri);
     mediaStream->setFrameUpdater((FrameUpdater *) this);
     //TODO: put mutex on std::cout of this thread
