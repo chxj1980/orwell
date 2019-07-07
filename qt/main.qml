@@ -6,51 +6,52 @@ import OpenGlMaterialQQuickItem 1.0
 
 Grid {
     id: gridLayout
-    columns: 2
+    columns: 3
+    rows:3
     spacing: 0
     width: 1280
     height: 720
     
     property var cellWidth: gridLayout.width/gridLayout.columns;
-    property var cellHeight: (gridLayout.width/gridLayout.columns)*3/4;
+    property var cellHeight: (gridLayout.height/gridLayout.rows);
     
     OpenGlMaterialQQuickItem {
-        width: 640
-        height: 360
-        uri: "rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_0"
+        width: cellWidth
+        height: cellHeight
+        uri: "rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_1"
     }
-    /*
+    
     OpenGlMaterialQQuickItem {
         width: cellWidth
         height: cellHeight
-        uri: "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_0"
-    }
-    OpenGlMaterialQQuickItem {
-        width: cellWidth
-        height: cellHeight
-        uri: "rtsp://admin:19929394@192.168.0.104:10554/tcp/av0_0"
+        uri: "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1"
     }
     OpenGlMaterialQQuickItem {
         width: cellWidth
         height: cellHeight
-        uri: "rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0"
+        uri: "rtsp://admin:19929394@192.168.0.104:10554/tcp/av0_1"
     }
     OpenGlMaterialQQuickItem {
         width: cellWidth
         height: cellHeight
-        uri: "rtsp://admin:19929394@192.168.0.106:10554/tcp/av0_0"
+        uri: "rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1"
     }
     OpenGlMaterialQQuickItem {
         width: cellWidth
         height: cellHeight
-        uri: "rtsp://admin:19929394@192.168.0.107:10554/tcp/av0_0"
+        uri: "rtsp://admin:19929394@192.168.0.106:10554/tcp/av0_1"
     }
     OpenGlMaterialQQuickItem {
         width: cellWidth
         height: cellHeight
-        uri: "rtsp://admin:19929394@192.168.0.100:10554/tcp/av0_0"
+        uri: "rtsp://admin:19929394@192.168.0.107:10554/tcp/av0_1"
     }
-    */
+    OpenGlMaterialQQuickItem {
+        width: cellWidth
+        height: cellHeight
+        uri: "rtsp://admin:19929394@192.168.0.100:10554/tcp/av0_1"
+    }
+    
 }
 
 
