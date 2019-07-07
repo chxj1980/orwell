@@ -142,7 +142,7 @@ int MediaStream::receiveFrame() {
 	//const size_t BufSize = 398304;
 	//uint8_t buf[/*4 +*/ BufSize];//4 bytes for 0x00000001 at beggining
 	//uint8_t* paddedBuf = buf + 4;
-	const size_t bufferSize = 398304;//TODO: make it variable according to video's size
+	const size_t bufferSize = 708304;//TODO: make it variable according to video's size
     uint8_t frameBuffer[bufferSize];
 
     //size_t write_size = 0;

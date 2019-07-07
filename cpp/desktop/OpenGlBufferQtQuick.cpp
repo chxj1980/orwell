@@ -73,21 +73,25 @@ void OpenGlBufferItemRenderer::render() {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClearColor(0.f, 0.f, 0.f, 0.f);
     f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //QOpenGLContext::currentContext()->makeCurrent();
     if (firstFrameReceived) {
         if (this->firstRender) {
-            std::cout << "Creating QOpenGLShaderProgram " << std::endl;
             program = new QOpenGLShaderProgram();
             f->initializeOpenGLFunctions();
-            //this->m_F  = QOpenGLContext::currentContext()->functions();
-            std::cout << "frameWidth: " << frameWidth << + " frameHeight: " << frameHeight << std::endl;
-            
-            std::cout << "Fragment Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3) << std::endl;
-            std::cout << "Vertex Shader compilation: " << program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString3) << std::endl;
+
+            int ve = program->addShaderFromSourceCode(QOpenGLShader::Vertex, vString3);
+            int fr = program->addShaderFromSourceCode(QOpenGLShader::Fragment, tString3);
+            if (ve!=1)
+                std::cout << "Vertex Shader compilation problem: " << ve << std::endl;
+            if (fr!=1)
+                std::cout << "Fragment Shader compilation problem: " << fr << std::endl;
+        
 
             program->bindAttributeLocation("vertexIn",A_VER);
             program->bindAttributeLocation("textureIn",T_VER);
-            std::cout << "program->link() = " << program->link() << std::endl;
+
+            int li = program->link();
+            if (li!=1)
+                std::cout << "Program linking problem: " << li << std::endl;
 
             f->glGenTextures(3, texs);//TODO: ERASE THIS WITH glDeleteTextures
 
@@ -178,14 +182,9 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 {
     //https://github.com/quitejonny/tangram-es/blob/b457b7fc59e3e0f3c6d7bc26a0b5fe62098376fb/platforms/qt/tangram/tangramquickrenderer.cpp#L54
     OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
-
-    std::cout << "synchronize called " << std::endl;
    // std::cout << "starting new renderer for uri " << this-> openGlBufferItem->uri << std::endl;
-    std::cout << "experimental uri " << openGlBufferItem->p_uri.toStdString() << std::endl;
     //MediaStream* mediaStream = new MediaStream(openGlBufferItem->p_uri.toStdString());
-    std::cout << "starting mediaStream with uri: " << this->uri << std::endl;
     MediaStream* mediaStream = new MediaStream(openGlBufferItem->uri);
-
     mediaStream->setFrameUpdater((FrameUpdater *) this);
     //TODO: put mutex on std::cout of this thread
     //TODO: make this thread actualy run here instead of on a thread, I guess.
@@ -211,10 +210,6 @@ void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, i
 
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const
 {
-    std::cout << "createRenderer called ------------------------" << std::endl;
-    std::cout << "QPROPERT p_uri = " << this->p_uri.toStdString() << std::endl;
-    std::cout << "p_height = " << this->p_height << std::endl;
-    std::cout << "uri: " << uri << std::endl;
     //TODO: how do I know createRenderer will be called after uri is setted? I'm assuming it does.
     return new OpenGlBufferItemRenderer();
 }

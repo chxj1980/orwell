@@ -55,8 +55,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	if (frameLength <= 0) return;
 
 	int frameFinished = 0;
-	if (this->uri =="rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_0")
-			std::cout << " allocatin packet for " << this->uri << std::endl;
+	
 	AVPacket* avPacket = av_packet_alloc();
 	if (!avPacket) std::cout << "av packet error" << std::endl;
 	//AVRational tb = avCodecContext->time_base; //For fixed-fps content, timebase should be 1/framerate and timestamp increments should be identically 1. This often, but not always is the inverse of the frame rate or field rate for video. 1/time_base is not the average frame rate if the frame rate is not constant.
@@ -68,7 +67,6 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
     //https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 	//no output from ffmpeg
 	av_log_set_level(AV_LOG_QUIET); 
-	bool stop = false;
 	int result = avcodec_send_packet(avCodecContext, avPacket);
 	if (!result) {
 		while (!result) {
@@ -115,10 +113,11 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 
 				result = 0;
 				break;
+			//To be done: debug which erros are these. Last time I checked it was a bunch of -1094995529 errors
 			default:
 				//LOGE("avcodec_send_packet returned error %d:%s", result, av_error(result).c_str());
 				//std::cout << "avcodec_send_packet returned error" << result /*av_error(result).c_str()*/ << std::endl;
-				std::cout << "ffmpeg default unknown error for " << this->uri << std::endl;
+				//std::cout << "ffmpeg default unknown error number " << result << " for " << this->uri << std::endl;
 				break;
 		}
 	}
