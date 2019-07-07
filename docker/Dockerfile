@@ -19,14 +19,14 @@ RUN git clone https://github.com/Kitware/CMake \
 
 #RTSP library needs a user on linux, it's also the place where QT gets installed, don't change it
 RUN useradd -ms /bin/bash dev
-USER dev
-WORKDIR /home/dev/orwell
 
 #Installs modern qt, ubuntu's one is old 
-ADD qt-installer-noninteractive.qs /home/qt-installer-noninteractive.qs
-
 RUN wget --progress=bar:force -O qt.run $QT_INSTALLER_LINK
-RUN chmod +x qt.run && ./qt.run -platform minimal --script /home/qt-installer-noninteractive.qs 
+ADD qt-installer-noninteractive.qs /home/qt-installer-noninteractive.qs
+RUN chmod +x qt.run && ./qt.run -platform minimal --verbose --script /home/qt-installer-noninteractive.qs 
+
+WORKDIR /home/dev/orwell
+USER dev
 
 ENTRYPOINT "/bin/bash"
 

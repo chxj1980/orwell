@@ -2,6 +2,10 @@
 
 function Controller() {
     installer.autoRejectMessageBoxes();
+    installer.setMessageBoxAutomaticAnswer("installationError", QMessageBox.Retry);
+    installer.setMessageBoxAutomaticAnswer("installationErrorWithRetry", QMessageBox.Retry);
+    installer.setMessageBoxAutomaticAnswer("DownloadError", QMessageBox.Retry);
+    installer.setMessageBoxAutomaticAnswer("archiveDownloadError", QMessageBox.Retry);
     installer.installationFinished.connect(function() {
         gui.clickButton(buttons.NextButton);
     })
@@ -23,28 +27,39 @@ Controller.prototype.IntroductionPageCallback = function() {
 Controller.prototype.TargetDirectoryPageCallback = function()
 {
     //dev is the user in our docker image
-    gui.currentPageWidget().TargetDirectoryLineEdit.setText(installer.value("HomeDir") + "/dev/" + "/Qt");
+    gui.currentPageWidget().TargetDirectoryLineEdit.setText("/home/dev/" + "/Qt");
     gui.clickButton(buttons.NextButton);
 }
 
+Controller.prototype.PerformInstallationPageCallback = function() {
+    //console.log("PerformInstallationPageCallback");
+    gui.clickButton(buttons.CommitButton);
+}
+
 Controller.prototype.ComponentSelectionPageCallback = function() {
+    console.log("---------------ComponentSelectionPageCallback");
+
+    function list_packages() {
+      var components = installer.components();
+      console.log("Available components: " + components.length);
+      var packages = ["Packages: "];
+      for (var i = 0 ; i < components.length ;i++) {
+          packages.push(components[i].name);
+      }
+      console.log(packages.join(" "));
+    }
+
+    list_packages();
+
     var widget = gui.currentPageWidget();
 
+    console.log(widget);
+
     widget.deselectAll();
-    widget.selectComponent("qt.513.gcc_64");
-    widget.selectComponent("qt.513.qtquickcontrols");
-
-    // widget.deselectComponent("qt.tools.qtcreator");
-    // widget.deselectComponent("qt.55.qt3d");
-    // widget.deselectComponent("qt.55.qtcanvas3d");
-    // widget.deselectComponent("qt.55.qtlocation");
-    // widget.deselectComponent("qt.55.qtquick1");
-    // widget.deselectComponent("qt.55.qtscript");
-    // widget.deselectComponent("qt.55.qtwebengine");
-    // widget.deselectComponent("qt.extras");
-    // widget.deselectComponent("qt.tools.doc");
-    // widget.deselectComponent("qt.tools.examples");
-
+    widget.selectComponent("qt.qt5.5130");
+    widget.selectComponent("qt.qt5.5130.gcc_64");
+    // widget.deselectComponent("");
+   
     gui.clickButton(buttons.NextButton);
 }
 
