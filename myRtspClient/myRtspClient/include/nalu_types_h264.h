@@ -1,4 +1,4 @@
-//   Copyright 2015-2016 Ansersion
+//   Copyright 2015-2019 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -38,157 +38,94 @@
 #define IS_NALU_TYPE_VALID_H264(N) 		\
 	( \
       ((N) >= 1 && (N) <= 12) || \
-      ((N) == STAP_A::STAP_A_ID) || \
-      ((N) == STAP_B::STAP_B_ID) || \
-      ((N) == MTAP_16::MTAP_16_ID) || \
-      ((N) == MTAP_24::MTAP_24_ID) || \
-      ((N) == FU_A::FU_A_ID) || \
-      ((N) == FU_B::FU_B_ID) \
+      ((N) == H264TypeInterfaceSTAP_A::STAP_A_ID) || \
+      ((N) == H264TypeInterfaceSTAP_B::STAP_B_ID) || \
+      ((N) == H264TypeInterfaceMTAP_16::MTAP_16_ID) || \
+      ((N) == H264TypeInterfaceMTAP_24::MTAP_24_ID) || \
+      ((N) == H264TypeInterfaceFU_A::FU_A_ID) || \
+      ((N) == H264TypeInterfaceFU_B::FU_B_ID) \
 	)
 
-class NALUTypeBase_H264 : public NALUTypeBase
+
+/* H264TypeInterface */
+class H264TypeInterface
 {
-	public:
-		virtual uint16_t ParseNALUHeader_F(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_NRI(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_Type(const uint8_t * RTPPayload);
-		virtual bool IsPacketStart(const uint8_t * rtp_payload) {return false;}
-		virtual bool IsPacketEnd(const uint8_t * rtp_payload) {return true;}
-		virtual bool IsPacketReserved(const uint8_t * rtp_payload) {return false;}
-		virtual bool IsPacketThisType(const uint8_t * rtp_payload);
-		virtual NALUTypeBase * GetNaluRtpType(int packetization, int nalu_type_id);
-		virtual std::string GetName() const { return Name; }
-		virtual bool GetEndFlag() { return EndFlag; }
-		virtual bool GetStartFlag() { return StartFlag; }
-
-		// H265 interface with no use
-		virtual uint16_t ParseNALUHeader_Layer_ID(const uint8_t * RTPPayload) {return 0;}
-		virtual uint16_t ParseNALUHeader_Temp_ID_Plus_1(const uint8_t * RTPPayload) {return 0;}
-	public:
-        NALUTypeBase_H264();
-		virtual ~NALUTypeBase_H264() {};
-
     public:
-        virtual void Init();
-        virtual uint8_t * PrefixParameterOnce(uint8_t * buf, size_t * size);
-        virtual bool NeedPrefixParameterOnce() {return prefixParameterOnce;}
+		static H264TypeInterface * NalUnitType_H264[PACKETIZATION_MODE_NUM_H264][NAL_UNIT_TYPE_NUM_H264];
+        virtual ~H264TypeInterface() {};
+        virtual uint16_t ParseNALUHeader_F(const uint8_t * rtp_payload) {
+            if(!rtp_payload) return 0;
+            uint16_t NALUHeader_F_Mask = 0x0080; // binary: 1000_0000
+            return (rtp_payload[0] & NALUHeader_F_Mask);
+        }
+        virtual uint16_t ParseNALUHeader_NRI(const uint8_t * rtp_payload) {
+            if(!rtp_payload) return 0;
+            uint16_t NALUHeader_NRI_Mask = 0x0060; // binary: 0110_0000
+            return (rtp_payload[0] & NALUHeader_NRI_Mask);
+        }
 
-        virtual void SetSPS(const string &s) { SPS.assign(s);}
-        virtual void SetPPS(const string &s) { PPS.assign(s);}
-        virtual const string GetSPS() { return SPS;}
-        virtual const string GetPPS() { return PPS;}
-
-    private:
-        bool prefixParameterOnce;
-        string SPS;
-        string PPS;
-    //     virtual int PrefixParameterEveryFrame() {return 0;}
-    //     virtual int PrefixParameterEveryPacket() {return 0;}
-    //     virtual int SuffixParameterOnce() {return 0;}
-    //     virtual int SuffixParameterEveryFrame() {return 0;}
-    //     virtual int SuffixParameterEveryPacket() {return 0;}
-	// 	virtual int ParsePacket(const uint8_t * RTPPayload) {return 0;}
-	// 	virtual int ParseFrame(const uint8_t * RTPPayload) {return 0;}
-        // virtual bool IsFrameComplete(const uint8_t * RTPPayload) {return true;}
-		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size);
+        virtual uint16_t ParseNALUHeader_Type(const uint8_t * rtp_payload) {
+            if(!rtp_payload) return 0;
+            uint16_t NALUHeader_Type_Mask = 0x001F; // binary: 0001_1111
+            return (rtp_payload[0] & NALUHeader_Type_Mask);
+        }
+        virtual bool IsPacketStart(const uint8_t * rtp_payload) {return true;}
+        virtual bool IsPacketEnd(const uint8_t * rtp_payload) {return true;}
+        virtual bool IsPacketReserved(const uint8_t * rtp_payload) {return false;}
+        virtual bool IsPacketThisType(const uint8_t * rtp_payload) {return true;}
+        virtual int SkipHeaderSize(const uint8_t * rtp_payload) {return 1;}
 };
 
-class STAP_A : public NALUTypeBase_H264
+class H264TypeInterfaceSTAP_A : public H264TypeInterface
 {
 	public:
-		STAP_A() { Name.assign("STAP_A"); };
-		virtual ~STAP_A() {};
-
-		virtual uint16_t ParseNALUHeader_F(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_NRI(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_Type(const uint8_t * RTPPayload);
+		virtual ~H264TypeInterfaceSTAP_A() {};
 		virtual bool IsPacketStart(const uint8_t * rtp_payload);
 		virtual bool IsPacketEnd(const uint8_t * rtp_payload);
 		virtual bool IsPacketThisType(const uint8_t * rtp_payload);
-		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size);
-		virtual std::string GetName() const;
-		virtual bool GetEndFlag();
-		virtual bool GetStartFlag();
 	public:
 		static const uint8_t STAP_A_ID;
 };
 
-class STAP_B : public NALUTypeBase_H264
+class H264TypeInterfaceSTAP_B : public H264TypeInterface
 {
 	public:
-		STAP_B() { Name.assign("STAP_B"); };
-		virtual ~STAP_B() {};
+		virtual ~H264TypeInterfaceSTAP_B() {};
 
-	public:
-		virtual uint16_t ParseNALUHeader_F(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_NRI(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_Type(const uint8_t * RTPPayload);
-		virtual bool IsPacketStart(const uint8_t * rtp_payload);
-		virtual bool IsPacketEnd(const uint8_t * rtp_payload);
-		virtual bool IsPacketThisType(const uint8_t * rtp_payload);
-		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size);
-		virtual std::string GetName() const;
-		virtual bool GetEndFlag();
-		virtual bool GetStartFlag();
 	public:
 		static const uint8_t STAP_B_ID;
 };
 
-class MTAP_16 : public NALUTypeBase_H264
+class H264TypeInterfaceMTAP_16 : public H264TypeInterface
 {
 	public:
-		MTAP_16() { Name.assign("MTAP_16"); };
-		virtual ~MTAP_16() {};
-	public:
-		virtual uint16_t ParseNALUHeader_F(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_NRI(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_Type(const uint8_t * RTPPayload);
-		virtual bool IsPacketStart(const uint8_t * rtp_payload);
-		virtual bool IsPacketEnd(const uint8_t * rtp_payload);
-		virtual bool IsPacketThisType(const uint8_t * rtp_payload);
-		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size);
-		virtual std::string GetName() const { return NALUTypeBase_H264::GetName(); }
-		virtual bool GetEndFlag() { return NALUTypeBase_H264::GetEndFlag(); }
-		virtual bool GetStartFlag() { return NALUTypeBase_H264::GetStartFlag(); }
+		virtual ~H264TypeInterfaceMTAP_16() {};
 	public:
 		static const uint8_t MTAP_16_ID;
 };
 
-class MTAP_24 : public NALUTypeBase_H264
+class H264TypeInterfaceMTAP_24 : public H264TypeInterface
 {
 	public:
-		MTAP_24() { Name.assign("MTAP_24"); };
-		virtual ~MTAP_24() {};
-	public:
-		virtual uint16_t ParseNALUHeader_F(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_NRI(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_Type(const uint8_t * RTPPayload);
-		virtual bool IsPacketStart(const uint8_t * rtp_payload);
-		virtual bool IsPacketEnd(const uint8_t * rtp_payload);
-		virtual bool IsPacketThisType(const uint8_t * rtp_payload);
-		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size);
-		virtual std::string GetName() const { return NALUTypeBase_H264::GetName(); }
-		virtual bool GetEndFlag() { return NALUTypeBase_H264::GetEndFlag(); }
-		virtual bool GetStartFlag() { return NALUTypeBase_H264::GetStartFlag(); }
+		virtual ~H264TypeInterfaceMTAP_24() {};
 	public:
 		static const uint8_t MTAP_24_ID;
 };
 
 #define FU_A_ERR 	0xFF
 
-class FU_A : public NALUTypeBase_H264
+class H264TypeInterfaceFU_A : public H264TypeInterface
 {
 	public:
-		FU_A() { Name.assign("FU_A"); };
-		virtual ~FU_A() {};
+		virtual ~H264TypeInterfaceFU_A() {};
 
 	public:
 		/* Function: "ParseNALUHeader_*":
 		 * 	Return 'FU_A_ERR'(0xFF) if error occurred */
-		uint16_t ParseNALUHeader_F(const uint8_t * rtp_payload);
-		uint16_t ParseNALUHeader_NRI(const uint8_t * rtp_payload);
-		uint16_t ParseNALUHeader_Type(const uint8_t * rtp_payload);
-		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size);
+		virtual uint16_t ParseNALUHeader_F(const uint8_t * rtp_payload);
+		virtual uint16_t ParseNALUHeader_NRI(const uint8_t * rtp_payload);
+		virtual uint16_t ParseNALUHeader_Type(const uint8_t * rtp_payload);
+        virtual int SkipHeaderSize(const uint8_t * rtp_payload) {return 2;}
 	public:
 		static const uint8_t FU_A_ID;
 
@@ -204,31 +141,61 @@ class FU_A : public NALUTypeBase_H264
 
 		/* Reserved */
 		bool IsPacketReserved(const uint8_t * rtp_payload);
-
-    public:
-        virtual uint8_t * PrefixParameterOnce(uint8_t * buf, size_t * size) {return NALUTypeBase_H264::PrefixParameterOnce(buf, size);}
-        virtual bool NeedPrefixParameterOnce() {return NALUTypeBase_H264::NeedPrefixParameterOnce();}
-
 };
 
-class FU_B : public NALUTypeBase_H264
+class H264TypeInterfaceFU_B : public H264TypeInterface
 {
 	public:
-		FU_B() { Name.assign("FU_B"); };
-		virtual ~FU_B() {};
-	public:
-		virtual uint16_t ParseNALUHeader_F(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_NRI(const uint8_t * RTPPayload);
-		virtual uint16_t ParseNALUHeader_Type(const uint8_t * RTPPayload);
-		virtual bool IsPacketStart(const uint8_t * rtp_payload);
-		virtual bool IsPacketEnd(const uint8_t * rtp_payload);
-		virtual bool IsPacketThisType(const uint8_t * rtp_payload);
-		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size);
-		virtual std::string GetName() const { return NALUTypeBase_H264::GetName(); }
-		virtual bool GetEndFlag() { return NALUTypeBase_H264::GetEndFlag(); }
-		virtual bool GetStartFlag() { return NALUTypeBase_H264::GetStartFlag(); }
+		virtual ~H264TypeInterfaceFU_B() {};
 	public:
 		static const uint8_t FU_B_ID;
 };
 
+class NALUTypeBase_H264 : public NALUTypeBase
+{
+    public: 
+        static const string ENCODE_TYPE;
+	public:
+        NALUTypeBase_H264();
+		virtual ~NALUTypeBase_H264() {};
+	public:
+		virtual uint16_t ParseNALUHeader_F(const uint8_t * RTPPayload);
+		virtual uint16_t ParseNALUHeader_NRI(const uint8_t * RTPPayload);
+		virtual uint16_t ParseNALUHeader_Type(const uint8_t * RTPPayload);
+		virtual bool IsPacketStart(const uint8_t * rtp_payload) {return true;}
+		virtual bool IsPacketEnd(const uint8_t * rtp_payload) {return true;}
+		virtual bool IsPacketReserved(const uint8_t * rtp_payload) {return false;}
+		virtual bool IsPacketThisType(const uint8_t * rtp_payload);
+		virtual H264TypeInterface * GetNaluRtpType(int packetization, int nalu_type_id);
+		virtual std::string GetName() const { return Name; }
+		virtual bool GetEndFlag() { return EndFlag; }
+		virtual bool GetStartFlag() { return StartFlag; }
+
+		// H265 interface with no use
+		virtual uint16_t ParseNALUHeader_Layer_ID(const uint8_t * RTPPayload) {return 0;}
+		virtual uint16_t ParseNALUHeader_Temp_ID_Plus_1(const uint8_t * RTPPayload) {return 0;}
+
+    public:
+        virtual void Init();
+        virtual uint8_t * PrefixParameterOnce(uint8_t * buf, size_t * size);
+        virtual bool NeedPrefixParameterOnce();
+        virtual int ParseParaFromSDP(SDPMediaInfo & sdpMediaInfo);
+	 	virtual int ParsePacket(const uint8_t * RTPPayload, size_t size, bool * EndFlag);
+		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size);
+
+        virtual void SetSPS(const string &s) { SPS.assign(s);}
+        virtual void SetPPS(const string &s) { PPS.assign(s);}
+        virtual const string GetSPS() { return SPS;}
+        virtual const string GetPPS() { return PPS;}
+
+        void InsertXPS() { prefixParameterOnce = true; }
+        void NotInsertXPSAgain() { prefixParameterOnce = false; }
+    private:
+        bool prefixParameterOnce;
+        string SPS;
+        string PPS;
+        int Packetization;
+    public:
+        H264TypeInterface * NALUType;
+};
 #endif

@@ -254,19 +254,15 @@ class RtspClient
 
 		// "IsResponse_200_OK" is really a ineffective method, should be modified in future.
 		bool IsResponse_200_OK(ErrorType * err = NULL, string * response = NULL);
-		map<string, MediaSession> GetMediaSessions() const { return *MediaSessionMap; }
+		map<string, MediaSession *> GetMediaSessions() const { return *MediaSessionMap; }
 
 
 	public:
-		uint8_t * GetMediaData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size);
+		// uint8_t * GetMediaData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size);
 		uint8_t * GetMediaData(string media_type, uint8_t * buf, size_t * size, size_t max_size);
 
 		uint8_t * GetMediaPacket(MediaSession * media_session, uint8_t * buf, size_t * size);
 		uint8_t * GetMediaPacket(string media_type, uint8_t * buf, size_t * size);
-
-		uint8_t * GetVPSNalu(uint8_t * buf, size_t * size);
-		uint8_t * GetSPSNalu(uint8_t * buf, size_t * size);
-		uint8_t * GetPPSNalu(uint8_t * buf, size_t * size);
 
 		uint32_t CheckAuth(int sockfd, string cmd, string uri);
 		string MakeMd5DigestResp(string realm, string cmd, string uri, string nonce, string username = "", string password = "");
@@ -287,8 +283,8 @@ class RtspClient
 
 	protected:
 
-		uint8_t * GetVideoData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size, bool get_vps_sps_pps_periodly = true);
-		uint8_t * GetAudioData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size);
+		uint8_t * GetMediaData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size);
+		// uint8_t * GetAudioData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size);
 
 		int CheckSockWritable(int sockfd, struct timeval * tval = NULL);
 		int CheckSockReadable(int sockfd, struct timeval * tval = NULL);
@@ -309,8 +305,8 @@ class RtspClient
 
     public:
         /* Especially for H264/H265 */
-		void SetObtainVpsSpsPpsPeriodly(const bool enable) { ObtainVpsSpsPpsPeriodly = enable; };
-		bool GetObtainVpsSpsPpsPeriodly() const { return ObtainVpsSpsPpsPeriodly; };
+		// void SetObtainVpsSpsPpsPeriodly(const bool enable) { ObtainVpsSpsPpsPeriodly = enable; };
+		// bool GetObtainVpsSpsPpsPeriodly() const { return ObtainVpsSpsPpsPeriodly; };
         void UpdateXSessionCookie();
         void SetHttpTunnelPort(uint16_t port) { RtspOverHttpDataPort = port; };
 		/* To set Rtsp command callback when using http-tunnelling
@@ -332,17 +328,11 @@ class RtspClient
 		string RtspIP;
 		uint16_t RtspPort;
 		string RtspResponse;
-		// multimap<string, string> *SDPInfo;
 		string SDPStr;
-		map<string, MediaSession> *MediaSessionMap;
+		map<string, MediaSession *> *MediaSessionMap;
 
-		string VPS;
-		string SPS;
-		string PPS;
 		bool CmdPLAYSent;
 
-		// uint8_t AudioBuffer[BUFSIZ];
-		// uint8_t VideoBuffer[BUFSIZ];
 		Buffer_t AudioBuffer;
 		Buffer_t VideoBuffer;
 
@@ -359,7 +349,7 @@ class RtspClient
 		int Timeout;
 
         /* Especially for H264/H265 */
-        bool ObtainVpsSpsPpsPeriodly;
+        // bool ObtainVpsSpsPpsPeriodly;
 
 		uint16_t RtspOverHttpDataPort;
 		int RtspOverHttpDataSockfd;

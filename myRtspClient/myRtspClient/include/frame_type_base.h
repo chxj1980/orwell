@@ -18,24 +18,39 @@
 
 #include <string>
 #include <stdint.h>
+#include "sdp_data.h"
+// #include "nalu_types.h"
+
+using std::string;
 
 class FrameTypeBase
 {
+    public:
+        static FrameTypeBase * CreateNewFrameType(string & EncodeType);
+        static void DestroyFrameType(FrameTypeBase * frameTypeBase);
+
 	public:
 		FrameTypeBase() {};
 		virtual ~FrameTypeBase() {};
 
 	public:
         virtual void Init() {}
-        virtual uint8_t * PrefixParameterOnce(uint8_t * buf, size_t * size) {return NULL;}
-        virtual bool NeedPrefixParameterOnce() {return false;}
+        virtual uint8_t * PrefixParameterOnce(uint8_t * buf, size_t * size) {return buf;}
+        virtual bool NeedPrefixParameterOnce() { return false; }
+        virtual uint8_t * SuffixParameterOnce(uint8_t * buf, size_t * size) {return buf;}
+        virtual bool NeedSuffixParameterOnce() { return false; }
         virtual int PrefixParameterEveryFrame() {return 0;}
         virtual int PrefixParameterEveryPacket() {return 0;}
         virtual int SuffixParameterOnce() {return 0;}
         virtual int SuffixParameterEveryFrame() {return 0;}
         virtual int SuffixParameterEveryPacket() {return 0;}
-		virtual int ParsePacket(const uint8_t * RTPPayload) {return 0;}
+	 	virtual int ParsePacket(const uint8_t * RTPPayload, size_t size, bool * EndFlag) {
+            if(EndFlag) *EndFlag = true;
+            return 0;
+        }
 		virtual int ParseFrame(const uint8_t * RTPPayload) {return 0;}
+
+        virtual int ParseParaFromSDP(SDPMediaInfo & sdpMediaInfo) {return 0;}
 
 		/* To play the media sessions 
 		 * return: 
@@ -45,6 +60,7 @@ class FrameTypeBase
 		// virtual int AssemblePacket(const uint8_t * RTPPayload) {return 0;}
 		// virtual int GetFlagOffset(const uint8_t * RTPPayload) {return 0;}
 		virtual size_t CopyData(uint8_t * buf, uint8_t * data, size_t size) {return 0;}
+
 
 };
 

@@ -1,4 +1,4 @@
-//   Copyright 2015-2018 Ansersion
+//   Copyright 2015-2019 Ansersion
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
 #include <sstream>
 #include <iostream>
 #include <string>
+#include <typeinfo>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <strings.h>
@@ -41,12 +42,12 @@ using std::cerr;
 using std::endl;
 using std::pair;
 
-extern STAP_A 		STAP_AObj;
-extern STAP_B 		STAP_BObj;
-extern MTAP_16 		MTAP_16Obj;
-extern MTAP_24 		MTAP_24Obj;
-extern FU_A 		FU_AObj;
-extern FU_B 		FU_BObj;
+// extern STAP_A 		STAP_AObj;
+// extern STAP_B 		STAP_BObj;
+// extern MTAP_16 		MTAP_16Obj;
+// extern MTAP_24 		MTAP_24Obj;
+// extern FU_A 		FU_AObj;
+// extern FU_B 		FU_BObj;
 extern NALUTypeBase_H264 NaluBaseType_H264Obj;
 
 extern MPEG_Audio MPEG_AudioObj;
@@ -73,11 +74,11 @@ const string RtspClient::HttpHeadExpires("Expires: ");
 
 RtspClient::RtspClient():
 	RtspURI(""), RtspCSeq(0), RtspSockfd(-1), RtspIP(""), RtspPort(PORT_RTSP), RtspResponse(""), SDPStr(""), 
-	VPS(""), SPS(""), PPS(""), CmdPLAYSent(false), GetVideoDataCount(GET_SPS_PPS_PERIOD),
+	CmdPLAYSent(false), GetVideoDataCount(GET_SPS_PPS_PERIOD),
 	Username(""), Password(""), Realm(""), Nonce("")
 {
 	// SDPInfo = new multimap<string, string>;
-	MediaSessionMap = new map<string, MediaSession>;
+	MediaSessionMap = new map<string, MediaSession *>;
 	AudioBuffer.Size = 0;
 	VideoBuffer.Size = 0;
 	if((AudioBuffer.Buf = (uint8_t *)malloc(MEDIA_BUFSIZ)))
@@ -90,7 +91,6 @@ RtspClient::RtspClient():
 
 	/* Temporary only FU_A supported */
 	// NALUType = new FU_A;
-    ObtainVpsSpsPpsPeriodly = true;
 
     RtspOverHttpDataPort = 0;
     RtspOverHttpDataSockfd = 0;
@@ -107,30 +107,40 @@ RtspClient::RtspClient():
     sdpData = new SDPData();
 }
 
-// RtspClient::RtspClient(string uri):
-// 	RtspURI(uri), RtspCSeq(0), RtspSockfd(-1), RtspIP(""), RtspPort(PORT_RTSP), RtspResponse(""), SDPStr(""),
-// 	VPS(""), SPS(""), PPS(""), CmdPLAYSent(false), GetVideoDataCount(GET_SPS_PPS_PERIOD)
-// {
-// 	// SDPInfo = new multimap<string, string>;
-// 	MediaSessionMap = new map<string, MediaSession>;
-// 	AudioBuffer.Size = 0;
-// 	VideoBuffer.Size = 0;
-// 	if((AudioBuffer.Buf = (uint8_t *)malloc(MEDIA_BUFSIZ)))
-// 		AudioBuffer.Size = MEDIA_BUFSIZ;
-// 	if((VideoBuffer.Buf = (uint8_t *)malloc(MEDIA_BUFSIZ)))
-// 		VideoBuffer.Size = MEDIA_BUFSIZ;
-// 
-// 	/* Temporary only FU_A supported */
-// 	// NALUType = new FU_A;
-// 	ByeFromServerAudioClbk = NULL;
-// 	ByeFromServerVideoClbk = NULL;
-// 
-//     ObtainVpsSpsPpsPeriodly = true;
-//     UsingRtspOverHttp = false;
-// }
-
-RtspClient::RtspClient(string uri): RtspClient()
+RtspClient::RtspClient(string uri):
+	RtspURI(""), RtspCSeq(0), RtspSockfd(-1), RtspIP(""), RtspPort(PORT_RTSP), RtspResponse(""), SDPStr(""), 
+	CmdPLAYSent(false), GetVideoDataCount(GET_SPS_PPS_PERIOD),
+	Username(""), Password(""), Realm(""), Nonce("")
 {
+	// SDPInfo = new multimap<string, string>;
+	MediaSessionMap = new map<string, MediaSession *>;
+	AudioBuffer.Size = 0;
+	VideoBuffer.Size = 0;
+	if((AudioBuffer.Buf = (uint8_t *)malloc(MEDIA_BUFSIZ)))
+		AudioBuffer.Size = MEDIA_BUFSIZ;
+	if((VideoBuffer.Buf = (uint8_t *)malloc(MEDIA_BUFSIZ)))
+		VideoBuffer.Size = MEDIA_BUFSIZ;
+
+	ByeFromServerAudioClbk = NULL;
+	ByeFromServerVideoClbk = NULL;
+
+	/* Temporary only FU_A supported */
+	// NALUType = new FU_A;
+
+    RtspOverHttpDataPort = 0;
+    RtspOverHttpDataSockfd = 0;
+
+    HttpHeadUserAgentContent = "MyRTSPClient";
+    HttpHeadXSessionCookieContent = "";
+    HttpHeadAcceptContent = "application/x-rtsp-tunnelled";
+    HttpHeadPramaContent = "no-cache";
+    HttpHeadCacheControlContent = "no-cache";
+    HttpHeadContentTypeContent = "application/x-rtsp-tunnelled";
+    HttpHeadContentLengthContent = "32767";
+    HttpHeadExpiresContent = "Sun, 9 Jan 1972 00:00:00 GMT";
+
+    sdpData = new SDPData();
+
     uri = parseUriWithUserPwd(uri);
     RtspURI.assign(uri);
 }
@@ -152,6 +162,10 @@ string RtspClient::parseUriWithUserPwd(string uri)
 RtspClient::~RtspClient()
 {
 	// delete SDPInfo;
+	for(map<string, MediaSession *>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
+        delete it->second;
+	}
+
 	delete MediaSessionMap;
 	MediaSessionMap = NULL;
 
@@ -169,9 +183,6 @@ RtspClient::~RtspClient()
 
     delete sdpData;
     sdpData = NULL;
-
-	// delete NALUType;
-	// NALUType = NULL;
 }
 
 ErrorType RtspClient::DoDESCRIBE(string uri, bool http_tunnel_no_response)
@@ -324,8 +335,8 @@ ErrorType RtspClient::DoPAUSE()
 	ErrorType Err = RTSP_NO_ERROR;
 	ErrorType ErrAll = RTSP_NO_ERROR;
 
-	for(map<string, MediaSession>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
-		Err = DoPAUSE(&(it->second), false);
+	for(map<string, MediaSession *>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
+		Err = DoPAUSE(it->second, false);
 		if(RTSP_NO_ERROR == ErrAll) ErrAll = Err; // Remeber the first error
 		printf("PAUSE Session %s: %s\n", it->first.c_str(), ParseError(Err).c_str());
 	}
@@ -388,7 +399,7 @@ ErrorType RtspClient::DoPAUSE(string media_type, bool http_tunnel_no_response)
 {
 	MyRegex Regex;
 	ErrorType Err = RTSP_NO_ERROR;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
@@ -396,7 +407,7 @@ ErrorType RtspClient::DoPAUSE(string media_type, bool http_tunnel_no_response)
 	}
 
 	if(it != MediaSessionMap->end()) {
-		Err = DoPAUSE(&(it->second), http_tunnel_no_response);
+		Err = DoPAUSE(it->second, http_tunnel_no_response);
 		return Err;
 	}
 	Err = RTSP_INVALID_MEDIA_SESSION;
@@ -408,8 +419,8 @@ ErrorType RtspClient::DoGET_PARAMETER()
 	ErrorType Err = RTSP_NO_ERROR;
 	ErrorType ErrAll = RTSP_NO_ERROR;
 
-	for(map<string, MediaSession>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
-		Err = DoGET_PARAMETER(&(it->second), false);
+	for(map<string, MediaSession *>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
+		Err = DoGET_PARAMETER(it->second, false);
 		if(RTSP_NO_ERROR == ErrAll) ErrAll = Err; // Remeber the first error
 		printf("GET_PARAMETER Session %s: %s\n", it->first.c_str(), ParseError(Err).c_str());
 	}
@@ -460,7 +471,7 @@ ErrorType RtspClient::DoGET_PARAMETER(string media_type, bool http_tunnel_no_res
 {
 	MyRegex Regex;
 	ErrorType Err = RTSP_NO_ERROR;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
@@ -468,7 +479,7 @@ ErrorType RtspClient::DoGET_PARAMETER(string media_type, bool http_tunnel_no_res
 	}
 
 	if(it != MediaSessionMap->end()) {
-		Err = DoGET_PARAMETER(&(it->second), http_tunnel_no_response);
+		Err = DoGET_PARAMETER(it->second, http_tunnel_no_response);
 		return Err;
 	}
 	Err = RTSP_INVALID_MEDIA_SESSION;
@@ -481,8 +492,8 @@ ErrorType RtspClient::DoSETUP()
 	ErrorType Err = RTSP_NO_ERROR;
 	ErrorType ErrAll = RTSP_NO_ERROR;
 
-	for(map<string, MediaSession>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
-		Err = DoSETUP(&(it->second), false);
+	for(map<string, MediaSession *>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
+		Err = DoSETUP(it->second, false);
 		if(RTSP_NO_ERROR == ErrAll) ErrAll = Err; // Remeber the first error
 		printf("Setup Session %s: %s\n", it->first.c_str(), ParseError(Err).c_str());
 	}
@@ -589,7 +600,7 @@ ErrorType RtspClient::DoSETUP(string media_type, bool rtp_over_tcp)
 {
 	MyRegex Regex;
 	ErrorType Err = RTSP_NO_ERROR;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 
@@ -598,7 +609,7 @@ ErrorType RtspClient::DoSETUP(string media_type, bool rtp_over_tcp)
 	}
 
 	if(it != MediaSessionMap->end()) {
-		Err = DoSETUP(&(it->second), rtp_over_tcp, false);
+		Err = DoSETUP(it->second, rtp_over_tcp, false);
 		return Err;
 	}
 	Err = RTSP_INVALID_MEDIA_SESSION;
@@ -610,8 +621,8 @@ ErrorType RtspClient::DoPLAY()
 	ErrorType Err = RTSP_NO_ERROR;
 	ErrorType ErrAll = RTSP_NO_ERROR;
 
-	for(map<string, MediaSession>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
-		Err = DoPLAY(&(it->second), NULL, NULL, NULL, false);
+	for(map<string, MediaSession *>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
+		Err = DoPLAY(it->second, NULL, NULL, NULL, false);
 		if(RTSP_NO_ERROR == ErrAll) ErrAll = Err; // Remeber the first error
 		printf("PLAY Session %s: %s\n", it->first.c_str(), ParseError(Err).c_str());
 	}
@@ -699,7 +710,7 @@ ErrorType RtspClient::DoPLAY(string media_type, float * scale, float * start_tim
 {
 	MyRegex Regex;
 	ErrorType Err = RTSP_NO_ERROR;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
@@ -707,7 +718,7 @@ ErrorType RtspClient::DoPLAY(string media_type, float * scale, float * start_tim
 	}
 
 	if(it != MediaSessionMap->end()) {
-		Err = DoPLAY(&(it->second), scale, start_time, end_time, http_tunnel_no_response);
+		Err = DoPLAY(it->second, scale, start_time, end_time, http_tunnel_no_response);
 		return Err;
 	}
 	Err = RTSP_INVALID_MEDIA_SESSION;
@@ -723,13 +734,6 @@ ErrorType RtspClient::DoTEARDOWN()
 	if(RTSP_NO_ERROR == ErrAll) ErrAll = Err; // Remeber the first error
 	Err = DoTEARDOWN("video");
 	if(RTSP_NO_ERROR == ErrAll) ErrAll = Err; // Remeber the first error
-
-	// for(map<string, MediaSession>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
-	// 	cerr << "TEST: Ready to teardown: " << it->first << endl;
-	// 	Err = DoTEARDOWN(&(it->second));
-	// 	if(RTSP_NO_ERROR == ErrAll) ErrAll = Err; // Remeber the first error
-	// 	printf("TEARDOWN Session %s: %s\n", it->first.c_str(), ParseError(Err).c_str());
-	// }
 
 	return ErrAll;
 }
@@ -793,11 +797,12 @@ ErrorType RtspClient::DoTEARDOWN(MediaSession * media_session, bool http_tunnel_
 	}
 
 	if(RTSP_NO_ERROR == ret) {
-		map<string, MediaSession>::iterator it;
+		map<string, MediaSession *>::iterator it;
 		for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
-			if(media_session->SessionID == it->second.SessionID) break;
+			if(media_session->SessionID == it->second->SessionID) break;
 		}
 		if(it != MediaSessionMap->end()) {
+			delete it->second;
 			MediaSessionMap->erase(it);
 		}
 	}
@@ -810,7 +815,7 @@ ErrorType RtspClient::DoTEARDOWN(string media_type, bool http_tunnel_no_response
 {
 	MyRegex Regex;
 	ErrorType Err = RTSP_NO_ERROR;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
@@ -818,7 +823,7 @@ ErrorType RtspClient::DoTEARDOWN(string media_type, bool http_tunnel_no_response
 	}
 
 	if(it != MediaSessionMap->end()) {
-		Err = DoTEARDOWN(&(it->second), http_tunnel_no_response);
+		Err = DoTEARDOWN(it->second, http_tunnel_no_response);
 		return Err;
 	}
 	Err = RTSP_INVALID_MEDIA_SESSION;
@@ -908,178 +913,67 @@ int RtspClient::ParseSDP(string SDP)
 			it1++;
 			continue;
 		}
-		MediaSession NewMediaSession;
-		NewMediaSession.MediaType.assign(it1->second.mediaType); 
+		MediaSession * NewMediaSession = new MediaSession();
+		NewMediaSession->MediaType.assign(it1->second.mediaType); 
 		// cout << "debug: mediaType=" << it1->second.mediaType << endl;;
-		NewMediaSession.Protocol.assign(it1->second.transProt);
+		NewMediaSession->Protocol.assign(it1->second.transProt);
 		// cout << "debug: transProt=" << it1->second.transProt << endl;;
 		/* TODO: we only use the first payload type now */
 		map<int, map<SDP_ATTR_ENUM, string> >::iterator it2 = it1->second.fmtMap.begin();
 		if(it2 != it1->second.fmtMap.end()) {
-			NewMediaSession.PayloadType.push_back(it2->first);	
+			NewMediaSession->PayloadType.push_back(it2->first);	
 			if(it2->second.find(CODEC_TYPE) != it2->second.end()) {
-				NewMediaSession.EncodeType = it2->second[CODEC_TYPE];
+				NewMediaSession->EncodeType = it2->second[CODEC_TYPE];
+                FrameTypeBase * frameTypeBase = FrameTypeBase::CreateNewFrameType(NewMediaSession->EncodeType);
+                if(frameTypeBase) {
+                    frameTypeBase->ParseParaFromSDP(it1->second);
+                }
+                NewMediaSession->frameTypeBase = frameTypeBase;
 				// cout << "debug: EncodeType=" << NewMediaSession.EncodeType << endl;;
 			}
 			if(it2->second.find(TIME_RATE) != it2->second.end()) {
 				stringstream ssTimeRate;
 				ssTimeRate << it2->second[TIME_RATE];
-				ssTimeRate >> NewMediaSession.TimeRate;
+				ssTimeRate >> NewMediaSession->TimeRate;
 				// cout << "debug: TimeRate=" << NewMediaSession.TimeRate << endl;;
 			}
 			if(it2->second.find(CHANNEL_NUM) != it2->second.end()) {
 				stringstream ssChannelNum;
 				ssChannelNum << it2->second[CHANNEL_NUM];
-				ssChannelNum >> NewMediaSession.ChannelNum;
+				ssChannelNum >> NewMediaSession->ChannelNum;
 				// cout << "debug: ChannelNum=" << NewMediaSession.ChannelNum << endl;;
 			}
 			if(it2->second.find(PACK_MODE) != it2->second.end()) {
 				stringstream ssPackMode;
 				ssPackMode << it2->second[PACK_MODE];
-				ssPackMode >> NewMediaSession.Packetization;
+				ssPackMode >> NewMediaSession->Packetization;
 				// cout << "debug: Packetization=" << NewMediaSession.Packetization << endl;;
-			}
-			if(it2->second.find(ATTR_VPS) != it2->second.end()) {
-                VPS.assign(it2->second[ATTR_VPS]);
-			}
-			if(it2->second.find(ATTR_SPS) != it2->second.end()) {
-                SPS.assign(it2->second[ATTR_SPS]);
-			}
-			if(it2->second.find(ATTR_PPS) != it2->second.end()) {
-                PPS.assign(it2->second[ATTR_PPS]);
 			}
 			/* 'Value' could be  
 			 * 1: "rtsp://127.0.0.1/ansersion/track=1"
 			 * 2: "track=1"
 			 * If is the '2', it should be prefixed with the URI. */
-			NewMediaSession.ControlURI.assign("");
+			NewMediaSession->ControlURI.assign("");
 			MyRegex regex;
 			if(!regex.Regex(it1->second.controlURI.c_str(), "rtsp://")) {
-				NewMediaSession.ControlURI += RtspURI;
-				NewMediaSession.ControlURI += "/";
+				NewMediaSession->ControlURI += RtspURI;
+				NewMediaSession->ControlURI += "/";
 			}
-			NewMediaSession.ControlURI += it1->second.controlURI;
+			NewMediaSession->ControlURI += it1->second.controlURI;
 			// cout << "debug: ControlURI=" << NewMediaSession.ControlURI << endl;;
+		}
+		if(MediaSessionMap->find(it1->second.mediaType) != MediaSessionMap->end()) {
+			/* TODO: support multiple sessions of video(audios)*/
+			delete NewMediaSession;
+			NewMediaSession = NULL;
+		} else {
 			(*MediaSessionMap)[it1->second.mediaType] = NewMediaSession;
 		}
 		it1++;
 	}
 
-	// MyRegex Regex;
-	// string Response("");
-	// int Result = 0; // don't have meaning yet
-
-	// if(SDP.length() != 0) Response.assign(SDP);
-	// else if(RtspResponse.length() != 0) Response.assign(SDPStr);
-	// else return Result;
-
-	// string Pattern = "([a-zA-Z])=(.*)";
-	// list<string> Group;
-	// bool CollectMediaInfo = false;
-	// string CurrentMediaSession("");
-	// while(Regex.RegexLine(&Response, &Pattern, &Group)) {
-	// 	string Key(""), Value("");
-	// 	if(!Group.empty()) {
-	// 		Group.pop_front(); // pop the line
-	// 		Group.pop_front(); // pop the matched part
-	// 		Key.assign(Group.front()); Group.pop_front();
-	// 		Value.assign(Group.front()); Group.pop_front();
-	// 		// SDPInfo->insert(pair<string, string>(Key, Value));
-	// 	}
-	// 	if(Key == "m") CollectMediaInfo = true;
-	// 	if(Key == "s") CollectMediaInfo = false;
-	// 	if(!CollectMediaInfo) continue;
-
-	// 	if(Key == "m") { 
-    //         /* Pattern: (MediaType) +(Ports) +(Protocol) +(PayloadType)"
-    //            Example: "(audio) (0) (RTP/AVP) (14)"
-	// 		   */
-	// 		// string PatternTmp("([a-zA-Z]+) +.+ +(.+) +.*");
-	// 		// string PatternTmp("([a-zA-Z]+) +([0-9/]+) +([A-Za-z/]+) +\\b([0-9]+)\\b");
-	// 		string PatternTmp("([a-zA-Z]+) +([0-9/]+) +([A-Za-z/]+) +([0-9]+)");
-	// 		if(!Regex.Regex(Value.c_str(), PatternTmp.c_str(), &Group)) {
-	// 			continue;
-	// 		}
-	// 		Group.pop_front();
-	// 		CurrentMediaSession.assign(Group.front());
-	// 		Group.pop_front();
-	// 		Group.pop_front(); // FIXME: Ports are ignored
-	// 		string Protocol(Group.front());
-	// 		Group.pop_front();
-	// 		int PayloadTypeTmp = -1;
-	// 		stringstream ssPayloadType;
-	// 		ssPayloadType << Group.front();
-	// 		ssPayloadType >> PayloadTypeTmp;
-
-	// 		MediaSession NewMediaSession;
-	// 		NewMediaSession.MediaType.assign(CurrentMediaSession);
-	// 		NewMediaSession.Protocol.assign(Protocol);
-	// 		NewMediaSession.PayloadType.push_back(PayloadTypeTmp);
-	// 		(*MediaSessionMap)[CurrentMediaSession] = NewMediaSession;
-
-	// 	}
-	// 	if("a" == Key) {
-	// 		// string PatternRtpmap("rtpmap:.* +([0-9A-Za-z]+)/([0-9]+)");
-	// 		string PatternRtpmap("rtpmap:.* +([0-9A-Za-z]+)/([0-9]+)/?([0-9])?");
-	// 		string PatternFmtp_H264("fmtp:.*sprop-parameter-sets=([A-Za-z0-9+/=]+),([A-Za-z0-9+/=]+)");
-	// 		string PatternFmtp_H265("fmtp:.*sprop-vps=([A-Za-z0-9+/=]+);.*sprop-sps=([A-Za-z0-9+/=]+);.*sprop-pps=([A-Za-z0-9+/=]+)");
-	// 		string PatternControl("control:(.+)");
-	// 		if(CurrentMediaSession.length() == 0) {
-	// 			continue;
-	// 		}
-	// 		if(Regex.Regex(Value.c_str(), PatternRtpmap.c_str(), &Group)) {
-	// 			Group.pop_front();
-	// 			(*MediaSessionMap)[CurrentMediaSession].EncodeType = Group.front();;
-	// 			Group.pop_front();
-	// 			stringstream TimeRate;
-	// 			TimeRate << Group.front();
-	// 			TimeRate >> (*MediaSessionMap)[CurrentMediaSession].TimeRate;
-    //             Group.pop_front();
-    //             if(!Group.empty()) {
-    //                 stringstream ChannelNum;
-    //                 ChannelNum << Group.front();
-    //                 ChannelNum >> (*MediaSessionMap)[CurrentMediaSession].ChannelNum;
-    //             }
-
-	// 		} else if(Regex.Regex(Value.c_str(), PatternControl.c_str(), &Group)) {
-	// 			Group.pop_front();
-	// 			string ControlURITmp("");
-	// 			/* 'Value' could be  
-	// 			 * 1: "rtsp://127.0.0.1/ansersion/track=1"
-	// 			 * 2: "track=1"
-	// 			 * If is the '2', it should be prefixed with the URI. */
-	// 			if(!Regex.Regex(Value.c_str(), "rtsp://")) {
-	// 				ControlURITmp += RtspURI;
-	// 				ControlURITmp += "/";
-	// 			}
-	// 			ControlURITmp += Group.front();
-	// 			printf("Control: %s\n", ControlURITmp.c_str());
-	// 			(*MediaSessionMap)[CurrentMediaSession].ControlURI.assign(ControlURITmp);
-	// 		} else if(Regex.Regex(Value.c_str(), PatternFmtp_H264.c_str(), &Group)) {
-	// 			Group.pop_front();
-	// 			SPS.assign(Group.front());
-	// 			Group.pop_front();
-	// 			PPS.assign(Group.front());
-
-	// 			if(Regex.Regex(Value.c_str(), "packetization-mode=([0-2])", &Group)) {
-	// 				Group.pop_front();
-	// 				stringstream PacketizationMode;
-	// 				PacketizationMode << Group.front();
-	// 				PacketizationMode >> (*MediaSessionMap)[CurrentMediaSession].Packetization;
-	// 			}
-	// 		} else if(Regex.Regex(Value.c_str(), PatternFmtp_H265.c_str(), &Group)) {
-	// 			Group.pop_front();
-	// 			VPS.assign(Group.front());
-	// 			Group.pop_front();
-	// 			SPS.assign(Group.front());
-	// 			Group.pop_front();
-	// 			PPS.assign(Group.front());
-	// 		}
-	// 	}
-	// }
-	
-	for(map<string, MediaSession>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
-		it->second.MediaInfoCheck();
+	for(map<string, MediaSession *>::iterator it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
+		it->second->MediaInfoCheck();
 	}
 
 	return Result;
@@ -1481,43 +1375,6 @@ ErrorType RtspClient::SendRTSP(int fd, const char * msg, size_t size)
 
 	return Err;
 }
-// {
-// 	if(!msg || size <= 0) {
-// 		printf("Recv Argument Error\n");
-// 		return TRANS_ERROR;
-// 	}
-// 
-// 	int SendResult = 0;
-// 	int Index = 0;
-// 	int Err = TRANS_OK;
-// 	while(size != 0) {
-// 		if(!CheckSockWritable(RtspSockfd)) {
-// 			Err = TRANS_ERROR;
-// 			break;
-// 		}
-// 		SendResult = send(RtspSockfd, msg+Index, size, 0);
-// 		if(0 == SendResult) {
-// 			printf("Socket disconnected\n");
-// 			Err = TRANS_ERROR;
-// 			break;
-// 		} else if(SendResult < 0) {
-// 			if(errno == EINTR) continue;
-// 			else if(errno == EWOULDBLOCK || errno == EAGAIN) {
-// 				Err = TRANS_OK;
-// 				break;
-// 			} else {
-// 				Err = TRANS_ERROR;
-// 				break;
-// 			}
-// 		} else {
-// 			Index += SendResult;
-// 			size -= SendResult;
-// 			continue;
-// 		}
-// 	}
-// 
-// 	return Err;
-// }
 
 ErrorType RtspClient::SendRTSP(int fd, string msg)
 {
@@ -1553,24 +1410,24 @@ ErrorType RtspClient::SendRTSP(int fd, uint16_t http_tunnel_port, string msg)
 ErrorType RtspClient::RecvRTSP(int fd, uint16_t http_tunnel_port, string * msg)
 {
     if(http_tunnel_port != 0) {
-		map<string, MediaSession>::iterator it;
+		map<string, MediaSession *>::iterator it;
         for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
-			if(it->second.GetTunnellingSocket() == RtspOverHttpDataSockfd) {
+			if(it->second->GetTunnellingSocket() == RtspOverHttpDataSockfd) {
 				break;
 			}
         }
 		if(it != MediaSessionMap->end()) {
-			it->second.LockSocket();
+			it->second->LockSocket();
 		}
         if(RTSP_NO_ERROR != RecvRTSP(RtspOverHttpDataSockfd, &RtspResponse)) {
             Close(fd);
 			if(it != MediaSessionMap->end()) {
-				it->second.UnlockSocket();
+				it->second->UnlockSocket();
 			}
             return RTSP_RECV_ERROR;
         }
 		if(it != MediaSessionMap->end()) {
-			it->second.UnlockSocket();
+			it->second->UnlockSocket();
 		}
     } else {
         if(RTSP_NO_ERROR != RecvRTSP(fd, &RtspResponse)) {
@@ -1735,9 +1592,6 @@ int RtspClient::Close(int sockfd)
 
 void RtspClient::UpdateXSessionCookie()
 {
-    //     gettimeofday(&seedData.timestamp, NULL);
-    //  seedData.counter = ++fSessionCookieCounter;
-    //  our_MD5Data((unsigned char*)(&seedData), sizeof seedData, fSessionCookie); 
     time_t timep;
 	char habuf[MD5_BUF_SIZE] = {0};
     time(&timep);
@@ -1757,7 +1611,7 @@ string RtspClient::ParseSessionID(string ResponseOfSETUP)
 	else return Result;
 
 	// Session: 970756dc30b3a638;timeout=60
-	string Pattern("Session: +([0-9a-fA-F_\$-\.\+]+)");
+	string Pattern("Session: +([0-9a-zA-Z_\\$-.\\..\\+]+)");
 	list<string> Group;
 	bool IgnoreCase = true;
 	if(Regex.Regex(Response.c_str(), Pattern.c_str(), &Group, IgnoreCase)) {
@@ -1828,16 +1682,16 @@ bool RtspClient::IsResponse_200_OK(ErrorType * err, string * response)
 	return Result;
 }
 
-uint8_t * RtspClient::GetMediaData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size) 
-{
-	if(!media_session) return NULL;
-	return media_session->GetMediaData(buf, size, max_size);
-}
+// uint8_t * RtspClient::GetMediaData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size) 
+// {
+// 	if(!media_session) return NULL;
+// 	return media_session->GetMediaData(buf, size, max_size);
+// }
 
 uint8_t * RtspClient::GetMediaData(string media_type, uint8_t * buf, size_t * size, size_t max_size) 
 {
 	MyRegex Regex;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 	if(!buf) return NULL;
 	if(!size) return NULL;
@@ -1856,15 +1710,16 @@ uint8_t * RtspClient::GetMediaData(string media_type, uint8_t * buf, size_t * si
 		return NULL;
 	}
 
-	if(it->second.MediaType == "video") return GetVideoData(&(it->second), buf, size, max_size, ObtainVpsSpsPpsPeriodly);
-	if(it->second.MediaType == "audio") return GetAudioData(&(it->second), buf, size, max_size);
+	return GetMediaData(it->second, buf, size, max_size);
+	// if(it->second->MediaType == "video") return GetMediaData2(it->second, buf, size, max_size);
+	// if(it->second->MediaType == "audio") return GetAudioData(it->second, buf, size, max_size);
 	return NULL;
 }
 
 int RtspClient::GetTimeRate(string media_type)
 {
 	MyRegex Regex;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
@@ -1874,13 +1729,13 @@ int RtspClient::GetTimeRate(string media_type)
 	if(it == MediaSessionMap->end()) {
 		return -1;
 	}
-	return it->second.TimeRate;
+	return it->second->TimeRate;
 }
 
 int RtspClient::GetChannelNum(string media_type)
 {
 	MyRegex Regex;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
@@ -1890,7 +1745,7 @@ int RtspClient::GetChannelNum(string media_type)
 	if(it == MediaSessionMap->end()) {
 		return -1;
 	}
-	return it->second.ChannelNum;
+	return it->second->ChannelNum;
 }
 
 void RtspClient::SetAudioByeFromServerClbk(DESTROIED_CLBK clbk)
@@ -1908,7 +1763,7 @@ void RtspClient::SetVideoByeFromServerClbk(DESTROIED_CLBK clbk)
 int RtspClient::GetSessionTimeout(string media_type)
 {
 	MyRegex Regex;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
 		if(Regex.Regex(it->first.c_str(), media_type.c_str(), IgnoreCase)) break;
@@ -1917,7 +1772,7 @@ int RtspClient::GetSessionTimeout(string media_type)
 		// fprintf(stderr, "%s: No such media session\n", __func__);
 		return 0;
 	}
-	return it->second.Timeout;
+	return it->second->Timeout;
 }
 
 int RtspClient::GetSessionTimeout(MediaSession * media_session)
@@ -1938,7 +1793,7 @@ void RtspClient::SetDestroiedClbk(MediaSession * media_session, DESTROIED_CLBK c
 void RtspClient::SetDestroiedClbk(string media_type, DESTROIED_CLBK clbk)
 {
 	MyRegex Regex;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
 		if(Regex.Regex(it->first.c_str(), media_type.c_str(), IgnoreCase)) break;
@@ -1947,93 +1802,36 @@ void RtspClient::SetDestroiedClbk(string media_type, DESTROIED_CLBK clbk)
 		// fprintf(stderr, "%s: No such media session\n", __func__);
 		return;
 	}
-	it->second.SetRtpDestroiedClbk(clbk);
+	it->second->SetRtpDestroiedClbk(clbk);
 }
 
-uint8_t * RtspClient::GetVideoData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size, bool get_vps_sps_pps_periodly) 
+uint8_t * RtspClient::GetMediaData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size) 
 {
 	if(!media_session || !buf || !size) return NULL;
 
 	*size = 0;
+    if(NULL == media_session->frameTypeBase) return NULL;
 
-	const size_t GetSPS_PPS_Period = GET_SPS_PPS_PERIOD; // 30 times
-	if(true == get_vps_sps_pps_periodly) {
-		if(GetVideoDataCount >= GetSPS_PPS_Period) {
-			GetVideoDataCount = 0;
-
-			const size_t NALU_StartCodeSize = 4;
-			size_t SizeTmp = 0;
-			if(!GetVPSNalu(buf + (*size), &SizeTmp) || SizeTmp <= NALU_StartCodeSize) {
-				// fprintf(stderr, "\033[31mWARNING: No H264 VPS\033[0m\n");
-			} else {
-				*size += SizeTmp;
-			}
-			if(!GetSPSNalu(buf + (*size), &SizeTmp) || SizeTmp <= NALU_StartCodeSize) {
-				fprintf(stderr, "\033[31mWARNING: No SPS\033[0m\n");
-			} else {
-				*size += SizeTmp;
-			}
-			if(!GetPPSNalu(buf + (*size), &SizeTmp) || SizeTmp <= NALU_StartCodeSize) {
-				fprintf(stderr, "\033[31mWARNING: No PPS\033[0m\n");
-			} else {
-				*size += SizeTmp;
-			}
-			return buf;
-		} else {
-			GetVideoDataCount++;
-		}
-	}
-
-    /*
-       if(media_session.NeedPrefixParameterOnce()) {
-        media_session.PrefixParameterOnce();
-       }
-       media_session.PrefixFrame();
-       do{
-        EndFlag = true;
-        EndFlag = ParsePacket();
-        CopyData();
-       }
-       while(!EndFlag);
-       return buf;
-       */
+    if(media_session->frameTypeBase->NeedPrefixParameterOnce()) {
+        if(!media_session->frameTypeBase->PrefixParameterOnce(buf+(*size), size)) {
+            fprintf(stderr, "PrefixParameterOnce error\n");
+            return NULL;
+        }
+    }
+    if(media_session->frameTypeBase->PrefixParameterEveryFrame() != 0) {
+        fprintf(stderr, "PrefixParameterEveryFrame error\n");
+        return NULL;
+    }
 
 	size_t SizeTmp = 0;
-	bool EndFlag = false;
-	NALUTypeBase * NALUTypeBaseTmp = NULL;
-	NALUTypeBase * NALUType;
-
-	int PM = media_session->Packetization;
-	if(!IS_PACKET_MODE_VALID(PM)) {
-		cerr << "WARNING:Invalid Packetization Mode" << endl;
-		return NULL;
-	}
-	if(media_session->EncodeType == "H264") {
-		NALUTypeBaseTmp = &NaluBaseType_H264Obj;
-	} else if (media_session->EncodeType == "H265") {
-		NALUTypeBaseTmp = &NaluBaseType_H265Obj;
-	} else {
-		// Unknown Nalu type
-		printf("Unsupported codec type: %s\n", media_session->EncodeType.c_str());
-		return NULL;
-	}
-
-	do {
-		EndFlag = true;
+	bool EndFlag;
+    do {
+        EndFlag = true;
 		if(!media_session->GetMediaData(VideoBuffer.Buf, &SizeTmp)) return NULL;
 		if(0 == SizeTmp) {
 			cerr << "No RTP data" << endl;
 			return NULL;
 		}
-		int NT; 
-		NT = NALUTypeBaseTmp->ParseNALUHeader_Type(VideoBuffer.Buf);
-		// printf("debug: %d:%d", PM, NT);
-		NALUType = NALUTypeBaseTmp->GetNaluRtpType(PM, NT);
-		if(NULL == NALUType) {
-			printf("Unknown NALU Type: %s\n", media_session->EncodeType.c_str());
-			return NULL;
-		}
-
 		if(SizeTmp > VideoBuffer.Size) {
 			cerr << "Error: RTP Packet too large(" << SizeTmp << " bytes > " << VideoBuffer.Size << "bytes)" << endl;
 			return NULL;
@@ -2043,53 +1841,63 @@ uint8_t * RtspClient::GetVideoData(MediaSession * media_session, uint8_t * buf, 
 			fprintf(stderr, "\033[31mWARNING: NALU truncated because larger than buffer: %lu(NALU size) > %lu(Buffer size)\033[0m\n", *size + SizeTmp, max_size);
 			return buf;
 		}
-
-		SizeTmp = NALUType->CopyData(buf + (*size), VideoBuffer.Buf, SizeTmp);
+        if(media_session->frameTypeBase->PrefixParameterEveryPacket() != 0) {
+            fprintf(stderr, "PrefixParameterEveryPacket error\n");
+            return NULL;
+        }
+        if(media_session->frameTypeBase->ParsePacket(VideoBuffer.Buf, SizeTmp, &EndFlag) != 0) {
+            fprintf(stderr, "ParsePacket error\n");
+            return NULL;
+        }
+        if(media_session->frameTypeBase->SuffixParameterEveryPacket() != 0) {
+            fprintf(stderr, "SuffixParameterEveryPacket error\n");
+            return NULL;
+        }
+		SizeTmp = media_session->frameTypeBase->CopyData(buf + (*size), VideoBuffer.Buf, SizeTmp);
 		*size += SizeTmp;
-		EndFlag = NALUType->GetEndFlag();
-	} while(!EndFlag);
+    } while(!EndFlag);
 
 	return buf;
 }
 
-uint8_t * RtspClient::GetAudioData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size)
-{
-	if(!media_session || !buf || !size) return NULL;
-
-	*size = 0;
-
-	size_t SizeTmp = 0;
-	AudioTypeBase * AudioType;
-
-	if(!media_session->GetMediaData(AudioBuffer.Buf, &SizeTmp)) return NULL;
-	if(0 == SizeTmp) {
-		cerr << "No RTP data" << endl;
-		return NULL;
-	}
-
-
-	MyRegex Regex;
-    if(Regex.Regex(media_session->EncodeType.c_str(), "PCMU", true)) {
-        AudioType = &PCMU_AudioObj;
-    } else {
-        AudioType = &MPEG_AudioObj;
-    }
-
-	if(SizeTmp > AudioBuffer.Size) {
-		cerr << "Error: RTP Packet too large(" << SizeTmp << " bytes > " << AudioBuffer.Size << "bytes)" << endl;
-		return NULL;
-	}
-
-	if(*size + SizeTmp > max_size) {
-		fprintf(stderr, "\033[31mWARNING: NALU truncated because larger than buffer: %lu(NALU size) > %lu(Buffer size)\033[0m\n", *size + SizeTmp, max_size);
-		return buf;
-	}
-
-	SizeTmp = AudioType->CopyData(buf + (*size), AudioBuffer.Buf, SizeTmp);
-	*size += SizeTmp;
-
-	return buf;
-}
+// uint8_t * RtspClient::GetAudioData(MediaSession * media_session, uint8_t * buf, size_t * size, size_t max_size)
+// {
+// 	if(!media_session || !buf || !size) return NULL;
+// 
+// 	*size = 0;
+// 
+// 	size_t SizeTmp = 0;
+// 	AudioTypeBase * AudioType;
+// 
+// 	if(!media_session->GetMediaData(AudioBuffer.Buf, &SizeTmp)) return NULL;
+// 	if(0 == SizeTmp) {
+// 		cerr << "No RTP data" << endl;
+// 		return NULL;
+// 	}
+// 
+// 
+// 	MyRegex Regex;
+//     if(Regex.Regex(media_session->EncodeType.c_str(), "PCMU", true)) {
+//         // AudioType = &PCMU_AudioObj;
+//     } else {
+//         AudioType = &MPEG_AudioObj;
+//     }
+// 
+// 	if(SizeTmp > AudioBuffer.Size) {
+// 		cerr << "Error: RTP Packet too large(" << SizeTmp << " bytes > " << AudioBuffer.Size << "bytes)" << endl;
+// 		return NULL;
+// 	}
+// 
+// 	if(*size + SizeTmp > max_size) {
+// 		fprintf(stderr, "\033[31mWARNING: NALU truncated because larger than buffer: %lu(NALU size) > %lu(Buffer size)\033[0m\n", *size + SizeTmp, max_size);
+// 		return buf;
+// 	}
+// 
+// 	SizeTmp = AudioType->CopyData(buf + (*size), AudioBuffer.Buf, SizeTmp);
+// 	*size += SizeTmp;
+// 
+// 	return buf;
+// }
 
 uint8_t * RtspClient::GetMediaPacket(MediaSession * media_session, uint8_t * buf, size_t * size) 
 {
@@ -2099,7 +1907,7 @@ uint8_t * RtspClient::GetMediaPacket(MediaSession * media_session, uint8_t * buf
 
 uint8_t * RtspClient::GetMediaPacket(string media_type, uint8_t * buf, size_t * size) {
 	MyRegex Regex;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
@@ -2111,68 +1919,7 @@ uint8_t * RtspClient::GetMediaPacket(string media_type, uint8_t * buf, size_t * 
 		return NULL;
 	}
 
-	return it->second.GetMediaPacket(buf, size);
-}
-
-uint8_t * RtspClient::GetVPSNalu(uint8_t * buf, size_t * size)
-{
-	if(!buf) return NULL;
-	if(!size) return NULL;
-
-	*size = 0;
-
-	buf[0] = 0; buf[1] = 0; buf[2] = 0; buf[3] = 1;
-	*size += 4;
-
-	unsigned int VpsSize = 0;
-	unsigned char * Vps = base64Decode(VPS.c_str(), VpsSize, true);
-	memcpy(buf + (*size), Vps, VpsSize);
-	*size += VpsSize;
-	delete[] Vps;
-	Vps = NULL;
-
-	return buf;
-}
-
-uint8_t * RtspClient::GetSPSNalu(uint8_t * buf, size_t * size)
-{
-	if(!buf) return NULL;
-	if(!size) return NULL;
-
-	*size = 0;
-
-	buf[0] = 0; buf[1] = 0; buf[2] = 0; buf[3] = 1;
-	*size += 4;
-
-	unsigned int SpsSize = 0;
-	unsigned char * Sps = base64Decode(SPS.c_str(), SpsSize, true);
-	memcpy(buf + (*size), Sps, SpsSize);
-	*size += SpsSize;
-	delete[] Sps;
-	Sps = NULL;
-
-	return buf;
-
-}
-
-uint8_t * RtspClient::GetPPSNalu(uint8_t * buf, size_t * size)
-{
-	if(!buf) return NULL;
-	if(!size) return NULL;
-
-	*size = 0;
-
-	buf[0] = 0; buf[1] = 0; buf[2] = 0; buf[3] = 1;
-	*size += 4;
-
-	unsigned int PpsSize = 0;
-	unsigned char * Pps = base64Decode(PPS.c_str(), PpsSize, true);
-	memcpy(buf + (*size), Pps, PpsSize);
-	*size += PpsSize;
-	delete[] Pps;
-	Pps = NULL;
-
-	return buf;
+	return it->second->GetMediaPacket(buf, size);
 }
 
 uint32_t RtspClient::CheckAuth(int sockfd, string cmd, string uri)
@@ -2311,8 +2058,7 @@ string RtspClient::MakeBasicResp(string username, string password)
 void RtspClient::SetRtspCmdClbk(string media_type, void (*clbk)(char * cmd)) 
 {
 	MyRegex Regex;
-	ErrorType Err = RTSP_NO_ERROR;
-	map<string, MediaSession>::iterator it;
+	map<string, MediaSession *>::iterator it;
 	bool IgnoreCase = true;
 
 	for(it = MediaSessionMap->begin(); it != MediaSessionMap->end(); it++) {
@@ -2320,7 +2066,7 @@ void RtspClient::SetRtspCmdClbk(string media_type, void (*clbk)(char * cmd))
 	}
 
 	if(it != MediaSessionMap->end()) {
-        it->second.SetRtspCmdClbk(clbk);
+        it->second->SetRtspCmdClbk(clbk);
 	}
 }
 
