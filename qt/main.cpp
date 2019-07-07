@@ -28,6 +28,7 @@ int main(int argc, char **argv)
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QUrl("qrc:/main.qml"));
+    //view.setColor(QColor(0,0,0,255));
     view.show();
 
     return app.exec();

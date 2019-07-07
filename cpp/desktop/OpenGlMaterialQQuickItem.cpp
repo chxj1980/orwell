@@ -7,9 +7,9 @@
 
 struct State
 {
-    public://TEMPORARY
-        int frameWidth = 1920;
-        int frameHeight = 1080;
+    public:
+        int frameWidth = 0;
+        int frameHeight = 0;
         unsigned char *datas[3] = {0};
         unsigned int frameNumber = 0;
         std::string uri;
@@ -19,6 +19,9 @@ struct State
     public:
         void updateData(unsigned char**data, int frameWidth, int frameHeight)
         {
+            if (this->frameWidth!=frameWidth | this->frameHeight!=frameHeight) {
+                //Should trigger a recreation of everything here. But will it ever be needed? Do frames change size in videos?
+            }
             this->frameWidth = frameWidth;
             this->frameHeight = frameHeight;
 
@@ -32,15 +35,8 @@ struct State
             memcpy(datas[0], data[0], frameWidth*frameHeight);
             memcpy(datas[1], data[1], frameWidth*frameHeight/4);
             memcpy(datas[2], data[2], frameWidth*frameHeight/4);
-            /*
-            if (frameNumber + 1 > frameNumber) 
-                frameNumber ++; //Avoid integer overflow. Only works for unsigned int.
-            else
-                frameNumber=0//Reset to 0
-            */
            this->frameNumber++;//No overflow occurs, because it's unsigned int
-            if (uri=="rtsp://admin:19929394@192.168.1.155:10554/tcp/av0_0")
-                std::cout << "-----/////***** UPDATED NUMBER!!!" << std::endl;
+            
         }
 /*
         void markNewData() {
@@ -140,56 +136,60 @@ class Shader : public QSGSimpleMaterialShader<State>
 
         void updateState(const State *state, const State *oldState) override
         {
-            //if (state->uri=="rtsp://admin:19929394@192.168.0.100:10554/tcp/av0_0")
-                //std::cout << "-----/////***** updateState called for rtsp://admin:19929394@192.168.0.100:10554/tcp/av0_0" << std::endl;
-            glFuncs->glClearColor(0.f, 0.f, 0.f, 0.f);
-            glFuncs->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            if (firstRender) {
-                //Y
-                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth, state->frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-                //U
-                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth/2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-
-                //V
-                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth / 2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-                firstRender = false;
-            }
-            glFuncs->glActiveTexture(GL_TEXTURE0);
-            glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth, state->frameHeight, GL_RED, GL_UNSIGNED_BYTE, state->datas[0]);
-            glFuncs->glUniform1i(unis[0], 0);
-
-            glFuncs->glActiveTexture(GL_TEXTURE0+1);
-            glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]); 
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth/2, state->frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[1]);
-            glFuncs->glUniform1i(unis[1],1);
-
-            glFuncs->glActiveTexture(GL_TEXTURE0+2);
-            glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
-            glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth / 2, state->frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[2]);
-            glFuncs->glUniform1i(unis[2], 2);
-
-            glFuncs->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
-
             /*
-            glFuncs->glActiveTexture(GL_TEXTURE0);
-            glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
-            glFuncs->glActiveTexture(GL_TEXTURE0+1);
-            glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
-            glFuncs->glActiveTexture(GL_TEXTURE0+2);
-            glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
+            if (oldState && (state->frameWidth != oldState->frameWidth | state->frameHeight != oldState->frameHeight)) {
+                //Forces glTexImage2D to be redone
+                firstRender = true;
+            }
             */
-            //release some things here?
+            if (state->frameWidth>0 && state->frameHeight>0) {
+                if (firstRender) {
+                    //Y
+                    glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
+                    glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                    glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth, state->frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+                    //U
+                    glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]);
+                    glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                    glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth/2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+                    //V
+                    glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
+                    glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                    glFuncs->glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, state->frameWidth / 2, state->frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+                    firstRender = false;
+                }
+                glFuncs->glActiveTexture(GL_TEXTURE0);
+                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[0]);
+                glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth, state->frameHeight, GL_RED, GL_UNSIGNED_BYTE, state->datas[0]);
+                glFuncs->glUniform1i(unis[0], 0);
+
+                glFuncs->glActiveTexture(GL_TEXTURE0+1);
+                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[1]); 
+                glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth/2, state->frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[1]);
+                glFuncs->glUniform1i(unis[1],1);
+
+                glFuncs->glActiveTexture(GL_TEXTURE0+2);
+                glFuncs->glBindTexture(GL_TEXTURE_2D, texs[2]);
+                glFuncs->glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, state->frameWidth / 2, state->frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, state->datas[2]);
+                glFuncs->glUniform1i(unis[2], 2);
+
+                glFuncs->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+                /*
+                glFuncs->glActiveTexture(GL_TEXTURE0);
+                glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
+                glFuncs->glActiveTexture(GL_TEXTURE0+1);
+                glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
+                glFuncs->glActiveTexture(GL_TEXTURE0+2);
+                glFuncs->glBindTexture(GL_TEXTURE_2D, 0);
+                */
+                //release some things here?
+            }
         }
 
         void resolveUniforms() override
