@@ -42,9 +42,6 @@ private:
 	FrameUpdater    *frameUpdater;
 	int m_videoWidth;
 	int m_videoHeight;
-	int m_videoStreamIndex;
-	int m_isRecord;
-
 };
 
 #endif // FfmpegDecoder_H

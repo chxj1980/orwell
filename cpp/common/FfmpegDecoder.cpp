@@ -11,15 +11,9 @@
 
 
 FfmpegDecoder::FfmpegDecoder()
-{
-	m_videoStreamIndex = -1;
-	m_isRecord = -1;
-	swsContext = nullptr;
-	
-	//av_register_all(); DEPRECATED, no need to use anymore
+{	
 	avcodec_register_all();
 	avFrame = av_frame_alloc();
-	//std::cout << "ffmpegdecoder created" << std::endl;
 }
 
 FfmpegDecoder::~FfmpegDecoder()
@@ -34,17 +28,19 @@ void FfmpegDecoder::setFrameUpdater(FrameUpdater * frameUpdater) {
 
 bool FfmpegDecoder::init()
 {
-	//std::cout << "FfmpegDecoder init!"  << std::endl;
-
 	avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
 
-	if (!avCodec) {return false;}
-	//std::cout << "avCodec worked!"  << std::endl;
+	if (!avCodec) {
+		std::cout << "avcodec_find_decoder problem" << std::endl;
+		return false;
+	}
 
 	avCodecContext = avcodec_alloc_context3(avCodec);
 
-	if (avcodec_open2(avCodecContext, avCodec, NULL) < 0)  return false;
-	//std::cout << "avcodec_open2 worked" << std::endl;
+	if (avcodec_open2(avCodecContext, avCodec, NULL) < 0) {
+		std::cout << "avcodec_open2 problem" << std::endl;
+		return false;
+	}
 
 	return true;
 }
@@ -67,13 +63,15 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
     //https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET); 
+
 	int sendPacketResult = avcodec_send_packet(avCodecContext, avPacket);
+
 	if (!sendPacketResult) {
 		int receiveFrameResult = avcodec_receive_frame(avCodecContext, avFrame);
 		if (!receiveFrameResult) {
 			this->frameUpdater->updateData(avFrame->data, avFrame->width, avFrame->height);
 		} else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF)) {
-			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult /*<< *av_err2str(result).c_str()*/ << std::endl;
+			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult << std::endl;
 		} else {
 			switch (receiveFrameResult) {
 				//Not exactly an error, we just have to wait for more data
@@ -105,6 +103,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 				break;
 		}
 	}
+}
 	//if (frameFinished) {
 		/*
 		double dpts = NAN;
@@ -156,4 +155,3 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 		
 		//av_frame_unref(avFrame);
 	//}
-}
