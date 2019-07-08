@@ -38,7 +38,7 @@ get_filename_component(APPLICATION_MAIN_CPP_PATH main.cpp ABSOLUTE)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../node_modules/react-native/React/Layout)
 #Includes Glue
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}../../cpp/desktop)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../cpp/desktop)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../node_modules/react-native/ReactQt/runtime/src ${CMAKE_CURRENT_BINARY_DIR}/lib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../node_modules/react-native/ReactQt/application/src ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
