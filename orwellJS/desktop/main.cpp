@@ -19,6 +19,8 @@
 #include "reactitem.h"
 #include "rootview.h"
 #include "utilities.h"
+#include "Glue.h"
+
 
 // TODO: some way to change while running
 class ReactNativeProperties : public QObject {
@@ -179,6 +181,7 @@ int main(int argc, char** argv) {
         rnp->setExecutor(p.value("executor"));
 
     view.rootContext()->setContextProperty("ReactNativeProperties", rnp);
+    view.rootContext()->setContextProperty("Glue", glue);
     view.setSource(QUrl("qrc:///main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.show();
