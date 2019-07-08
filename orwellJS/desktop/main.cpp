@@ -181,6 +181,7 @@ int main(int argc, char** argv) {
         rnp->setExecutor(p.value("executor"));
 
     view.rootContext()->setContextProperty("ReactNativeProperties", rnp);
+    Glue* glue(&view);
     view.rootContext()->setContextProperty("Glue", glue);
     view.setSource(QUrl("qrc:///main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
