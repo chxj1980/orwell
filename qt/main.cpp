@@ -30,6 +30,7 @@ int main(int argc, char **argv)
 
     QQuickView view;
     Glue* glue = new Glue(&view);
+    glue->list()->insert(QString("test"), QVariant("hi"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.rootContext()->setContextProperty("Glue", glue);
     //view.setProperty("Glue", glue);

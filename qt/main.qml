@@ -18,9 +18,10 @@ Grid {
     OpenGlMaterialQQuickItem {
         width: cellWidth
         height: cellHeight
+        glue: Glue
         uri: "rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_1"
     }
-    
+    /*
     OpenGlMaterialQQuickItem {
         width: cellWidth
         height: cellHeight
@@ -51,6 +52,7 @@ Grid {
         height: cellHeight
         uri: "rtsp://admin:19929394@192.168.0.100:10554/tcp/av0_1"
     }
+    */
     
 }
 

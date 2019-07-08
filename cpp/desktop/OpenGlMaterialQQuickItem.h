@@ -18,6 +18,7 @@
 #include <QSGSimpleMaterial>
 #include "reactitem.h"
 #include "flexbox.h"
+#include "Glue.h"
 
 
 //class OpenGlMaterialQQuickItem: public QQuickItem
@@ -28,7 +29,7 @@ class OpenGlMaterialQQuickItem: public ReactItem
     Q_PROPERTY(QString p_uri WRITE setPUri READ getPUri);
     Q_PROPERTY(qreal p_height WRITE _setHeight READ getPHeight);
     Q_PROPERTY(qreal p_width WRITE _setWidth READ getPWidth);
-
+    Q_PROPERTY(Glue* glue READ getGlue WRITE setGlue)
 
     public:
     
@@ -42,8 +43,11 @@ class OpenGlMaterialQQuickItem: public ReactItem
         OpenGlMaterialQQuickItem()
         {
             setFlag(ItemHasContents, true);
-            //QVariant  parent().property("Glue");
-            //std::cout << "indexOfProperty: " << parent()->metaObject()->indexOfProperty("Glue") << std::endl;
+        }
+
+        void componentComplete() {
+            QQuickItem::componentComplete();
+            std::cout << getGlue()->list()->value("test").toString().toStdString() << std::endl;
         }
 
         void setUri(const QString &a) {
@@ -75,19 +79,27 @@ class OpenGlMaterialQQuickItem: public ReactItem
         void _setWidth(qreal width) {
             p_width = width;
         }
+
         void _setHeight(qreal height) {
             p_height = height;
+        }
+
+        void setGlue(Glue* glue) {
+            this->glue = glue;
+        }
+        Glue* getGlue() {
+            return this->glue;
         }
 
     protected:
         void paint(QPainter* painter){}
 
-    
     private:
         QString uri;
         QString p_uri;
         qreal p_width;
         qreal p_height;
+        Glue* glue;
     /*
     private slots:
         void parentWidthChanged(){

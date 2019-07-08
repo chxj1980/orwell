@@ -9,17 +9,17 @@
 
 class Glue : public QObject {
     Q_OBJECT
-    Q_PROPERTY(QVariantMap _list READ list) //WRITE setList)// NOTIFY initialPropsChanged)
+    //Q_PROPERTY(QVariantMap _list READ list) //WRITE setList)// NOTIFY initialPropsChanged)
     public:
         Glue(QObject* parent = 0) : QObject(parent) {
         
         }
         Glue();
 
-        QVariantMap list() {
+        QVariantMap* list() {
             return this->_list;
         }
     private:
-        QVariantMap _list;
+        QVariantMap* _list = new QVariantMap();
 };
 #endif // GLUE_H
