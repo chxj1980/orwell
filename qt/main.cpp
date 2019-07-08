@@ -15,6 +15,9 @@
 #include "OpenGlVideoQtQuick.h"
 #include "OpenGlVideoQtQuick2.h"
 #include "OpenGlMaterialQQuickItem.h"
+#include <QObject>
+#include <QtQml>
+#include "Glue.h"
 
 int main(int argc, char **argv)
 {
@@ -26,10 +29,14 @@ int main(int argc, char **argv)
     qmlRegisterType<OpenGlMaterialQQuickItem>("OpenGlMaterialQQuickItem", 1, 0, "OpenGlMaterialQQuickItem");
 
     QQuickView view;
+    Glue* glue = new Glue(&view);
     view.setResizeMode(QQuickView::SizeRootObjectToView);
+    view.rootContext()->setContextProperty("Glue", glue);
+    //view.setProperty("Glue", glue);
     view.setSource(QUrl("qrc:/main.qml"));
     view.setColor(QColor(0,0,0,255));
     view.show();
 
     return app.exec();
 }
+

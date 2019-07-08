@@ -756,6 +756,33 @@ home/lz/orwell/cpp/common/MediaStream.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/MediaStream.cpp.s
 .PHONY : home/lz/orwell/cpp/common/MediaStream.cpp.s
 
+home/lz/orwell/cpp/desktop/Glue.o: home/lz/orwell/cpp/desktop/Glue.cpp.o
+
+.PHONY : home/lz/orwell/cpp/desktop/Glue.o
+
+# target to build an object file
+home/lz/orwell/cpp/desktop/Glue.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/Glue.cpp.o
+.PHONY : home/lz/orwell/cpp/desktop/Glue.cpp.o
+
+home/lz/orwell/cpp/desktop/Glue.i: home/lz/orwell/cpp/desktop/Glue.cpp.i
+
+.PHONY : home/lz/orwell/cpp/desktop/Glue.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/desktop/Glue.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/Glue.cpp.i
+.PHONY : home/lz/orwell/cpp/desktop/Glue.cpp.i
+
+home/lz/orwell/cpp/desktop/Glue.s: home/lz/orwell/cpp/desktop/Glue.cpp.s
+
+.PHONY : home/lz/orwell/cpp/desktop/Glue.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/desktop/Glue.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/Glue.cpp.s
+.PHONY : home/lz/orwell/cpp/desktop/Glue.cpp.s
+
 home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o: home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o
 
 .PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o
@@ -1005,6 +1032,9 @@ help:
 	@echo "... home/lz/orwell/cpp/common/MediaStream.o"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.i"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.s"
+	@echo "... home/lz/orwell/cpp/desktop/Glue.o"
+	@echo "... home/lz/orwell/cpp/desktop/Glue.i"
+	@echo "... home/lz/orwell/cpp/desktop/Glue.s"
 	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o"
 	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.i"
 	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.s"

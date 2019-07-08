@@ -42,6 +42,8 @@ class OpenGlMaterialQQuickItem: public ReactItem
         OpenGlMaterialQQuickItem()
         {
             setFlag(ItemHasContents, true);
+            //QVariant  parent().property("Glue");
+            //std::cout << "indexOfProperty: " << parent()->metaObject()->indexOfProperty("Glue") << std::endl;
         }
 
         void setUri(const QString &a) {

@@ -95,6 +95,9 @@ class Shader : public QSGSimpleMaterialShader<State>
         }
 
         const char *fragmentShader() const override {
+            //TODO: support packed YUV
+            //https://github.com/yuan631111976/qtavplayer/blob/master/packed.frag 
+            //This looks promising: https://github.com/yuan631111976/qtavplayer/blob/b4394d620076cedb05fdc006daee2918baeb73d9/AVOutput.h
             return GET_STR(
                         varying vec2 textureOut;
                         uniform sampler2D tex_y;
