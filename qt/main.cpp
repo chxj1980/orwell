@@ -18,7 +18,6 @@
 #include <QObject>
 #include <QtQml>
 #include "Glue.h"
-QMap<QString,GlueObject> Glue::streamList;
 
 int main(int argc, char **argv)
 {

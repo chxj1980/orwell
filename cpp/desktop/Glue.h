@@ -12,12 +12,11 @@
 #include "VideoReceiver.h"
 #include "VideoRecorder.h"
 
-boost::mutex mutex;
-
 struct GlueObject {
-    VideoReceiver videoReceiver;
-    VideoRecorder videoRecorder;
-}
+    VideoReceiver* videoReceiver;
+    VideoRecorder* videoRecorder;
+    //MovementTracker movementTracker
+};
 
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern/40337728#40337728
 class Glue
@@ -28,11 +27,11 @@ public:
 
     static void add(QString id, GlueObject glueObject) {
         mutex.lock();
-        streamList.insert();
+        streamList.insert(id, glueObject);
         mutex.unlock();
     }
 
-    static GlueObject& get(QString id) {
+    static GlueObject get(QString id) {
         mutex.lock();
         GlueObject glueObject = streamList.value(id);
         mutex.unlock();
@@ -49,6 +48,7 @@ public:
 private:
     Glue() {}
     static QMap<QString,GlueObject> streamList;
+    static boost::mutex mutex;
 };
 
 
