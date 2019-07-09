@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     //ffmpegDecoder.uri = this->uri;
     glueObject.mediaStream->setDecoder(ffmpegDecoder);
     glueObject.mediaThread = std::make_shared<boost::thread>(&MediaStream::run, glueObject.mediaStream);
-    //Glue::instance()->add("cam1", glueObject);
+    Glue::instance()->add("cam1", glueObject);
     //glue->list()->insert(QString("test"), QVariant("hi"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     //view.rootContext()->setContextProperty("Glue", glue);

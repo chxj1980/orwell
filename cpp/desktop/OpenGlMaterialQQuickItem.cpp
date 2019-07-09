@@ -219,7 +219,6 @@ class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//T
             setGeometry(g);
             setFlag(OwnsGeometry, true);
 
-            Glue::instance()->get("cam1").mediaStream->ffmpegDecoder->setVideoReceiver(this);
         }
 
         void setItem(QQuickItem* item) {
@@ -231,7 +230,16 @@ class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//T
             material->state()->uri = uri;
         }
 
-        void beginStream() {
+        void beginReceiving() {
+            if (this->item) {
+                if (this->item->id) {
+                    Glue::instance()->get(item->id)->mediaStream->ffmpegDecoder->setVideoReceiver(this);
+                } else {
+                    std::cout << "ERROR, id not set or not set yet " << std::endl;
+                }
+            } else {
+                    std::cout << "ERROR, set item first" << std::endl;
+            }
             //stream = new MediaStream(uri);
             //std::cout << "beginning stream to uri " << uri << std::endl;
             //stream->setFrameUpdater((FrameUpdater *) this);
@@ -273,7 +281,7 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNo
             n->setUri(this->p_uri.toStdString());
         else 
             std::cout << "NO URI PASSED TO OBJECT" << std::endl;
-        n->beginStream();
+        n->beginReceiving();
     }
     QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
     //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
