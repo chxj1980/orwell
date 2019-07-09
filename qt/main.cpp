@@ -18,6 +18,7 @@
 #include <QObject>
 #include <QtQml>
 #include "Glue.h"
+QVariantMap Glue::streamList;
 
 int main(int argc, char **argv)
 {
@@ -29,10 +30,12 @@ int main(int argc, char **argv)
     qmlRegisterType<OpenGlMaterialQQuickItem>("OpenGlMaterialQQuickItem", 1, 0, "OpenGlMaterialQQuickItem");
 
     QQuickView view;
-    Glue* glue = new Glue(&view);
-    glue->list()->insert(QString("test"), QVariant("hi"));
+    //Glue* glue = new Glue(&view);
+    //Glue glue;
+    Glue::instance()->streamList.insert("cam1", QVariant("hello"));
+    //glue->list()->insert(QString("test"), QVariant("hi"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.rootContext()->setContextProperty("Glue", glue);
+    //view.rootContext()->setContextProperty("Glue", glue);
     //view.setProperty("Glue", glue);
     view.setSource(QUrl("qrc:/main.qml"));
     view.setColor(QColor(0,0,0,255));

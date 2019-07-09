@@ -26,10 +26,11 @@ class OpenGlMaterialQQuickItem: public ReactItem
 {
     Q_OBJECT
     Q_PROPERTY(QString uri WRITE setUri READ getUri)// NOTIFY uriChanged)
+    Q_PROPERTY(QString id WRITE setId READ getId)// NOTIFY uriChanged)
     Q_PROPERTY(QString p_uri WRITE setPUri READ getPUri);
     Q_PROPERTY(qreal p_height WRITE _setHeight READ getPHeight);
     Q_PROPERTY(qreal p_width WRITE _setWidth READ getPWidth);
-    Q_PROPERTY(Glue* glue READ getGlue WRITE setGlue)
+    //Q_PROPERTY(Glue* glue READ getGlue WRITE setGlue)
 
     public:
     
@@ -47,7 +48,10 @@ class OpenGlMaterialQQuickItem: public ReactItem
 
         void componentComplete() {
             QQuickItem::componentComplete();
-            std::cout << getGlue()->list()->value("test").toString().toStdString() << std::endl;
+            //std::cout << getGlue()->list()->value("test").toString().toStdString() << std::endl;
+            //Glue glue;
+            std::cout << Glue::instance()->streamList.value("cam1").toString().toStdString() << std::endl;
+            //std::cout << Glue::streamList.value("cam1").toString().toStdString()<< std::endl;
         }
 
         void setUri(const QString &a) {
@@ -60,12 +64,21 @@ class OpenGlMaterialQQuickItem: public ReactItem
             std::cout << "OpenGlMaterialQQuickItem created with uri " << p_uri.toStdString() << std::endl;
         }
 
+        void setId(const QString &a) {
+            id = a;
+            std::cout << "OpenGlMaterialQQuickItem created with id " << id.toStdString() << std::endl;
+        }
+
         QString getUri() {
             return this->uri;
         }
 
         QString getPUri() {
             return this->p_uri;
+        }
+
+        QString getId() {
+            return this->id;
         }
 
         qreal getPHeight() {
@@ -83,13 +96,15 @@ class OpenGlMaterialQQuickItem: public ReactItem
         void _setHeight(qreal height) {
             p_height = height;
         }
-
+/*
         void setGlue(Glue* glue) {
             this->glue = glue;
         }
+
         Glue* getGlue() {
             return this->glue;
         }
+*/
 
     protected:
         void paint(QPainter* painter){}
@@ -97,9 +112,10 @@ class OpenGlMaterialQQuickItem: public ReactItem
     private:
         QString uri;
         QString p_uri;
+        QString id;
         qreal p_width;
         qreal p_height;
-        Glue* glue;
+        //Glue glue;
     /*
     private slots:
         void parentWidthChanged(){
