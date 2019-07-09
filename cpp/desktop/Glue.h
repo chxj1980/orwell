@@ -21,15 +21,7 @@ struct GlueObject {
     std::shared_ptr<VideoRecorder> videoRecorder;
     //std::shared_ptr<MovementTracker> movementTracker
 };
-/*
-struct GlueObject {
-    MediaStream* mediaStream;
-    boost::thread* mediaThread;
-    VideoReceiver* videoReceiver;
-    VideoRecorder* videoRecorder;
-    //MovementTracker movementTracker
-};
-*/
+
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern/40337728#40337728
 class Glue
 {
@@ -62,24 +54,5 @@ private:
     static QMap<QString,GlueObject> streamList;
     static boost::mutex mutex;
 };
-
-
-/*
-class Glue : public QObject {
-    Q_OBJECT
-    //Q_PROPERTY(QVariantMap _list READ list) //WRITE setList)// NOTIFY initialPropsChanged)
-    public:
-        Glue(QObject* parent = 0) : QObject(parent) {
-        
-        }
-        Glue();
-
-        QVariantMap* list() {
-            return this->_list;
-        }
-    private:
-        QVariantMap* _list = new QVariantMap();
-};
-*/
 
 #endif // GLUE_H

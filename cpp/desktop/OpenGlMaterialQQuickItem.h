@@ -20,14 +20,16 @@
 #include "flexbox.h"
 #include "VideoReceiver.h"
 #include "Glue.h"
+#include "componentmanagers/viewmanager.h"
 
-
+class Node;
 //class OpenGlMaterialQQuickItem: public QQuickItem
 class OpenGlMaterialQQuickItem: public ReactItem
 {
     Q_OBJECT
     Q_PROPERTY(QString uri WRITE setUri READ getUri)// NOTIFY uriChanged)
     Q_PROPERTY(QString id WRITE setId READ getId)// NOTIFY uriChanged)
+    Q_PROPERTY(QString p_id WRITE setPId READ getPId)// NOTIFY uriChanged)
     Q_PROPERTY(QString p_uri WRITE setPUri READ getPUri);
     Q_PROPERTY(qreal p_height WRITE _setHeight READ getPHeight);
     Q_PROPERTY(qreal p_width WRITE _setWidth READ getPWidth);
@@ -35,6 +37,7 @@ class OpenGlMaterialQQuickItem: public ReactItem
 
     public:
         QString id;
+        QString p_id;
 
         //Flexbox flexbox(this);
         //flexbox.setControl(this);
@@ -45,30 +48,38 @@ class OpenGlMaterialQQuickItem: public ReactItem
 
         OpenGlMaterialQQuickItem()
         {
+            flexbox = new Flexbox();
+            flexbox->setControl(this);
+            flexbox->setViewManager(this->viewManager);
             setFlag(ItemHasContents, true);
+        }
+
+        ~OpenGlMaterialQQuickItem()
+        {
+            delete node;
+            node = nullptr;
         }
 
         void componentComplete() {
             QQuickItem::componentComplete();
-            //std::cout << getGlue()->list()->value("test").toString().toStdString() << std::endl;
-            //Glue glue;
-            //std::cout << Glue::instance()->streamList.value("cam1").toString().toStdString() << std::endl;
-            //std::cout << Glue::streamList.value("cam1").toString().toStdString()<< std::endl;
         }
 
         void setUri(const QString &a) {
             uri = a;
-            std::cout << "OpenGlMaterialQQuickItem created with uri " << uri.toStdString() << std::endl;
         }
 
         void setPUri(const QString &a) {
             p_uri = a;
-            std::cout << "OpenGlMaterialQQuickItem created with uri " << p_uri.toStdString() << std::endl;
         }
 
         void setId(const QString &a) {
             id = a;
             std::cout << "OpenGlMaterialQQuickItem created with id " << id.toStdString() << std::endl;
+        }
+
+        void setPId(const QString &a) {
+            p_id = a;
+            std::cout << "OpenGlMaterialQQuickItem created with p_id " << p_id.toStdString() << std::endl;
         }
 
         QString getUri() {
@@ -81,6 +92,10 @@ class OpenGlMaterialQQuickItem: public ReactItem
 
         QString getId() {
             return this->id;
+        }
+
+        QString getPId() {
+            return this->p_id;
         }
 
         qreal getPHeight() {
@@ -116,6 +131,9 @@ class OpenGlMaterialQQuickItem: public ReactItem
         QString p_uri;
         qreal p_width;
         qreal p_height;
+        Flexbox* flexbox;
+        ViewManager* viewManager;
+        Node *node;
         //Glue glue;
     /*
     private slots:

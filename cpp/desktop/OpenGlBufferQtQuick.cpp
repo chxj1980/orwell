@@ -199,12 +199,9 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 {
     //https://github.com/quitejonny/tangram-es/blob/b457b7fc59e3e0f3c6d7bc26a0b5fe62098376fb/platforms/qt/tangram/tangramquickrenderer.cpp#L54
     OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
+    //TODO: make it setVideoReceiver(nullptr) when it goes away
     Glue::instance()->get(openGlBufferItem->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
-    //MediaStream* mediaStream = new MediaStream(openGlBufferItem->uri);
-    //mediaStream->setFrameUpdater((FrameUpdater *) this);
-    //TODO: put mutex on std::cout of this thread
-    //TODO: make this thread actualy run here instead of on a thread, I guess.
-    //boost::thread mediaThread(&MediaStream::run, mediaStream);
+
 }
 
 void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)

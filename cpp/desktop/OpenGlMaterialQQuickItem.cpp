@@ -12,6 +12,7 @@ struct State
         int frameHeight = 0;
         unsigned char *datas[3] = {0};
         unsigned int frameNumber = 0;
+        //for debug only
         std::string uri;
 
     private:
@@ -38,11 +39,7 @@ struct State
            this->frameNumber++;//No overflow occurs, because it's unsigned int
             
         }
-/*
-        void markNewData() {
-            this->newData = true;
-        }
-*/
+
         int compare(const State *olderState) const {
             //std::cout << "compare called " << std::endl;
 
@@ -204,7 +201,7 @@ class Shader : public QSGSimpleMaterialShader<State>
         }
 };
 
-class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//TODO: remove FrameUpdater
+class Node: public QSGGeometryNode, public VideoReceiver
 {
     public:
         State state;
@@ -218,7 +215,20 @@ class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//T
             QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
             setGeometry(g);
             setFlag(OwnsGeometry, true);
+        }
 
+        ~Node() {
+            if (this->item) {
+                if (this->item->id!=nullptr) {
+                    Glue::instance()->get(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(nullptr);
+                } else if (this->item->p_id!=nullptr) {
+                    Glue::instance()->get(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(nullptr);
+                }else {
+                    std::cout << "ERROR, id not set or not set yet " << std::endl;
+                }
+            } else {
+                    std::cout << "ERROR, set item first" << std::endl;
+            }
         }
 
         void setItem(OpenGlMaterialQQuickItem* item) {
@@ -234,29 +244,18 @@ class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//T
             if (this->item) {
                 if (this->item->id!=nullptr) {
                     Glue::instance()->get(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
-                } else {
+                } else if (this->item->p_id!=nullptr) {
+                    Glue::instance()->get(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
+                }else {
                     std::cout << "ERROR, id not set or not set yet " << std::endl;
                 }
             } else {
                     std::cout << "ERROR, set item first" << std::endl;
             }
-            //stream = new MediaStream(uri);
-            //std::cout << "beginning stream to uri " << uri << std::endl;
-            //stream->setFrameUpdater((FrameUpdater *) this);
-            //boost::thread mediaThread(&MediaStream::run, stream);
         }
 
         void receiveVideo(unsigned char**videoBuffer, int frameWidth, int frameHeight) {
             material->state()->updateData(videoBuffer, frameWidth, frameHeight);
-            markDirty(QSGNode::DirtyMaterial);//is this really needed?
-            QMetaObject::invokeMethod(item, &QQuickItem::update, Qt::QueuedConnection);
-        }
-
-        void updateData(unsigned char**data, int frameWidth, int frameHeight)
-        {
-            material->state()->updateData(data, frameWidth, frameHeight);
-            //std::cout << "updateData called for " << this->uri << std::endl;
-            //material->state()->markNewData();
             markDirty(QSGNode::DirtyMaterial);//is this really needed?
             QMetaObject::invokeMethod(item, &QQuickItem::update, Qt::QueuedConnection);
         }
@@ -269,25 +268,25 @@ class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//T
 
 };
 
-QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *node, UpdatePaintNodeData *) //override
+QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *qsgNode, UpdatePaintNodeData *) //override
 {
-    Node *n = static_cast<Node *>(node);
-    if (!node) {
-        n = new Node();
-        n->setItem(this);
+    node = static_cast<Node *>(qsgNode);
+    if (!qsgNode) {
+        node = new Node();
+        node->setItem(this);
         if (!this->getUri().isEmpty()) 
-            n->setUri(this->uri.toStdString()); //TODO: How do I know that when updatePaintNode is called, the object will already have a defined uri?
+            node->setUri(this->uri.toStdString()); //TODO: How do I know that when updatePaintNode is called, the object will already have a defined uri?
         else if (!this->getPUri().isEmpty())
-            n->setUri(this->p_uri.toStdString());
+            node->setUri(this->p_uri.toStdString());
         else 
             std::cout << "NO URI PASSED TO OBJECT" << std::endl;
-        n->beginReceiving();
+        node->beginReceiving();
     }
-    QSGGeometry::updateTexturedRectGeometry(n->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
+    QSGGeometry::updateTexturedRectGeometry(node->geometry(), boundingRect(), QRectF(0, 0, 1, 1));
     //static_cast<QSGSimpleMaterial<State>*>(n->material())->state()->color = m_color;
     
 
-    n->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);//what is this?
-    return n;
+    node->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);//what is this?
+    return node;
 }
 
