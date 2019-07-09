@@ -14,16 +14,17 @@
 
 #include <QGuiApplication>
 #include <QDebug>
+#include "MediaStream.h"
+#include "FfmpegDecoder.h"
+#include <boost/thread/thread.hpp>
 
 //Q_LOGGING_CATEGORY(NOTIFICATION, "RCTNotification")
 
 
 namespace {
-struct RegisterQMLMetaType {
-  RegisterQMLMetaType() { qRegisterMetaType<GlueManager *>(); }
-} registerMetaType;
-
-const QString NewMessageAlert = QStringLiteral("NewMessage");
+  struct RegisterQMLMetaType {
+    RegisterQMLMetaType() { qRegisterMetaType<GlueManager *>(); }
+  } registerMetaType;
 } // namespace
 
 class GlueManagerPrivate {
@@ -52,22 +53,14 @@ QList<ModuleMethod *> GlueManager::methodsToExport() {
 
 QVariantMap GlueManager::constantsToExport() { return QVariantMap(); }
 
-void GlueManager::displayNotification(QString title, QString body, bool prioritary) {
-  Q_D(GlueManager);
-  qCDebug(NOTIFICATION) << "::displayNotification";
-
-  if (m_appHasFocus) {
-      qCDebug(NOTIFICATION) << "Not displaying notification since an application window is active";
-      return;
-  }
-
-  Snore::Notification notification(
-      d_ptr->snoreApp, d_ptr->snoreApp.alerts()[NewMessageAlert], title,
-      body, Snore::Icon::defaultIcon(),
-      prioritary ? Snore::Notification::Prioritys::High : Snore::Notification::Prioritys::Normal);
-  Snore::SnoreCore::instance().broadcastNotification(notification);
-}
-
-void GlueManager::setDockBadgeLabel(const QString label) {
-  Snore::SnoreCore::instance().setDockBadgeLabel(label);
+//Register our RTSP stream in the Glue singleton so it can be used in other parts of cpp code (mainly in the video player)
+void GlueManager::addRTSPStream(QString key, QString uri) {
+    GlueObject glueObject;
+    glueObject.mediaStream = std::make_shared<MediaStream>(uri.toStdString());
+    FfmpegDecoder* ffmpegDecoder = new FfmpegDecoder();
+    //For debug purposes only
+    //ffmpegDecoder.uri = this->uri;
+    glueObject.mediaStream->setDecoder(ffmpegDecoder);
+    glueObject.mediaThread = std::make_shared<boost::thread>(&MediaStream::run, glueObject.mediaStream);
+    Glue::instance()->add(key, glueObject);
 }

@@ -15,6 +15,7 @@
 
 #include <QLoggingCategory>
 #include <QVariantMap>
+#include "Glue.h"
 
 Q_DECLARE_LOGGING_CATEGORY(NOTIFICATION)
 
@@ -35,7 +36,7 @@ public:
     QList<ModuleMethod*> methodsToExport() override;
     QVariantMap constantsToExport() override;
 
-    Q_INVOKABLE void 
+    Q_INVOKABLE void addRTSPStream(QString key, QString uri);
 private:
     QScopedPointer<GlueManagerPrivate> d_ptr;
 };
