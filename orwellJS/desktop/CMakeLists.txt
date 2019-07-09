@@ -40,6 +40,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../node_modules/react-native/Rea
 #Includes Glue
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../cpp/desktop)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../cpp/common)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../myRtspClient/myRtspClient/include/)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../node_modules/react-native/ReactQt/runtime/src ${CMAKE_CURRENT_BINARY_DIR}/lib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../node_modules/react-native/ReactQt/application/src ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
