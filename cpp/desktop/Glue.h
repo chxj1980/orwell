@@ -7,6 +7,17 @@
 #include <QVariant>
 #include <QByteArray>
 #include <memory>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/thread.hpp>
+#include "VideoReceiver.h"
+#include "VideoRecorder.h"
+
+boost::mutex mutex;
+
+struct GlueObject {
+    VideoReceiver videoReceiver;
+    VideoRecorder videoRecorder;
+}
 
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern/40337728#40337728
 class Glue
@@ -15,7 +26,18 @@ public:
     Glue(Glue const&) = delete;
     Glue& operator=(Glue const&) = delete;
 
-    static QVariantMap streamList;
+    static void add(QString id, ) {
+        mutex.lock();
+        streamList.insert();
+        mutex.unlock();
+    }
+
+    static void get(QString id) {
+        mutex.lock();
+         = streamList.value();
+        mutex.unlock();
+        return 
+    }
 
     static std::shared_ptr<Glue> instance()
     {
@@ -26,6 +48,7 @@ public:
 
 private:
     Glue() {}
+    static QMap<QString,> streamList;
 };
 
 
