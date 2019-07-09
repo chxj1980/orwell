@@ -15,6 +15,7 @@
 #include "CL4YFC62NC/moc_textmanager.cpp"
 #include "CL4YFC62NC/moc_viewmanager.cpp"
 #include "CL4YFC62NC/moc_webviewmanager.cpp"
+#include "D2KHDIDD6D/moc_gluemanager.cpp"
 #include "EWIEGA46WW/moc_alert.cpp"
 #include "EWIEGA46WW/moc_appstate.cpp"
 #include "EWIEGA46WW/moc_asynclocalstorage.cpp"

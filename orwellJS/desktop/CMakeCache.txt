@@ -261,7 +261,7 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 DESKTOP_FONTS:UNINITIALIZED=
 
 //No help, variable specified on the command line.
-EXTERNAL_MODULES_DIR:UNINITIALIZED=modules/mediaplayer/desktop
+EXTERNAL_MODULES_DIR:UNINITIALIZED=modules/mediaplayer/desktop;modules/glue/desktop
 
 //Build with JavaScriptCore enabled
 JAVASCRIPTCORE_ENABLED:BOOL=OFF
@@ -405,7 +405,7 @@ orwell_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libavcodec.so;genera
 orwell_SOURCE_DIR:STATIC=/home/lz/orwell/cpp/desktop
 
 //Dependencies for the target
-react-native_LIB_DEPENDS:STATIC=general;orwell;general;boost_thread;general;boost_system;general;Qt5::Core;general;Qt5::Qml;general;Qt5::Quick;general;Qt5::WebSockets;general;Qt5::Svg;general;Qt5::Concurrent;
+react-native_LIB_DEPENDS:STATIC=general;orwell;general;boost_thread;general;boost_system;general;orwell;general;boost_thread;general;boost_system;general;Qt5::Core;general;Qt5::Qml;general;Qt5::Quick;general;Qt5::WebSockets;general;Qt5::Svg;general;Qt5::Concurrent;
 
 
 ########################
@@ -546,7 +546,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=9
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

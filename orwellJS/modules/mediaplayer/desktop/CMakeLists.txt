@@ -7,6 +7,7 @@ set(REACT_NATIVE_DESKTOP_EXTERNAL_MODULES_SRC ${REACT_NATIVE_DESKTOP_EXTERNAL_MO
                                               ${CMAKE_CURRENT_SOURCE_DIR}/mediaplayermanager.cpp
                                               PARENT_SCOPE)
 
+#I think these things below are not necessary
 
 #Root of the project
 set(ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../..)

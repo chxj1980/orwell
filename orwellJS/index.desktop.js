@@ -16,6 +16,9 @@ import {
 const NativeModules = require('react-native').NativeModules;
 const requireNativeComponent = require('requireNativeComponent');
 var OrwellMediaPlayer = requireNativeComponent('RCTMediaPlayer');
+var GlueManager = requireNativeComponent('GlueManager');
+console.log(GlueManager);
+
 
 class Orwell extends Component {
   componentDidMount() {

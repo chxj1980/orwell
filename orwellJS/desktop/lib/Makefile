@@ -1011,6 +1011,33 @@ exceptionsmanager.cpp.s:
 	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/exceptionsmanager.cpp.s
 .PHONY : exceptionsmanager.cpp.s
 
+home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.o: home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.o
+
+.PHONY : home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.o
+
+# target to build an object file
+home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.o:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.o
+.PHONY : home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.o
+
+home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.i: home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.i
+
+.PHONY : home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.i
+
+# target to preprocess a source file
+home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.i:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.i
+.PHONY : home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.i
+
+home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.s: home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.s
+
+.PHONY : home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.s
+
+# target to generate assembly for a file
+home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.s:
+	cd /home/lz/orwell/orwellJS/desktop && $(MAKE) -f lib/CMakeFiles/react-native.dir/build.make lib/CMakeFiles/react-native.dir/home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.s
+.PHONY : home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.cpp.s
+
 home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.o: home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.cpp.o
 
 .PHONY : home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.o
@@ -2007,6 +2034,9 @@ help:
 	@echo "... exceptionsmanager.o"
 	@echo "... exceptionsmanager.i"
 	@echo "... exceptionsmanager.s"
+	@echo "... home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.o"
+	@echo "... home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.i"
+	@echo "... home/lz/orwell/orwellJS/modules/glue/desktop/gluemanager.s"
 	@echo "... home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.o"
 	@echo "... home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.i"
 	@echo "... home/lz/orwell/orwellJS/modules/mediaplayer/desktop/mediaplayermanager.s"
