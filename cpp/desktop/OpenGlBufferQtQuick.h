@@ -14,8 +14,10 @@
 #include <boost/thread.hpp>
 #include "MediaStream.h"
 #include "reactitem.h"
+#include "VideoReceiver.h"
+#include "Glue.h"
 
-class OpenGlBufferItemRenderer: public QQuickFramebufferObject::Renderer, public QOpenGLFunctions, public FrameUpdater
+class OpenGlBufferItemRenderer: public QQuickFramebufferObject::Renderer, public QOpenGLFunctions, public FrameUpdater, public VideoReceiver
 {
 public:
     OpenGlBufferItemRenderer();
@@ -23,6 +25,7 @@ public:
     void render() override;
     QOpenGLFramebufferObject* createFramebufferObject(const QSize &size) override;
     void updateData(unsigned char**data, int frameWidth, int frameHeight);
+    void receiveVideo(unsigned char**videoBuffer, int frameWidth, int frameHeight);
     void synchronize(QQuickFramebufferObject *item);
     //Q_PROPERTY int p_width = 0;
     //Q_PROPERTY int p_height = 0;
@@ -61,6 +64,7 @@ public:
     void initialization();
     MediaStream* camera;
     QString p_uri;
+    QString id;
     std::string uri;
     qreal p_width;
     qreal p_height;
@@ -68,6 +72,8 @@ public:
     Q_PROPERTY(QString p_uri WRITE setPUri);
     Q_PROPERTY(qreal p_height WRITE _setHeight);
     Q_PROPERTY(qreal p_width WRITE _setWidth);
+    Q_PROPERTY(QString id WRITE setId READ getId)// NOTIFY uriChanged)
+
     //void setUri(const std::string uri) {
     //    this->uri = uri;
     //}
@@ -82,6 +88,13 @@ public:
     }
     void setUri(const QString &a) {
         uri = a.toStdString();
+    }
+    void setId(const QString &a) {
+        id = a;
+        std::cout << "OpenGlMaterialQQuickItem created with id " << id.toStdString() << std::endl;
+    }
+    QString getId() {
+        return this->id;
     }
 
     

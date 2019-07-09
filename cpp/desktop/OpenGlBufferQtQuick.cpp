@@ -175,11 +175,31 @@ QOpenGLFramebufferObject *OpenGlBufferItemRenderer::createFramebufferObject(cons
     //format.setSamples(16);
     return new QOpenGLFramebufferObject(size, format);
 }
+
+
+void OpenGlBufferItemRenderer::receiveVideo(unsigned char**videoBuffer, int frameWidth, int frameHeight) {
+    this->frameWidth = frameWidth;
+    this->frameHeight = frameHeight;
+    //Before first render, datas pointer isn't even created yet
+    if (!firstFrameReceived) {
+        datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
+        datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
+        datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
+        firstFrameReceived = true;
+    } else {
+        memcpy(datas[0], videoBuffer[0], frameWidth*frameHeight);
+        memcpy(datas[1], videoBuffer[1], frameWidth*frameHeight/4);
+        memcpy(datas[2], videoBuffer[2], frameWidth*frameHeight/4);
+    }
+}
+
+
 //https://blog.qt.io/blog/2015/05/11/integrating-custom-opengl-rendering-with-qt-quick-via-qquickframebufferobject/
 void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
 {
     //https://github.com/quitejonny/tangram-es/blob/b457b7fc59e3e0f3c6d7bc26a0b5fe62098376fb/platforms/qt/tangram/tangramquickrenderer.cpp#L54
     OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
+    Glue::instance()->get(openGlBufferItem->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
     //MediaStream* mediaStream = new MediaStream(openGlBufferItem->uri);
     //mediaStream->setFrameUpdater((FrameUpdater *) this);
     //TODO: put mutex on std::cout of this thread

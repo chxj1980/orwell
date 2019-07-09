@@ -15,7 +15,7 @@ Grid {
     property var cellWidth: gridLayout.width/gridLayout.columns;
     property var cellHeight: (gridLayout.height/gridLayout.rows);
     
-    OpenGlMaterialQQuickItem {
+    OpenGlBufferQtQuick {
         width: cellWidth
         height: cellHeight
         id: "cam1"
