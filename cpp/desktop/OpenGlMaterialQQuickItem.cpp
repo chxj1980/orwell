@@ -221,7 +221,7 @@ class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//T
 
         }
 
-        void setItem(QQuickItem* item) {
+        void setItem(OpenGlMaterialQQuickItem* item) {
             this->item = item;
         }
 
@@ -232,8 +232,8 @@ class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//T
 
         void beginReceiving() {
             if (this->item) {
-                if (this->item->id) {
-                    Glue::instance()->get(item->id)->mediaStream->ffmpegDecoder->setVideoReceiver(this);
+                if (this->item->id!=nullptr) {
+                    Glue::instance()->get(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
                 } else {
                     std::cout << "ERROR, id not set or not set yet " << std::endl;
                 }
@@ -264,7 +264,7 @@ class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//T
     private:
         QSGSimpleMaterial<State> *material;
         MediaStream* stream;
-        QQuickItem* item;
+        OpenGlMaterialQQuickItem* item;
         std::string uri;
 
 };

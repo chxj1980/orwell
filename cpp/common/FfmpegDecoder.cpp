@@ -21,13 +21,12 @@ FfmpegDecoder::~FfmpegDecoder()
 	av_frame_free(&avFrame);
 }
 
+/*
 void FfmpegDecoder::setFrameUpdater(FrameUpdater * frameUpdater) {
 	this->frameUpdater = frameUpdater;
 }
+*/
 
-void FfmpegDecoder::setVideoReceiver(VideoReceiver * videoReceiver) {
-	this->videoReceiver = videoReceiver;
-}
 
 bool FfmpegDecoder::init()
 {

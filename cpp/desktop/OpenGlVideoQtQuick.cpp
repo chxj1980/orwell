@@ -86,10 +86,10 @@ void OpenGlVideoQtQuick::sync()
         connect(window(), &QQuickWindow::beforeRendering, openGlVideoQtQuickRenderer, &OpenGlVideoQtQuickRenderer::render, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &OpenGlVideoQtQuick::update, Qt::DirectConnection);
         std::cout << "starting mediaStream with uri: " << this->uri << std::endl;
-        MediaStream* camera1 = new MediaStream(this->uri);
-        camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
+        //MediaStream* camera1 = new MediaStream(this->uri);
+        //camera1->setFrameUpdater((FrameUpdater *) openGlVideoQtQuickRenderer);
         //TODO: put mutex on std::cout of this thread
-        boost::thread mediaThread(&MediaStream::run, camera1);
+        //boost::thread mediaThread(&MediaStream::run, camera1);
         //openGlVideoQtQuickRenderer->setDimensions(x(),y(),width(),height());
         openGlVideoQtQuickRenderer->setViewportSize(this->size().toSize() * window()->devicePixelRatio());
         openGlVideoQtQuickRenderer->setWindow(window());

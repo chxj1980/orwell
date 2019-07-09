@@ -8,6 +8,7 @@
 #include "VideoRecorder.h"
 
 class MediaStream {
+	public:
 	std::string   uri;
 	FfmpegDecoder* ffmpegDecoder;
 	FrameUpdater* frameUpdater;

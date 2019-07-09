@@ -34,7 +34,8 @@ class OpenGlMaterialQQuickItem: public ReactItem
     //Q_PROPERTY(Glue* glue READ getGlue WRITE setGlue)
 
     public:
-    
+        QString id;
+
         //Flexbox flexbox(this);
         //flexbox.setControl(this);
         //flexbox.setViewManager();
@@ -113,7 +114,6 @@ class OpenGlMaterialQQuickItem: public ReactItem
     private:
         QString uri;
         QString p_uri;
-        QString id;
         qreal p_width;
         qreal p_height;
         //Glue glue;

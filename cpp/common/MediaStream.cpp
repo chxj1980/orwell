@@ -53,7 +53,11 @@ int MediaStream::init()
 	}
 	firstConnection = false;
 	
-	bool r = ffmpegDecoder.init();
+	if (!ffmpegDecoder) {
+		//ERROR, return
+	}
+
+	bool r = ffmpegDecoder->init();
 	if(!r) std::cout << "problem with ffmpeg decoder init"  << std::endl;
 
 	//ffmpegDecoder.setFrameUpdater(frameUpdater);
@@ -194,7 +198,7 @@ int MediaStream::receiveFrame() {
 			}
 			try_times++;
 		} else {
-			ffmpegDecoder.decodeFrame(frameBuffer, size);
+			ffmpegDecoder->decodeFrame(frameBuffer, size);
 		}
 	}
 	return 0;

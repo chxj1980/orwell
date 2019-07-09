@@ -42,7 +42,7 @@ private:
 	AVStream        *avStream;
 	AVFormatContext *avFormatContext;
 	FrameUpdater    *frameUpdater;
-	VideoReceiver   *videoReceiver
+	VideoReceiver   *videoReceiver;
 
 };
 
