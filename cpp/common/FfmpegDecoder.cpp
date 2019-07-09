@@ -22,8 +22,11 @@ FfmpegDecoder::~FfmpegDecoder()
 }
 
 void FfmpegDecoder::setFrameUpdater(FrameUpdater * frameUpdater) {
-	//std::cout << "openglwidget setted" << std::endl;
 	this->frameUpdater = frameUpdater;
+}
+
+void FfmpegDecoder::setVideoReceiver(VideoReceiver * videoReceiver) {
+	this->videoReceiver = videoReceiver;
 }
 
 bool FfmpegDecoder::init()
@@ -69,7 +72,10 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	if (!sendPacketResult) {
 		int receiveFrameResult = avcodec_receive_frame(avCodecContext, avFrame);
 		if (!receiveFrameResult) {
-			this->frameUpdater->updateData(avFrame->data, avFrame->width, avFrame->height);
+			//this->frameUpdater->updateData(avFrame->data, avFrame->width, avFrame->height);
+			if (this->videoReceiver) {
+				this->videoReceiver->receiveVideo(avFrame->data, avFrame->width, avFrame->height);
+			}
 		} else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF)) {
 			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult << std::endl;
 		} else {

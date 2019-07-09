@@ -34,9 +34,6 @@ void ByeFromServerClbk2()
 MediaStream::MediaStream (std::string uri):rtspClient(uri),uri(uri) {
 }
 
-void MediaStream::setFrameUpdater(FrameUpdater* frameUpdater) {
-	this->frameUpdater = frameUpdater;
-}
 
 void MediaStream::run() {
 	//init();
@@ -59,8 +56,8 @@ int MediaStream::init()
 	bool r = ffmpegDecoder.init();
 	if(!r) std::cout << "problem with ffmpeg decoder init"  << std::endl;
 
-	ffmpegDecoder.setFrameUpdater(frameUpdater);
-	ffmpegDecoder.uri = this->uri;
+	//ffmpegDecoder.setFrameUpdater(frameUpdater);
+	
 	//printf("DoOPTIONS():\n");
 	if(rtspClient.DoOPTIONS() != RTSP_NO_ERROR) {
 		//printf("DoOPTIONS error\n");

@@ -12,6 +12,8 @@ extern "C"
 #include <libavdevice/avdevice.h>
 }
 #include <iostream>
+#include "VideoReceiver.h"
+#include "VideoRecorder.h"
 
 
 class FfmpegDecoder
@@ -25,8 +27,8 @@ public:
 	void Record();
 	void setPlayState(bool pause);
 	void setRecordState(bool record);
-	void setFrameUpdater(FrameUpdater * frameUpdater);
-
+	//void setFrameUpdater(FrameUpdater * frameUpdater);
+	void setVideoReceiver(VideoReceiver * videoReceiver) {this->videoReceiver = videoReceiver;}
 	//For debug purposes:
 	std::string uri;
 
@@ -40,8 +42,8 @@ private:
 	AVStream        *avStream;
 	AVFormatContext *avFormatContext;
 	FrameUpdater    *frameUpdater;
-	int m_videoWidth;
-	int m_videoHeight;
+	VideoReceiver   *videoReceiver
+
 };
 
 #endif // FfmpegDecoder_H

@@ -145,6 +145,7 @@ class Shader : public QSGSimpleMaterialShader<State>
                 firstRender = true;
             }
             */
+           //TODO: only update if states change, migth be the solution to that decoding vertical lines
             if (state->frameWidth>0 && state->frameHeight>0) {
                 if (firstRender) {
                     //Y
@@ -203,12 +204,12 @@ class Shader : public QSGSimpleMaterialShader<State>
         }
 };
 
-class Node: public QSGGeometryNode, public FrameUpdater
+class Node: public QSGGeometryNode, public FrameUpdater, public VideoReceiver//TODO: remove FrameUpdater
 {
     public:
         State state;
         Node()
-        {            
+        {
             material = Shader::createMaterial();
             setMaterial(material);
             setFlag(OwnsMaterial, true);
@@ -217,6 +218,8 @@ class Node: public QSGGeometryNode, public FrameUpdater
             QSGGeometry::updateTexturedRectGeometry(g, QRect(), QRect());
             setGeometry(g);
             setFlag(OwnsGeometry, true);
+
+            Glue::instance()->get("cam1").mediaStream->ffmpegDecoder->setVideoReceiver(this);
         }
 
         void setItem(QQuickItem* item) {
@@ -229,10 +232,16 @@ class Node: public QSGGeometryNode, public FrameUpdater
         }
 
         void beginStream() {
-            stream = new MediaStream(uri);
+            //stream = new MediaStream(uri);
             //std::cout << "beginning stream to uri " << uri << std::endl;
-            stream->setFrameUpdater((FrameUpdater *) this);
-            boost::thread mediaThread(&MediaStream::run, stream);
+            //stream->setFrameUpdater((FrameUpdater *) this);
+            //boost::thread mediaThread(&MediaStream::run, stream);
+        }
+
+        void receiveVideo(unsigned char**videoBuffer, int frameWidth, int frameHeight) {
+            material->state()->updateData(videoBuffer, frameWidth, frameHeight);
+            markDirty(QSGNode::DirtyMaterial);//is this really needed?
+            QMetaObject::invokeMethod(item, &QQuickItem::update, Qt::QueuedConnection);
         }
 
         void updateData(unsigned char**data, int frameWidth, int frameHeight)

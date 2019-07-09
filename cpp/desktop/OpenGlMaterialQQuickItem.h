@@ -18,6 +18,7 @@
 #include <QSGSimpleMaterial>
 #include "reactitem.h"
 #include "flexbox.h"
+#include "VideoReceiver.h"
 #include "Glue.h"
 
 
@@ -52,7 +53,6 @@ class OpenGlMaterialQQuickItem: public ReactItem
             //Glue glue;
             //std::cout << Glue::instance()->streamList.value("cam1").toString().toStdString() << std::endl;
             //std::cout << Glue::streamList.value("cam1").toString().toStdString()<< std::endl;
-            Glue::instance()->get("cam1");
         }
 
         void setUri(const QString &a) {

@@ -18,6 +18,9 @@
 #include <QObject>
 #include <QtQml>
 #include "Glue.h"
+#include <memory>
+#include "MediaStream.h"
+
 
 int main(int argc, char **argv)
 {
@@ -33,7 +36,14 @@ int main(int argc, char **argv)
     //Glue glue;
     //Glue::instance()->streamList.insert("cam1", QVariant("hello"));
     GlueObject glueObject;
-    Glue::instance()->add("cam1", glueObject);
+    glueObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1");
+    FfmpegDecoder* ffmpegDecoder = new FfmpegDecoder();
+    //ffmpegDecoder.setVideoReceiver();
+    //For debug purposes only
+    //ffmpegDecoder.uri = this->uri;
+    glueObject.mediaStream->setDecoder(ffmpegDecoder);
+    glueObject.mediaThread = std::make_shared<boost::thread>(&MediaStream::run, glueObject.mediaStream);
+    //Glue::instance()->add("cam1", glueObject);
     //glue->list()->insert(QString("test"), QVariant("hi"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     //view.rootContext()->setContextProperty("Glue", glue);

@@ -11,13 +11,25 @@
 #include <boost/thread/thread.hpp>
 #include "VideoReceiver.h"
 #include "VideoRecorder.h"
+#include "MediaStream.h"
+
 
 struct GlueObject {
+    std::shared_ptr<MediaStream> mediaStream;
+    std::shared_ptr<boost::thread> mediaThread;
+    std::shared_ptr<VideoReceiver> videoReceiver;
+    std::shared_ptr<VideoRecorder> videoRecorder;
+    //std::shared_ptr<MovementTracker> movementTracker
+};
+/*
+struct GlueObject {
+    MediaStream* mediaStream;
+    boost::thread* mediaThread;
     VideoReceiver* videoReceiver;
     VideoRecorder* videoRecorder;
     //MovementTracker movementTracker
 };
-
+*/
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern/40337728#40337728
 class Glue
 {

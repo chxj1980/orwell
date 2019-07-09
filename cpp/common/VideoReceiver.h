@@ -4,7 +4,7 @@
 class VideoReceiver
 {
     public:
-        virtual void ReceiveVideo() = 0;
+        virtual void receiveVideo(unsigned char**videoBuffer, int frameWidth, int frameHeight) = 0;
 };
 
 #endif  //VideoReceiver_H
