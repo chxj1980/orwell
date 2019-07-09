@@ -50,8 +50,9 @@ class OpenGlMaterialQQuickItem: public ReactItem
             QQuickItem::componentComplete();
             //std::cout << getGlue()->list()->value("test").toString().toStdString() << std::endl;
             //Glue glue;
-            std::cout << Glue::instance()->streamList.value("cam1").toString().toStdString() << std::endl;
+            //std::cout << Glue::instance()->streamList.value("cam1").toString().toStdString() << std::endl;
             //std::cout << Glue::streamList.value("cam1").toString().toStdString()<< std::endl;
+            Glue::instance()->get("cam1");
         }
 
         void setUri(const QString &a) {

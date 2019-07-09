@@ -18,7 +18,7 @@
 #include <QObject>
 #include <QtQml>
 #include "Glue.h"
-QVariantMap Glue::streamList;
+QMap<QString,GlueObject> Glue::streamList;
 
 int main(int argc, char **argv)
 {
@@ -32,7 +32,9 @@ int main(int argc, char **argv)
     QQuickView view;
     //Glue* glue = new Glue(&view);
     //Glue glue;
-    Glue::instance()->streamList.insert("cam1", QVariant("hello"));
+    //Glue::instance()->streamList.insert("cam1", QVariant("hello"));
+    GlueObject glueObject;
+    Glue::instance()->add("cam1", glueObject);
     //glue->list()->insert(QString("test"), QVariant("hi"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     //view.rootContext()->setContextProperty("Glue", glue);

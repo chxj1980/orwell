@@ -26,17 +26,17 @@ public:
     Glue(Glue const&) = delete;
     Glue& operator=(Glue const&) = delete;
 
-    static void add(QString id, ) {
+    static void add(QString id, GlueObject glueObject) {
         mutex.lock();
         streamList.insert();
         mutex.unlock();
     }
 
-    static void get(QString id) {
+    static GlueObject& get(QString id) {
         mutex.lock();
-         = streamList.value();
+        GlueObject glueObject = streamList.value(id);
         mutex.unlock();
-        return 
+        return glueObject;
     }
 
     static std::shared_ptr<Glue> instance()
@@ -48,7 +48,7 @@ public:
 
 private:
     Glue() {}
-    static QMap<QString,> streamList;
+    static QMap<QString,GlueObject> streamList;
 };
 
 
