@@ -48,7 +48,6 @@ class OpenGlMaterialQQuickItem: public ReactItem
             //this->viewManager = new ViewManager(this);
             flexbox.setViewManager(this->viewManager);
             setFlag(ItemHasContents, true);
-            std::cout << "OpenGlMaterialQQuickItem constructor ended" << std::endl;
         }
 
         ~OpenGlMaterialQQuickItem()
