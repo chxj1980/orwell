@@ -39,6 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
+  include("/home/lz/orwell/orwellJS/desktop/orwell_subdir/cmake_install.cmake")
   include("/home/lz/orwell/orwellJS/desktop/modules/mediaplayer/desktop/cmake_install.cmake")
   include("/home/lz/orwell/orwellJS/desktop/modules/glue/desktop/cmake_install.cmake")
   include("/home/lz/orwell/orwellJS/desktop/lib/cmake_install.cmake")

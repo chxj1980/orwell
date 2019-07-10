@@ -61,3 +61,7 @@ react-native-desktop/.github/ISSUE_TEMPLATE/question.md
 qt/RND/
 orwellJS/desktop/lib/react-native_autogen/*
 orwellJS/desktop/modules/mediaplayer/desktop/orwell_subdir/*
+orwellJS/desktop/orwell_subdir/*
+orwellJS/desktop/_orwell/*
+orwellJS/desktop/cmake_install.cmake
+orwellJS/desktop/CMakeCache.txt

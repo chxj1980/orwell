@@ -26,6 +26,10 @@ if (WIN32)
   set(USE_QTWEBKIT 1)
 endif()
 
+#Orwell QT. This will build the entire QT part of the project, which is needed by some external modules
+set(QT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../cpp/desktop/)
+add_subdirectory(${QT_DIR} orwell_subdir)
+
 message(STATUS "EXTERNAL_MODULES_DIR: ${EXTERNAL_MODULES_DIR}")
 
 foreach(external_module ${EXTERNAL_MODULES_DIR})

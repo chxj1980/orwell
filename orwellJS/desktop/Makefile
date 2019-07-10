@@ -166,7 +166,7 @@ orwell: cmake_check_build_system
 
 # fast build rule for target.
 orwell/fast:
-	$(MAKE) -f modules/mediaplayer/desktop/orwell_subdir/CMakeFiles/orwell.dir/build.make modules/mediaplayer/desktop/orwell_subdir/CMakeFiles/orwell.dir/build
+	$(MAKE) -f orwell_subdir/CMakeFiles/orwell.dir/build.make orwell_subdir/CMakeFiles/orwell.dir/build
 .PHONY : orwell/fast
 
 #=============================================================================
@@ -179,7 +179,7 @@ orwell_autogen: cmake_check_build_system
 
 # fast build rule for target.
 orwell_autogen/fast:
-	$(MAKE) -f modules/mediaplayer/desktop/orwell_subdir/CMakeFiles/orwell_autogen.dir/build.make modules/mediaplayer/desktop/orwell_subdir/CMakeFiles/orwell_autogen.dir/build
+	$(MAKE) -f orwell_subdir/CMakeFiles/orwell_autogen.dir/build.make orwell_subdir/CMakeFiles/orwell_autogen.dir/build
 .PHONY : orwell_autogen/fast
 
 #=============================================================================
@@ -192,7 +192,7 @@ myRtspClient: cmake_check_build_system
 
 # fast build rule for target.
 myRtspClient/fast:
-	$(MAKE) -f modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/CMakeFiles/myRtspClient.dir/build.make modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/CMakeFiles/myRtspClient.dir/build
+	$(MAKE) -f orwell_subdir/_myrtspClient/CMakeFiles/myRtspClient.dir/build.make orwell_subdir/_myrtspClient/CMakeFiles/myRtspClient.dir/build
 .PHONY : myRtspClient/fast
 
 #=============================================================================
@@ -205,7 +205,7 @@ myRtspClient_autogen: cmake_check_build_system
 
 # fast build rule for target.
 myRtspClient_autogen/fast:
-	$(MAKE) -f modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/CMakeFiles/myRtspClient_autogen.dir/build.make modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/CMakeFiles/myRtspClient_autogen.dir/build
+	$(MAKE) -f orwell_subdir/_myrtspClient/CMakeFiles/myRtspClient_autogen.dir/build.make orwell_subdir/_myrtspClient/CMakeFiles/myRtspClient_autogen.dir/build
 .PHONY : myRtspClient_autogen/fast
 
 #=============================================================================
@@ -218,7 +218,7 @@ jrtplib-shared: cmake_check_build_system
 
 # fast build rule for target.
 jrtplib-shared/fast:
-	$(MAKE) -f modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared.dir/build.make modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared.dir/build
+	$(MAKE) -f orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared.dir/build.make orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared.dir/build
 .PHONY : jrtplib-shared/fast
 
 #=============================================================================
@@ -231,7 +231,7 @@ jrtplib-static: cmake_check_build_system
 
 # fast build rule for target.
 jrtplib-static/fast:
-	$(MAKE) -f modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build.make modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build
+	$(MAKE) -f orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build.make orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build
 .PHONY : jrtplib-static/fast
 
 #=============================================================================
@@ -244,7 +244,7 @@ jrtplib-shared_autogen: cmake_check_build_system
 
 # fast build rule for target.
 jrtplib-shared_autogen/fast:
-	$(MAKE) -f modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared_autogen.dir/build.make modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared_autogen.dir/build
+	$(MAKE) -f orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared_autogen.dir/build.make orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared_autogen.dir/build
 .PHONY : jrtplib-shared_autogen/fast
 
 #=============================================================================
@@ -257,7 +257,7 @@ jrtplib-static_autogen: cmake_check_build_system
 
 # fast build rule for target.
 jrtplib-static_autogen/fast:
-	$(MAKE) -f modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static_autogen.dir/build.make modules/mediaplayer/desktop/orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static_autogen.dir/build
+	$(MAKE) -f orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static_autogen.dir/build.make orwell_subdir/_myrtspClient/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static_autogen.dir/build
 .PHONY : jrtplib-static_autogen/fast
 
 #=============================================================================
