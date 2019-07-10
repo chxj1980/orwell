@@ -44,8 +44,9 @@ class OpenGlMaterialQQuickItem: public ReactItem
         OpenGlMaterialQQuickItem()
         {
             //flexbox = new Flexbox();
-            //flexbox->setControl(this);
-            //flexbox->setViewManager(this->viewManager);
+            flexbox.setControl(this);
+            //this->viewManager = new ViewManager(this);
+            flexbox.setViewManager(this->viewManager);
             setFlag(ItemHasContents, true);
             std::cout << "OpenGlMaterialQQuickItem constructor ended" << std::endl;
         }
@@ -120,15 +121,15 @@ class OpenGlMaterialQQuickItem: public ReactItem
 */
 
     protected:
-        void paint(QPainter* painter){}
+        //void paint(QPainter* painter){}
 
     private:
         QString uri;
         QString p_uri;
         qreal p_width;
         qreal p_height;
-        Flexbox* flexbox;
-        ViewManager* viewManager;
+        Flexbox flexbox;
+        ViewManager* viewManager = nullptr;
         Node *node;
         //Glue glue;
     /*

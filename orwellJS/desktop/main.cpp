@@ -20,7 +20,11 @@
 #include "rootview.h"
 #include "utilities.h"
 #include "Glue.h"
+//TODO: copy things from here https://github.com/status-im/status-react/blob/develop/desktop/main.cpp
+const int MAIN_WINDOW_WIDTH = 1280;
+const int MAIN_WINDOW_HEIGHT = 720;
 
+//TODO: investigate why OpenGlMaterialQQuickItem is created on the beggining. Could it be related to the opengl red bug?
 
 // TODO: some way to change while running
 class ReactNativeProperties : public QObject {
@@ -183,6 +187,7 @@ int main(int argc, char** argv) {
     view.rootContext()->setContextProperty("ReactNativeProperties", rnp);
     view.setSource(QUrl("qrc:///main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
+    view.resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
     view.show();
 
     return app.exec();

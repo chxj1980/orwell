@@ -36,15 +36,10 @@ struct State
             memcpy(datas[0], data[0], frameWidth*frameHeight);
             memcpy(datas[1], data[1], frameWidth*frameHeight/4);
             memcpy(datas[2], data[2], frameWidth*frameHeight/4);
-           this->frameNumber++;//No overflow occurs, because it's unsigned int
-            
+           this->frameNumber++;//No overflow occurs, because it's unsigned int  
         }
 
         int compare(const State *olderState) const {
-            //std::cout << "compare called " << std::endl;
-
-            //std::cout << "compare called for uri " << uri << " and the result is " << this->frameNumber << " - " << olderState->frameNumber << std::endl;
-            //std::cout << "frameNumber: " << this->frameNumber << " olderState frameNumber: " << olderState->frameNumber << std::endl;
             if (this->frameNumber == olderState->frameNumber) {
                 return 0;
             } else {
@@ -249,7 +244,7 @@ class Node: public QSGGeometryNode, public VideoReceiver
                     std::cout << "Object created with p_id " << this->item->p_id.toStdString()  << std::endl;
                     if(Glue::instance()->get(item->p_id).mediaStream==nullptr) {
                         //TODO (VERY IMPORTANT): retry every x millisseconds until we have a definition, or find a better solution
-                        std::cout << "/1/1/1/1/1/1/1/1/11/1/1 ERROR: mediaStream is undefined" << std::endl;
+                        std::cout << "/1/1/1/1/1/1/1/1/11/1/1 ERROR: mediaStream is undefined for " << this->item->p_id.toStdString() << std::endl;
                     } else {
                         Glue::instance()->get(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
                     }
