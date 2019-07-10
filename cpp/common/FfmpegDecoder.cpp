@@ -72,7 +72,7 @@ void  FfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 		int receiveFrameResult = avcodec_receive_frame(avCodecContext, avFrame);
 		if (!receiveFrameResult) {
 			//this->frameUpdater->updateData(avFrame->data, avFrame->width, avFrame->height);
-			if (this->videoReceiver) {
+			if (this->videoReceiver!=nullptr) {
 				this->videoReceiver->receiveVideo(avFrame->data, avFrame->width, avFrame->height);
 			}
 		} else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF)) {

@@ -16,9 +16,8 @@ import {
 const NativeModules = require('react-native').NativeModules;
 const requireNativeComponent = require('requireNativeComponent');
 var OrwellMediaPlayer = requireNativeComponent('OrwellMediaPlayer');
-var GlueManager = requireNativeComponent('GlueManager');
-console.log(GlueManager);
-
+var GlueManager = require('react-native').NativeModules.GlueManager;
+GlueManager.addRTSPStream("cam1", "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1");
 
 class Orwell extends Component {
   componentDidMount() {
