@@ -39,25 +39,21 @@ class OpenGlMaterialQQuickItem: public ReactItem
         QString id;
         QString p_id;
 
-        //Flexbox flexbox(this);
-        //flexbox.setControl(this);
-        //flexbox.setViewManager();
-    
-
         QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
 
         OpenGlMaterialQQuickItem()
         {
-            flexbox = new Flexbox();
-            flexbox->setControl(this);
-            flexbox->setViewManager(this->viewManager);
+            //flexbox = new Flexbox();
+            //flexbox->setControl(this);
+            //flexbox->setViewManager(this->viewManager);
             setFlag(ItemHasContents, true);
+            std::cout << "OpenGlMaterialQQuickItem constructor ended" << std::endl;
         }
 
         ~OpenGlMaterialQQuickItem()
         {
-            delete node;
-            node = nullptr;
+            //delete node;
+            //node = nullptr;
         }
 
         void componentComplete() {

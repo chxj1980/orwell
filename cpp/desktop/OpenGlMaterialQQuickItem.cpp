@@ -243,9 +243,15 @@ class Node: public QSGGeometryNode, public VideoReceiver
         void beginReceiving() {
             if (this->item) {
                 if (this->item->id!=nullptr) {
+                    std::cout << "Object created with id " << this->item->id.toStdString()  << std::endl;
                     Glue::instance()->get(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
                 } else if (this->item->p_id!=nullptr) {
-                    Glue::instance()->get(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
+                    std::cout << "Object created with p_id " << this->item->p_id.toStdString()  << std::endl;
+                    if(Glue::instance()->get(item->p_id).mediaStream==nullptr)
+                        std::cout << "mediaStream is undefined" << std::endl;
+
+                    //Glue::instance()->get(item->p_id).mediaStream->ffmpegDecoder;//->setVideoReceiver(this);
+                    std::cout << "passed glue insertion" << std::endl;
                 }else {
                     std::cout << "ERROR, id not set or not set yet " << std::endl;
                 }
@@ -270,6 +276,8 @@ class Node: public QSGGeometryNode, public VideoReceiver
 
 QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *qsgNode, UpdatePaintNodeData *) //override
 {
+    std::cout << "updatePaintNode called" << std::endl;
+
     node = static_cast<Node *>(qsgNode);
     if (!qsgNode) {
         node = new Node();
@@ -287,6 +295,8 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *qsgNode, UpdatePain
     
 
     node->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);//what is this?
+    std::cout << "updatePaintNode returning" << std::endl;
+
     return node;
 }
 

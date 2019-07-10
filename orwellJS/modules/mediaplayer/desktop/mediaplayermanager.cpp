@@ -50,7 +50,7 @@ void MediaPlayerManager::setBridge(Bridge *bridge) {
 }
 
 
-QString MediaPlayerManager::moduleName() { return "RCTMediaPlayerManager"; }
+QString MediaPlayerManager::moduleName() { return "OrwellMediaPlayer"; }
 
 void MediaPlayerManager::test(QString text, const ModuleInterface::ListArgumentBlock& resolve, const ModuleInterface::ListArgumentBlock& reject) {
   Q_D(MediaPlayerManager);

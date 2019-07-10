@@ -17,6 +17,7 @@
 #include "MediaStream.h"
 #include "FfmpegDecoder.h"
 #include <boost/thread/thread.hpp>
+#include <iostream>
 
 //Q_LOGGING_CATEGORY(NOTIFICATION, "RCTNotification")
 
@@ -34,6 +35,8 @@ public:
 
 GlueManager::GlueManager(QObject *parent)
     : QObject(parent), d_ptr(new GlueManagerPrivate) {
+      std::cout << "GlueManager created" << std::endl;
+
 }
 
 GlueManager::~GlueManager() {

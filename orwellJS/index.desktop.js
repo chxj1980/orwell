@@ -15,7 +15,7 @@ import {
 
 const NativeModules = require('react-native').NativeModules;
 const requireNativeComponent = require('requireNativeComponent');
-var OrwellMediaPlayer = requireNativeComponent('RCTMediaPlayer');
+var OrwellMediaPlayer = requireNativeComponent('OrwellMediaPlayer');
 var GlueManager = requireNativeComponent('GlueManager');
 console.log(GlueManager);
 
@@ -27,8 +27,7 @@ class Orwell extends Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <OrwellMediaPlayer uri='rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0' width={640} height={360}/>
-        <OrwellMediaPlayer uri='rtsp://admin:19929394@192.168.1.72:10554/tcp/av0_0' width={640} height={360}/>
+        <OrwellMediaPlayer id="cam1" width={640} height={360}/>
       </View>
     )
     
