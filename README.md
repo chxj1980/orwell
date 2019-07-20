@@ -42,11 +42,13 @@ make
 
 If you don't have qt already, download here: https://www.qt.io/download-qt-installer
 
-Or if you want everything manually (this is how I do because ubuntu's cmake that comes with package system has a bug n the -DCMAKE_PREFIX_PATH variable):
+Download a modern cmake, the one that comes with ubuntu, for me, won't set `DCMAKE_PREFIX_PATH`: https://cmake.org/download/
+
+So, if you want to pass QT folder manually (change QT folder to tour version):
 
 ```
 cd qt
-/home/lz/cmake-3.14.5-Linux-x86_64/bin/cmake -DCMAKE_PREFIX_PATH=/home/$USER/Qt/5.13.0/gcc_64 -DCMAKE_BUILD_TYPE=Debug .
+cmake -DCMAKE_PREFIX_PATH=/home/$USER/Qt/5.13.0/gcc_64 -DCMAKE_BUILD_TYPE=Debug .
 make
 ./orwell
 ```
