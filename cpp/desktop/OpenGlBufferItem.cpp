@@ -1,4 +1,4 @@
-#include "OpenGlBufferQtQuick.h"
+#include "OpenGlBufferItem.h"
 #include <QOpenGLFramebufferObjectFormat>
 #include <QRunnable>
 #include <QEventLoop>
@@ -65,8 +65,6 @@ const char *tString3 = GET_STR(
 
 
 OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
-    std::cout << "creatng renderer" << std::endl;
-
 }
 
 

@@ -7,7 +7,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QFileOpenEvent>
-#include "OpenGlBufferQtQuick.h"
+#include "OpenGlBufferItem.h"
 #include "OpenGlVideoQtQuick.h"
 #include "OpenGlVideoQtQuick2.h"
 #include "OpenGlMaterialQQuickItem.h"

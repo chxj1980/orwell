@@ -756,6 +756,60 @@ home/lz/orwell/cpp/common/MediaStream.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/MediaStream.cpp.s
 .PHONY : home/lz/orwell/cpp/common/MediaStream.cpp.s
 
+home/lz/orwell/cpp/common/VideoReceiver.o: home/lz/orwell/cpp/common/VideoReceiver.cpp.o
+
+.PHONY : home/lz/orwell/cpp/common/VideoReceiver.o
+
+# target to build an object file
+home/lz/orwell/cpp/common/VideoReceiver.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/VideoReceiver.cpp.o
+.PHONY : home/lz/orwell/cpp/common/VideoReceiver.cpp.o
+
+home/lz/orwell/cpp/common/VideoReceiver.i: home/lz/orwell/cpp/common/VideoReceiver.cpp.i
+
+.PHONY : home/lz/orwell/cpp/common/VideoReceiver.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/common/VideoReceiver.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/VideoReceiver.cpp.i
+.PHONY : home/lz/orwell/cpp/common/VideoReceiver.cpp.i
+
+home/lz/orwell/cpp/common/VideoReceiver.s: home/lz/orwell/cpp/common/VideoReceiver.cpp.s
+
+.PHONY : home/lz/orwell/cpp/common/VideoReceiver.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/common/VideoReceiver.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/VideoReceiver.cpp.s
+.PHONY : home/lz/orwell/cpp/common/VideoReceiver.cpp.s
+
+home/lz/orwell/cpp/common/VideoRecorder.o: home/lz/orwell/cpp/common/VideoRecorder.cpp.o
+
+.PHONY : home/lz/orwell/cpp/common/VideoRecorder.o
+
+# target to build an object file
+home/lz/orwell/cpp/common/VideoRecorder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/VideoRecorder.cpp.o
+.PHONY : home/lz/orwell/cpp/common/VideoRecorder.cpp.o
+
+home/lz/orwell/cpp/common/VideoRecorder.i: home/lz/orwell/cpp/common/VideoRecorder.cpp.i
+
+.PHONY : home/lz/orwell/cpp/common/VideoRecorder.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/common/VideoRecorder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/VideoRecorder.cpp.i
+.PHONY : home/lz/orwell/cpp/common/VideoRecorder.cpp.i
+
+home/lz/orwell/cpp/common/VideoRecorder.s: home/lz/orwell/cpp/common/VideoRecorder.cpp.s
+
+.PHONY : home/lz/orwell/cpp/common/VideoRecorder.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/common/VideoRecorder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/VideoRecorder.cpp.s
+.PHONY : home/lz/orwell/cpp/common/VideoRecorder.cpp.s
+
 home/lz/orwell/cpp/desktop/Glue.o: home/lz/orwell/cpp/desktop/Glue.cpp.o
 
 .PHONY : home/lz/orwell/cpp/desktop/Glue.o
@@ -783,32 +837,32 @@ home/lz/orwell/cpp/desktop/Glue.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/Glue.cpp.s
 .PHONY : home/lz/orwell/cpp/desktop/Glue.cpp.s
 
-home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o: home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o
+home/lz/orwell/cpp/desktop/OpenGlBufferItem.o: home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.o
 
-.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferItem.o
 
 # target to build an object file
-home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o
-.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.o
+home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.o
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.o
 
-home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.i: home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.i
+home/lz/orwell/cpp/desktop/OpenGlBufferItem.i: home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.i
 
-.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferItem.i
 
 # target to preprocess a source file
-home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.i
-.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.i
+home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.i
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.i
 
-home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.s: home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.s
+home/lz/orwell/cpp/desktop/OpenGlBufferItem.s: home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.s
 
-.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferItem.s
 
 # target to generate assembly for a file
-home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.s
-.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.cpp.s
+home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.s
+.PHONY : home/lz/orwell/cpp/desktop/OpenGlBufferItem.cpp.s
 
 home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.o: home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.cpp.o
 
@@ -1032,12 +1086,18 @@ help:
 	@echo "... home/lz/orwell/cpp/common/MediaStream.o"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.i"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.s"
+	@echo "... home/lz/orwell/cpp/common/VideoReceiver.o"
+	@echo "... home/lz/orwell/cpp/common/VideoReceiver.i"
+	@echo "... home/lz/orwell/cpp/common/VideoReceiver.s"
+	@echo "... home/lz/orwell/cpp/common/VideoRecorder.o"
+	@echo "... home/lz/orwell/cpp/common/VideoRecorder.i"
+	@echo "... home/lz/orwell/cpp/common/VideoRecorder.s"
 	@echo "... home/lz/orwell/cpp/desktop/Glue.o"
 	@echo "... home/lz/orwell/cpp/desktop/Glue.i"
 	@echo "... home/lz/orwell/cpp/desktop/Glue.s"
-	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.o"
-	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.i"
-	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferQtQuick.s"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferItem.o"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferItem.i"
+	@echo "... home/lz/orwell/cpp/desktop/OpenGlBufferItem.s"
 	@echo "... home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.o"
 	@echo "... home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.i"
 	@echo "... home/lz/orwell/cpp/desktop/OpenGlMaterialQQuickItem.s"
