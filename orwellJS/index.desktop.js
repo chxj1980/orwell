@@ -42,7 +42,7 @@ class Orwell extends Component {
   render() {
     if (this.state.currentView==0) {
       return (
-        <View>
+        <View style={{backgroundColor: '#303030'}}>
           <FlatList
             data={[{id: "cam1"}, {id: "cam2"}, {id: "cam3"}, {id: "cam4"}]} 
             renderItem={({ item }) => (
@@ -52,7 +52,6 @@ class Orwell extends Component {
             keyExtractor={(item, index) => index}
           />
           <TouchableOpacity
-                  width={100}
                   style={styles.ButtonOpacity}
                   onPress={()=>this.setState({currentView:1})}
                   underlayColor='#fff'>
@@ -65,10 +64,9 @@ class Orwell extends Component {
       )
     } else if (this.state.currentView==1) {
       return(
-        <View>
-          <Text >Another page</Text>
+        <View style={{backgroundColor: '#303030', width:1280, height:720}}>
+          <Text style={{color: '#FFFFFF'}}>Another page 2</Text>
           <TouchableOpacity
-                  width={100}
                   style={styles.ButtonOpacity}
                   onPress={()=>this.setState({currentView:0})}
                   underlayColor='#fff'>

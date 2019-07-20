@@ -192,6 +192,8 @@ int main(int argc, char** argv) {
     view.setSource(QUrl("qrc:///main.qml"));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
+    //TODO: make this pick color from HEX and inveatigate why it jumps to a fast white screen on startup
+    view.setColor(QColor(0, 0, 0, 255));
     view.show();
 
     return app.exec();
