@@ -20,7 +20,6 @@ Grid {
         height: cellHeight
         id: "cam1"
         //glue: Glue
-        uri: "rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_1"
     }
     /*
     OpenGlMaterialQQuickItem {

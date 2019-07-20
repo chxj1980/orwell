@@ -151,6 +151,8 @@ void loadFontsFromResources() {
 int main(int argc, char** argv) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+    QLoggingCategory::setFilterRules("UIManager.debug=true\n"
+                                    "Flexbox.debug=true\n");
     Q_INIT_RESOURCE(react_resources);
 
     loadFontsFromResources();

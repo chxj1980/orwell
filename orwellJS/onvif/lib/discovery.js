@@ -7,7 +7,7 @@
 
 const
 	Cam = require('./cam').Cam
-	, events = require('events')
+	, events = require('./events')
 	, guid = require('./utils').guid
 	, linerase = require('./utils').linerase
 	, parseSOAPString = require('./utils').parseSOAPString

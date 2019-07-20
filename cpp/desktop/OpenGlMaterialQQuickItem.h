@@ -21,10 +21,10 @@
 #include "VideoReceiver.h"
 #include "Glue.h"
 #include "componentmanagers/viewmanager.h"
-
+#include <QDebug>
 class Node;
 //class OpenGlMaterialQQuickItem: public QQuickItem
-class OpenGlMaterialQQuickItem: public ReactItem
+class OpenGlMaterialQQuickItem: public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(QString uri WRITE setUri READ getUri)// NOTIFY uriChanged)
@@ -33,20 +33,34 @@ class OpenGlMaterialQQuickItem: public ReactItem
     Q_PROPERTY(QString p_uri WRITE setPUri READ getPUri);
     Q_PROPERTY(qreal p_height WRITE _setHeight READ getPHeight);
     Q_PROPERTY(qreal p_width WRITE _setWidth READ getPWidth);
+    Q_PROPERTY(QVariant flexbox READ getFlexbox);
+    Q_PROPERTY(ViewManager* viewManager);
+
     //Q_PROPERTY(Glue* glue READ getGlue WRITE setGlue)
 
     public:
         QString id;
         QString p_id;
+        Flexbox* m_Flexbox = new Flexbox();
+        QVariant flexbox = QVariant::fromValue(m_Flexbox);
+        ViewManager* viewManager = nullptr;
+        //ViewManager* viewManager = nullptr;
 
         QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
-
+        QVariant getFlexbox() {
+            return this->flexbox;
+        }
         OpenGlMaterialQQuickItem()
         {
-            //flexbox = new Flexbox();
-            flexbox.setControl(this);
+            bool a = setProperty("flexbox", flexbox);
+            qDebug() << "setProperty result" << a;
+            m_Flexbox->setControl(this);
             //this->viewManager = new ViewManager(this);
-            flexbox.setViewManager(this->viewManager);
+            m_Flexbox->setViewManager(this->viewManager);
+            //flexbox.fromValue(m_Flexbox);
+            qDebug() << "QVariant flexbox: " << flexbox;
+            qDebug() << "!((((((((((((((((((((((( Do I have flexbox property? " << this->property("flexbox");
+            //flexbox = new Flexbox();
             setFlag(ItemHasContents, true);
         }
 
@@ -127,8 +141,6 @@ class OpenGlMaterialQQuickItem: public ReactItem
         QString p_uri;
         qreal p_width;
         qreal p_height;
-        Flexbox flexbox;
-        ViewManager* viewManager = nullptr;
         Node *node;
         //Glue glue;
     /*
