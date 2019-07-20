@@ -238,10 +238,8 @@ class Node: public QSGGeometryNode, public VideoReceiver
         void beginReceiving() {
             if (this->item) {
                 if (this->item->id!=nullptr) {
-                    std::cout << "Object created with id " << this->item->id.toStdString()  << std::endl;
                     Glue::instance()->get(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
                 } else if (this->item->p_id!=nullptr) {
-                    std::cout << "Object created with p_id " << this->item->p_id.toStdString()  << std::endl;
                     if(Glue::instance()->get(item->p_id).mediaStream==nullptr) {
                         //TODO (VERY IMPORTANT): retry every x millisseconds until we have a definition, or find a better solution
                         std::cout << "/1/1/1/1/1/1/1/1/11/1/1 ERROR: mediaStream is undefined for " << this->item->p_id.toStdString() << std::endl;
@@ -277,12 +275,14 @@ QSGNode * OpenGlMaterialQQuickItem::updatePaintNode(QSGNode *qsgNode, UpdatePain
     if (!qsgNode) {
         node = new Node();
         node->setItem(this);
+        /*
         if (!this->getUri().isEmpty()) 
             node->setUri(this->uri.toStdString()); //TODO: How do I know that when updatePaintNode is called, the object will already have a defined uri?
         else if (!this->getPUri().isEmpty())
             node->setUri(this->p_uri.toStdString());
         else 
             std::cout << "NO URI PASSED TO OBJECT" << std::endl;
+        */
         node->beginReceiving();
     }
     QSGGeometry::updateTexturedRectGeometry(node->geometry(), boundingRect(), QRectF(0, 0, 1, 1));

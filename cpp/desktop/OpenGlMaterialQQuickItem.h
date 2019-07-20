@@ -74,12 +74,10 @@ class OpenGlMaterialQQuickItem: public QQuickItem
 
         void setId(const QString &a) {
             id = a;
-            std::cout << "OpenGlMaterialQQuickItem created with id " << id.toStdString() << std::endl;
         }
 
         void setPId(const QString &a) {
             p_id = a;
-            std::cout << "OpenGlMaterialQQuickItem created with p_id " << p_id.toStdString() << std::endl;
         }
 
         QString getUri() {

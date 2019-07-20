@@ -147,12 +147,14 @@ void loadFontsFromResources() {
         }
     }
 }
-
+//TODO: see why websocket fails and why it is needed
 int main(int argc, char** argv) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
-    QLoggingCategory::setFilterRules("UIManager.debug=true\n"
-                                    "Flexbox.debug=true\n");
+    QLoggingCategory::setFilterRules("UIManager.debug=false\n"
+                                    "Flexbox.debug=false\n"
+                                    "WebSocketModule.debug=false\n"
+                                    "ViewManager.debug=false\n");
     Q_INIT_RESOURCE(react_resources);
 
     loadFontsFromResources();

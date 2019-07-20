@@ -35,7 +35,6 @@ public:
 
 GlueManager::GlueManager(QObject *parent)
     : QObject(parent), d_ptr(new GlueManagerPrivate) {
-      std::cout << "GlueManager created" << std::endl;
 
 }
 

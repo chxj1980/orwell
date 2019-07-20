@@ -63,8 +63,8 @@ QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
       //std::cout << iter.key().toStdString() <<std::endl;
     //}
 
-    std::cout << "width:  (((((( " << properties["width"].toInt() << std::endl;
-    std::cout << "height: (((((( " << properties["height"].toInt() << std::endl;
+    std::cout << "p_width: " << properties["p_width"].toInt() << std::endl;
+    std::cout << "p_height: " << properties["p_height"].toInt() << std::endl;
     //OpenGlVideoQtQuick* item = new OpenGlVideoQtQuick();
     OpenGlMaterialQQuickItem* item = new OpenGlMaterialQQuickItem();
     //OpenGlVideoQtQuick2* item = new OpenGlVideoQtQuick2();
@@ -73,7 +73,6 @@ QQuickItem* MediaPlayerManager::createView(const QVariantMap& properties) {
     //item->render();
     item->setWidth(640);
     item->setHeight(360);
-    std::cout << "returning custom item" << std::endl;
     return item;
 }
 

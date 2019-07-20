@@ -21,7 +21,7 @@ var GlueManager = require('react-native').NativeModules.GlueManager;
 
 GlueManager.addRTSPStream("cam1", "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1");
 GlueManager.addRTSPStream("cam2", "rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_1");
-console.log('*****************************************************hello');
+
 class Orwell extends Component {
   componentDidMount() {
     
@@ -31,6 +31,10 @@ class Orwell extends Component {
       <View style={{flexDirection: 'row'}}>
         <OrwellMediaPlayer id="cam1" width={640} height={360}/>
         <OrwellMediaPlayer id="cam2" width={640} height={360}/>
+        <Button
+           title="Click me"
+        >
+        </Button>
       </View>
     )
     
