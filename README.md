@@ -42,7 +42,7 @@ make
 
 If you don't have qt already, download here: https://www.qt.io/download-qt-installer
 
-Download a modern cmake, the one that comes with ubuntu, for me, won't set `DCMAKE_PREFIX_PATH`: https://cmake.org/download/
+Download a modern cmake, the one that comes with ubuntu, for me, won't set `DCMAKE_PREFIX_PATH`: https://cmake.org/download/ (don't forget to `make install`)
 
 So, if you want to pass QT folder manually (change QT folder to tour version):
 
