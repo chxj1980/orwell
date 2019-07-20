@@ -67,6 +67,20 @@ public:
         flexbox->setControl(this);
         flexbox->setViewManager(this->viewManager);
     }
+    ~OpenGlBufferItem() {
+        if (this->id!=nullptr) {
+            Glue::instance()->get(this->id).mediaStream->ffmpegDecoder->disableVideoReceiver();
+        } else if (this->p_id!=nullptr) {
+        if(Glue::instance()->get(this->p_id).mediaStream==nullptr) {
+            //TODO (VERY IMPORTANT): retry every x millisseconds until we have a definition, or find a better solution
+            std::cout << "/1/1/1/1/1/1/1/1/11/1/1 ERROR: mediaStream is undefined for " << this->p_id.toStdString() << std::endl;
+        } else {
+            Glue::instance()->get(this->p_id).mediaStream->ffmpegDecoder->disableVideoReceiver();
+        }
+    }else {
+        std::cout << "ERROR, id not set or not set yet " << std::endl;
+    }
+    }
     void initialization();
     QString p_uri;
     QString id;

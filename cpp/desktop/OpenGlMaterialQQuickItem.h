@@ -23,6 +23,8 @@
 #include "componentmanagers/viewmanager.h"
 #include <QDebug>
 class Node;
+
+//TODO: implement disableVideoReceiver or ffmpegDecoder will send frames to null and crash app
 //class OpenGlMaterialQQuickItem: public QQuickItem
 class OpenGlMaterialQQuickItem: public QQuickItem
 {
