@@ -65,6 +65,8 @@ const char *tString3 = GET_STR(
 
 
 OpenGlBufferItemRenderer::OpenGlBufferItemRenderer(){
+    std::cout << "creatng renderer" << std::endl;
+
 }
 
 
@@ -200,25 +202,21 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
     //https://github.com/quitejonny/tangram-es/blob/b457b7fc59e3e0f3c6d7bc26a0b5fe62098376fb/platforms/qt/tangram/tangramquickrenderer.cpp#L54
     OpenGlBufferItem *openGlBufferItem = static_cast<OpenGlBufferItem*>(item);
     //TODO: make it setVideoReceiver(nullptr) when it goes away
-    Glue::instance()->get(openGlBufferItem->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
 
-}
-
-void OpenGlBufferItemRenderer::updateData(unsigned char**data, int frameWidth, int frameHeight)
-{
-    this->frameWidth = frameWidth;
-    this->frameHeight = frameHeight;
-    //Before first render, datas pointer isn't even created yet
-    if (!firstFrameReceived) {
-        datas[0] = new unsigned char[frameWidth*frameHeight];	//Y
-        datas[1] = new unsigned char[frameWidth*frameHeight/4];	//U
-        datas[2] = new unsigned char[frameWidth*frameHeight/4];	//V
-        firstFrameReceived = true;
-    } else {
-        memcpy(datas[0], data[0], frameWidth*frameHeight);
-        memcpy(datas[1], data[1], frameWidth*frameHeight/4);
-        memcpy(datas[2], data[2], frameWidth*frameHeight/4);
+    if (openGlBufferItem->id!=nullptr) {
+        Glue::instance()->get(openGlBufferItem->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
+    } else if (openGlBufferItem->p_id!=nullptr) {
+        if(Glue::instance()->get(openGlBufferItem->p_id).mediaStream==nullptr) {
+            //TODO (VERY IMPORTANT): retry every x millisseconds until we have a definition, or find a better solution
+            std::cout << "/1/1/1/1/1/1/1/1/11/1/1 ERROR: mediaStream is undefined for " << openGlBufferItem->p_id.toStdString() << std::endl;
+        } else {
+            Glue::instance()->get(openGlBufferItem->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
+        }
+    }else {
+        std::cout << "ERROR, id not set or not set yet " << std::endl;
     }
+            
+
 }
 
 QQuickFramebufferObject::Renderer *OpenGlBufferItem::createRenderer() const

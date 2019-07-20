@@ -18,7 +18,7 @@
 #include "reactitem.h"
 //#include "reactitem.h"
 
-
+//TODO: for it to work on react native video again I must implement flexbox otherwise if it is included with other items the program crashes because YGNode gets crazy
 class OpenGlVideoQtQuickRenderer : public QObject, protected QOpenGLFunctions, public FrameUpdater
 {
     Q_OBJECT

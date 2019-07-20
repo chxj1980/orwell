@@ -246,7 +246,6 @@ class Node: public QSGGeometryNode, public VideoReceiver
                     } else {
                         Glue::instance()->get(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
                     }
-                    std::cout << "passed glue insertion" << std::endl;
                 }else {
                     std::cout << "ERROR, id not set or not set yet " << std::endl;
                 }
