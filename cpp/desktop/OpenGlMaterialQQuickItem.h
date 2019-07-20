@@ -33,7 +33,7 @@ class OpenGlMaterialQQuickItem: public QQuickItem
     Q_PROPERTY(QString p_uri WRITE setPUri READ getPUri);
     Q_PROPERTY(qreal p_height WRITE _setHeight READ getPHeight);
     Q_PROPERTY(qreal p_width WRITE _setWidth READ getPWidth);
-    Q_PROPERTY(QVariant flexbox READ getFlexbox);
+    Q_PROPERTY(Flexbox* flexbox READ getFlexbox);
     Q_PROPERTY(ViewManager* viewManager);
 
     //Q_PROPERTY(Glue* glue READ getGlue WRITE setGlue)
@@ -41,26 +41,16 @@ class OpenGlMaterialQQuickItem: public QQuickItem
     public:
         QString id;
         QString p_id;
-        Flexbox* m_Flexbox = new Flexbox();
-        QVariant flexbox = QVariant::fromValue(m_Flexbox);
+        //QVariant can also be used, so it stores a whole item, not a pointer. TODO: think about this later https://github.com/lucaszanella/orwell/blob/68cb9200a258bfb33f9664161d9195b806f5b03a/cpp/desktop/OpenGlMaterialQQuickItem.h#L45
+        Flexbox* flexbox = new Flexbox();
         ViewManager* viewManager = nullptr;
-        //ViewManager* viewManager = nullptr;
 
         QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
-        QVariant getFlexbox() {
-            return this->flexbox;
-        }
+        
         OpenGlMaterialQQuickItem()
         {
-            bool a = setProperty("flexbox", flexbox);
-            qDebug() << "setProperty result" << a;
-            m_Flexbox->setControl(this);
-            //this->viewManager = new ViewManager(this);
-            m_Flexbox->setViewManager(this->viewManager);
-            //flexbox.fromValue(m_Flexbox);
-            qDebug() << "QVariant flexbox: " << flexbox;
-            qDebug() << "!((((((((((((((((((((((( Do I have flexbox property? " << this->property("flexbox");
-            //flexbox = new Flexbox();
+            flexbox->setControl(this);
+            flexbox->setViewManager(this->viewManager);
             setFlag(ItemHasContents, true);
         }
 
@@ -122,6 +112,10 @@ class OpenGlMaterialQQuickItem: public QQuickItem
 
         void _setHeight(qreal height) {
             p_height = height;
+        }
+
+        Flexbox* getFlexbox() {
+            return this->flexbox;
         }
 /*
         void setGlue(Glue* glue) {
