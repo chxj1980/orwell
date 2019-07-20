@@ -14,7 +14,7 @@ import {
   FlatList,
   TouchableOpacity
 } from 'react-native';
-
+import mergeObjects from './mergeObjects'
 const NativeModules = require('react-native').NativeModules;
 const requireNativeComponent = require('requireNativeComponent');
 var OrwellMediaPlayer = requireNativeComponent('OrwellMediaPlayer');
@@ -35,6 +35,7 @@ goTo = function(state) {
 
 class Orwell extends Component {
   constructor() {
+    console.log(StyleSheet);
     super();
   }
   state = { currentView: 0 };
