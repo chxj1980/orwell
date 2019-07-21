@@ -14,7 +14,7 @@ import {
   FlatList,
   TouchableOpacity
 } from 'react-native';
-import mergeObjects from './mergeObjects'
+import NiceButton from './NiceButton';
 const NativeModules = require('react-native').NativeModules;
 const requireNativeComponent = require('requireNativeComponent');
 var OrwellMediaPlayer = requireNativeComponent('OrwellMediaPlayer');
@@ -25,74 +25,55 @@ GlueManager.addRTSPStream("cam2", "rtsp://admin:19929394@192.168.0.102:10554/tcp
 GlueManager.addRTSPStream("cam3", "rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
 GlueManager.addRTSPStream("cam4", "rtsp://admin:19929394@192.168.0.104:10554/tcp/av0_1");
 
-goTo = function(state) {
-  if (state==0) {
-    return 1;
-  } else if (state==1) {
-    return 0;
-  }
-}
+const MAIN_CAMERAS = 0;
+const CONFIGURATIONS = 1;
+
 
 class Orwell extends Component {
   constructor() {
-    console.log(StyleSheet);
     super();
   }
-  state = { currentView: 0 };
+
+  //High order function to make onPress=... cleaner :)
+  goToPage = (page) => () => this.setState({currentView:  page});
+
+  state = {currentView: 0};
 
   render() {
-    if (this.state.currentView==0) {
-      return (
-        <View style={{backgroundColor: '#303030'}}>
-          <FlatList
-            data={[{id: "cam1"}, {id: "cam2"}, {id: "cam3"}, {id: "cam4"}]} 
-            renderItem={({ item }) => (
-                <OrwellMediaPlayer id={item.id} width={640} height={360}/>
-            )}
-            numColumns={2}
-            keyExtractor={(item, index) => index}
-          />
-          <TouchableOpacity
-                  style={styles.ButtonOpacity}
-                  onPress={()=>this.setState({currentView:1})}
-                  underlayColor='#fff'>
-                  <Text style={styles.ButtonText}>
-                    Configurations
-                  </Text>
-          </TouchableOpacity>
-        </View>
-        
-      )
-    } else if (this.state.currentView==1) {
-      return(
+    switch (this.state.currentView) {
+      case MAIN_CAMERAS:
+        return (
+          <View style={{backgroundColor: '#303030'}}>
+            <FlatList
+              data={[{id: "cam1"}, {id: "cam2"}, {id: "cam3"}, {id: "cam4"}]} 
+              renderItem={({ item }) => (
+                  <OrwellMediaPlayer id={item.id} width={640} height={360}/>
+              )}
+              numColumns={2}
+              keyExtractor={(item, index) => index}
+            />
+            <NiceButton
+              label = "Configurations"
+              buttonStyle={{position: 'absolute', right: 0, bottom: 0}}
+              onPress={this.goToPage(CONFIGURATIONS)}
+            />
+          </View>
+        )
+        case CONFIGURATIONS:
+        return(
         <View style={{backgroundColor: '#303030', width:1280, height:720}}>
           <Text style={{color: '#FFFFFF'}}>Another page 2</Text>
-          <TouchableOpacity
-                  style={styles.ButtonOpacity}
-                  onPress={()=>this.setState({currentView:0})}
-                  underlayColor='#fff'>
-                  <Text style={styles.ButtonText}>
-                    Cameras
-                  </Text>
-          </TouchableOpacity>
+          <NiceButton
+            label = "Cameras"
+            buttonStyle={{position: 'absolute', right: 0, bottom: 0}}
+            onPress={this.goToPage(MAIN_CAMERAS)}
+            />
         </View>
       )
     }
   }
 }
-//<OrwellMediaPlayer uri='rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0' width={640} height={360}/>
-/*
-<FlatList data={[{uri: 'rtsp://admin:19929394@192.168.1.178:10554/tcp/av0_0'}]}
-                renderItem={({item}) => <OrwellMediaPlayer uri={item.uri} width={640} height={360}/>}>
-      </FlatList>
-*/
-/*
-<FlatList data={[{id: "cam1"}, {id: "cam2"}]} 
-                style={{flex: 1, flexDirection: 'row'}}
-                renderItem={({item}) => <OrwellMediaPlayer id={item.id} width={640} height={360}/>}
-                keyExtractor={(item, index) => index.toString()}
-      />
-*/
+
 const styles = StyleSheet.create({
   ButtonOpacity:{
     position: 'absolute',
