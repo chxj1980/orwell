@@ -13,7 +13,7 @@ import {
 import mergeObjects from './mergeObjects'
 
 export default function NiceButton({
-  onPress,
+  onPress = ()=>null,
   label = 'Click me',
   buttonStyle = {},
   textColor = {},
