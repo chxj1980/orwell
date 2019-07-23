@@ -71,10 +71,10 @@ public:
 
     ~OpenGlBufferItem() {
         if (this->id!=nullptr) {
-            std::cout << "destroying id " << this->id.toStdString() << std::endl;
+            //std::cout << "destroying id " << this->id.toStdString() << std::endl;
             Glue::instance()->getStream(this->id).mediaStream->ffmpegDecoder->disableVideoReceiver();
         } else if (this->p_id!=nullptr) {
-            std::cout << "destroying p_id " << this->id.toStdString() << std::endl;
+            //std::cout << "destroying p_id " << this->id.toStdString() << std::endl;
             if(Glue::instance()->getStream(this->p_id).mediaStream==nullptr) {
                 //TODO (VERY IMPORTANT): retry every x millisseconds until we have a definition, or find a better solution
                 std::cout << "/1/1/1/1/1/1/1/1/11/1/1 ERROR: mediaStream is undefined for " << this->p_id.toStdString() << std::endl;

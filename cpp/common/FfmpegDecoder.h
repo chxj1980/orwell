@@ -30,7 +30,7 @@ public:
 	//void setFrameUpdater(FrameUpdater * frameUpdater);
 	void setVideoReceiver(VideoReceiver * videoReceiver) {this->videoReceiver = videoReceiver;}
 	void disableVideoReceiver() {
-		std::cout << "disabled videoReceiver" << std::endl;
+		//std::cout << "disabled videoReceiver" << std::endl;
 		this->videoReceiver = nullptr;
 	}
 	//For debug purposes:

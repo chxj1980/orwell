@@ -62,26 +62,16 @@ Warning: it'll likely not work with your cameras for now, but it should work wit
 ```
 cd orwellJS
 #1st shell
-npm install #CURRENTLY NOT WORKING, will install buggy version, see below how to temporary fix it
+npm install
+react-native desktop #important
 npm start #starts bundler. 
 #2nd shell
-node node_modules/react-native/ubuntu-server.js #starts js server
+node ubuntu-server.js #starts js server
 #3rd shell
 react-native run-desktop
 ```
 
 ps: you must have cameras accessible with the IPs and passwords of `orwellJS/index.desktop.js` (or maybe other places for now)
-
-To temporary fix the `npm install` problem, do this on a temporary folder:
-
-```
-npm install -g react-native-cli 
-react-native init DesktopSampleApp --version status-im/react-native-desktop
-cd DesktopSampleApp
-react-native desktop
-```
-
-then coopy the contents of `node_modules` to orwellJS, this will make what `npm install` were supposed to do. This is currently an issue here: https://github.com/status-im/react-native-desktop/issues/457
 
 Warning: it'll likely not work with your cameras for now, but it should work with vstarcam cameras
 
