@@ -29,7 +29,10 @@ public:
 	void setRecordState(bool record);
 	//void setFrameUpdater(FrameUpdater * frameUpdater);
 	void setVideoReceiver(VideoReceiver * videoReceiver) {this->videoReceiver = videoReceiver;}
-	void disableVideoReceiver() {this->videoReceiver = nullptr;}
+	void disableVideoReceiver() {
+		std::cout << "disabled videoReceiver" << std::endl;
+		this->videoReceiver = nullptr;
+	}
 	//For debug purposes:
 	std::string uri;
 

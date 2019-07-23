@@ -215,9 +215,9 @@ class Node: public QSGGeometryNode, public VideoReceiver
         ~Node() {
             if (this->item) {
                 if (this->item->id!=nullptr) {
-                    Glue::instance()->get(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(nullptr);
+                    Glue::instance()->getStream(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(nullptr);
                 } else if (this->item->p_id!=nullptr) {
-                    Glue::instance()->get(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(nullptr);
+                    Glue::instance()->getStream(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(nullptr);
                 }else {
                     std::cout << "ERROR, id not set or not set yet " << std::endl;
                 }
@@ -238,13 +238,13 @@ class Node: public QSGGeometryNode, public VideoReceiver
         void beginReceiving() {
             if (this->item) {
                 if (this->item->id!=nullptr) {
-                    Glue::instance()->get(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
+                    Glue::instance()->getStream(item->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
                 } else if (this->item->p_id!=nullptr) {
-                    if(Glue::instance()->get(item->p_id).mediaStream==nullptr) {
+                    if(Glue::instance()->getStream(item->p_id).mediaStream==nullptr) {
                         //TODO (VERY IMPORTANT): retry every x millisseconds until we have a definition, or find a better solution
                         std::cout << "/1/1/1/1/1/1/1/1/11/1/1 ERROR: mediaStream is undefined for " << this->item->p_id.toStdString() << std::endl;
                     } else {
-                        Glue::instance()->get(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
+                        Glue::instance()->getStream(item->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
                     }
                 }else {
                     std::cout << "ERROR, id not set or not set yet " << std::endl;

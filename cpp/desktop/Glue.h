@@ -29,17 +29,27 @@ public:
     Glue(Glue const&) = delete;
     Glue& operator=(Glue const&) = delete;
 
-    static void add(QString id, GlueObject glueObject) {
+    static void addStream(QString id, GlueObject glueObject) {
         mutex.lock();
         streamList.insert(id, glueObject);
         mutex.unlock();
     }
 
-    static GlueObject get(QString id) {
+    static GlueObject getStream(QString id) {
         mutex.lock();
         GlueObject glueObject = streamList.value(id);
         mutex.unlock();
         return glueObject;
+    }
+
+    //Very important. Must be called from React Native when view is being changed, 
+    //so the Media Player gets destroyed and there's no place for ffmpegDecoder to send
+    //video data. Otherwise it tries to send data do invalid object.
+    static void DisableStreamReceiver(QString id) {
+        mutex.lock();
+        GlueObject glueObject = streamList.value(id);
+        glueObject.mediaStream->ffmpegDecoder->disableVideoReceiver();
+        mutex.unlock();
     }
 
     static std::shared_ptr<Glue> instance()

@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Flexbox_t {
-    QByteArrayData data[98];
-    char stringdata0[1470];
+    QByteArrayData data[100];
+    char stringdata0[1488];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -82,54 +82,56 @@ QT_MOC_LITERAL(46, 801, 15), // "positionChanged"
 QT_MOC_LITERAL(47, 817, 16), // "directionChanged"
 QT_MOC_LITERAL(48, 834, 14), // "isDirtyChanged"
 QT_MOC_LITERAL(49, 849, 9), // "markDirty"
-QT_MOC_LITERAL(50, 859, 7), // "control"
-QT_MOC_LITERAL(51, 867, 11), // "QQuickItem*"
-QT_MOC_LITERAL(52, 879, 11), // "viewManager"
-QT_MOC_LITERAL(53, 891, 7), // "p_width"
-QT_MOC_LITERAL(54, 899, 8), // "p_height"
-QT_MOC_LITERAL(55, 908, 15), // "p_flexDirection"
-QT_MOC_LITERAL(56, 924, 16), // "p_justifyContent"
-QT_MOC_LITERAL(57, 941, 8), // "p_margin"
-QT_MOC_LITERAL(58, 950, 11), // "p_marginTop"
-QT_MOC_LITERAL(59, 962, 14), // "p_marginBottom"
-QT_MOC_LITERAL(60, 977, 12), // "p_marginLeft"
-QT_MOC_LITERAL(61, 990, 13), // "p_marginRight"
-QT_MOC_LITERAL(62, 1004, 18), // "p_marginHorizontal"
-QT_MOC_LITERAL(63, 1023, 16), // "p_marginVertical"
-QT_MOC_LITERAL(64, 1040, 13), // "p_borderWidth"
-QT_MOC_LITERAL(65, 1054, 16), // "p_borderTopWidth"
-QT_MOC_LITERAL(66, 1071, 19), // "p_borderBottomWidth"
-QT_MOC_LITERAL(67, 1091, 17), // "p_borderLeftWidth"
-QT_MOC_LITERAL(68, 1109, 18), // "p_borderRightWidth"
-QT_MOC_LITERAL(69, 1128, 12), // "p_alignItems"
-QT_MOC_LITERAL(70, 1141, 14), // "p_alignContent"
-QT_MOC_LITERAL(71, 1156, 11), // "p_alignSelf"
-QT_MOC_LITERAL(72, 1168, 13), // "p_aspectRatio"
-QT_MOC_LITERAL(73, 1182, 8), // "p_bottom"
-QT_MOC_LITERAL(74, 1191, 6), // "p_left"
-QT_MOC_LITERAL(75, 1198, 7), // "p_right"
-QT_MOC_LITERAL(76, 1206, 5), // "p_top"
-QT_MOC_LITERAL(77, 1212, 10), // "p_maxWidth"
-QT_MOC_LITERAL(78, 1223, 11), // "p_maxHeight"
-QT_MOC_LITERAL(79, 1235, 10), // "p_minWidth"
-QT_MOC_LITERAL(80, 1246, 11), // "p_minHeight"
-QT_MOC_LITERAL(81, 1258, 6), // "p_flex"
-QT_MOC_LITERAL(82, 1265, 11), // "p_flexBasis"
-QT_MOC_LITERAL(83, 1277, 10), // "p_flexGrow"
-QT_MOC_LITERAL(84, 1288, 12), // "p_flexShrink"
-QT_MOC_LITERAL(85, 1301, 10), // "p_flexWrap"
-QT_MOC_LITERAL(86, 1312, 9), // "p_padding"
-QT_MOC_LITERAL(87, 1322, 12), // "p_paddingTop"
-QT_MOC_LITERAL(88, 1335, 15), // "p_paddingBottom"
-QT_MOC_LITERAL(89, 1351, 13), // "p_paddingLeft"
-QT_MOC_LITERAL(90, 1365, 14), // "p_paddingRight"
-QT_MOC_LITERAL(91, 1380, 19), // "p_paddingHorizontal"
-QT_MOC_LITERAL(92, 1400, 17), // "p_paddingVertical"
-QT_MOC_LITERAL(93, 1418, 9), // "p_display"
-QT_MOC_LITERAL(94, 1428, 10), // "p_overflow"
-QT_MOC_LITERAL(95, 1439, 10), // "p_position"
-QT_MOC_LITERAL(96, 1450, 11), // "p_direction"
-QT_MOC_LITERAL(97, 1462, 7) // "isDirty"
+QT_MOC_LITERAL(50, 859, 11), // "isUndefined"
+QT_MOC_LITERAL(51, 871, 5), // "value"
+QT_MOC_LITERAL(52, 877, 7), // "control"
+QT_MOC_LITERAL(53, 885, 11), // "QQuickItem*"
+QT_MOC_LITERAL(54, 897, 11), // "viewManager"
+QT_MOC_LITERAL(55, 909, 7), // "p_width"
+QT_MOC_LITERAL(56, 917, 8), // "p_height"
+QT_MOC_LITERAL(57, 926, 15), // "p_flexDirection"
+QT_MOC_LITERAL(58, 942, 16), // "p_justifyContent"
+QT_MOC_LITERAL(59, 959, 8), // "p_margin"
+QT_MOC_LITERAL(60, 968, 11), // "p_marginTop"
+QT_MOC_LITERAL(61, 980, 14), // "p_marginBottom"
+QT_MOC_LITERAL(62, 995, 12), // "p_marginLeft"
+QT_MOC_LITERAL(63, 1008, 13), // "p_marginRight"
+QT_MOC_LITERAL(64, 1022, 18), // "p_marginHorizontal"
+QT_MOC_LITERAL(65, 1041, 16), // "p_marginVertical"
+QT_MOC_LITERAL(66, 1058, 13), // "p_borderWidth"
+QT_MOC_LITERAL(67, 1072, 16), // "p_borderTopWidth"
+QT_MOC_LITERAL(68, 1089, 19), // "p_borderBottomWidth"
+QT_MOC_LITERAL(69, 1109, 17), // "p_borderLeftWidth"
+QT_MOC_LITERAL(70, 1127, 18), // "p_borderRightWidth"
+QT_MOC_LITERAL(71, 1146, 12), // "p_alignItems"
+QT_MOC_LITERAL(72, 1159, 14), // "p_alignContent"
+QT_MOC_LITERAL(73, 1174, 11), // "p_alignSelf"
+QT_MOC_LITERAL(74, 1186, 13), // "p_aspectRatio"
+QT_MOC_LITERAL(75, 1200, 8), // "p_bottom"
+QT_MOC_LITERAL(76, 1209, 6), // "p_left"
+QT_MOC_LITERAL(77, 1216, 7), // "p_right"
+QT_MOC_LITERAL(78, 1224, 5), // "p_top"
+QT_MOC_LITERAL(79, 1230, 10), // "p_maxWidth"
+QT_MOC_LITERAL(80, 1241, 11), // "p_maxHeight"
+QT_MOC_LITERAL(81, 1253, 10), // "p_minWidth"
+QT_MOC_LITERAL(82, 1264, 11), // "p_minHeight"
+QT_MOC_LITERAL(83, 1276, 6), // "p_flex"
+QT_MOC_LITERAL(84, 1283, 11), // "p_flexBasis"
+QT_MOC_LITERAL(85, 1295, 10), // "p_flexGrow"
+QT_MOC_LITERAL(86, 1306, 12), // "p_flexShrink"
+QT_MOC_LITERAL(87, 1319, 10), // "p_flexWrap"
+QT_MOC_LITERAL(88, 1330, 9), // "p_padding"
+QT_MOC_LITERAL(89, 1340, 12), // "p_paddingTop"
+QT_MOC_LITERAL(90, 1353, 15), // "p_paddingBottom"
+QT_MOC_LITERAL(91, 1369, 13), // "p_paddingLeft"
+QT_MOC_LITERAL(92, 1383, 14), // "p_paddingRight"
+QT_MOC_LITERAL(93, 1398, 19), // "p_paddingHorizontal"
+QT_MOC_LITERAL(94, 1418, 17), // "p_paddingVertical"
+QT_MOC_LITERAL(95, 1436, 9), // "p_display"
+QT_MOC_LITERAL(96, 1446, 10), // "p_overflow"
+QT_MOC_LITERAL(97, 1457, 10), // "p_position"
+QT_MOC_LITERAL(98, 1468, 11), // "p_direction"
+QT_MOC_LITERAL(99, 1480, 7) // "isDirty"
 
     },
     "Flexbox\0widthChanged\0\0heightChanged\0"
@@ -155,10 +157,11 @@ QT_MOC_LITERAL(97, 1462, 7) // "isDirty"
     "paddingVerticalChanged\0displayChanged\0"
     "overflowChanged\0positionChanged\0"
     "directionChanged\0isDirtyChanged\0"
-    "markDirty\0control\0QQuickItem*\0viewManager\0"
-    "p_width\0p_height\0p_flexDirection\0"
-    "p_justifyContent\0p_margin\0p_marginTop\0"
-    "p_marginBottom\0p_marginLeft\0p_marginRight\0"
+    "markDirty\0isUndefined\0value\0control\0"
+    "QQuickItem*\0viewManager\0p_width\0"
+    "p_height\0p_flexDirection\0p_justifyContent\0"
+    "p_margin\0p_marginTop\0p_marginBottom\0"
+    "p_marginLeft\0p_marginRight\0"
     "p_marginHorizontal\0p_marginVertical\0"
     "p_borderWidth\0p_borderTopWidth\0"
     "p_borderBottomWidth\0p_borderLeftWidth\0"
@@ -181,64 +184,65 @@ static const uint qt_meta_data_Flexbox[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      48,   14, // methods
-      47,  302, // properties
+      49,   14, // methods
+      47,  310, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
       47,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  254,    2, 0x06 /* Public */,
-       3,    0,  255,    2, 0x06 /* Public */,
-       4,    0,  256,    2, 0x06 /* Public */,
-       5,    0,  257,    2, 0x06 /* Public */,
-       6,    0,  258,    2, 0x06 /* Public */,
-       7,    0,  259,    2, 0x06 /* Public */,
-       8,    0,  260,    2, 0x06 /* Public */,
-       9,    0,  261,    2, 0x06 /* Public */,
-      10,    0,  262,    2, 0x06 /* Public */,
-      11,    0,  263,    2, 0x06 /* Public */,
-      12,    0,  264,    2, 0x06 /* Public */,
-      13,    0,  265,    2, 0x06 /* Public */,
-      14,    0,  266,    2, 0x06 /* Public */,
-      15,    0,  267,    2, 0x06 /* Public */,
-      16,    0,  268,    2, 0x06 /* Public */,
-      17,    0,  269,    2, 0x06 /* Public */,
-      18,    0,  270,    2, 0x06 /* Public */,
-      19,    0,  271,    2, 0x06 /* Public */,
-      20,    0,  272,    2, 0x06 /* Public */,
-      21,    0,  273,    2, 0x06 /* Public */,
-      22,    0,  274,    2, 0x06 /* Public */,
-      23,    0,  275,    2, 0x06 /* Public */,
-      24,    0,  276,    2, 0x06 /* Public */,
-      25,    0,  277,    2, 0x06 /* Public */,
-      26,    0,  278,    2, 0x06 /* Public */,
-      27,    0,  279,    2, 0x06 /* Public */,
-      28,    0,  280,    2, 0x06 /* Public */,
-      29,    0,  281,    2, 0x06 /* Public */,
-      30,    0,  282,    2, 0x06 /* Public */,
-      31,    0,  283,    2, 0x06 /* Public */,
-      32,    0,  284,    2, 0x06 /* Public */,
-      33,    0,  285,    2, 0x06 /* Public */,
-      34,    0,  286,    2, 0x06 /* Public */,
-      35,    0,  287,    2, 0x06 /* Public */,
-      36,    0,  288,    2, 0x06 /* Public */,
-      37,    0,  289,    2, 0x06 /* Public */,
-      38,    0,  290,    2, 0x06 /* Public */,
-      39,    0,  291,    2, 0x06 /* Public */,
-      40,    0,  292,    2, 0x06 /* Public */,
-      41,    0,  293,    2, 0x06 /* Public */,
-      42,    0,  294,    2, 0x06 /* Public */,
-      43,    0,  295,    2, 0x06 /* Public */,
-      44,    0,  296,    2, 0x06 /* Public */,
-      45,    0,  297,    2, 0x06 /* Public */,
-      46,    0,  298,    2, 0x06 /* Public */,
-      47,    0,  299,    2, 0x06 /* Public */,
-      48,    0,  300,    2, 0x06 /* Public */,
+       1,    0,  259,    2, 0x06 /* Public */,
+       3,    0,  260,    2, 0x06 /* Public */,
+       4,    0,  261,    2, 0x06 /* Public */,
+       5,    0,  262,    2, 0x06 /* Public */,
+       6,    0,  263,    2, 0x06 /* Public */,
+       7,    0,  264,    2, 0x06 /* Public */,
+       8,    0,  265,    2, 0x06 /* Public */,
+       9,    0,  266,    2, 0x06 /* Public */,
+      10,    0,  267,    2, 0x06 /* Public */,
+      11,    0,  268,    2, 0x06 /* Public */,
+      12,    0,  269,    2, 0x06 /* Public */,
+      13,    0,  270,    2, 0x06 /* Public */,
+      14,    0,  271,    2, 0x06 /* Public */,
+      15,    0,  272,    2, 0x06 /* Public */,
+      16,    0,  273,    2, 0x06 /* Public */,
+      17,    0,  274,    2, 0x06 /* Public */,
+      18,    0,  275,    2, 0x06 /* Public */,
+      19,    0,  276,    2, 0x06 /* Public */,
+      20,    0,  277,    2, 0x06 /* Public */,
+      21,    0,  278,    2, 0x06 /* Public */,
+      22,    0,  279,    2, 0x06 /* Public */,
+      23,    0,  280,    2, 0x06 /* Public */,
+      24,    0,  281,    2, 0x06 /* Public */,
+      25,    0,  282,    2, 0x06 /* Public */,
+      26,    0,  283,    2, 0x06 /* Public */,
+      27,    0,  284,    2, 0x06 /* Public */,
+      28,    0,  285,    2, 0x06 /* Public */,
+      29,    0,  286,    2, 0x06 /* Public */,
+      30,    0,  287,    2, 0x06 /* Public */,
+      31,    0,  288,    2, 0x06 /* Public */,
+      32,    0,  289,    2, 0x06 /* Public */,
+      33,    0,  290,    2, 0x06 /* Public */,
+      34,    0,  291,    2, 0x06 /* Public */,
+      35,    0,  292,    2, 0x06 /* Public */,
+      36,    0,  293,    2, 0x06 /* Public */,
+      37,    0,  294,    2, 0x06 /* Public */,
+      38,    0,  295,    2, 0x06 /* Public */,
+      39,    0,  296,    2, 0x06 /* Public */,
+      40,    0,  297,    2, 0x06 /* Public */,
+      41,    0,  298,    2, 0x06 /* Public */,
+      42,    0,  299,    2, 0x06 /* Public */,
+      43,    0,  300,    2, 0x06 /* Public */,
+      44,    0,  301,    2, 0x06 /* Public */,
+      45,    0,  302,    2, 0x06 /* Public */,
+      46,    0,  303,    2, 0x06 /* Public */,
+      47,    0,  304,    2, 0x06 /* Public */,
+      48,    0,  305,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      49,    0,  301,    2, 0x0a /* Public */,
+      49,    0,  306,    2, 0x0a /* Public */,
+      50,    1,  307,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -291,55 +295,56 @@ static const uint qt_meta_data_Flexbox[] = {
 
  // slots: parameters
     QMetaType::Void,
+    QMetaType::Bool, QMetaType::Float,   51,
 
  // properties: name, type, flags
-      50, 0x80000000 | 51, 0x0049510b,
-      52, QMetaType::QObjectStar, 0x00495103,
-      53, QMetaType::Int, 0x00495003,
-      54, QMetaType::Int, 0x00495003,
-      55, QMetaType::QString, 0x00495003,
-      56, QMetaType::QString, 0x00495003,
-      57, QMetaType::Float, 0x00495003,
-      58, QMetaType::Float, 0x00495003,
-      59, QMetaType::Float, 0x00495003,
-      60, QMetaType::Float, 0x00495003,
-      61, QMetaType::Float, 0x00495003,
-      62, QMetaType::Float, 0x00495003,
-      63, QMetaType::Float, 0x00495003,
-      64, QMetaType::Float, 0x00495003,
-      65, QMetaType::Float, 0x00495003,
+      52, 0x80000000 | 53, 0x0049510b,
+      54, QMetaType::QObjectStar, 0x00495103,
+      55, QMetaType::QVariant, 0x00495003,
+      56, QMetaType::QVariant, 0x00495003,
+      57, QMetaType::QString, 0x00495003,
+      58, QMetaType::QString, 0x00495003,
+      59, QMetaType::QVariant, 0x00495003,
+      60, QMetaType::QVariant, 0x00495003,
+      61, QMetaType::QVariant, 0x00495003,
+      62, QMetaType::QVariant, 0x00495003,
+      63, QMetaType::QVariant, 0x00495003,
+      64, QMetaType::QVariant, 0x00495003,
+      65, QMetaType::QVariant, 0x00495003,
       66, QMetaType::Float, 0x00495003,
       67, QMetaType::Float, 0x00495003,
       68, QMetaType::Float, 0x00495003,
-      69, QMetaType::QString, 0x00495003,
-      70, QMetaType::QString, 0x00495003,
+      69, QMetaType::Float, 0x00495003,
+      70, QMetaType::Float, 0x00495003,
       71, QMetaType::QString, 0x00495003,
-      72, QMetaType::Float, 0x00495003,
-      73, QMetaType::Float, 0x00495003,
+      72, QMetaType::QString, 0x00495003,
+      73, QMetaType::QString, 0x00495003,
       74, QMetaType::Float, 0x00495003,
-      75, QMetaType::Float, 0x00495003,
-      76, QMetaType::Float, 0x00495003,
-      77, QMetaType::Float, 0x00495003,
-      78, QMetaType::Float, 0x00495003,
-      79, QMetaType::Float, 0x00495003,
-      80, QMetaType::Float, 0x00495003,
-      81, QMetaType::Float, 0x00495003,
-      82, QMetaType::Float, 0x00495003,
+      75, QMetaType::QVariant, 0x00495003,
+      76, QMetaType::QVariant, 0x00495003,
+      77, QMetaType::QVariant, 0x00495003,
+      78, QMetaType::QVariant, 0x00495003,
+      79, QMetaType::QVariant, 0x00495003,
+      80, QMetaType::QVariant, 0x00495003,
+      81, QMetaType::QVariant, 0x00495003,
+      82, QMetaType::QVariant, 0x00495003,
       83, QMetaType::Float, 0x00495003,
-      84, QMetaType::Float, 0x00495003,
-      85, QMetaType::QString, 0x00495003,
+      84, QMetaType::QVariant, 0x00495003,
+      85, QMetaType::Float, 0x00495003,
       86, QMetaType::Float, 0x00495003,
-      87, QMetaType::Float, 0x00495003,
+      87, QMetaType::QString, 0x00495003,
       88, QMetaType::Float, 0x00495003,
       89, QMetaType::Float, 0x00495003,
       90, QMetaType::Float, 0x00495003,
       91, QMetaType::Float, 0x00495003,
       92, QMetaType::Float, 0x00495003,
-      93, QMetaType::QString, 0x00495003,
-      94, QMetaType::QString, 0x00495003,
+      93, QMetaType::Float, 0x00495003,
+      94, QMetaType::Float, 0x00495003,
       95, QMetaType::QString, 0x00495003,
       96, QMetaType::QString, 0x00495003,
-      97, QMetaType::Bool, 0x00495001,
+      97, QMetaType::QString, 0x00495003,
+      98, QMetaType::QString, 0x00495003,
+      99, QMetaType::Bool, 0x00495001,
 
  // properties: notify_signal_id
        4,
@@ -447,6 +452,8 @@ void Flexbox::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 45: _t->directionChanged(); break;
         case 46: _t->isDirtyChanged(); break;
         case 47: _t->markDirty(); break;
+        case 48: { bool _r = _t->isUndefined((*reinterpret_cast< float(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -789,17 +796,17 @@ void Flexbox::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         switch (_id) {
         case 0: *reinterpret_cast< QQuickItem**>(_v) = _t->control(); break;
         case 1: *reinterpret_cast< QObject**>(_v) = _t->viewManager(); break;
-        case 2: *reinterpret_cast< int*>(_v) = _t->width(); break;
-        case 3: *reinterpret_cast< int*>(_v) = _t->height(); break;
+        case 2: *reinterpret_cast< QVariant*>(_v) = _t->width(); break;
+        case 3: *reinterpret_cast< QVariant*>(_v) = _t->height(); break;
         case 4: *reinterpret_cast< QString*>(_v) = _t->flexDirection(); break;
         case 5: *reinterpret_cast< QString*>(_v) = _t->justifyContent(); break;
-        case 6: *reinterpret_cast< float*>(_v) = _t->margin(); break;
-        case 7: *reinterpret_cast< float*>(_v) = _t->marginTop(); break;
-        case 8: *reinterpret_cast< float*>(_v) = _t->marginBottom(); break;
-        case 9: *reinterpret_cast< float*>(_v) = _t->marginLeft(); break;
-        case 10: *reinterpret_cast< float*>(_v) = _t->marginRight(); break;
-        case 11: *reinterpret_cast< float*>(_v) = _t->marginHorizontal(); break;
-        case 12: *reinterpret_cast< float*>(_v) = _t->marginVertical(); break;
+        case 6: *reinterpret_cast< QVariant*>(_v) = _t->margin(); break;
+        case 7: *reinterpret_cast< QVariant*>(_v) = _t->marginTop(); break;
+        case 8: *reinterpret_cast< QVariant*>(_v) = _t->marginBottom(); break;
+        case 9: *reinterpret_cast< QVariant*>(_v) = _t->marginLeft(); break;
+        case 10: *reinterpret_cast< QVariant*>(_v) = _t->marginRight(); break;
+        case 11: *reinterpret_cast< QVariant*>(_v) = _t->marginHorizontal(); break;
+        case 12: *reinterpret_cast< QVariant*>(_v) = _t->marginVertical(); break;
         case 13: *reinterpret_cast< float*>(_v) = _t->borderWidth(); break;
         case 14: *reinterpret_cast< float*>(_v) = _t->borderTopWidth(); break;
         case 15: *reinterpret_cast< float*>(_v) = _t->borderBottomWidth(); break;
@@ -809,16 +816,16 @@ void Flexbox::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 19: *reinterpret_cast< QString*>(_v) = _t->alignContent(); break;
         case 20: *reinterpret_cast< QString*>(_v) = _t->alignSelf(); break;
         case 21: *reinterpret_cast< float*>(_v) = _t->aspectRatio(); break;
-        case 22: *reinterpret_cast< float*>(_v) = _t->bottom(); break;
-        case 23: *reinterpret_cast< float*>(_v) = _t->left(); break;
-        case 24: *reinterpret_cast< float*>(_v) = _t->right(); break;
-        case 25: *reinterpret_cast< float*>(_v) = _t->top(); break;
-        case 26: *reinterpret_cast< float*>(_v) = _t->maxWidth(); break;
-        case 27: *reinterpret_cast< float*>(_v) = _t->maxHeight(); break;
-        case 28: *reinterpret_cast< float*>(_v) = _t->minWidth(); break;
-        case 29: *reinterpret_cast< float*>(_v) = _t->minHeight(); break;
+        case 22: *reinterpret_cast< QVariant*>(_v) = _t->bottom(); break;
+        case 23: *reinterpret_cast< QVariant*>(_v) = _t->left(); break;
+        case 24: *reinterpret_cast< QVariant*>(_v) = _t->right(); break;
+        case 25: *reinterpret_cast< QVariant*>(_v) = _t->top(); break;
+        case 26: *reinterpret_cast< QVariant*>(_v) = _t->maxWidth(); break;
+        case 27: *reinterpret_cast< QVariant*>(_v) = _t->maxHeight(); break;
+        case 28: *reinterpret_cast< QVariant*>(_v) = _t->minWidth(); break;
+        case 29: *reinterpret_cast< QVariant*>(_v) = _t->minHeight(); break;
         case 30: *reinterpret_cast< float*>(_v) = _t->flex(); break;
-        case 31: *reinterpret_cast< float*>(_v) = _t->flexBasis(); break;
+        case 31: *reinterpret_cast< QVariant*>(_v) = _t->flexBasis(); break;
         case 32: *reinterpret_cast< float*>(_v) = _t->flexGrow(); break;
         case 33: *reinterpret_cast< float*>(_v) = _t->flexShrink(); break;
         case 34: *reinterpret_cast< QString*>(_v) = _t->flexWrap(); break;
@@ -843,17 +850,17 @@ void Flexbox::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         switch (_id) {
         case 0: _t->setControl(*reinterpret_cast< QQuickItem**>(_v)); break;
         case 1: _t->setViewManager(*reinterpret_cast< QObject**>(_v)); break;
-        case 2: _t->setWidth(*reinterpret_cast< int*>(_v)); break;
-        case 3: _t->setHeight(*reinterpret_cast< int*>(_v)); break;
+        case 2: _t->setWidth(*reinterpret_cast< QVariant*>(_v)); break;
+        case 3: _t->setHeight(*reinterpret_cast< QVariant*>(_v)); break;
         case 4: _t->setFlexDirection(*reinterpret_cast< QString*>(_v)); break;
         case 5: _t->setJustifyContent(*reinterpret_cast< QString*>(_v)); break;
-        case 6: _t->setMargin(*reinterpret_cast< float*>(_v)); break;
-        case 7: _t->setMarginTop(*reinterpret_cast< float*>(_v)); break;
-        case 8: _t->setMarginBottom(*reinterpret_cast< float*>(_v)); break;
-        case 9: _t->setMarginLeft(*reinterpret_cast< float*>(_v)); break;
-        case 10: _t->setMarginRight(*reinterpret_cast< float*>(_v)); break;
-        case 11: _t->setMarginHorizontal(*reinterpret_cast< float*>(_v)); break;
-        case 12: _t->setMarginVertical(*reinterpret_cast< float*>(_v)); break;
+        case 6: _t->setMargin(*reinterpret_cast< QVariant*>(_v)); break;
+        case 7: _t->setMarginTop(*reinterpret_cast< QVariant*>(_v)); break;
+        case 8: _t->setMarginBottom(*reinterpret_cast< QVariant*>(_v)); break;
+        case 9: _t->setMarginLeft(*reinterpret_cast< QVariant*>(_v)); break;
+        case 10: _t->setMarginRight(*reinterpret_cast< QVariant*>(_v)); break;
+        case 11: _t->setMarginHorizontal(*reinterpret_cast< QVariant*>(_v)); break;
+        case 12: _t->setMarginVertical(*reinterpret_cast< QVariant*>(_v)); break;
         case 13: _t->setBorderWidth(*reinterpret_cast< float*>(_v)); break;
         case 14: _t->setBorderTopWidth(*reinterpret_cast< float*>(_v)); break;
         case 15: _t->setBorderBottomWidth(*reinterpret_cast< float*>(_v)); break;
@@ -863,16 +870,16 @@ void Flexbox::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 19: _t->setAlignContent(*reinterpret_cast< QString*>(_v)); break;
         case 20: _t->setAlignSelf(*reinterpret_cast< QString*>(_v)); break;
         case 21: _t->setAspectRatio(*reinterpret_cast< float*>(_v)); break;
-        case 22: _t->setBottom(*reinterpret_cast< float*>(_v)); break;
-        case 23: _t->setLeft(*reinterpret_cast< float*>(_v)); break;
-        case 24: _t->setRight(*reinterpret_cast< float*>(_v)); break;
-        case 25: _t->setTop(*reinterpret_cast< float*>(_v)); break;
-        case 26: _t->setMaxWidth(*reinterpret_cast< float*>(_v)); break;
-        case 27: _t->setMaxHeight(*reinterpret_cast< float*>(_v)); break;
-        case 28: _t->setMinWidth(*reinterpret_cast< float*>(_v)); break;
-        case 29: _t->setMinHeight(*reinterpret_cast< float*>(_v)); break;
+        case 22: _t->setBottom(*reinterpret_cast< QVariant*>(_v)); break;
+        case 23: _t->setLeft(*reinterpret_cast< QVariant*>(_v)); break;
+        case 24: _t->setRight(*reinterpret_cast< QVariant*>(_v)); break;
+        case 25: _t->setTop(*reinterpret_cast< QVariant*>(_v)); break;
+        case 26: _t->setMaxWidth(*reinterpret_cast< QVariant*>(_v)); break;
+        case 27: _t->setMaxHeight(*reinterpret_cast< QVariant*>(_v)); break;
+        case 28: _t->setMinWidth(*reinterpret_cast< QVariant*>(_v)); break;
+        case 29: _t->setMinHeight(*reinterpret_cast< QVariant*>(_v)); break;
         case 30: _t->setFlex(*reinterpret_cast< float*>(_v)); break;
-        case 31: _t->setFlexBasis(*reinterpret_cast< float*>(_v)); break;
+        case 31: _t->setFlexBasis(*reinterpret_cast< QVariant*>(_v)); break;
         case 32: _t->setFlexGrow(*reinterpret_cast< float*>(_v)); break;
         case 33: _t->setFlexShrink(*reinterpret_cast< float*>(_v)); break;
         case 34: _t->setFlexWrap(*reinterpret_cast< QString*>(_v)); break;
@@ -892,7 +899,6 @@ void Flexbox::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
     } else if (_c == QMetaObject::ResetProperty) {
     }
 #endif // QT_NO_PROPERTIES
-    Q_UNUSED(_a);
 }
 
 QT_INIT_METAOBJECT const QMetaObject Flexbox::staticMetaObject = { {
@@ -924,13 +930,13 @@ int Flexbox::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 48)
+        if (_id < 49)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 48;
+        _id -= 49;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 48)
+        if (_id < 49)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 48;
+        _id -= 49;
     }
 #ifndef QT_NO_PROPERTIES
    else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty

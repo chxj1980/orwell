@@ -202,13 +202,13 @@ void OpenGlBufferItemRenderer::synchronize(QQuickFramebufferObject *item)
     //TODO: make it setVideoReceiver(nullptr) when it goes away
 
     if (openGlBufferItem->id!=nullptr) {
-        Glue::instance()->get(openGlBufferItem->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
+        Glue::instance()->getStream(openGlBufferItem->id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
     } else if (openGlBufferItem->p_id!=nullptr) {
-        if(Glue::instance()->get(openGlBufferItem->p_id).mediaStream==nullptr) {
+        if(Glue::instance()->getStream(openGlBufferItem->p_id).mediaStream==nullptr) {
             //TODO (VERY IMPORTANT): retry every x millisseconds until we have a definition, or find a better solution
             std::cout << "/1/1/1/1/1/1/1/1/11/1/1 ERROR: mediaStream is undefined for " << openGlBufferItem->p_id.toStdString() << std::endl;
         } else {
-            Glue::instance()->get(openGlBufferItem->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
+            Glue::instance()->getStream(openGlBufferItem->p_id).mediaStream->ffmpegDecoder->setVideoReceiver(this);
         }
     }else {
         std::cout << "ERROR, id not set or not set yet " << std::endl;

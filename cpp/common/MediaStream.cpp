@@ -47,9 +47,9 @@ void MediaStream::run() {
 int MediaStream::init()
 {	
 	if (firstConnection) {
-		std::cout << "RTSP connection for " << this->uri << std::endl;
+		//std::cout << "RTSP connection for " << this->uri << std::endl;
 	} else {
-		std::cout << "RTSP reconnection for " << this->uri << std::endl;
+		//std::cout << "RTSP reconnection for " << this->uri << std::endl;
 	}
 	firstConnection = false;
 	

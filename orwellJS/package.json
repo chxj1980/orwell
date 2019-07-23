@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "react": "16.6.3",
-    "react-native": "status-im/react-native-desktop"
+    "react-native": "status-im/react-native-desktop",
+    "realm": "https://github.com/status-im/realm-js.git#v2.20.1"
   },
   "desktopExternalModules": [
     "modules/mediaplayer/desktop",

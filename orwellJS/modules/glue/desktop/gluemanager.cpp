@@ -64,5 +64,9 @@ void GlueManager::addRTSPStream(QString key, QString uri) {
     //ffmpegDecoder.uri = this->uri;
     glueObject.mediaStream->setDecoder(ffmpegDecoder);
     glueObject.mediaThread = std::make_shared<boost::thread>(&MediaStream::run, glueObject.mediaStream);
-    Glue::instance()->add(key, glueObject);
+    Glue::instance()->addStream(key, glueObject);
+}
+
+void GlueManager::DisableStreamReceiver(QString key) {
+    Glue::instance()->DisableStreamReceiver(key);
 }

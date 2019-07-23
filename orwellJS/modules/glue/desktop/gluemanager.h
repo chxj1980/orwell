@@ -37,6 +37,8 @@ public:
     QVariantMap constantsToExport() override;
 
     Q_INVOKABLE void addRTSPStream(QString key, QString uri);
+    Q_INVOKABLE void DisableStreamReceiver(QString key);
+
 private:
     QScopedPointer<GlueManagerPrivate> d_ptr;
 };
