@@ -4,10 +4,6 @@
 #include <cstdint>
 #include <stdint.h>
 #include <time.h>
-#include <QDebug>
-#include <QDateTime>
-#include <QPainter>
-#include <QFont>
 
 
 FfmpegDecoder::FfmpegDecoder()

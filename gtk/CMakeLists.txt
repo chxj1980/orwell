@@ -24,22 +24,13 @@ pkg_check_modules(GTKMM gtkmm-3.0) #sudo apt-get install libgtkmm-3.0-dev
 link_directories(${GTKMM_LIBRARY_DIRS})
 include_directories(include ${GTKMM_INCLUDE_DIRS})
 
-
-#find_package(Qt5 COMPONENTS Qml Quick Gui Widgets Multimedia MultimediaWidgets) #OpenGLWidgets) 
-
-#set(REACT_NATIVE_REACTQT_DIR "../react-native-desktop/ReactQt/runtime/src/") 
 add_subdirectory(../myRtspClient myrtsp)
 include_directories(../myRtspClient/myRtspClient/include)
 include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
-#include_directories(${REACT_NATIVE_REACTQT_DIR})
-#include_directories(${REACT_NATIVE_REACTQT_DIR}/layout)
-
-#qt5_add_resources(QRCS resources.qrc) #what this does?
-#qt5_add_resources(qml_QRC qml.qrc)    #what this does?
 
 #add_subdirectory(../react-native-desktop RND)
-file(GLOB orwell_gtk3_SRCS "*.cpp")
+file(GLOB orwell_gtk3_SRCS "*.cpp" "../cpp/common/*")
 
 add_executable(orwell ${orwell_gtk3_SRCS})
 #add_dependencies(orwell react-native)

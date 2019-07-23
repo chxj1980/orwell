@@ -19,7 +19,6 @@
 #include <QtQml>
 #include "Glue.h"
 #include <memory>
-#include "MediaStream.h"
 
 
 int main(int argc, char **argv)

@@ -3,8 +3,11 @@
 #include <gtkmm/button.h>
 #include <gtkmm/main.h>
 
-#include <iostream>
+#include "MediaStream.h"
+#include "FfmpegDecoder.h"
+#include "Singleton.h"
 
+#include <iostream>
 #include <GL/glew.h>
 #include <GL/glx.h>
 
@@ -127,7 +130,13 @@ private:
 
 int main () {
   Gtk::Main kit;
-
+  SingletonObject singletonObject;
+  singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1");
+  FfmpegDecoder* ffmpegDecoder = new FfmpegDecoder();
+  singletonObject.mediaStream->setDecoder(ffmpegDecoder);
+  singletonObject.mediaThread = std::make_shared<boost::thread>(&MediaStream::run, singletonObject.mediaStream);
+  Singleton::instance()->addStream("cam1", singletonObject);
+  
   GLWindow window;
   window.show_all ();
 
