@@ -208,6 +208,87 @@ jrtplib-static/fast:
 	$(MAKE) -f myrtsp/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build.make myrtsp/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build
 .PHONY : jrtplib-static/fast
 
+OpenglArea.o: OpenglArea.cpp.o
+
+.PHONY : OpenglArea.o
+
+# target to build an object file
+OpenglArea.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglArea.cpp.o
+.PHONY : OpenglArea.cpp.o
+
+OpenglArea.i: OpenglArea.cpp.i
+
+.PHONY : OpenglArea.i
+
+# target to preprocess a source file
+OpenglArea.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglArea.cpp.i
+.PHONY : OpenglArea.cpp.i
+
+OpenglArea.s: OpenglArea.cpp.s
+
+.PHONY : OpenglArea.s
+
+# target to generate assembly for a file
+OpenglArea.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglArea.cpp.s
+.PHONY : OpenglArea.cpp.s
+
+Program.o: Program.cpp.o
+
+.PHONY : Program.o
+
+# target to build an object file
+Program.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Program.cpp.o
+.PHONY : Program.cpp.o
+
+Program.i: Program.cpp.i
+
+.PHONY : Program.i
+
+# target to preprocess a source file
+Program.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Program.cpp.i
+.PHONY : Program.cpp.i
+
+Program.s: Program.cpp.s
+
+.PHONY : Program.s
+
+# target to generate assembly for a file
+Program.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Program.cpp.s
+.PHONY : Program.cpp.s
+
+Shader.o: Shader.cpp.o
+
+.PHONY : Shader.o
+
+# target to build an object file
+Shader.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Shader.cpp.o
+.PHONY : Shader.cpp.o
+
+Shader.i: Shader.cpp.i
+
+.PHONY : Shader.i
+
+# target to preprocess a source file
+Shader.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Shader.cpp.i
+.PHONY : Shader.cpp.i
+
+Shader.s: Shader.cpp.s
+
+.PHONY : Shader.s
+
+# target to generate assembly for a file
+Shader.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Shader.cpp.s
+.PHONY : Shader.cpp.s
+
 Singleton.o: Singleton.cpp.o
 
 .PHONY : Singleton.o
@@ -370,87 +451,6 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-openglarea.o: openglarea.cpp.o
-
-.PHONY : openglarea.o
-
-# target to build an object file
-openglarea.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/openglarea.cpp.o
-.PHONY : openglarea.cpp.o
-
-openglarea.i: openglarea.cpp.i
-
-.PHONY : openglarea.i
-
-# target to preprocess a source file
-openglarea.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/openglarea.cpp.i
-.PHONY : openglarea.cpp.i
-
-openglarea.s: openglarea.cpp.s
-
-.PHONY : openglarea.s
-
-# target to generate assembly for a file
-openglarea.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/openglarea.cpp.s
-.PHONY : openglarea.cpp.s
-
-program.o: program.cpp.o
-
-.PHONY : program.o
-
-# target to build an object file
-program.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/program.cpp.o
-.PHONY : program.cpp.o
-
-program.i: program.cpp.i
-
-.PHONY : program.i
-
-# target to preprocess a source file
-program.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/program.cpp.i
-.PHONY : program.cpp.i
-
-program.s: program.cpp.s
-
-.PHONY : program.s
-
-# target to generate assembly for a file
-program.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/program.cpp.s
-.PHONY : program.cpp.s
-
-shader.o: shader.cpp.o
-
-.PHONY : shader.o
-
-# target to build an object file
-shader.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/shader.cpp.o
-.PHONY : shader.cpp.o
-
-shader.i: shader.cpp.i
-
-.PHONY : shader.i
-
-# target to preprocess a source file
-shader.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/shader.cpp.i
-.PHONY : shader.cpp.i
-
-shader.s: shader.cpp.s
-
-.PHONY : shader.s
-
-# target to generate assembly for a file
-shader.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/shader.cpp.s
-.PHONY : shader.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -467,6 +467,15 @@ help:
 	@echo "... myRtspClient"
 	@echo "... jrtplib-shared"
 	@echo "... jrtplib-static"
+	@echo "... OpenglArea.o"
+	@echo "... OpenglArea.i"
+	@echo "... OpenglArea.s"
+	@echo "... Program.o"
+	@echo "... Program.i"
+	@echo "... Program.s"
+	@echo "... Shader.o"
+	@echo "... Shader.i"
+	@echo "... Shader.s"
 	@echo "... Singleton.o"
 	@echo "... Singleton.i"
 	@echo "... Singleton.s"
@@ -485,15 +494,6 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... openglarea.o"
-	@echo "... openglarea.i"
-	@echo "... openglarea.s"
-	@echo "... program.o"
-	@echo "... program.i"
-	@echo "... program.s"
-	@echo "... shader.o"
-	@echo "... shader.i"
-	@echo "... shader.s"
 .PHONY : help
 
 

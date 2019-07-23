@@ -1,4 +1,4 @@
-#include "openglarea.hpp"
+#include "OpenglArea.h"
 
 #include <gtkmm/drawingarea.h>
 #include <gdk/gdkx.h>
@@ -21,6 +21,8 @@ OpenGLArea::OpenGLArea () {
   set_double_buffered (false);
 
   xdisplay = nullptr;
+
+  init();
 }
 
 void OpenGLArea::on_realize () {
@@ -39,7 +41,7 @@ void OpenGLArea::on_realize () {
   std::cout << "Version: .......... " << glGetString (GL_VERSION) << std::endl;
   std::cout << "GLSL version: ..... " << glGetString (GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
-  on_gl_init ();
+  glInit();
 }
 
 void OpenGLArea::on_glx_init () {
@@ -57,7 +59,7 @@ void OpenGLArea::on_glx_init () {
 
   xdisplay = GDK_WINDOW_XDISPLAY (Glib::unwrap (get_window ()));
   drawable = GDK_WINDOW_XID (Glib::unwrap (get_window ()));
-  const std::unique_ptr<XVisualInfo, Evg::XVisualInfoDeleter> visual_info (glXChooseVisual (xdisplay, DefaultScreen (xdisplay), glx_attrs));
+  const std::unique_ptr<XVisualInfo, XVisualInfoDeleter> visual_info (glXChooseVisual (xdisplay, DefaultScreen (xdisplay), glx_attrs));
 
   if (!visual_info) {
     throw std::runtime_error ("failed glXChooseVisual.");
@@ -71,12 +73,6 @@ void OpenGLArea::on_glx_init () {
   if (!glXMakeCurrent (xdisplay, drawable, context)) {
     throw std::runtime_error ("failed glXMakeCurrent.");
   }
-}
-
-void OpenGLArea::on_gl_init () {
-}
-
-void OpenGLArea::on_gl_draw () {
 }
 
 bool OpenGLArea::on_configure_event (GdkEventConfigure *event) {
@@ -97,7 +93,7 @@ bool OpenGLArea::on_draw (const Cairo::RefPtr<Cairo::Context> &cr) {
   if (!glXMakeCurrent (xdisplay, drawable, context))
     return false;
 
-  on_gl_draw ();
+  glDraw();
   //std::cout << "on draw" << std::endl;
 
   glXSwapBuffers (xdisplay, drawable);
