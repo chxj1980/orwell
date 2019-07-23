@@ -18,19 +18,24 @@
 #define T_VER 1
 
 static const GLfloat ver[] = {
+	-1.0f, 1.0f,
+	1.0f, 1.0f,
 	-1.0f, -1.0f,
 	1.0f, -1.0f,
-	-1.0f, 1.0f,
-	1.0f, 1.0f};
+};
+
 
 static const GLfloat tex[] = {
 	0.0f, 1.0f,
 	1.0f, 1.0f,
 	0.0f, 0.0f,
-	1.0f, 0.0f};
+	1.0f, 0.0f
+};
 
 void OpenGLArea::init()
 {
+	std::cout << "OpenGLArea init" << std::endl;
+
 	set_size_request(640, 360);
 	Singleton::instance()->getStream("cam1").mediaStream->ffmpegDecoder->setVideoReceiver(this);
 }
@@ -58,6 +63,7 @@ void OpenGLArea::receiveVideo(unsigned char **videoBuffer, int frameWidth, int f
 		memcpy(buffer[1], videoBuffer[1], frameWidth * frameHeight / 4);
 		memcpy(buffer[2], videoBuffer[2], frameWidth * frameHeight / 4);
 	}
+	//glDraw();
 }
 
 void OpenGLArea::glInit()
@@ -71,11 +77,12 @@ void OpenGLArea::glInit()
 	Shader vertex_shader(ShaderType::Vertex, "vertex.shader");
 	Shader fragment_shader(ShaderType::Fragment, "fragment.shader");
 
-	program.attach_shader(vertex_shader);
-	program.attach_shader(fragment_shader);
-	program.link();
+	program = new Program();
+	program->attach_shader(vertex_shader);
+	program->attach_shader(fragment_shader);
+	program->link();
 
-	glGenTextures(3, texs);
+	glGenTextures(3, texs);//TODO: delete texture
 
 	//Y
 	glBindTexture(GL_TEXTURE_2D, texs[0]);
@@ -93,15 +100,17 @@ void OpenGLArea::glInit()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	//triangle = new Triangle (program.get_id ());
 }
 
 void OpenGLArea::glDraw()
 {
 	std::cout << "on draw" << std::endl;
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT);
 
-	program.use();
+	program->use();
+
+	//GLint originTextureUnit;
+	//glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);
 
 	glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
 	glEnableVertexAttribArray(A_VER);
@@ -109,9 +118,9 @@ void OpenGLArea::glDraw()
 	glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
 	glEnableVertexAttribArray(T_VER);
 
-	unis[0] = glGetAttribLocation(program.get_id(), "tex_y");
-	unis[1] = glGetAttribLocation(program.get_id(), "tex_u");
-	unis[2] = glGetAttribLocation(program.get_id(), "tex_v");
+	unis[0] = glGetAttribLocation(program->get_id(), "tex_y");
+	unis[1] = glGetAttribLocation(program->get_id(), "tex_u");
+	unis[2] = glGetAttribLocation(program->get_id(), "tex_v");
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texs[0]);
@@ -129,10 +138,11 @@ void OpenGLArea::glDraw()
 	glUniform1i(unis[2], 2);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	//program->disableAttributeArray(A_VER);
+	//program->disableAttributeArray(T_VER);
+	//program->release();
 
-	//program.disableAttributeArray(A_VER);
-	//program.disableAttributeArray(T_VER);
-	//program.release();
+	//glActiveTexture(originTextureUnit);
 
 	//triangle->draw ();
 }
@@ -142,15 +152,12 @@ class GLWindow : public Gtk::Window
   public:
 	GLWindow()
 	{
+		std::cout << "GLWindow constructor" << std::endl;
 		vbox = new Gtk::VBox;
-		button = new Gtk::Button("quit");
+		std::cout << "gonna create OpenGlArea" << std::endl;
 		drawing_area = new OpenGLArea();
 
 		vbox->pack_start(*drawing_area, true, true);
-		vbox->pack_start(*button, false, false);
-
-		button->signal_clicked().connect([]() { Gtk::Main::quit(); });
-
 		add(*vbox);
 	}
 

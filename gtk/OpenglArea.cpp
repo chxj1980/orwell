@@ -18,6 +18,7 @@ public:
 };
 
 OpenGLArea::OpenGLArea () {
+  std::cout << "OpenGLArea constructor" << std::endl;
   set_double_buffered (false);
 
   xdisplay = nullptr;
@@ -84,7 +85,7 @@ bool OpenGLArea::on_configure_event (GdkEventConfigure *event) {
   GLsizei height = get_allocated_height ();
   GLsizei size = std::min (width, height);
 
-  glViewport ((width - size) / 2, (height - size) / 2, size, size);
+  //glViewport ((width - size) / 2, (height - size) / 2, size, size);
 
   return true;
 }
@@ -94,7 +95,6 @@ bool OpenGLArea::on_draw (const Cairo::RefPtr<Cairo::Context> &cr) {
     return false;
 
   glDraw();
-  //std::cout << "on draw" << std::endl;
 
   glXSwapBuffers (xdisplay, drawable);
 

@@ -28,7 +28,7 @@ class OpenGLArea : public Gtk::DrawingArea, public VideoReceiver {
     int frameHeight = 0;
     GLuint unis[3] = {0};
     GLuint texs[3] = {0};
-    Program program;
+    Program* program;
     //GLuint program;
     Display *xdisplay;
     GLXDrawable drawable;
