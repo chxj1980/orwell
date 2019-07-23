@@ -65,3 +65,4 @@ orwellJS/desktop/orwell_subdir/*
 orwellJS/desktop/_orwell/*
 orwellJS/desktop/cmake_install.cmake
 orwellJS/desktop/CMakeCache.txt
+gtk/myrtsp/*
