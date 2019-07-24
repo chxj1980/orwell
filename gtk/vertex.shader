@@ -6,5 +6,5 @@ varying vec2 textureOut;
 void main(void)
 {
 	gl_Position = vertexIn;
-	textureOut = vec2(textureIn.x, 1.0 - textureIn.y);
+	textureOut = textureIn;
 }

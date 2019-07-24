@@ -83,8 +83,7 @@ bool Program::link()
 void Program::use() const
 {
 	if (this->linked)
-		;
-	glUseProgram(this->id);
+		glUseProgram(this->id);
 }
 
 void Program::remove()

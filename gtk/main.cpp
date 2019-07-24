@@ -14,18 +14,17 @@
 
 #include "OpenglArea.h"
 
-#define A_VER 0
-#define T_VER 1
+#define VERTEX_POINTER 0
+#define FRAGMENT_POINTER 1
 
-static const GLfloat ver[] = {
-	-1.0f, 1.0f,
-	1.0f, 1.0f,
-	-1.0f, -1.0f,
-	1.0f, -1.0f,
+static const GLfloat vertices[] = {
+    -1.0f,-1.0f,
+     1.0f,-1.0f,
+    -1.0f, 1.0f,
+     1.0f, 1.0f
 };
 
-
-static const GLfloat tex[] = {
+static const GLfloat textureCoordinates[] = {
 	0.0f, 1.0f,
 	1.0f, 1.0f,
 	0.0f, 0.0f,
@@ -63,6 +62,8 @@ void OpenGLArea::receiveVideo(unsigned char **videoBuffer, int frameWidth, int f
 		memcpy(buffer[1], videoBuffer[1], frameWidth * frameHeight / 4);
 		memcpy(buffer[2], videoBuffer[2], frameWidth * frameHeight / 4);
 	}
+	queue_draw();
+	
 	//glDraw();
 }
 
@@ -80,7 +81,13 @@ void OpenGLArea::glInit()
 	program = new Program();
 	program->attach_shader(vertex_shader);
 	program->attach_shader(fragment_shader);
+
 	program->link();
+	unis[0] = glGetUniformLocation(program->get_id(), "tex_y");
+	unis[1] = glGetUniformLocation(program->get_id(), "tex_u");
+	unis[2] = glGetUniformLocation(program->get_id(), "tex_v");
+	std::cout << "unis[0]: " << unis[0] << std::endl;
+
 
 	glGenTextures(3, texs);//TODO: delete texture
 
@@ -104,23 +111,18 @@ void OpenGLArea::glInit()
 
 void OpenGLArea::glDraw()
 {
-	std::cout << "on draw" << std::endl;
 	//glClear(GL_COLOR_BUFFER_BIT);
-
 	program->use();
 
 	//GLint originTextureUnit;
 	//glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);
 
-	glVertexAttribPointer(A_VER, 2, GL_FLOAT, 0, 0, ver);
-	glEnableVertexAttribArray(A_VER);
+	glVertexAttribPointer(VERTEX_POINTER, 2, GL_FLOAT, 0, 0, vertices);
+	glEnableVertexAttribArray(VERTEX_POINTER);
 
-	glVertexAttribPointer(T_VER, 2, GL_FLOAT, 0, 0, tex);
-	glEnableVertexAttribArray(T_VER);
+	glVertexAttribPointer(FRAGMENT_POINTER, 2, GL_FLOAT, 0, 0, textureCoordinates);
+	glEnableVertexAttribArray(FRAGMENT_POINTER);
 
-	unis[0] = glGetAttribLocation(program->get_id(), "tex_y");
-	unis[1] = glGetAttribLocation(program->get_id(), "tex_u");
-	unis[2] = glGetAttribLocation(program->get_id(), "tex_v");
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texs[0]);
@@ -152,9 +154,7 @@ class GLWindow : public Gtk::Window
   public:
 	GLWindow()
 	{
-		std::cout << "GLWindow constructor" << std::endl;
 		vbox = new Gtk::VBox;
-		std::cout << "gonna create OpenGlArea" << std::endl;
 		drawing_area = new OpenGLArea();
 
 		vbox->pack_start(*drawing_area, true, true);
