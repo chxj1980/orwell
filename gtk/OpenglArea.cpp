@@ -79,13 +79,11 @@ void OpenGLArea::on_glx_init () {
 bool OpenGLArea::on_configure_event (GdkEventConfigure *event) {
   if (xdisplay != nullptr && !glXMakeCurrent (xdisplay, drawable, context))
     return false;
-  std::cout << "on configure" << std::endl;
-
   GLsizei width = get_allocated_width ();
   GLsizei height = get_allocated_height ();
   GLsizei size = std::min (width, height);
 
-  //glViewport ((width - size) / 2, (height - size) / 2, size, size);
+  glViewport (0,0, width, height);
 
   return true;
 }
