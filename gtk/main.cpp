@@ -69,8 +69,6 @@ void OpenGLArea::receiveVideo(unsigned char **videoBuffer, int frameWidth, int f
 
 void OpenGLArea::glInit()
 {
-	std::cout << "on GL init" << std::endl;
-
 	int frameWidth = 640;
 	int frameHeight = 360;
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -86,8 +84,6 @@ void OpenGLArea::glInit()
 	unis[0] = glGetUniformLocation(program->get_id(), "tex_y");
 	unis[1] = glGetUniformLocation(program->get_id(), "tex_u");
 	unis[2] = glGetUniformLocation(program->get_id(), "tex_v");
-	std::cout << "unis[0]: " << unis[0] << std::endl;
-
 
 	glGenTextures(3, texs);//TODO: delete texture
 
@@ -156,7 +152,12 @@ class GLWindow : public Gtk::Window
 	{
 		vbox = new Gtk::VBox;
 		drawing_area = new OpenGLArea();
-
+		/*
+			GtkWidget* Gtk::Widget::gobj() 	
+			Provides access to the underlying C GObject.
+		 */
+		GtkDrawingArea* gDrawingArea = drawing_area->gobj();
+		GtkWidget* gWidget = GTK_WIDGET(gDrawingArea);
 		vbox->pack_start(*drawing_area, true, true);
 		add(*vbox);
 	}

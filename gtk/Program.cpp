@@ -33,9 +33,7 @@ GLuint Program::get_id() const
 
 bool Program::create()
 {
-	std::cout << "Program create" << std::endl;
 	this->id = glCreateProgram();
-	std::cout << "Program create end" << std::endl;
 
 	return (this->id != 0);
 }
