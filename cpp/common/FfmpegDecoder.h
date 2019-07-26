@@ -1,6 +1,7 @@
 #ifndef FfmpegDecoder_H
 #define FfmpegDecoder_H
 #include "FrameUpdater.h"
+#include <vector>
 
 extern "C"
 {
@@ -10,6 +11,7 @@ extern "C"
 #include <libswscale/swscale.h>
 #include <libavutil/frame.h>
 #include <libavdevice/avdevice.h>
+#include <libavutil/hwcontext.h>
 }
 #include <iostream>
 #include "VideoReceiver.h"
@@ -19,24 +21,23 @@ extern "C"
 class FfmpegDecoder
 {
 public:
-	FfmpegDecoder();
-	~FfmpegDecoder();
-	
+	static enum Codec{H264, H265} codec;
+
+	//FfmpegDecoder(Codec codec, Device device):codec(codec), device(device){};
+	~FfmpegDecoder(){
+		av_frame_free(&avFrame);
+	}
+
 	bool init();
-	void decodeFrame(uint8_t* frameBuffer, int frameLength);
-	void Record();
-	void setPlayState(bool pause);
-	void setRecordState(bool record);
-	//void setFrameUpdater(FrameUpdater * frameUpdater);
-	void setVideoReceiver(VideoReceiver * videoReceiver) {this->videoReceiver = videoReceiver;}
+	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength);//Decodes to CPU memory
+	void setVideoReceiver(VideoReceiver * videoReceiver) {
+		this->videoReceiver = videoReceiver;
+	}
 	void disableVideoReceiver() {
-		//std::cout << "disabled videoReceiver" << std::endl;
 		this->videoReceiver = nullptr;
 	}
-	//For debug purposes:
-	std::string uri;
 
-private:
+protected:
 
 	AVPicture        avPicture;
 	AVCodec         *avCodec;
@@ -45,7 +46,6 @@ private:
 	SwsContext      *swsContext;
 	AVStream        *avStream;
 	AVFormatContext *avFormatContext;
-	FrameUpdater    *frameUpdater;
 	VideoReceiver   *videoReceiver = nullptr;
 
 };
