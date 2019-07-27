@@ -5,7 +5,8 @@ FROM ubuntu:bionic
 RUN dpkg --add-architecture i386 && apt-get update \
     && apt-get install build-essential git yasm unzip wget sysstat nasm libc6:i386 \
                        libavcodec-dev libavformat-dev libavutil-dev pkgconf g++ freeglut3-dev \
-                       libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
+                       libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev \
+                       cmake
 
 ADD ../deps/cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
 
@@ -26,3 +27,4 @@ RUN git clone https://code.videolan.org/videolan/x264.git \
     && cd x264/ \
     && ./configure --disable-cli --enable-static --enable-shared --enable-strip\
     && make && make install && ldconfig
+
