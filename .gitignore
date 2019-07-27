@@ -1,5 +1,4 @@
 .cmake
-.vscode
 jrtplib/src/CMakeFiles/*
 jrtplib/src/CMakeFiles/
 CMakeFiles/*
