@@ -57,7 +57,7 @@ int MediaStream::init()
 		//ERROR, return
 	}
 	//TODO: init this only one time
-	bool r = ffmpegDecoder->init();
+	bool r = false;//ffmpegDecoder->init();
 	if(!r) std::cout << "problem with ffmpeg decoder init"  << std::endl;
 
 	//ffmpegDecoder.setFrameUpdater(frameUpdater);

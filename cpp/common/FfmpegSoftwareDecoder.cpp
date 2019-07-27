@@ -7,7 +7,7 @@ SoftwareFfmpegDecoder::SoftwareFfmpegDecoder()
 
 bool SoftwareFfmpegDecoder::init()
 {
-    avcodec_register_all();
+    //avcodec_register_all(); //Deprecated
 	avFrame = av_frame_alloc();
 
 	avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);

@@ -1,5 +1,20 @@
 #include "FfmpegHardwareDecoder.h"
+struct avCodecContextOpaque {
+    AVPixelFormat* avPixelFormat;
+};
+//Callback of avCodecContext which selects the correct pixel format. TODO: write a better definition for this
+enum AVPixelFormat get_hw_format(AVCodecContext *ctx, const enum AVPixelFormat *pix_fmts)
+{
+    const enum AVPixelFormat *p;
 
+    for (p = pix_fmts; *p != -1; p++) {
+        if (*p == *(((avCodecContextOpaque *)(ctx->opaque))->avPixelFormat))
+            return *p;
+    }
+
+    fprintf(stderr, "Failed to get HW surface format.\n");
+    return AV_PIX_FMT_NONE;
+}
 /* 
 AVPixelFormat FfmpegHardwareDecoder::get_format(struct AVCodecContext *s, const AVPixelFormat *fmt)
 {
@@ -63,10 +78,13 @@ bool FfmpegHardwareDecoder::init(std::string type) {
         std::cout << "avCodecContext error:" << AVERROR(ENOMEM) << std::endl;
         return false;
     }
-    struct avCodecContextOpaque {
-        AVPixelFormat* avPixelFormat;
-    }o;
+
+    avCodecContextOpaque o;
     o.avPixelFormat = &avPixelFormat;
+    /* 
+        Uses the opaqe field of AVCodecContext to store our pixelformat so the callback 
+        function get_hw_format
+    */
     avCodecContext->opaque = &o;
     //This callback selects the right AvPixelFormat for the hardware decoder
     avCodecContext->get_format = get_hw_format;
@@ -118,7 +136,7 @@ bool FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength
 void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength) {
     hardwareDecode(frameBuffer, frameLength);
     //Now get things back grom GPU memory
-    if (decodedAvFrame->format == hw_pix_fmt) {
+    if (decodedAvFrame->format == avPixelFormat) {
         /* retrieve data from GPU to CPU */
         int ret = 0;
         if ((ret = av_hwframe_transfer_data(fromGPUAvFrame, decodedAvFrame, 0)) < 0) {
@@ -132,7 +150,8 @@ void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength) {
     int size = av_image_get_buffer_size(static_cast<AVPixelFormat>(tmp_frame->format), 
                                         tmp_frame->width,
                                         tmp_frame->height, 1);
-    buffer = av_malloc(size);
+    //TODO: is this casting ok??????
+    buffer = (uint8_t *)av_malloc(size);
     if (!buffer) {
         fprintf(stderr, "Can not alloc buffer\n");
         //ret = AVERROR(ENOMEM);
@@ -193,20 +212,6 @@ void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength) {
     return 0;
     */
 
-
-//Callback of avCodecContext which selects the correct pixel format. TODO: write a better definition for this
-enum AVPixelFormat get_hw_format(AVCodecContext *ctx, const enum AVPixelFormat *pix_fmts)
-{
-    const enum AVPixelFormat *p;
-
-    for (p = pix_fmts; *p != -1; p++) {
-        if (*p == ctx->opaque->avPixelFormat)
-            return *p;
-    }
-
-    fprintf(stderr, "Failed to get HW surface format.\n");
-    return AV_PIX_FMT_NONE;
-}
 
 AVPixelFormat FfmpegHardwareDecoder::print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx,const AVPixelFormat *fmt)
 {

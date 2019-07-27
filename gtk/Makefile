@@ -302,33 +302,6 @@ Shader.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Shader.cpp.s
 .PHONY : Shader.cpp.s
 
-Singleton.o: Singleton.cpp.o
-
-.PHONY : Singleton.o
-
-# target to build an object file
-Singleton.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Singleton.cpp.o
-.PHONY : Singleton.cpp.o
-
-Singleton.i: Singleton.cpp.i
-
-.PHONY : Singleton.i
-
-# target to preprocess a source file
-Singleton.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Singleton.cpp.i
-.PHONY : Singleton.cpp.i
-
-Singleton.s: Singleton.cpp.s
-
-.PHONY : Singleton.s
-
-# target to generate assembly for a file
-Singleton.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Singleton.cpp.s
-.PHONY : Singleton.cpp.s
-
 home/lz/orwell/cpp/common/FfmpegDecoder.o: home/lz/orwell/cpp/common/FfmpegDecoder.cpp.o
 
 .PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.o
@@ -437,6 +410,33 @@ home/lz/orwell/cpp/common/MediaStream.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/MediaStream.cpp.s
 .PHONY : home/lz/orwell/cpp/common/MediaStream.cpp.s
 
+home/lz/orwell/cpp/common/Singleton.o: home/lz/orwell/cpp/common/Singleton.cpp.o
+
+.PHONY : home/lz/orwell/cpp/common/Singleton.o
+
+# target to build an object file
+home/lz/orwell/cpp/common/Singleton.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/Singleton.cpp.o
+.PHONY : home/lz/orwell/cpp/common/Singleton.cpp.o
+
+home/lz/orwell/cpp/common/Singleton.i: home/lz/orwell/cpp/common/Singleton.cpp.i
+
+.PHONY : home/lz/orwell/cpp/common/Singleton.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/common/Singleton.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/Singleton.cpp.i
+.PHONY : home/lz/orwell/cpp/common/Singleton.cpp.i
+
+home/lz/orwell/cpp/common/Singleton.s: home/lz/orwell/cpp/common/Singleton.cpp.s
+
+.PHONY : home/lz/orwell/cpp/common/Singleton.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/common/Singleton.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/Singleton.cpp.s
+.PHONY : home/lz/orwell/cpp/common/Singleton.cpp.s
+
 home/lz/orwell/cpp/common/VideoReceiver.o: home/lz/orwell/cpp/common/VideoReceiver.cpp.o
 
 .PHONY : home/lz/orwell/cpp/common/VideoReceiver.o
@@ -544,9 +544,6 @@ help:
 	@echo "... Shader.o"
 	@echo "... Shader.i"
 	@echo "... Shader.s"
-	@echo "... Singleton.o"
-	@echo "... Singleton.i"
-	@echo "... Singleton.s"
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.o"
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.i"
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.s"
@@ -559,6 +556,9 @@ help:
 	@echo "... home/lz/orwell/cpp/common/MediaStream.o"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.i"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.s"
+	@echo "... home/lz/orwell/cpp/common/Singleton.o"
+	@echo "... home/lz/orwell/cpp/common/Singleton.i"
+	@echo "... home/lz/orwell/cpp/common/Singleton.s"
 	@echo "... home/lz/orwell/cpp/common/VideoReceiver.o"
 	@echo "... home/lz/orwell/cpp/common/VideoReceiver.i"
 	@echo "... home/lz/orwell/cpp/common/VideoReceiver.s"

@@ -68,3 +68,4 @@ gtk/myrtsp/*
 deps/ffmpeg/*
 deps/ffmpeg_build/*
 gtk/ffmpeg-prefix/*
+gtk/_zlib/*

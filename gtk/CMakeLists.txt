@@ -17,6 +17,7 @@ find_library(GLEW_LIBRARY GLEW) #sudo apt-get install libglew-dev
 find_library(GLU_LIBRARY GLU)
 find_library(GL_LIBRARY GL)
 find_library(X11_LIBRARY X11)
+find_library(ZLIB_LIBRARY z)
 
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0) #sudo apt-get install libgtkmm-3.0-dev	
@@ -32,17 +33,24 @@ include_directories(..)
 #add_subdirectory(../react-native-desktop RND)
 file(GLOB orwell_gtk3_SRCS "*.cpp" "../cpp/common/*")
 
+#Modern FFMPEG
 include(ExternalProject)
 set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
 set(FFMPEG_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg_build)
 ExternalProject_Add(ffmpeg PREFIX ${FFMPEG_SRC_DIR}
+					#URL ...
+    				#URL_HASH SHA2=...
 					SOURCE_DIR ${FFMPEG_SRC_DIR}
 					CONFIGURE_COMMAND sh ${FFMPEG_SRC_DIR}/configure #sudo apt-get install yasm				
 					BINARY_DIR ${FFMPEG_BINARY_DIR}
 					BUILD_COMMAND "make"
-					INSTALL_COMMAND "" )
-
+					INSTALL_COMMAND "")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
+
+#Modern zlib (or libz, don't know) is required by ffmpeg, on ubuntu mine didn't work
+#set(ZLIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/zlib-1.2.11)
+#add_subdirectory(${ZLIB_DIR} _zlib)
+#include_directories(${ZLIB_DIR})
 
 if (UNIX)
 	add_library(AVUTIL_UPDATED_LIB SHARED IMPORTED)
@@ -51,19 +59,24 @@ if (UNIX)
 	set_target_properties(AVCODEC_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavcodec/libavcodec.a)
 	add_library(SWS_SCALE_UPDATED_LIB SHARED IMPORTED)
 	set_target_properties(SWS_SCALE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswscale/libswscale.a)
-endif (UNIX)
+	add_library(SWRESAMPLE_UPDATED_LIB SHARED IMPORTED)
+	set_target_properties(SWRESAMPLE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswresample/libswresample.a)
+	endif (UNIX)
 
 if (WIN32)
-    #to be done
+    #to be done, and add macOS too
 endif (WIN32)
 
 add_executable(orwell ${orwell_gtk3_SRCS})
-add_dependencies(orwell ffmpeg)
+add_dependencies(orwell ffmpeg)# zlib)
 
-target_link_libraries( orwell PRIVATE 
-			   #${AVCODEC_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} #OLD from system libs
-			   ${AVUTIL_UPDATED_LIB} {AVCODEC_UPDATED_LIB} ${SWS_SCALE_UPDATED_LIB}
-		       Boost::thread myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${X11_LIBRARY})
+#${AVCODEC_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} #OLD from system libs
+target_link_libraries( orwell PRIVATE
+			   Boost::thread 
+			AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} #zlib MUST come AFTER ffmpeg
+		       myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${X11_LIBRARY})
+
+#TODO: create a target for Android which links needed libraries in PUBLIC mode. Ff I understood correctly that's what needs to be done
 
 #RUN WITH:
 #/home/lz/cmake-3.14.0-rc2-Linux-x86_64/bin/cmake -DCMAKE_PREFIX_PATH=/home/lz/Qt5.11.2/5.11.2/gcc_64 -DCMAKE_BUILD_TYPE=Debug .

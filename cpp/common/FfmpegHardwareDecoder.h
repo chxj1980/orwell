@@ -4,7 +4,7 @@
 #include <libavutil/hwcontext.h>
 #include <libavutil/imgutils.h>
 
-class FfmpegHardwareDecoder: private FfmpegDecoder {
+class FfmpegHardwareDecoder: public FfmpegDecoder {
     public:
         enum Device{SOFTWARE, HARDWARE} device;
         static std::vector<std::string> getSupportedDevices();
@@ -35,7 +35,7 @@ class FfmpegHardwareDecoder: private FfmpegDecoder {
         AVPacket         avPacket;
         //Image from GPU memory gets stored here
         uint8_t         *buffer = NULL;
-        enum AVPixelFormat avPixelFormat;        
+        AVPixelFormat    avPixelFormat;
 };
 
 #endif //HardwareFfmpegDecoder_H

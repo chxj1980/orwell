@@ -174,7 +174,7 @@ int main()
 	Gtk::Main kit;
 	SingletonObject singletonObject;
 	//singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
-	FfmpegDecoder *ffmpegDecoder = new FfmpegDecoder(FfmpegDecoder::H264,FfmpegDecoder::HARDWARE);
+	FfmpegHardwareDecoder *ffmpegHardwareDecoder = new FfmpegHardwareDecoder(FfmpegHardwareDecoder::H264,FfmpegHardwareDecoder::HARDWARE);
 	//std::cout << ffmpegDecoder->getSupportedDevices() << std::endl;
 	for (auto i: FfmpegHardwareDecoder::getSupportedDevices())
   		std::cout << i << std::endl;
