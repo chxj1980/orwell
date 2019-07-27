@@ -6,12 +6,6 @@ MAINTAINER Lucas Zanella (me@lucaszanella.com)
 ARG QT_SOURCE_LINK=http://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.zip
 ARG QT_INSTALLER_LINK=http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
 
-#TODO: add the things below to compile ffmpeg with hardware support
-#dpkg --add-architecture i386
-#apt-get update
-#apt-get install build-essential git yasm unzip wget sysstat nasm libc6:i386 \
-#libavcodec-dev libavformat-dev libavutil-dev pkgconf g++ freeglut3-dev \
-#libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     cmake build-essential ca-certificates yasm\

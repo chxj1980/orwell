@@ -41,7 +41,7 @@ ExternalProject_Add(ffmpeg PREFIX ${FFMPEG_SRC_DIR}
 					#URL ...
     				#URL_HASH SHA2=...
 					SOURCE_DIR ${FFMPEG_SRC_DIR}
-					CONFIGURE_COMMAND sh ${FFMPEG_SRC_DIR}/configure #sudo apt-get install yasm				
+					CONFIGURE_COMMAND sh ${FFMPEG_SRC_DIR}/configure --enable-nonfree --enable-nvenc --enable-libx264 --enable-gpl --enable-cuda --enable-cuvid --enable-cuda-nvcc #sudo apt-get install yasm
 					BINARY_DIR ${FFMPEG_BINARY_DIR}
 					BUILD_COMMAND "make"
 					INSTALL_COMMAND "")
