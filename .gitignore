@@ -66,3 +66,6 @@ orwellJS/desktop/_orwell/*
 orwellJS/desktop/cmake_install.cmake
 orwellJS/desktop/CMakeCache.txt
 gtk/myrtsp/*
+deps/ffmpeg/*
+deps/ffmpeg_build/*
+gtk/ffmpeg-prefix/*

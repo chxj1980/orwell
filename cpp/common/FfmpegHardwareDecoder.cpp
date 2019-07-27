@@ -21,7 +21,7 @@ std::vector<std::string> FfmpegHardwareDecoder::getSupportedDevices()
 	return result;
 }
 
-bool FfmpegHardwareDecoder::init(const enum AVHWDeviceType type) {
+bool FfmpegHardwareDecoder::init(std::string type) {
     //create context here
     int err = 0;
 
@@ -36,28 +36,19 @@ bool FfmpegHardwareDecoder::init(const enum AVHWDeviceType type) {
 
     //-------------------------------------------
 
-    type = av_hwdevice_find_type_by_name(argv[1]);
-    if (type == AV_HWDEVICE_TYPE_NONE) {
-        fprintf(stderr, "Device type %s is not supported.\n", argv[1]);
-        fprintf(stderr, "Available device types:");
-        while((type = av_hwdevice_iterate_types(type)) != AV_HWDEVICE_TYPE_NONE)
-            fprintf(stderr, " %s", av_hwdevice_get_type_name(type));
-        fprintf(stderr, "\n");
+    AVHWDeviceType ahwDeviceType = av_hwdevice_find_type_by_name(type.c_str());
+    if (ahwDeviceType == AV_HWDEVICE_TYPE_NONE) {
+        fprintf(stderr, "Device type %s is not supported.\n", type.c_str());
+        std::cout << "Device " << type << "not supported" << std::endl;
+        std::cout << "Avaliable devices:" << std::endl;
+        for (auto i: getSupportedDevices())
+  		    std::cout << i << std::endl;
         return -1;
     }
-
-
-
-    /* find the video stream information */
-    ret = av_find_best_stream(input_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &decoder, 0);
-    if (ret < 0) {
-        fprintf(stderr, "Cannot find a video stream in the input file\n");
-        return -1;
-    }
-    video_stream = ret;
-
-    for (i = 0;; i++) {
-        const AVCodecHWConfig *config = avcodec_get_hw_config(decoder, i);
+ 
+    //avCodecContext is for our decoder
+    for (int i = 0;; i++) {
+        const AVCodecHWConfig *config = avcodec_get_hw_config(avCodecContext, i);
         if (!config) {
             fprintf(stderr, "Decoder %s does not support device type %s.\n",
                     decoder->name, av_hwdevice_get_type_name(type));

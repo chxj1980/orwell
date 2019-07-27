@@ -68,6 +68,28 @@ install/strip/fast: preinstall/fast
 	/home/lz/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/lz/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/lz/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -89,28 +111,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/lz/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/home/lz/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
 
 # Special rule for the target install
 install: preinstall
@@ -168,6 +168,19 @@ orwell: cmake_check_build_system
 orwell/fast:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/build
 .PHONY : orwell/fast
+
+#=============================================================================
+# Target rules for targets named ffmpeg
+
+# Build rule for target.
+ffmpeg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ffmpeg
+.PHONY : ffmpeg
+
+# fast build rule for target.
+ffmpeg/fast:
+	$(MAKE) -f CMakeFiles/ffmpeg.dir/build.make CMakeFiles/ffmpeg.dir/build
+.PHONY : ffmpeg/fast
 
 #=============================================================================
 # Target rules for targets named myRtspClient
@@ -343,6 +356,60 @@ home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s
 .PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s
 
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.o: home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.o
+
+# target to build an object file
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
+
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.i: home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
+
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.s: home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
+
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.o: home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.o
+
+# target to build an object file
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
+
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.i: home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.s: home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+
 home/lz/orwell/cpp/common/MediaStream.o: home/lz/orwell/cpp/common/MediaStream.cpp.o
 
 .PHONY : home/lz/orwell/cpp/common/MediaStream.o
@@ -458,11 +525,12 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... edit_cache"
-	@echo "... orwell"
-	@echo "... rebuild_cache"
-	@echo "... list_install_components"
 	@echo "... install/local"
+	@echo "... orwell"
+	@echo "... ffmpeg"
+	@echo "... list_install_components"
+	@echo "... edit_cache"
+	@echo "... rebuild_cache"
 	@echo "... install"
 	@echo "... myRtspClient"
 	@echo "... jrtplib-shared"
@@ -482,6 +550,12 @@ help:
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.o"
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.i"
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.s"
+	@echo "... home/lz/orwell/cpp/common/FfmpegHardwareDecoder.o"
+	@echo "... home/lz/orwell/cpp/common/FfmpegHardwareDecoder.i"
+	@echo "... home/lz/orwell/cpp/common/FfmpegHardwareDecoder.s"
+	@echo "... home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.o"
+	@echo "... home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.i"
+	@echo "... home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.s"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.o"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.i"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.s"

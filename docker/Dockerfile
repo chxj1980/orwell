@@ -8,7 +8,7 @@ ARG QT_INSTALLER_LINK=http://download.qt.io/official_releases/online_installers/
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    cmake build-essential ca-certificates \
+    cmake build-essential ca-certificates yasm\
     libavcodec-dev libavformat-dev libavdevice-dev libavfilter-dev libavutil-dev libboost-dev libboost-thread-dev \
     libgl-dev perl python git wget unzip 
 

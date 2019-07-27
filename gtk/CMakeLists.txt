@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.1.0)
 
 project(orwell)
 
-find_library(AVCODEC_LIBRARY avcodec)
-find_library(AVUTIL_LIBRARY avutil)
-find_library(SWSCALE_LIBRARY swscale)
+#find_library(AVCODEC_LIBRARY avcodec)
+#find_library(AVUTIL_LIBRARY avutil)
+#find_library(SWSCALE_LIBRARY swscale)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON) # Find includes in corresponding build directories
 set(CMAKE_AUTOMOC ON) # Instruct CMake to run moc automatically when needed
@@ -32,11 +32,37 @@ include_directories(..)
 #add_subdirectory(../react-native-desktop RND)
 file(GLOB orwell_gtk3_SRCS "*.cpp" "../cpp/common/*")
 
-add_executable(orwell ${orwell_gtk3_SRCS})
-#add_dependencies(orwell react-native)
+include(ExternalProject)
+set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
+set(FFMPEG_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg_build)
+ExternalProject_Add(ffmpeg PREFIX ${FFMPEG_SRC_DIR}
+					SOURCE_DIR ${FFMPEG_SRC_DIR}
+					CONFIGURE_COMMAND sh ${FFMPEG_SRC_DIR}/configure #sudo apt-get install yasm				
+					BINARY_DIR ${FFMPEG_BINARY_DIR}
+					BUILD_COMMAND "make"
+					INSTALL_COMMAND "" )
 
-#TODO: decide either qtquick or qt widgets libs
-target_link_libraries( orwell PRIVATE ${AVCODEC_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
+
+if (UNIX)
+	add_library(AVUTIL_UPDATED_LIB SHARED IMPORTED)
+	set_target_properties(AVUTIL_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavutil/libavutil.a)
+	add_library(AVCODEC_UPDATED_LIB SHARED IMPORTED)
+	set_target_properties(AVCODEC_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavcodec/libavcodec.a)
+	add_library(SWS_SCALE_UPDATED_LIB SHARED IMPORTED)
+	set_target_properties(SWS_SCALE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswscale/libswscale.a)
+endif (UNIX)
+
+if (WIN32)
+    #to be done
+endif (WIN32)
+
+add_executable(orwell ${orwell_gtk3_SRCS})
+add_dependencies(orwell ffmpeg)
+
+target_link_libraries( orwell PRIVATE 
+			   #${AVCODEC_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} #OLD from system libs
+			   ${AVUTIL_UPDATED_LIB} {AVCODEC_UPDATED_LIB} ${SWS_SCALE_UPDATED_LIB}
 		       Boost::thread myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${X11_LIBRARY})
 
 #RUN WITH:

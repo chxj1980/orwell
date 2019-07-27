@@ -21,7 +21,7 @@ extern "C"
 class FfmpegDecoder
 {
 public:
-	static enum Codec{H264, H265} codec;
+	enum Codec{H264, H265} codec;
 
 	//FfmpegDecoder(Codec codec, Device device):codec(codec), device(device){};
 	~FfmpegDecoder(){
