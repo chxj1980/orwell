@@ -729,6 +729,60 @@ home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s
 .PHONY : home/lz/orwell/cpp/common/FfmpegDecoder.cpp.s
 
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.o: home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.o
+
+# target to build an object file
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
+
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.i: home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
+
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.s: home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
+.PHONY : home/lz/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
+
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.o: home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.o
+
+# target to build an object file
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
+
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.i: home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.s: home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+.PHONY : home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+
 home/lz/orwell/cpp/common/MediaStream.o: home/lz/orwell/cpp/common/MediaStream.cpp.o
 
 .PHONY : home/lz/orwell/cpp/common/MediaStream.o
@@ -755,6 +809,33 @@ home/lz/orwell/cpp/common/MediaStream.s: home/lz/orwell/cpp/common/MediaStream.c
 home/lz/orwell/cpp/common/MediaStream.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/MediaStream.cpp.s
 .PHONY : home/lz/orwell/cpp/common/MediaStream.cpp.s
+
+home/lz/orwell/cpp/common/Singleton.o: home/lz/orwell/cpp/common/Singleton.cpp.o
+
+.PHONY : home/lz/orwell/cpp/common/Singleton.o
+
+# target to build an object file
+home/lz/orwell/cpp/common/Singleton.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/Singleton.cpp.o
+.PHONY : home/lz/orwell/cpp/common/Singleton.cpp.o
+
+home/lz/orwell/cpp/common/Singleton.i: home/lz/orwell/cpp/common/Singleton.cpp.i
+
+.PHONY : home/lz/orwell/cpp/common/Singleton.i
+
+# target to preprocess a source file
+home/lz/orwell/cpp/common/Singleton.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/Singleton.cpp.i
+.PHONY : home/lz/orwell/cpp/common/Singleton.cpp.i
+
+home/lz/orwell/cpp/common/Singleton.s: home/lz/orwell/cpp/common/Singleton.cpp.s
+
+.PHONY : home/lz/orwell/cpp/common/Singleton.s
+
+# target to generate assembly for a file
+home/lz/orwell/cpp/common/Singleton.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/lz/orwell/cpp/common/Singleton.cpp.s
+.PHONY : home/lz/orwell/cpp/common/Singleton.cpp.s
 
 home/lz/orwell/cpp/common/VideoReceiver.o: home/lz/orwell/cpp/common/VideoReceiver.cpp.o
 
@@ -1083,9 +1164,18 @@ help:
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.o"
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.i"
 	@echo "... home/lz/orwell/cpp/common/FfmpegDecoder.s"
+	@echo "... home/lz/orwell/cpp/common/FfmpegHardwareDecoder.o"
+	@echo "... home/lz/orwell/cpp/common/FfmpegHardwareDecoder.i"
+	@echo "... home/lz/orwell/cpp/common/FfmpegHardwareDecoder.s"
+	@echo "... home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.o"
+	@echo "... home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.i"
+	@echo "... home/lz/orwell/cpp/common/FfmpegSoftwareDecoder.s"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.o"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.i"
 	@echo "... home/lz/orwell/cpp/common/MediaStream.s"
+	@echo "... home/lz/orwell/cpp/common/Singleton.o"
+	@echo "... home/lz/orwell/cpp/common/Singleton.i"
+	@echo "... home/lz/orwell/cpp/common/Singleton.s"
 	@echo "... home/lz/orwell/cpp/common/VideoReceiver.o"
 	@echo "... home/lz/orwell/cpp/common/VideoReceiver.i"
 	@echo "... home/lz/orwell/cpp/common/VideoReceiver.s"

@@ -64,8 +64,6 @@ void OpenGLArea::receiveVideo(unsigned char **videoBuffer, int frameWidth, int f
 		memcpy(buffer[2], videoBuffer[2], frameWidth * frameHeight / 4);
 	}
 	queue_draw();
-	
-	//glDraw();
 }
 
 void OpenGLArea::glInit()
@@ -173,15 +171,17 @@ int main()
 {
 	Gtk::Main kit;
 	SingletonObject singletonObject;
-	//singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
-	FfmpegHardwareDecoder *ffmpegHardwareDecoder = new FfmpegHardwareDecoder(FfmpegHardwareDecoder::H264,FfmpegHardwareDecoder::HARDWARE);
-	//std::cout << ffmpegDecoder->getSupportedDevices() << std::endl;
+	singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
+	std::cout << "supported hardware: " << std::endl;
 	for (auto i: FfmpegHardwareDecoder::getSupportedDevices())
   		std::cout << i << std::endl;
-	std::cout << "finished" << std::endl;
-	//singletonObject.mediaStream->setDecoder(ffmpegDecoder);
-	//singletonObject.mediaThread = std::make_shared<boost::thread>(&MediaStream::run, singletonObject.mediaStream);
-	//Singleton::instance()->addStream("cam1", singletonObject);
+		
+	FfmpegHardwareDecoder *ffmpegHardwareDecoder = new FfmpegHardwareDecoder(FfmpegHardwareDecoder::H264,FfmpegHardwareDecoder::HARDWARE, std::string(""));
+	FfmpegSoftwareDecoder *ffmpegSoftwareDecoder = new FfmpegSoftwareDecoder(FfmpegHardwareDecoder::H264);
+	
+	singletonObject.mediaStream->setDecoder(ffmpegHardwareDecoder);
+	singletonObject.mediaThread = std::make_shared<boost::thread>(&MediaStream::run, singletonObject.mediaStream);
+	Singleton::instance()->addStream("cam1", singletonObject);
 
 	GLWindow window;
 	window.show_all();

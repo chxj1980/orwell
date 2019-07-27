@@ -12,15 +12,17 @@ class FfmpegHardwareDecoder: public FfmpegDecoder {
     public:
         enum Device{SOFTWARE, HARDWARE} device;
         static std::vector<std::string> getSupportedDevices();
-        FfmpegHardwareDecoder(Codec codec, Device device):device(device){
+        FfmpegHardwareDecoder(Codec codec, Device device, std::string hardwareType):device(device), hardwareType(hardwareType){
             this->codec = codec;
         };
         ~FfmpegHardwareDecoder(){
             av_frame_free(&decodedAvFrame);
             av_frame_free(&fromGPUAvFrame);
+            avcodec_free_context(&avCodecContext);
+            av_buffer_unref(&avBufferRef);
             //av_freep(&buffer);
         }
-        bool init(std::string type);
+        bool init();
         //Decodes to GPU memory but not get it back to CPU memory
         bool hardwareDecode(uint8_t* frameBuffer, int frameLength);
         /* 
@@ -40,6 +42,7 @@ class FfmpegHardwareDecoder: public FfmpegDecoder {
         //Image from GPU memory gets stored here
         uint8_t         *buffer = NULL;
         AVPixelFormat    avPixelFormat;
+        std::string      hardwareType;
 };
 
 #endif //HardwareFfmpegDecoder_H

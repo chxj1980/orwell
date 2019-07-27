@@ -23,27 +23,28 @@ AVPixelFormat FfmpegHardwareDecoder::get_format(struct AVCodecContext *s, const 
 	return AVPixelFormat::AV_PIX_FMT_0BGR;
 }
 */
+
 std::vector<std::string> FfmpegHardwareDecoder::getSupportedDevices()
 {
 	//Begin with any type since we're gonna iterate through all until we get back to AV_HWDEVICE_TYPE_NONE
-	enum AVHWDeviceType type = AV_HWDEVICE_TYPE_VDPAU ;
+	AVHWDeviceType type = AV_HWDEVICE_TYPE_NONE;
 	std::vector<std::string> result;
 	while ((type = av_hwdevice_iterate_types(type)) != AV_HWDEVICE_TYPE_NONE)
 	{
-		//printf(av_hwdevice_get_type_name(type));
 		result.push_back(std::string(av_hwdevice_get_type_name(type)));
 	}
 	return result;
 }
 
-bool FfmpegHardwareDecoder::init(std::string type) {
+bool FfmpegHardwareDecoder::init() {
     //create context here
 
-    AVHWDeviceType aVHWDeviceType = av_hwdevice_find_type_by_name(type.c_str());
+    AVHWDeviceType aVHWDeviceType = av_hwdevice_find_type_by_name(hardwareType.c_str());
     if (aVHWDeviceType == AV_HWDEVICE_TYPE_NONE) {
-        std::cout << "ERROR: Device " << type << "not supported. " 
-        << "Call FfmpegHardwareDecoder::getSupportedDevices() to et list of supported devices" 
-        << std::endl;
+        std::cout << "ERROR: Device " << hardwareType << "not supported. " << std::endl;
+        for (auto i: FfmpegHardwareDecoder::getSupportedDevices())
+  		    std::cout << i << ", ";
+            std::cout << std::endl;
         return false;
     }
     /* 

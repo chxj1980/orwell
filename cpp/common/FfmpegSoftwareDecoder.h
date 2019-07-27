@@ -1,14 +1,16 @@
-#ifndef SoftwareFfmpegDecoder_H
-#define SoftwareFfmpegDecoder_H
+#ifndef FfmpegSoftwareDecoder_H
+#define FfmpegSoftwareDecoder_H
 #include "FfmpegDecoder.h"
 
-class SoftwareFfmpegDecoder: public FfmpegDecoder {
+class FfmpegSoftwareDecoder: public FfmpegDecoder {
     public:
-        SoftwareFfmpegDecoder();
+        FfmpegSoftwareDecoder(Codec codec) {
+            this->codec = codec;
+        }
         bool init();
         void decodeFrame(uint8_t* frameBuffer, int frameLength);
     private:
     	
 };
 
-#endif //SoftwareFfmpegDecoder_H
+#endif //FfmpegSoftwareDecoder_H

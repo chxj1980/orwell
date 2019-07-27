@@ -1,12 +1,6 @@
 #include "FfmpegSoftwareDecoder.h"
 
-SoftwareFfmpegDecoder::SoftwareFfmpegDecoder()
-{	
-	
-}
-
-
-bool SoftwareFfmpegDecoder::init()
+bool FfmpegSoftwareDecoder::init()
 {
     //avcodec_register_all(); //Deprecated
 	avFrame = av_frame_alloc();
@@ -29,7 +23,7 @@ bool SoftwareFfmpegDecoder::init()
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
-void SoftwareFfmpegDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
+void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 {
 	if (frameLength <= 0) return;
 

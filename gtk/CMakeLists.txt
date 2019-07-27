@@ -73,7 +73,7 @@ add_dependencies(orwell ffmpeg)# zlib)
 #${AVCODEC_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} #OLD from system libs
 target_link_libraries( orwell PRIVATE
 			   Boost::thread 
-			AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} #zlib MUST come AFTER ffmpeg
+			   AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} #zlib MUST come AFTER ffmpeg
 		       myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${X11_LIBRARY})
 
 #TODO: create a target for Android which links needed libraries in PUBLIC mode. Ff I understood correctly that's what needs to be done

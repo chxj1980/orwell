@@ -18,7 +18,6 @@ public:
 };
 
 OpenGLArea::OpenGLArea () {
-  std::cout << "OpenGLArea constructor" << std::endl;
   set_double_buffered (false);
 
   xdisplay = nullptr;

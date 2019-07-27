@@ -26,7 +26,7 @@ public:
 		av_frame_free(&avFrame);
 	}
 	//Initiates all the av things
-	bool init();
+	virtual bool init() = 0;
 	/* 
 		Decodes to CPU memory. 
 		If invoked in a FfmpegSoftwareDecoder instance, it'll simply do
