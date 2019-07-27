@@ -4,7 +4,8 @@
 #include <gtkmm/main.h>
 
 #include "MediaStream.h"
-#include "FfmpegDecoder.h"
+#include "FfmpegHardwareDecoder.h"
+#include "FfmpegSoftwareDecoder.h"
 #include "Singleton.h"
 #include "VideoReceiver.h"
 
@@ -175,7 +176,7 @@ int main()
 	//singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
 	FfmpegDecoder *ffmpegDecoder = new FfmpegDecoder(FfmpegDecoder::H264,FfmpegDecoder::HARDWARE);
 	//std::cout << ffmpegDecoder->getSupportedDevices() << std::endl;
-	for (auto i: ffmpegDecoder->getSupportedDevices())
+	for (auto i: FfmpegHardwareDecoder::getSupportedDevices())
   		std::cout << i << std::endl;
 	std::cout << "finished" << std::endl;
 	//singletonObject.mediaStream->setDecoder(ffmpegDecoder);
