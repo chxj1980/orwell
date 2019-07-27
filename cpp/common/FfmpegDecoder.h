@@ -36,7 +36,7 @@ public:
 		To just decode to GPU memory but not get it in CPU memory, use
 		FfmpegHardwareDecoder::hardwareDecode().
 	*/
-	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength);
+	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength)=0;
 	//Decoded data decoded through decodeFrame will be sent to videoReceiver
 	void setVideoReceiver(VideoReceiver * videoReceiver) {
 		this->videoReceiver = videoReceiver;

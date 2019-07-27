@@ -1,8 +1,12 @@
 #ifndef HardwareFfmpegDecoder_H
 #define HardwareFfmpegDecoder_H
 #include "FfmpegDecoder.h"
+//Extern C is absolutely needed!
+extern "C"
+{
 #include <libavutil/hwcontext.h>
 #include <libavutil/imgutils.h>
+}
 
 class FfmpegHardwareDecoder: public FfmpegDecoder {
     public:
