@@ -63,9 +63,13 @@ bool FfmpegHardwareDecoder::init(std::string type) {
         std::cout << "avCodecContext error:" << AVERROR(ENOMEM) << std::endl;
         return false;
     }
-
-
-    //avCodecContext->get_format = get_hw_format;
+    struct avCodecContextOpaque {
+        AVPixelFormat* avPixelFormat;
+    }o;
+    o.avPixelFormat = &avPixelFormat;
+    avCodecContext->opaque = &o;
+    //This callback selects the right AvPixelFormat for the hardware decoder
+    avCodecContext->get_format = get_hw_format;
 
     int err = 0;
 
@@ -86,22 +90,22 @@ bool FfmpegHardwareDecoder::init(std::string type) {
 }
 
 bool FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength) {
-    AVFrame *frame = NULL, *sw_frame = NULL;
-    AVFrame *tmp_frame = NULL;
+    avPacket.size = frameLength;
+	avPacket.data = frameBuffer;
     int ret = avcodec_send_packet(avCodecContext, &avPacket);
     if (ret < 0) {
         std::cout << "avcodec_send_packet error " << ret << std::endl;
         return false;
     }
-    if (!(frame = av_frame_alloc()) || !(sw_frame = av_frame_alloc())) {
+    if (!(decodedAvFrame = av_frame_alloc()) || !(fromGPUAvFrame = av_frame_alloc())) {
         std::cout << "Can not alloc frame " << ret << std::endl;
         //ret = AVERROR(ENOMEM);
         //goto fail;
     }
-    ret = avcodec_receive_frame(avCodecContext, frame);
+    ret = avcodec_receive_frame(avCodecContext, decodedAvFrame);
     if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
-        av_frame_free(&frame);
-        av_frame_free(&sw_frame);
+        av_frame_free(&decodedAvFrame);
+        av_frame_free(&fromGPUAvFrame);
         return 0;
     } else if (ret < 0) {
         std::cout << "avcodec_receive_frame error " << ret << std::endl;
@@ -111,8 +115,38 @@ bool FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength
     return true;
 }
 
-void decodeFrame(uint8_t* frameBuffer, int frameLength){
+void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength) {
+    hardwareDecode(frameBuffer, frameLength);
+    //Now get things back grom GPU memory
+    if (decodedAvFrame->format == hw_pix_fmt) {
+        /* retrieve data from GPU to CPU */
+        int ret = 0;
+        if ((ret = av_hwframe_transfer_data(fromGPUAvFrame, decodedAvFrame, 0)) < 0) {
+            std::cout << "av_hwframe_transfer_data error, could not transfer video from GPU memory " << ret << std::endl;
+            //goto fail;
+        }
+        tmp_frame = fromGPUAvFrame;
+    } else
+        tmp_frame = decodedAvFrame;
 
+    int size = av_image_get_buffer_size(static_cast<AVPixelFormat>(tmp_frame->format), 
+                                        tmp_frame->width,
+                                        tmp_frame->height, 1);
+    buffer = av_malloc(size);
+    if (!buffer) {
+        fprintf(stderr, "Can not alloc buffer\n");
+        //ret = AVERROR(ENOMEM);
+        //goto fail;
+    }
+    int ret = av_image_copy_to_buffer(buffer, size,
+                                 (const uint8_t * const *)tmp_frame->data,
+                                 (const int *)tmp_frame->linesize, 
+                                 static_cast<AVPixelFormat>(tmp_frame->format),
+                                 tmp_frame->width, tmp_frame->height, 1);
+    if (ret < 0) {
+        fprintf(stderr, "Can not copy image to buffer\n");
+        //goto fail;
+    }
 }
 
     /*
@@ -159,6 +193,20 @@ void decodeFrame(uint8_t* frameBuffer, int frameLength){
     return 0;
     */
 
+
+//Callback of avCodecContext which selects the correct pixel format. TODO: write a better definition for this
+enum AVPixelFormat get_hw_format(AVCodecContext *ctx, const enum AVPixelFormat *pix_fmts)
+{
+    const enum AVPixelFormat *p;
+
+    for (p = pix_fmts; *p != -1; p++) {
+        if (*p == ctx->opaque->avPixelFormat)
+            return *p;
+    }
+
+    fprintf(stderr, "Failed to get HW surface format.\n");
+    return AV_PIX_FMT_NONE;
+}
 
 AVPixelFormat FfmpegHardwareDecoder::print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx,const AVPixelFormat *fmt)
 {

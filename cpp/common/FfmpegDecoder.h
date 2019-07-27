@@ -22,14 +22,22 @@ class FfmpegDecoder
 {
 public:
 	enum Codec{H264, H265} codec;
-
-	//FfmpegDecoder(Codec codec, Device device):codec(codec), device(device){};
 	~FfmpegDecoder(){
 		av_frame_free(&avFrame);
 	}
-
+	//Initiates all the av things
 	bool init();
-	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength);//Decodes to CPU memory
+	/* 
+		Decodes to CPU memory. 
+		If invoked in a FfmpegSoftwareDecoder instance, it'll simply do
+		all the process in software.
+		If invoked in a FfmpegHardwareDecoder, it'll decode in hardware,
+		then copy from GPU memory to CPU memory.
+		To just decode to GPU memory but not get it in CPU memory, use
+		FfmpegHardwareDecoder::hardwareDecode().
+	*/
+	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength);
+	//Decoded data decoded through decodeFrame will be sent to videoReceiver
 	void setVideoReceiver(VideoReceiver * videoReceiver) {
 		this->videoReceiver = videoReceiver;
 	}

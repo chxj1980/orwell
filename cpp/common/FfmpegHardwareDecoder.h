@@ -2,6 +2,7 @@
 #define HardwareFfmpegDecoder_H
 #include "FfmpegDecoder.h"
 #include <libavutil/hwcontext.h>
+#include <libavutil/imgutils.h>
 
 class FfmpegHardwareDecoder: private FfmpegDecoder {
     public:
@@ -10,28 +11,31 @@ class FfmpegHardwareDecoder: private FfmpegDecoder {
         FfmpegHardwareDecoder(Codec codec, Device device):device(device){
             this->codec = codec;
         };
+        ~FfmpegHardwareDecoder(){
+            av_frame_free(&decodedAvFrame);
+            av_frame_free(&fromGPUAvFrame);
+            //av_freep(&buffer);
+        }
         bool init(std::string type);
+        //Decodes to GPU memory but not get it back to CPU memory
+        bool hardwareDecode(uint8_t* frameBuffer, int frameLength);
+        /* 
+            Calls hardwareDecode() then gets video from GPU memory to CPU memory and 
+            sends to VideoReceiver instance.
+        */
+        void decodeFrame(uint8_t* frameBuffer, int frameLength);
+        //
         AVPixelFormat print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt);
         AVPixelFormat get_format(struct AVCodecContext *s, const AVPixelFormat *fmt);
-        bool hardwareDecode(uint8_t* frameBuffer, int frameLength);
     private:
     	AVBufferRef 	*avBufferRef;
+        AVFrame         *decodedAvFrame = NULL;
+        AVFrame         *fromGPUAvFrame = NULL;
+        AVFrame         *tmp_frame = NULL;
         AVPacket         avPacket;
-        enum AVPixelFormat avPixelFormat;
-        //Callback of avCodecContext which selects the correct pixel format. TODO: write a better definition for this
-        enum AVPixelFormat get_hw_format(AVCodecContext *ctx, const enum AVPixelFormat *pix_fmts)
-        {
-            const enum AVPixelFormat *p;
-
-            for (p = pix_fmts; *p != -1; p++) {
-                if (*p == avPixelFormat)
-                    return *p;
-            }
-
-            fprintf(stderr, "Failed to get HW surface format.\n");
-            return AV_PIX_FMT_NONE;
-        }
-
+        //Image from GPU memory gets stored here
+        uint8_t         *buffer = NULL;
+        enum AVPixelFormat avPixelFormat;        
 };
 
 #endif //HardwareFfmpegDecoder_H
