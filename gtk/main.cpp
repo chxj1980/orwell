@@ -176,7 +176,9 @@ int main()
 	for (auto i: FfmpegHardwareDecoder::getSupportedDevices())
   		std::cout << i << std::endl;
 		
-	FfmpegHardwareDecoder *ffmpegHardwareDecoder = new FfmpegHardwareDecoder(FfmpegHardwareDecoder::H264,FfmpegHardwareDecoder::HARDWARE, std::string(""));
+	FfmpegHardwareDecoder *ffmpegHardwareDecoder = new FfmpegHardwareDecoder(FfmpegHardwareDecoder::H264,
+																			 FfmpegHardwareDecoder::HARDWARE, 
+																			 std::string("cuda"));
 	FfmpegSoftwareDecoder *ffmpegSoftwareDecoder = new FfmpegSoftwareDecoder(FfmpegHardwareDecoder::H264);
 	
 	singletonObject.mediaStream->setDecoder(ffmpegHardwareDecoder);

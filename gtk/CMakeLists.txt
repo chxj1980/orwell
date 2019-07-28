@@ -11,14 +11,18 @@ set(CMAKE_AUTOMOC ON) # Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOUIC ON) # Create code from a list of Qt designer ui files
 
 find_package(OpenGL REQUIRED)
+#sudo apt install -y libboost-all-dev 
 find_package(Boost COMPONENTS thread system REQUIRED) #todo: erase system, not necessary I guess
 #-lGLEW -lGLU -lGL -lX11
-find_library(GLEW_LIBRARY GLEW) #sudo apt-get install libglew-dev
+#sudo apt-get install libglew-dev #will install everything below
+find_library(GLEW_LIBRARY GLEW) 
 find_library(GLU_LIBRARY GLU)
 find_library(GL_LIBRARY GL)
 find_library(X11_LIBRARY X11)
 find_library(ZLIB_LIBRARY z)
+find_library(LIBDL_LIBRARY dl)
 
+#sudo apt install -y libgtkmm-3.0-dev
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0) #sudo apt-get install libgtkmm-3.0-dev	
 
@@ -34,23 +38,28 @@ include_directories(..)
 file(GLOB orwell_gtk3_SRCS "*.cpp" "../cpp/common/*")
 
 #Modern FFMPEG
-include(ExternalProject)
-set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
-set(FFMPEG_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg_build)
-ExternalProject_Add(ffmpeg PREFIX ${FFMPEG_SRC_DIR}
-					#URL ...
-    				#URL_HASH SHA2=...
-					SOURCE_DIR ${FFMPEG_SRC_DIR}
-					CONFIGURE_COMMAND sh ${FFMPEG_SRC_DIR}/configure --enable-nonfree --enable-nvenc --enable-libx264 --enable-gpl --enable-cuda --enable-cuvid --enable-cuda-nvcc #sudo apt-get install yasm
-					BINARY_DIR ${FFMPEG_BINARY_DIR}
-					BUILD_COMMAND "make"
-					INSTALL_COMMAND "")
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
+#include(ExternalProject)
+#set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
+#set(FFMPEG_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg_build)
+#ExternalProject_Add(ffmpeg PREFIX ${FFMPEG_SRC_DIR}
+#					#URL ...
+#    				#URL_HASH SHA2=...
+#					SOURCE_DIR ${FFMPEG_SRC_DIR}
+#					CONFIGURE_COMMAND sh ${FFMPEG_SRC_DIR}/configure --enable-nonfree --enable-nvenc --enable-libx264 --enable-gpl --enable-cuda --enable-cuvid --enable-cuda-nvcc #sudo apt-get install yasm
+#					BINARY_DIR ${FFMPEG_BINARY_DIR}
+#					BUILD_COMMAND "make"
+#					INSTALL_COMMAND "")
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
 
 #Modern zlib (or libz, don't know) is required by ffmpeg, on ubuntu mine didn't work
 #set(ZLIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/zlib-1.2.11)
 #add_subdirectory(${ZLIB_DIR} _zlib)
 #include_directories(${ZLIB_DIR})
+
+set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
+set(FFMPEG_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
+include_directories(${FFMPEG_SRC_DIR})
+
 
 if (UNIX)
 	add_library(AVUTIL_UPDATED_LIB SHARED IMPORTED)
@@ -68,12 +77,12 @@ if (WIN32)
 endif (WIN32)
 
 add_executable(orwell ${orwell_gtk3_SRCS})
-add_dependencies(orwell ffmpeg)# zlib)
+#add_dependencies(orwell ffmpeg)# zlib)
 
 #${AVCODEC_LIBRARY} ${AVUTIL_LIBRARY} ${SWSCALE_LIBRARY} #OLD from system libs
 target_link_libraries( orwell PRIVATE
 			   Boost::thread 
-			   AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} #zlib MUST come AFTER ffmpeg
+			   AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} ${LIBDL_LIBRARY} #zlib MUST come AFTER ffmpeg
 		       myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${X11_LIBRARY})
 
 #TODO: create a target for Android which links needed libraries in PUBLIC mode. Ff I understood correctly that's what needs to be done

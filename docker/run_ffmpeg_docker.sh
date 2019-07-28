@@ -1,1 +1,1 @@
-sudo docker run -v ../:/home/orwell ffmpeg_build 
+sudo docker run -v ${PWD}/../deps/ffmpeg:/home/ffmpeg -it ffmpeg_docker /bin/bash

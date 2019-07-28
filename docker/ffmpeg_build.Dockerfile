@@ -1,5 +1,8 @@
 #FFmpeg builder with hardware support
-#https://arstech.net/compile-ffmpeg-with-nvenc-h264/
+#https://arstech.net/compile-ffmpeg-with-nvenc-h264/ #didn't work, I used
+#https://developer.nvidia.com/ffmpeg
+#https://gist.github.com/Brainiarc7/3f7695ac2a0905b05c5b #TODO: dockerize this
+#https://gist.github.com/Brainiarc7/eb45d2e22afec7534f4a117d15fe6d89 #or this
 #https://maniaclander.blogspot.com/2017/08/ffmpeg-with-pi-hardware-acceleration.html
 #Do not change the ubuntu version as software installed here depends on that
 FROM ubuntu:bionic
@@ -35,11 +38,12 @@ RUN wget --progress=bar:force -O cuda.deb $CUDA_BIG_DEB_FILE \
      && apt-get update
 RUN  apt-get install -y cuda
 
+
 #ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}} 
 #ENV LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 ENV PATH="/usr/local/cuda-10.1/bin:${PATH}"
-ENV LD_LIBRARY_PATH="/usr/local/cuda-10.1/lib:${LD_LIBRARY_PATH}"
+ENV l="/usr/local/cuda-10.1/lib:${LD_LIBRARY_PATH}"
 
 RUN echo $PATH && echo $LD_LIBRARY_PATH 
 
@@ -66,3 +70,30 @@ RUN cd x264/ \
     && ./configure --disable-cli --enable-static --enable-shared --enable-strip\
     && make && make install && ldconfig
 
+RUN apt-get -y --force-yes install autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
+  libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
+  libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev
+
+#--------------- NASM installation
+#Method 1:
+RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.14rc0/nasm-2.14rc0.tar.gz \
+    && tar xzvf nasm-2.14rc0.tar.gz \
+    && cd nasm-2.14rc0 \
+    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
+    && make -j$(nproc) \
+    && make -j$(nproc) install \
+    && make -j$(nproc) distclean 
+
+#Method 2
+ADD nasm-2.14rc0.tar.gz nasm.tar.gz
+RUN tar xzvf nasm.tar.gz \
+    && cd nasm-* \
+    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
+    && make -j$(nproc) \
+    && make -j$(nproc) install \
+    && make -j$(nproc) distclean 
+
+WORKDIR /home/ffmpeg
+
+#./configure --enable-cuda-sdk --enable-cuvid --enable-nvenc --enable-nonfree --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64
+#TODO: add --enable-opengl

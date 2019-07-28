@@ -42,12 +42,14 @@ bool FfmpegHardwareDecoder::init() {
     AVHWDeviceType aVHWDeviceType = av_hwdevice_find_type_by_name(hardwareType.c_str());
     if (aVHWDeviceType == AV_HWDEVICE_TYPE_NONE) {
         std::cout << "ERROR: Device " << hardwareType << "not supported. " << std::endl;
+        std::cout << "List of supported devices: " << std::endl;
         for (auto i: FfmpegHardwareDecoder::getSupportedDevices())
   		    std::cout << i << ", ";
             std::cout << std::endl;
+        std::cout << "end of list." << std::endl;
         return false;
     }
-    /* 
+    
     switch(codec) {
         case H264:
             avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
@@ -58,8 +60,13 @@ bool FfmpegHardwareDecoder::init() {
             return false;
             break;
     }
-    avCodecContext = avcodec_alloc_context3(avCodec);
-    */
+    
+    avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
+ 
+    if (!(avCodecContext = avcodec_alloc_context3(avCodec))) {
+        std::cout << "avCodecContext error:" << AVERROR(ENOMEM) << std::endl;
+        return false;
+    }
 
     for (int i = 0;; i++) {
         const AVCodecHWConfig *config = avcodec_get_hw_config(avCodec, i);
@@ -73,11 +80,6 @@ bool FfmpegHardwareDecoder::init() {
             avPixelFormat = config->pix_fmt;
             break;
         }
-    }
-
-    if (!(avCodecContext = avcodec_alloc_context3(avCodec))) {
-        std::cout << "avCodecContext error:" << AVERROR(ENOMEM) << std::endl;
-        return false;
     }
 
     avCodecContextOpaque o;
