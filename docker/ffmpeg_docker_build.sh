@@ -1,1 +1,1 @@
-sudo docker build -t ffmpeg_docker -f ffmpeg_build.Dockerfile .
+sudo docker build -t ffmpeg_docker -f ffmpeg_build.Dockerfile ../deps
