@@ -4,9 +4,10 @@
 #https://gist.github.com/Brainiarc7/3f7695ac2a0905b05c5b #TODO: dockerize this
 #https://gist.github.com/Brainiarc7/eb45d2e22afec7534f4a117d15fe6d89 #or this
 #https://maniaclander.blogspot.com/2017/08/ffmpeg-with-pi-hardware-acceleration.html
+
 #Do not change the ubuntu version as software installed here depends on that
 FROM ubuntu:bionic
-#ARG CUDA_BIG_DEB_FILE=https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda-repo-ubuntu1804-10-1-local-10.1.168-418.67_1.0-1_amd64.deb
+
 #Number of retries for atp
 RUN echo "APT::Acquire::Retries \"20\";" > /etc/apt/apt.conf.d/80-retries 
 
@@ -92,6 +93,7 @@ RUN apt-get -y --force-yes install autoconf automake build-essential libass-dev 
 #    && make -j$(nproc) \
 #    && make -j$(nproc) install \
 #    && make -j$(nproc) distclean 
+
 ARG ANDROID_NDK=https://dl.google.com/android/repository/android-ndk-r20-linux-x86_64.zip
 RUN wget --progress=bar:force -O android-ndk.zip $ANDROID_NDK \
     && unzip android-ndk.zip && rm android-ndk.zip && cd android-ndk-r20
@@ -100,11 +102,11 @@ ENV ANDROID_NDK_PATH=/home/tmp_build/android-ndk-r20
 
 WORKDIR /home/ffmpeg
 
-ADD build_all.sh /home/build_all.sh
-ADD build_desktop.sh /home/build_desktop.sh 
-ADD build_android_arm64.sh /home/build_android_arm64.sh 
-ADD build_android_armhf32.sh /home/build_android_armhf32.sh 
-ADD build_android_x86_64.sh /home/build_android_x86_64.sh 
+ADD scripts/build_all.sh /home/build_all.sh
+ADD scripts/build_desktop.sh /home/build_desktop.sh 
+ADD scripts/build_android_arm64.sh /home/build_android_arm64.sh 
+ADD scripts/build_android_armhf32.sh /home/build_android_armhf32.sh 
+ADD scripts/build_android_x86_64.sh /home/build_android_x86_64.sh 
 
 
 #You should run this inside:
