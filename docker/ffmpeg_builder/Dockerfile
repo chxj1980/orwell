@@ -10,22 +10,21 @@
 #Do not change the ubuntu version as software installed here depends on that
 FROM ubuntu:bionic
 
-#Number of retries for atp
-RUN echo "APT::Acquire::Retries \"20\";" > /etc/apt/apt.conf.d/80-retries 
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN dpkg --add-architecture i386 && apt-get update \
+RUN echo "APT::Acquire::Retries \"20\";" > /etc/apt/apt.conf.d/80-retries \
+    && dpkg --add-architecture i386 && apt-get update \
     && apt-get install -y build-essential git yasm unzip wget sysstat nasm libc6:i386 \
                        libavcodec-dev libavformat-dev libavutil-dev pkgconf g++ freeglut3-dev \
                        libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev \
                        cmake autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
                        libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
-                       libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev
+                       libxcb-xfixes0-dev texi2html zlib1g-dev
+ #Install pkg-config? It breaks dependencies with pkgconf : Breaks: pkg-config (>= 0.29-1) \ Breaks: pkg-config:i386 (>= 0.29-1)
 
 WORKDIR /home/sources
 
 ADD deps/cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
-
-ENV DEBIAN_FRONTEND noninteractive
 
 #--------------- Cuda installation
 
@@ -40,12 +39,11 @@ ARG CUDA_BIG_DEB_FILE=https://developer.nvidia.com/compute/cuda/10.1/Prod/local_
 RUN wget --progress=bar:force -O cuda.deb $CUDA_BIG_DEB_FILE \
      && dpkg -i cuda.deb \
      && apt-key add /var/cuda-repo-*/7fa2af80.pub \
-     && apt-get update
-RUN  apt-get install -y cuda
+     && apt-get update \
+     && apt-get install -y cuda
 
-
-#ENV PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}} 
-#ENV LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+#PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}} 
+#LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 ENV PATH="/usr/local/cuda-10.1/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-10.1/lib:${LD_LIBRARY_PATH}"
@@ -92,20 +90,23 @@ RUN cd x264/ \
 #    && make -j$(nproc) install \
 #    && make -j$(nproc) distclean 
 
+#--------------- Android NDK installation
 ARG ANDROID_NDK=https://dl.google.com/android/repository/android-ndk-r20-linux-x86_64.zip
 RUN wget --progress=bar:force -O android-ndk.zip $ANDROID_NDK \
     && unzip android-ndk.zip && rm android-ndk.zip && cd android-ndk-r20
 
 ENV ANDROID_NDK_PATH=/home/tmp_build/android-ndk-r20
 
-WORKDIR /home/ffmpeg
+RUN sudo apt update && sudo apt install -y gcc-arm-linux-gnueabihf
 
 ADD docker/ffmpeg_builder/scripts/build_all.sh /home/build_all.sh
-ADD docker/ffmpeg_builder/build_desktop.sh /home/build_desktop.sh 
-ADD docker/ffmpeg_builder/build_android_arm64.sh /home/build_android_arm64.sh 
-ADD docker/ffmpeg_builder/build_android_armhf32.sh /home/build_android_armhf32.sh 
-ADD docker/ffmpeg_builder/build_android_x86_64.sh /home/build_android_x86_64.sh 
+ADD docker/ffmpeg_builder/scripts/build_linux.sh /home/build_linux.sh 
+ADD docker/ffmpeg_builder/scripts/build_android_arm64.sh /home/build_android_arm64.sh 
+ADD docker/ffmpeg_builder/scripts/build_android_armhf32.sh /home/build_android_armhf32.sh 
+ADD docker/ffmpeg_builder/scripts/build_android_x86_64.sh /home/build_android_x86_64.sh 
+ADD docker/ffmpeg_builder/scripts/build_windows.sh /home/build_windows.sh 
 
+WORKDIR /home/
 
 #You should run this inside:
 #./configure --prefix="/home/ffmpeg/binaries"  --enable-cuda-sdk --enable-cuvid --enable-nvenc --enable-nonfree --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64

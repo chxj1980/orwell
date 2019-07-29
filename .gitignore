@@ -70,3 +70,4 @@ deps/ffmpeg_build/*
 gtk/ffmpeg-prefix/*
 gtk/_zlib/*
 deps/ffmpeg-release-amd64-static/*
+deps/build/*

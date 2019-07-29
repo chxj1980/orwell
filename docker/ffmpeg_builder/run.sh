@@ -1,1 +1,1 @@
-sudo docker run -v ${PWD}/../../deps/ffmpeg:/home/ffmpeg -it ffmpeg_builder /bin/bash
+sudo docker run -v ${PWD}/../../deps/:/home/deps -it ffmpeg_builder /bin/bash
