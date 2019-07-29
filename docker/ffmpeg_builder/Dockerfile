@@ -96,9 +96,16 @@ ARG ANDROID_NDK=https://dl.google.com/android/repository/android-ndk-r20-linux-x
 RUN wget --progress=bar:force -O android-ndk.zip $ANDROID_NDK \
     && unzip android-ndk.zip && rm android-ndk.zip && cd android-ndk-r20
 
-ENV NDK_PATH=/home/tmp_build/android-ndk-r20
+ENV ANDROID_NDK_PATH=/home/tmp_build/android-ndk-r20
 
 WORKDIR /home/ffmpeg
+
+ADD build_all.sh /home/build_all.sh
+ADD build_desktop.sh /home/build_desktop.sh 
+ADD build_android_arm64.sh /home/build_android_arm64.sh 
+ADD build_android_armhf32.sh /home/build_android_armhf32.sh 
+ADD build_android_x86_64.sh /home/build_android_x86_64.sh 
+
 
 #You should run this inside:
 #./configure --prefix="/home/ffmpeg/binaries"  --enable-cuda-sdk --enable-cuvid --enable-nvenc --enable-nonfree --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64
