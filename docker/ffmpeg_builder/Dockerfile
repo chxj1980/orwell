@@ -43,12 +43,12 @@ RUN  apt-get install -y cuda
 #ENV LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 ENV PATH="/usr/local/cuda-10.1/bin:${PATH}"
-ENV l="/usr/local/cuda-10.1/lib:${LD_LIBRARY_PATH}"
+ENV LD_LIBRARY_PATH="/usr/local/cuda-10.1/lib:${LD_LIBRARY_PATH}"
 
 RUN echo $PATH && echo $LD_LIBRARY_PATH 
 
 #--------------- NVIDIA video codec installation
-#Method 1:
+#Method 1: 
 #Download youself?
 
 #Method 2:
@@ -76,24 +76,30 @@ RUN apt-get -y --force-yes install autoconf automake build-essential libass-dev 
 
 #--------------- NASM installation
 #Method 1:
-RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.14rc0/nasm-2.14rc0.tar.gz \
-    && tar xzvf nasm-2.14rc0.tar.gz \
-    && cd nasm-2.14rc0 \
-    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
-    && make -j$(nproc) \
-    && make -j$(nproc) install \
-    && make -j$(nproc) distclean 
+#RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.14rc0/nasm-2.14rc0.tar.gz \
+#    && tar xzvf nasm-2.14rc0.tar.gz \
+#    && cd nasm-2.14rc0 \
+#    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
+#    && make -j$(nproc) \
+#    && make -j$(nproc) install \
+#    && make -j$(nproc) distclean 
 
 #Method 2
-ADD nasm-2.14rc0.tar.gz nasm.tar.gz
-RUN tar xzvf nasm.tar.gz \
-    && cd nasm-* \
-    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
-    && make -j$(nproc) \
-    && make -j$(nproc) install \
-    && make -j$(nproc) distclean 
+#ADD nasm-2.14rc0.tar.gz nasm.tar.gz
+#RUN tar xzvf nasm.tar.gz \
+#    && cd nasm-* \
+#    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
+#    && make -j$(nproc) \
+#    && make -j$(nproc) install \
+#    && make -j$(nproc) distclean 
+ARG ANDROID_NDK=https://dl.google.com/android/repository/android-ndk-r20-linux-x86_64.zip
+RUN wget --progress=bar:force -O android-ndk.zip $ANDROID_NDK \
+    && unzip android-ndk.zip && rm android-ndk.zip && cd android-ndk-r20
+
+ENV NDK_PATH=/home/tmp_build/android-ndk-r20
 
 WORKDIR /home/ffmpeg
 
-#./configure --enable-cuda-sdk --enable-cuvid --enable-nvenc --enable-nonfree --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64
+#You should run this inside:
+#./configure --prefix="/home/ffmpeg/binaries"  --enable-cuda-sdk --enable-cuvid --enable-nvenc --enable-nonfree --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64
 #TODO: add --enable-opengl

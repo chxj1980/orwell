@@ -1,44 +1,74 @@
-# For more information about using CMake with Android Studio, read the
-# documentation: https://d.android.com/studio/projects/add-native-code.html
-
-# Sets the minimum version of CMake required to build the native library.
-
 cmake_minimum_required(VERSION 3.4.1)
 
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
+project(orwell)
 
-add_library( # Sets the name of the library.
-             native-lib
+set(PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../)
 
-             # Sets the library as a shared library.
-             SHARED
+set(CMAKE_INCLUDE_CURRENT_DIR ON) # Find includes in corresponding build directories
+set(CMAKE_AUTOMOC ON) # Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOUIC ON) # Create code from a list of Qt designer ui files
 
-             # Provides a relative path to your source file(s).
-             native-lib.cpp )
+#sudo apt install -y libboost-all-dev
+find_package(Boost COMPONENTS thread system REQUIRED) #todo: erase system, not necessary I guess
 
-# Searches for a specified prebuilt library and stores the path as a
-# variable. Because CMake includes system libraries in the search path by
-# default, you only need to specify the name of the public NDK library
-# you want to add. CMake verifies that the library exists before
-# completing its build.
+#sudo apt-get install libglew-dev #will install everything below
+find_library(ZLIB_LIBRARY z)
+find_library(LIBDL_LIBRARY dl)
 
-find_library( # Sets the name of the path variable.
-              log-lib
 
-              # Specifies the name of the NDK library that
-              # you want CMake to locate.
-              log )
+find_library( log-lib
 
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
+        # Specifies the name of the NDK library that
+        # you want CMake to locate.
+        log )
 
-target_link_libraries( # Specifies the target library.
-                       native-lib
+add_subdirectory(${PROJECT_ROOT}/myRtspClient myrtsp)
+include_directories(${PROJECT_ROOT}/myRtspClient/myRtspClient/include)
 
-                       # Links the target library to the log library
-                       # included in the NDK.
-                       ${log-lib} )
+file(GLOB LIBORWELL_SRCS "${PROJECT_ROOT}/cpp/common/*" )
+include_directories(${PROJECT_ROOT}/cpp/common/ ${PROJECT_ROOT}/cpp/desktop/)
+
+
+set(FFMPEG_SRC_DIR ${PROJECT_ROOT}/deps/ffmpeg)
+set(FFMPEG_BINARY_DIR ${PROJECT_ROOT}/deps/ffmpeg)
+include_directories(${FFMPEG_SRC_DIR})
+
+
+if (UNIX)
+    add_library(AVUTIL_UPDATED_LIB SHARED IMPORTED)
+    set_target_properties(AVUTIL_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavutil/libavutil.a)
+    add_library(AVCODEC_UPDATED_LIB SHARED IMPORTED)
+    set_target_properties(AVCODEC_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavcodec/libavcodec.a)
+    add_library(SWS_SCALE_UPDATED_LIB SHARED IMPORTED)
+    set_target_properties(SWS_SCALE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswscale/libswscale.a)
+    add_library(SWRESAMPLE_UPDATED_LIB SHARED IMPORTED)
+    set_target_properties(SWRESAMPLE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswresample/libswresample.a)
+endif (UNIX)
+
+if (Android)
+    add_library(AVUTIL_UPDATED_LIB SHARED IMPORTED)
+    set_target_properties(AVUTIL_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavutil/libavutil.a)
+    add_library(AVCODEC_UPDATED_LIB SHARED IMPORTED)
+    set_target_properties(AVCODEC_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavcodec/libavcodec.a)
+    add_library(SWS_SCALE_UPDATED_LIB SHARED IMPORTED)
+    set_target_properties(SWS_SCALE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswscale/libswscale.a)
+    add_library(SWRESAMPLE_UPDATED_LIB SHARED IMPORTED)
+    set_target_properties(SWRESAMPLE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswresample/libswresample.a)
+endif (Android)
+
+add_library( liborwell
+
+            # Sets the library as a shared library.
+            SHARED
+
+            # Provides a relative path to your source file(s).
+            ${LIBORWELL_SRCS} )
+
+add_dependencies(liborwell myRtspClient)
+
+target_link_libraries( liborwell PUBLIC
+        Boost::thread
+        AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} ${LIBDL_LIBRARY} #zlib MUST come AFTER ffmpeg
+        myRtspClient)
+
+#TODO: create a target for Android which links needed libraries in PUBLIC mode. Ff I understood correctly that's what needs to be done
