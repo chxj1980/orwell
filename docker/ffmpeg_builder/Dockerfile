@@ -1,4 +1,6 @@
-#FFmpeg builder with hardware support
+# Lucas Zanella - lucaszanella.com
+# FFmpeg builder with hardware support and support for cross compiling for Android (and iOS in the future)
+#
 #https://arstech.net/compile-ffmpeg-with-nvenc-h264/ #didn't work, I used
 #https://developer.nvidia.com/ffmpeg
 #https://gist.github.com/Brainiarc7/3f7695ac2a0905b05c5b #TODO: dockerize this
@@ -15,11 +17,13 @@ RUN dpkg --add-architecture i386 && apt-get update \
     && apt-get install -y build-essential git yasm unzip wget sysstat nasm libc6:i386 \
                        libavcodec-dev libavformat-dev libavutil-dev pkgconf g++ freeglut3-dev \
                        libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev \
-                       cmake
+                       cmake autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
+                       libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
+                       libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev
 
-WORKDIR /home/tmp_build
+WORKDIR /home/sources
 
-ADD cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
+ADD deps/cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -46,14 +50,12 @@ RUN  apt-get install -y cuda
 ENV PATH="/usr/local/cuda-10.1/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-10.1/lib:${LD_LIBRARY_PATH}"
 
-RUN echo $PATH && echo $LD_LIBRARY_PATH 
-
 #--------------- NVIDIA video codec installation
 #Method 1: 
 #Download youself?
 
 #Method 2:
-ADD Video_Codec_SDK_9.0.20.zip video_codec.zip
+ADD deps/Video_Codec_SDK_9.0.20.zip video_codec.zip
 RUN unzip video_codec.zip && cp Video_Codec_SDK_9.0.20/Samples/common.mk /usr/local/include/
 
 #--------------- NVIDIA Sdk installation
@@ -62,18 +64,14 @@ RUN unzip video_codec.zip && cp Video_Codec_SDK_9.0.20/Samples/common.mk /usr/lo
 #    cd nv-codec-headers && make && make install
 
 #Method 2:
-ADD nv-codec-headers nv-codec-headers/
+ADD deps/nv-codec-headers nv-codec-headers/
 RUN cd nv-codec-headers && make && make install
 
 #RUN git clone https://code.videolan.org/videolan/x264.git \ 
-ADD x264 x264
+ADD deps/x264 x264
 RUN cd x264/ \
     && ./configure --disable-cli --enable-static --enable-shared --enable-strip\
     && make && make install && ldconfig
-
-RUN apt-get -y --force-yes install autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
-  libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
-  libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev
 
 #--------------- NASM installation
 #Method 1:
@@ -102,11 +100,11 @@ ENV ANDROID_NDK_PATH=/home/tmp_build/android-ndk-r20
 
 WORKDIR /home/ffmpeg
 
-ADD scripts/build_all.sh /home/build_all.sh
-ADD scripts/build_desktop.sh /home/build_desktop.sh 
-ADD scripts/build_android_arm64.sh /home/build_android_arm64.sh 
-ADD scripts/build_android_armhf32.sh /home/build_android_armhf32.sh 
-ADD scripts/build_android_x86_64.sh /home/build_android_x86_64.sh 
+ADD docker/ffmpeg_builder/scripts/build_all.sh /home/build_all.sh
+ADD docker/ffmpeg_builder/build_desktop.sh /home/build_desktop.sh 
+ADD docker/ffmpeg_builder/build_android_arm64.sh /home/build_android_arm64.sh 
+ADD docker/ffmpeg_builder/build_android_armhf32.sh /home/build_android_armhf32.sh 
+ADD docker/ffmpeg_builder/build_android_x86_64.sh /home/build_android_x86_64.sh 
 
 
 #You should run this inside:
