@@ -1,5 +1,5 @@
 #TODO: verify if --enable-cuda-sdk is working
-cd deps/ffmpeg && ./configure --prefix="/home/deps/build/ffmpeg_binaries_linux" \
+cd deps/ffmpeg && ./configure --prefix="/home/deps/build/ffmpeg/linux" \
 --enable-cuvid \
 --enable-nvenc \
 --enable-nonfree \

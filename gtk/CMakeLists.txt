@@ -57,20 +57,20 @@ file(GLOB orwell_gtk3_SRCS "*.cpp" "../cpp/common/*")
 #include_directories(${ZLIB_DIR})
 
 set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
-set(FFMPEG_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
+set(FFMPEG_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/x86_64/lib)
 include_directories(${FFMPEG_SRC_DIR})
 
 
 if (UNIX)
 	add_library(AVUTIL_UPDATED_LIB SHARED IMPORTED)
-	set_target_properties(AVUTIL_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavutil/libavutil.a)
+	set_target_properties(AVUTIL_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavutil.a)
 	add_library(AVCODEC_UPDATED_LIB SHARED IMPORTED)
-	set_target_properties(AVCODEC_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavcodec/libavcodec.a)
+	set_target_properties(AVCODEC_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libavcodec.a)
 	add_library(SWS_SCALE_UPDATED_LIB SHARED IMPORTED)
-	set_target_properties(SWS_SCALE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswscale/libswscale.a)
+	set_target_properties(SWS_SCALE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswscale.a)
 	add_library(SWRESAMPLE_UPDATED_LIB SHARED IMPORTED)
-	set_target_properties(SWRESAMPLE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswresample/libswresample.a)
-	endif (UNIX)
+	set_target_properties(SWRESAMPLE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_BINARY_DIR}/libswresample.a)
+endif (UNIX)
 
 if (WIN32)
     #to be done, and add macOS too

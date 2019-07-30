@@ -95,16 +95,23 @@ ARG ANDROID_NDK=https://dl.google.com/android/repository/android-ndk-r20-linux-x
 RUN wget --progress=bar:force -O android-ndk.zip $ANDROID_NDK \
     && unzip android-ndk.zip && rm android-ndk.zip && cd android-ndk-r20
 
-ENV ANDROID_NDK_PATH=/home/tmp_build/android-ndk-r20
+ENV NDK=/home/sources/android-ndk-r20
 
-RUN sudo apt update && sudo apt install -y gcc-arm-linux-gnueabihf
+COPY deps/ffmpeg-4.1.4.tar.bz2 ffmpeg-4.1.4.tar.bz2
+RUN tar jxf ffmpeg-4.1.4.tar.bz2 \
+    && rm ffmpeg-4.1.4.tar.bz2 \
+    && mv ffmpeg-4.1.4 ffmpeg
 
-ADD docker/ffmpeg_builder/scripts/build_all.sh /home/build_all.sh
-ADD docker/ffmpeg_builder/scripts/build_linux.sh /home/build_linux.sh 
-ADD docker/ffmpeg_builder/scripts/build_android_arm64.sh /home/build_android_arm64.sh 
-ADD docker/ffmpeg_builder/scripts/build_android_armhf32.sh /home/build_android_armhf32.sh 
-ADD docker/ffmpeg_builder/scripts/build_android_x86_64.sh /home/build_android_x86_64.sh 
-ADD docker/ffmpeg_builder/scripts/build_windows.sh /home/build_windows.sh 
+#ADD docker/ffmpeg_builder/scripts/build_all.sh /home/build_all.sh
+ADD docker/ffmpeg_builder/scripts/video_decoders_list.txt /home/video_decoders_list.txt
+ADD docker/ffmpeg_builder/scripts/ffmpeg_build.sh /home/ffmpeg_build.sh
+#ADD docker/ffmpeg_builder/scripts/load_variables.sh /home/load_variables.sh
+#ADD docker/ffmpeg_builder/scripts/load_variables2.sh /home/load_variables2.sh
+#ADD docker/ffmpeg_builder/scripts/build_linux.sh /home/build_linux.sh 
+#ADD docker/ffmpeg_builder/scripts/build_android_arm64.sh /home/build_android_arm64.sh 
+#ADD docker/ffmpeg_builder/scripts/build_android_armhf32.sh /home/build_android_armhf32.sh 
+#ADD docker/ffmpeg_builder/scripts/build_android_x86_64.sh /home/build_android_x86_64.sh 
+#ADD docker/ffmpeg_builder/scripts/build_windows.sh /home/build_windows.sh 
 
 WORKDIR /home/
 
