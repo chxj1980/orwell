@@ -133,9 +133,50 @@ function assemble() {
       --enable-nonfree \
       --enable-nvenc \
       --enable-libx264 \
+      --enable-shared \
+      --disable-static \
       --enable-gpl \
       --enable-cuda \
       --enable-cuvid 
+
+  elif [ "$TYPE" == pc2 ]; then
+     ./configure --prefix=${BUILD_DIR}/${ARCH} \
+      --disable-shared \
+      --extra-cflags=-I/usr/local/include \
+      --extra-cflags=-I/usr/local/cuda-8.0/targets/x86_64-linux/include \
+      --extra-cflags=-I../nvidia/cudautils \
+      --extra-ldflags=-L/usr/local/cuda-8.0/targets/x86_64-linux/lib \
+      --extra-ldflags=-L../nvidia/cudautils \
+      --enable-nonfree \
+      --enable-gpl \
+      --enable-version3 \
+      --enable-avresample \
+      --enable-avisynth \
+      --enable-openal \
+      --enable-opencl \
+      --enable-opengl \
+      --enable-libnpp \
+      --enable-libmfx \
+      --enable-nvenc \
+      --enable-cuda \
+      --enable-vaapi \
+      --enable-vdpau \
+      --enable-libx264 \
+      --enable-libx265 \
+      --enable-libxvid \
+      --enable-libass \
+      --enable-libwavpack \
+      --enable-libsoxr \
+      --enable-libfdk-aac \
+      --enable-libfreetype \
+      --enable-libmp3lame \
+      --enable-libopus \
+      --enable-libtheora \
+      --enable-libvorbis \
+      --enable-libvpx \
+      --enable-librtmp \
+      --enable-libssh \
+      --enable-openssl
 
       make clean
       make -j8
@@ -186,6 +227,6 @@ function installHeaders() {
 #build arm64-v8a 21 android
 #build x86 16 android
 #build x86_64 21 android
-build x86_64_desktop _ pc
+build x86_64_desktop _ pc2
 
 installHeaders

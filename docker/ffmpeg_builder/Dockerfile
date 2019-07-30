@@ -11,36 +11,36 @@
 FROM ubuntu:bionic
 
 ENV DEBIAN_FRONTEND noninteractive
-
+#pkgconf
 RUN echo "APT::Acquire::Retries \"20\";" > /etc/apt/apt.conf.d/80-retries \
     && dpkg --add-architecture i386 && apt-get update \
     && apt-get install -y build-essential git yasm unzip wget sysstat nasm libc6:i386 \
-                       libavcodec-dev libavformat-dev libavutil-dev pkgconf g++ freeglut3-dev \
+                       libavcodec-dev libavformat-dev libavutil-dev g++ freeglut3-dev \ 
                        libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev \
                        cmake autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
                        libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
-                       libxcb-xfixes0-dev texi2html zlib1g-dev
+                       libxcb-xfixes0-dev texi2html zlib1g-dev pkg-config \
+                       libsdl2-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev texinfo \
+                       ladspa-sdk ladspa-foo-plugins libbluray-dev libbluray-doc libbluray2 libbluray-bin
  #Install pkg-config? It breaks dependencies with pkgconf : Breaks: pkg-config (>= 0.29-1) \ Breaks: pkg-config:i386 (>= 0.29-1)
 
 WORKDIR /home/sources
 
-ADD deps/cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
-
 #--------------- Cuda installation
-
 #Method 1:
-#RUN dpkg -i cuda.deb \
-#    && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub\
-#    && apt-get update && apt-get install -y cuda #&& nvidia-smi #output driver information
+ADD deps/cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
+RUN dpkg -i cuda.deb \
+    && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub\
+    && apt-get update && apt-get install -y cuda #&& nvidia-smi #output driver information
 
 #Method 2:
-ARG CUDA_BIG_DEB_FILE=https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda-repo-ubuntu1804-10-1-local-10.1.168-418.67_1.0-1_amd64.deb
+#ARG CUDA_BIG_DEB_FILE=https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda-repo-ubuntu1804-10-1-local-10.1.168-418.67_1.0-1_amd64.deb
 #TODO: check hash
-RUN wget --progress=bar:force -O cuda.deb $CUDA_BIG_DEB_FILE \
-     && dpkg -i cuda.deb \
-     && apt-key add /var/cuda-repo-*/7fa2af80.pub \
-     && apt-get update \
-     && apt-get install -y cuda
+#RUN wget --progress=bar:force -O cuda.deb $CUDA_BIG_DEB_FILE \
+#     && dpkg -i cuda.deb \
+#     && apt-key add /var/cuda-repo-*/7fa2af80.pub \
+#     && apt-get update \
+#     && apt-get install -y cuda
 
 #PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}} 
 #LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
@@ -50,7 +50,7 @@ ENV LD_LIBRARY_PATH="/usr/local/cuda-10.1/lib:${LD_LIBRARY_PATH}"
 
 #--------------- NVIDIA video codec installation
 #Method 1: 
-#Download youself?
+#Download youself? You have to register into nvidia website to download it
 
 #Method 2:
 ADD deps/Video_Codec_SDK_9.0.20.zip video_codec.zip
@@ -65,12 +65,56 @@ RUN unzip video_codec.zip && cp Video_Codec_SDK_9.0.20/Samples/common.mk /usr/lo
 ADD deps/nv-codec-headers nv-codec-headers/
 RUN cd nv-codec-headers && make && make install
 
+#--------------- MFX Dispatch installation
+COPY deps/mfx_dispatch-1.25.tar.gz mfx_dispatch-1.25.tar.gz
+RUN tar -xvzf mfx_dispatch-1.25.tar.gz \
+    && cd mfx_dispatch-1.25 \
+    && autoreconf -fiv \
+    && ./configure \
+    && make -j $(nproc) \
+    && make install \
+    && ldconfig
+
+RUN apt-get update && apt-get install -y \
+    ocl-icd-opencl-dev opencl-headers libva-dev vainfo \
+    vdpau-driver-all mesa-vdpau-drivers vdpau-va-driver libvdpau-dev vdpauinfo
+
+#--------------- X264 installation
+#apt-get install -y cmake mercurial
 #RUN git clone https://code.videolan.org/videolan/x264.git \ 
-ADD deps/x264 x264
-RUN cd x264/ \
-    && ./configure --disable-cli --enable-static --enable-shared --enable-strip\
+COPY deps/x264-snapshot-20190729-2245-stable.tar.bz2 x264-snapshot-20190729-2245-stable.tar.bz2
+RUN tar -xf x264-snapshot-20190729-2245-stable.tar.bz2 \
+    && cd x264-snapshot-20190729-2245-stable \
+    && ./configure --disable-cli --enable-static --enable-shared --enable-strip \
     && make && make install && ldconfig
 
+#--------------- XFDK-AAC installation
+#RUN git clone https://github.com/mstorsjo/fdk-aac
+COPY deps/fdk-aac-2.0.0.tar.gz fdk-aac-2.0.0.tar.gz
+RUN tar xf fdk-aac-2.0.0.tar.gz \
+    && cd fdk-aac-2.0.0 \
+    && autoreconf -fiv \
+    && ./configure \
+    && make -j $(nproc) \
+    && make install \
+    && ldconfig
+
+#--------------- LIBVPX installation
+RUN apt-get install -y libmp3lame-dev libopus-dev
+#RUN wget wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2
+COPY deps/libvpx-1.5.0.tar.bz2 libvpx-1.5.0.tar.bz2
+RUN tar xjvf libvpx-1.5.0.tar.bz2 \
+    && cd libvpx-1.5.0 \
+    && ./configure --disable-examples --disable-unit-tests \
+    && make -j $(nproc) \
+    && make install \
+    && ldconfig
+
+#libssh-dbg
+RUN apt-get install -y sox libsox-dev libsox-fmt-all libsox3 libsoxr-dev libsoxr-lsr0 \
+    libssh-dev libssh2-1-dev libssh2-1-dbg libssl-dev openssl \
+    libtheora-dev libwavpack-dev libwavpack1 libxvidcore-dev libxvidcore4 \
+    libvorbis-dev libopenal-dev librtmp-dev rtmpdump
 #--------------- NASM installation
 #Method 1:
 #RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.14rc0/nasm-2.14rc0.tar.gz \
