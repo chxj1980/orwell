@@ -140,47 +140,37 @@ function assemble() {
       --enable-cuvid 
 
   elif [ "$TYPE" == pc2 ]; then
-     ./configure --prefix=${BUILD_DIR}/${ARCH} \
-      --disable-shared \
-      --extra-cflags=-I/usr/local/include \
-      --extra-cflags=-I/usr/local/cuda-8.0/targets/x86_64-linux/include \
-      --extra-cflags=-I../nvidia/cudautils \
-      --extra-ldflags=-L/usr/local/cuda-8.0/targets/x86_64-linux/lib \
-      --extra-ldflags=-L../nvidia/cudautils \
-      --enable-nonfree \
-      --enable-gpl \
-      --enable-version3 \
-      --enable-avresample \
-      --enable-avisynth \
-      --enable-openal \
-      --enable-opencl \
-      --enable-opengl \
-      --enable-libnpp \
+     PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:/opt/intel/mediasdk/lib/pkgconfig"
+     
+     ./configure \
+      --pkg-config-flags="--static" \
+      --prefix="/home/deps/ffmpeg/linux_test" \
+      --bindir="$HOME/bin" \
+      --extra-cflags="-I$HOME/ffmpeg_build/include" \
+      --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+      #--extra-cflags="-I/opt/intel/mediasdk/include" \
+      #--extra-ldflags="-L/opt/intel/mediasdk/lib" \
+      #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
       --enable-libmfx \
-      --enable-nvenc \
-      --enable-cuda \
       --enable-vaapi \
-      --enable-vdpau \
+      --enable-opencl \
+      --disable-debug \
+      #--enable-libvorbis \
+      --enable-libvpx \
+      --enable-libdrm \
+      --enable-gpl \
+      --enable-runtime-cpudetect \
+      --enable-libfdk-aac \
       --enable-libx264 \
       --enable-libx265 \
-      --enable-libxvid \
-      --enable-libass \
-      --enable-libwavpack \
-      --enable-libsoxr \
-      --enable-libfdk-aac \
-      --enable-libfreetype \
-      --enable-libmp3lame \
-      --enable-libopus \
-      --enable-libtheora \
-      --enable-libvorbis \
-      --enable-libvpx \
-      --enable-librtmp \
-      --enable-libssh \
-      --enable-openssl
-
-      make clean
-      make -j8
-      make install
+      --enable-openssl \
+      --enable-pic \
+      --extra-libs="-lpthread -lm -lz -ldl" \
+      --enable-nonfree 
+      PATH="$HOME/bin:$PATH" make -j$(nproc) 
+      make -j$(nproc) install 
+      make -j$(nproc) distclean 
+      hash -r
 
   else
       echo WRONG COMMAND

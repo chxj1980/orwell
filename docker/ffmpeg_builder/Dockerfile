@@ -19,28 +19,29 @@ RUN echo "APT::Acquire::Retries \"20\";" > /etc/apt/apt.conf.d/80-retries \
                        libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev \
                        cmake autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
                        libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
-                       libxcb-xfixes0-dev texi2html zlib1g-dev pkg-config \
+                       libxcb-xfixes0-dev texi2html zlib1g-dev pkgconf \
                        libsdl2-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev texinfo \
-                       ladspa-sdk ladspa-foo-plugins libbluray-dev libbluray-doc libbluray2 libbluray-bin
+                       ladspa-sdk ladspa-foo-plugins libbluray-dev libbluray-doc libbluray2 libbluray-bin 
  #Install pkg-config? It breaks dependencies with pkgconf : Breaks: pkg-config (>= 0.29-1) \ Breaks: pkg-config:i386 (>= 0.29-1)
 
 WORKDIR /home/sources
 
 #--------------- Cuda installation
 #Method 1:
-ADD deps/cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
-RUN dpkg -i cuda.deb \
-    && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub\
-    && apt-get update && apt-get install -y cuda #&& nvidia-smi #output driver information
+#ADD deps/cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
+#RUN dpkg -i cuda.deb \
+#    && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub\
+#    && apt-get update && apt-get install -y cuda #&& nvidia-smi #output driver information
 
 #Method 2:
-#ARG CUDA_BIG_DEB_FILE=https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda-repo-ubuntu1804-10-1-local-10.1.168-418.67_1.0-1_amd64.deb
+ARG CUDA_BIG_DEB_FILE=https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda-repo-ubuntu1804-10-1-local-10.1.168-418.67_1.0-1_amd64.deb
 #TODO: check hash
-#RUN wget --progress=bar:force -O cuda.deb $CUDA_BIG_DEB_FILE \
-#     && dpkg -i cuda.deb \
-#     && apt-key add /var/cuda-repo-*/7fa2af80.pub \
-#     && apt-get update \
-#     && apt-get install -y cuda
+RUN wget --progress=bar:force -O cuda.deb $CUDA_BIG_DEB_FILE \
+     && dpkg -i cuda.deb \
+     && apt-key add /var/cuda-repo-*/7fa2af80.pub \
+     && apt-get update \
+     && apt-get install -y cuda
+     #&& rm cuda.deb
 
 #PATH=/usr/local/cuda-10.1/bin${PATH:+:${PATH}} 
 #LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib {LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
@@ -55,6 +56,7 @@ ENV LD_LIBRARY_PATH="/usr/local/cuda-10.1/lib:${LD_LIBRARY_PATH}"
 #Method 2:
 ADD deps/Video_Codec_SDK_9.0.20.zip video_codec.zip
 RUN unzip video_codec.zip && cp Video_Codec_SDK_9.0.20/Samples/common.mk /usr/local/include/
+#&& rm video_codec.zip
 
 #--------------- NVIDIA Sdk installation
 #Method 1:
@@ -64,10 +66,32 @@ RUN unzip video_codec.zip && cp Video_Codec_SDK_9.0.20/Samples/common.mk /usr/lo
 #Method 2:
 ADD deps/nv-codec-headers nv-codec-headers/
 RUN cd nv-codec-headers && make && make install
+#cd .. && rm -rf nv-codec-headers
+
+#--------------- NASM installation
+#Method 1:
+#RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.14rc0/nasm-2.14rc0.tar.gz \
+#    && tar xzvf nasm-2.14rc0.tar.gz \
+#    && cd nasm-2.14rc0 \
+#    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
+#    && make -j$(nproc) \
+#    && make -j$(nproc) install \
+#    && make -j$(nproc) distclean 
+
+#Method 2
+COPY deps/nasm-2.14rc0.tar.gz nasm.tar.gz
+RUN tar xzvf nasm.tar.gz \
+    && rm nasm.tar.gz \
+    && cd nasm-* \
+    && ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin"  \
+    && make -j$(nproc) \
+    && make -j$(nproc) install \
+    && make -j$(nproc) distclean 
 
 #--------------- MFX Dispatch installation
 COPY deps/mfx_dispatch-1.25.tar.gz mfx_dispatch-1.25.tar.gz
 RUN tar -xvzf mfx_dispatch-1.25.tar.gz \
+    && rm mfx_dispatch-1.25.tar.gz \
     && cd mfx_dispatch-1.25 \
     && autoreconf -fiv \
     && ./configure \
@@ -82,16 +106,28 @@ RUN apt-get update && apt-get install -y \
 #--------------- X264 installation
 #apt-get install -y cmake mercurial
 #RUN git clone https://code.videolan.org/videolan/x264.git \ 
+#rm x264-snapshot-20190729-2245-stable.tar.bz2
 COPY deps/x264-snapshot-20190729-2245-stable.tar.bz2 x264-snapshot-20190729-2245-stable.tar.bz2
 RUN tar -xf x264-snapshot-20190729-2245-stable.tar.bz2 \
     && cd x264-snapshot-20190729-2245-stable \
-    && ./configure --disable-cli --enable-static --enable-shared --enable-strip \
+    && ./configure --prefix="$HOME/ffmpeg_build" --enable-static --enable-pic --bit-depth=all \
     && make && make install && ldconfig
+
+#hg clone http://hg.videolan.org/x265
+#-DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build"
+#--------------- X265 installation
+COPY deps/x265 x265
+RUN cd x265/build/linux \
+    && cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED:bool=off ../../source \
+    && make -j$(nproc) VERBOSE=1 \
+    && make -j$(nproc) install VERBOSE=1 \
+    && make -j$(nproc) clean VERBOSE=1
 
 #--------------- XFDK-AAC installation
 #RUN git clone https://github.com/mstorsjo/fdk-aac
 COPY deps/fdk-aac-2.0.0.tar.gz fdk-aac-2.0.0.tar.gz
 RUN tar xf fdk-aac-2.0.0.tar.gz \
+    && rm fdk-aac-2.0.0.tar.gz \
     && cd fdk-aac-2.0.0 \
     && autoreconf -fiv \
     && ./configure \
@@ -102,37 +138,26 @@ RUN tar xf fdk-aac-2.0.0.tar.gz \
 #--------------- LIBVPX installation
 RUN apt-get install -y libmp3lame-dev libopus-dev
 #RUN wget wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2
-COPY deps/libvpx-1.5.0.tar.bz2 libvpx-1.5.0.tar.bz2
-RUN tar xjvf libvpx-1.5.0.tar.bz2 \
-    && cd libvpx-1.5.0 \
+COPY deps/libvpx-v1.8.1.tar.gz libvpx-v1.8.1.tar.gz
+RUN tar -xvzf libvpx-v1.8.1.tar.gz \
+    && rm libvpx-v1.8.1.tar.gz \
+    && cd libvpx-1.8.1 \
     && ./configure --disable-examples --disable-unit-tests \
+    --enable-runtime-cpu-detect --enable-vp9 --enable-vp8 \
+    --enable-postproc --enable-vp9-postproc --enable-multi-res-encoding --enable-webm-io \
+    --enable-vp9-highbitdepth --enable-onthefly-bitpacking --enable-better-hw-compatibility \
+    --enable-realtime-only --cpu=native --as=nasm \
     && make -j $(nproc) \
     && make install \
-    && ldconfig
+    && ldconfig \
+    && make -j$(nproc) clean VERBOSE=1
 
 #libssh-dbg
 RUN apt-get install -y sox libsox-dev libsox-fmt-all libsox3 libsoxr-dev libsoxr-lsr0 \
     libssh-dev libssh2-1-dev libssh2-1-dbg libssl-dev openssl \
     libtheora-dev libwavpack-dev libwavpack1 libxvidcore-dev libxvidcore4 \
-    libvorbis-dev libopenal-dev librtmp-dev rtmpdump
-#--------------- NASM installation
-#Method 1:
-#RUN wget http://www.nasm.us/pub/nasm/releasebuilds/2.14rc0/nasm-2.14rc0.tar.gz \
-#    && tar xzvf nasm-2.14rc0.tar.gz \
-#    && cd nasm-2.14rc0 \
-#    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
-#    && make -j$(nproc) \
-#    && make -j$(nproc) install \
-#    && make -j$(nproc) distclean 
+    libvorbis-dev libopenal-dev librtmp-dev rtmpdump pkg-config
 
-#Method 2
-#ADD nasm-2.14rc0.tar.gz nasm.tar.gz
-#RUN tar xzvf nasm.tar.gz \
-#    && cd nasm-* \
-#    && ./configure --prefix="/home/ffmpeg" --bindir="$HOME/bin" \
-#    && make -j$(nproc) \
-#    && make -j$(nproc) install \
-#    && make -j$(nproc) distclean 
 
 #--------------- Android NDK installation
 ARG ANDROID_NDK=https://dl.google.com/android/repository/android-ndk-r20-linux-x86_64.zip
@@ -151,7 +176,7 @@ ADD docker/ffmpeg_builder/scripts/video_decoders_list.txt /home/video_decoders_l
 ADD docker/ffmpeg_builder/scripts/ffmpeg_build.sh /home/ffmpeg_build.sh
 #ADD docker/ffmpeg_builder/scripts/load_variables.sh /home/load_variables.sh
 #ADD docker/ffmpeg_builder/scripts/load_variables2.sh /home/load_variables2.sh
-#ADD docker/ffmpeg_builder/scripts/build_linux.sh /home/build_linux.sh 
+ADD docker/ffmpeg_builder/scripts/build_linux.sh /home/build_linux.sh 
 #ADD docker/ffmpeg_builder/scripts/build_android_arm64.sh /home/build_android_arm64.sh 
 #ADD docker/ffmpeg_builder/scripts/build_android_armhf32.sh /home/build_android_armhf32.sh 
 #ADD docker/ffmpeg_builder/scripts/build_android_x86_64.sh /home/build_android_x86_64.sh 
