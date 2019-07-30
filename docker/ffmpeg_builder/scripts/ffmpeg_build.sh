@@ -140,12 +140,14 @@ function assemble() {
       --enable-cuvid 
 
   elif [ "$TYPE" == pc2 ]; then
+     #https://gist.github.com/Brainiarc7/4f831867f8e55d35cbcb527e15f9f116
+     #TODO: add intel media sink
+     #TODO: add nivia
      PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:/opt/intel/mediasdk/lib/pkgconfig"
      
      ./configure \
       --pkg-config-flags="--static" \
-      --prefix="/home/deps/ffmpeg/linux_test" \
-      --bindir="$HOME/bin" \
+      --prefix=${BUILD_DIR}/${ARCH} \
       --extra-cflags="-I$HOME/ffmpeg_build/include" \
       --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
       #--extra-cflags="-I/opt/intel/mediasdk/include" \
@@ -155,6 +157,9 @@ function assemble() {
       --enable-vaapi \
       --enable-opencl \
       --disable-debug \
+      --enable-nvenc \
+      --enable-cuda \
+      --enable-cuvid \
       #--enable-libvorbis \
       --enable-libvpx \
       --enable-libdrm \
@@ -173,7 +178,7 @@ function assemble() {
       hash -r
 
   else
-      echo WRONG COMMAND
+      echo target $TYPE not supported
   fi
 
   
