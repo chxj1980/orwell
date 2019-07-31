@@ -159,7 +159,7 @@ function assemble() {
       #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
       --arch=${ARCH} \ #command does not exist
       #--enable-libmfx \ #command does not exist
-      #--enable-vaapi \
+      --enable-vaapi \
       --disable-vaapi \ #command does not exist
       --enable-opencl \
       --disable-debug \

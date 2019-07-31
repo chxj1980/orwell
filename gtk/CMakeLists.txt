@@ -18,6 +18,11 @@ find_library(X11_LIBRARY X11)
 find_library(ZLIB_LIBRARY z)
 find_library(LIBDL_LIBRARY dl)
 find_library(LIB_VDPAU vdpau) #sudo apt install libvdpau-dev
+find_library(LIB_VA va)
+find_library(LIB_VA_DRM va-drm)
+find_library(LIB_VA_X11 va-x11)
+
+
 
 
 #sudo apt install -y libgtkmm-3.0-dev
@@ -57,6 +62,6 @@ add_executable(orwell ${orwell_gtk3_SRCS})
 
 target_link_libraries( orwell PRIVATE
 	Boost::thread 
-	AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${LIB_VDPAU} #zlib MUST come AFTER ffmpeg
-	myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${X11_LIBRARY})
+	AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${X11_LIBRARY} ${LIB_VA_X11} #zlib MUST come AFTER ffmpeg
+	myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY})
 
