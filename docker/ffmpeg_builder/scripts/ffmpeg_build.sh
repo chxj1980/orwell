@@ -90,8 +90,9 @@ function assemble() {
   while IFS= read -r line; do DECODERS_TO_ENABLE="${DECODERS_TO_ENABLE} --enable-decoder=$line"; done < ${BASE_DIR}/video_decoders_list.txt
   
   if [ "$TYPE" == android ]; then
+    echo "Configuring $TYPE of arch $ARCH..."
     ./configure \
-    --prefix=${BUILD_DIR}/${ARCH} \
+    --prefix=${BUILD_DIR}/android/${ARCH} \
     --disable-doc \
     --enable-cross-compile \
     --cross-prefix=${TOOLCHAIN_PATH}/bin/${CROSS_PREFIX} \
@@ -128,6 +129,7 @@ function assemble() {
 
     cd ${BASE_DIR}
   elif [ "$TYPE" == pc ]; then
+      echo "Configuring $TYPE of arch $ARCH..."
       ./configure \
       --prefix=${BUILD_DIR}/${ARCH} \
       --enable-nonfree \
@@ -139,22 +141,25 @@ function assemble() {
       --enable-cuda \
       --enable-cuvid 
 
-  elif [ "$TYPE" == pc2 ]; then
+  elif [ "$TYPE" == desktop ]; then
      #https://gist.github.com/Brainiarc7/4f831867f8e55d35cbcb527e15f9f116
      #TODO: add intel media sink
-     #TODO: add nivia
+     #TODO: make x_86 and x_86_64 versions of this
+     #TODO: enable vaapi support!
+     echo "Configuring $TYPE of arch $ARCH..."
      PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:/opt/intel/mediasdk/lib/pkgconfig"
      
      ./configure \
-      --pkg-config-flags="--static" \
-      --prefix=${BUILD_DIR}/${ARCH} \
+      --prefix=${BUILD_DIR}/desktop/${ARCH} \
       --extra-cflags="-I$HOME/ffmpeg_build/include" \
       --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+      --enable-shared \
       #--extra-cflags="-I/opt/intel/mediasdk/include" \
       #--extra-ldflags="-L/opt/intel/mediasdk/lib" \
       #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
+      --arch=${ARCH} \
       --enable-libmfx \
-      --enable-vaapi \
+      #--enable-vaapi \
       --enable-opencl \
       --disable-debug \
       --enable-nvenc \
@@ -170,7 +175,7 @@ function assemble() {
       --enable-libx265 \
       --enable-openssl \
       --enable-pic \
-      --extra-libs="-lpthread -lm -lz -ldl" \
+      --extra-libs="-lpthread -libm -libc -lz -ldl" \
       --enable-nonfree 
       PATH="$HOME/bin:$PATH" make -j$(nproc) 
       make -j$(nproc) install 
@@ -187,8 +192,9 @@ function assemble() {
 # Placing build *.so files into the /bin directory
 function installLibs() {
   BUILD_SUBDIR=$1
+  TYPE=$2
 
-  OUTPUT_SUBDIR=${OUTPUT_DIR}/lib/${BUILD_SUBDIR}
+  OUTPUT_SUBDIR=${OUTPUT_DIR}/${TYPE}/lib/${BUILD_SUBDIR}
   CP_DIR=${BUILD_DIR}/${BUILD_SUBDIR}
 
   mkdir -p ${OUTPUT_SUBDIR}
@@ -201,7 +207,7 @@ function build() {
   TYPE=$3
 
   assemble ${ARCH} ${ANDROID_API} ${TYPE}
-  installLibs ${ARCH}
+  #installLibs ${ARCH} ${TYPE}
 }
 
 # Placing build header files into the /bin directory
@@ -218,10 +224,10 @@ function installHeaders() {
 
 #ensureSources
 
-#build armeabi-v7a 16 android
-#build arm64-v8a 21 android
-#build x86 16 android
-#build x86_64 21 android
-build x86_64_desktop _ pc2
+build armeabi-v7a 16 android
+build arm64-v8a 21 android
+build x86 16 android
+build x86_64 21 android
+build x86_64 _ desktop
 
 installHeaders

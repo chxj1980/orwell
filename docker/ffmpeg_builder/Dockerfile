@@ -26,6 +26,47 @@ RUN echo "APT::Acquire::Retries \"20\";" > /etc/apt/apt.conf.d/80-retries \
 
 WORKDIR /home/sources
 
+#git clone https://github.com/01org/libva
+COPY deps/libva-2.5.0.tar.bz2 libva-2.5.0.tar.bz2
+RUN tar -xf libva-2.5.0.tar.bz2 \
+    && rm libva-2.5.0.tar.bz2 \
+    && cd libva-2.5.0 \
+    && ./configure --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu \
+    && make -j$(nproc) VERBOSE=1 \
+    && make -j$(nproc) install \
+    && ldconfig -vvvv
+
+#git clone https://github.com/intel/gmmlib/
+COPY deps/intel-gmmlib-19.2.3.tar.gz intel-gmmlib-19.2.3.tar.gz
+RUN tar xzvf intel-gmmlib-19.2.3.tar.gz \
+    && rm intel-gmmlib-19.2.3.tar.gz \
+    && cd gmmlib-intel-gmmlib-19.2.3 \
+    && mkdir -p build \
+    && cd build \
+    && cmake -DCMAKE_BUILD_TYPE= Release ../Source/GmmLib \
+    && make -j$(nproc) \
+    && make -j$(nproc) install 
+
+#git clone https://github.com/intel/media-driver
+#COPY deps/intel-media-19.2.0.tar.gz intel-media-19.2.0.tar.gz
+#RUN tar xzvf intel-media-19.2.0.tar.gz \
+#    && rm intel-media-19.2.0.tar.gz \
+#    && cd media-driver-intel-media-19.2.0 \
+#    && mkdir -p build_media \
+#    && cd build_media \
+#    && cmake ../media_driver \
+#     -DMEDIA_VERSION="2.0.0" \
+#     -DBS_DIR_GMMLIB=$PWD/../gmmlib/Source/GmmLib/ \
+#     -DBS_DIR_COMMON=$PWD/../gmmlib/Source/Common/ \
+#     -DBS_DIR_INC=$PWD/../gmmlib/Source/inc/ \
+#     -DBS_DIR_MEDIA=$PWD/../media-driver \
+#     -DCMAKE_INSTALL_PREFIX=/usr \
+#     -DCMAKE_INSTALL_LIBDIR=/usr/lib/x86_64-linux-gnu \
+#     -DINSTALL_DRIVER_SYSCONF=OFF \
+#     -DLIBVA_DRIVERS_PATH=/usr/lib/x86_64-linux-gnu/dri \
+#    && make -j$(nproc) VERBOSE=1 \
+#    && make -j$(nproc) install VERBOSE=1
+
 #--------------- Cuda installation
 #Method 1:
 #ADD deps/cuda-repo-ubuntu1804_10.1.168-1_amd64.deb cuda.deb
