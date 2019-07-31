@@ -217,7 +217,6 @@ ADD docker/ffmpeg_builder/scripts/video_decoders_list.txt /home/video_decoders_l
 ADD docker/ffmpeg_builder/scripts/ffmpeg_build.sh /home/ffmpeg_build.sh
 #ADD docker/ffmpeg_builder/scripts/load_variables.sh /home/load_variables.sh
 #ADD docker/ffmpeg_builder/scripts/load_variables2.sh /home/load_variables2.sh
-ADD docker/ffmpeg_builder/scripts/build_linux.sh /home/build_linux.sh 
 #ADD docker/ffmpeg_builder/scripts/build_android_arm64.sh /home/build_android_arm64.sh 
 #ADD docker/ffmpeg_builder/scripts/build_android_armhf32.sh /home/build_android_armhf32.sh 
 #ADD docker/ffmpeg_builder/scripts/build_android_x86_64.sh /home/build_android_x86_64.sh 

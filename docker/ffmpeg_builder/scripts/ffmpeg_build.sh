@@ -176,7 +176,7 @@ function assemble() {
       --enable-libx265 \
       --enable-openssl \
       --enable-pic \
-      --extra-libs="-lpthread -libm -libc -lz -ldl -lvdpau -lva -libva-x11 -lva-drm -lva-x11 -lX11" \
+      --extra-libs="-lpthread -libm -libc -lz -ldl" \
       --enable-nonfree 
       PATH="$HOME/bin:$PATH" make -j$(nproc) -n
       make -j$(nproc) install 
@@ -215,6 +215,12 @@ function build() {
 # Note, there is a only one such a folder since this headers are the same for all architectures
 # May not be true for different configurations though
 function installHeaders() {
+
+  echo "cd ${BUILD_DIR}
+  cd "$(ls -1 | head -n1)"
+  cp -r include ${OUTPUT_DIR}
+  cd ${BASE_DIR}"
+
   cd ${BUILD_DIR}
   cd "$(ls -1 | head -n1)"
   cp -r include ${OUTPUT_DIR}

@@ -12,6 +12,8 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/glx.h>
+#include <thread>
+#include <mutex>
 
 #include "OpenglArea.h"
 
@@ -181,8 +183,8 @@ int main()
 																			 std::string("cuda"));
 	FfmpegSoftwareDecoder *ffmpegSoftwareDecoder = new FfmpegSoftwareDecoder(FfmpegHardwareDecoder::H264);
 	
-	singletonObject.mediaStream->setDecoder(ffmpegHardwareDecoder);
-	singletonObject.mediaThread = std::make_shared<boost::thread>(&MediaStream::run, singletonObject.mediaStream);
+	singletonObject.mediaStream->setDecoder(ffmpegSoftwareDecoder);
+	singletonObject.mediaThread = std::make_shared<std::thread>(&MediaStream::run, singletonObject.mediaStream);
 	Singleton::instance()->addStream("cam1", singletonObject);
 
 	GLWindow window;

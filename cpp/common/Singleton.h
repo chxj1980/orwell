@@ -2,16 +2,16 @@
 #define Singleton_H
 #include <iostream>
 #include <memory>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/thread.hpp>
 #include "VideoReceiver.h"
 #include "VideoRecorder.h"
 #include "MediaStream.h"
+#include <thread>
+#include <mutex>
 
 
 struct SingletonObject {
     std::shared_ptr<MediaStream> mediaStream;
-    std::shared_ptr<boost::thread> mediaThread;
+    std::shared_ptr<std::thread> mediaThread;
     std::shared_ptr<VideoReceiver> videoReceiver;
     std::shared_ptr<VideoRecorder> videoRecorder;
     //std::shared_ptr<MovementTracker> movementTracker
@@ -57,7 +57,7 @@ public:
 private:
     Singleton() {}
     static std::map<std::string,SingletonObject> streamList;
-    static boost::mutex mutex;
+    static std::mutex mutex;
 };
 
 #endif // Singleton_H
