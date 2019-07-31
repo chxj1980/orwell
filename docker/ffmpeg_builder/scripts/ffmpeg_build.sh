@@ -176,9 +176,9 @@ function assemble() {
       --enable-libx265 \
       --enable-openssl \
       --enable-pic \
-      --extra-libs="-lpthread -libm -libc -lz -ldl -lvdpau -lX11" \
+      --extra-libs="-lpthread -libm -libc -lz -ldl -lvdpau -lva -libva-x11 -lva-drm -lva-x11 -lX11" \
       --enable-nonfree 
-      PATH="$HOME/bin:$PATH" make -j$(nproc) 
+      PATH="$HOME/bin:$PATH" make -j$(nproc) -n
       make -j$(nproc) install 
       make -j$(nproc) distclean 
       hash -r
