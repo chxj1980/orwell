@@ -18,34 +18,35 @@ RUN echo "APT::Acquire::Retries \"20\";" > /etc/apt/apt.conf.d/80-retries \
                        libavcodec-dev libavformat-dev libavutil-dev g++ freeglut3-dev \ 
                        libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev \
                        cmake autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
-                       libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
+                       libsdl1.2-dev libtheora-dev libtool libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
                        libxcb-xfixes0-dev texi2html zlib1g-dev pkgconf \
                        libsdl2-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev texinfo \
                        ladspa-sdk ladspa-foo-plugins libbluray-dev libbluray-doc libbluray2 libbluray-bin 
+                       
  #Install pkg-config? It breaks dependencies with pkgconf : Breaks: pkg-config (>= 0.29-1) \ Breaks: pkg-config:i386 (>= 0.29-1)
 
 WORKDIR /home/sources
 
 #git clone https://github.com/01org/libva
-COPY deps/libva-2.5.0.tar.bz2 libva-2.5.0.tar.bz2
-RUN tar -xf libva-2.5.0.tar.bz2 \
-    && rm libva-2.5.0.tar.bz2 \
-    && cd libva-2.5.0 \
-    && ./configure --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu \
-    && make -j$(nproc) VERBOSE=1 \
-    && make -j$(nproc) install \
-    && ldconfig -vvvv
+#COPY deps/libva-2.5.0.tar.bz2 libva-2.5.0.tar.bz2
+#RUN tar -xf libva-2.5.0.tar.bz2 \
+#    && rm libva-2.5.0.tar.bz2 \
+#    && cd libva-2.5.0 \
+#    && ./configure --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu \
+#    && make -j$(nproc) VERBOSE=1 \
+#    && make -j$(nproc) install \
+#    && ldconfig -vvvv
 
 #git clone https://github.com/intel/gmmlib/
-COPY deps/intel-gmmlib-19.2.3.tar.gz intel-gmmlib-19.2.3.tar.gz
-RUN tar xzvf intel-gmmlib-19.2.3.tar.gz \
-    && rm intel-gmmlib-19.2.3.tar.gz \
-    && cd gmmlib-intel-gmmlib-19.2.3 \
-    && mkdir -p build \
-    && cd build \
-    && cmake -DCMAKE_BUILD_TYPE= Release ../Source/GmmLib \
-    && make -j$(nproc) \
-    && make -j$(nproc) install 
+#COPY deps/intel-gmmlib-19.2.3.tar.gz intel-gmmlib-19.2.3.tar.gz
+#RUN tar xzvf intel-gmmlib-19.2.3.tar.gz \
+#    && rm intel-gmmlib-19.2.3.tar.gz \
+#    && cd gmmlib-intel-gmmlib-19.2.3 \
+#    && mkdir -p build \
+#    && cd build \
+#    && cmake -DCMAKE_BUILD_TYPE= Release ../Source/GmmLib \
+#    && make -j$(nproc) \
+#    && make -j$(nproc) install 
 
 #git clone https://github.com/intel/media-driver
 #COPY deps/intel-media-19.2.0.tar.gz intel-media-19.2.0.tar.gz
@@ -141,8 +142,9 @@ RUN tar -xvzf mfx_dispatch-1.25.tar.gz \
     && ldconfig
 
 RUN apt-get update && apt-get install -y \
-    ocl-icd-opencl-dev opencl-headers libva-dev vainfo \
-    vdpau-driver-all mesa-vdpau-drivers vdpau-va-driver libvdpau-dev vdpauinfo
+    ocl-icd-opencl-dev opencl-headers \
+    vdpau-driver-all mesa-vdpau-drivers libvdpau-dev vdpauinfo
+    #libva-dev vainfo vdpau-va-driver
 
 #--------------- X264 installation
 #apt-get install -y cmake mercurial
@@ -155,7 +157,6 @@ RUN tar -xf x264-snapshot-20190729-2245-stable.tar.bz2 \
     && make && make install && ldconfig
 
 #hg clone http://hg.videolan.org/x265
-#-DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build"
 #--------------- X265 installation
 COPY deps/x265 x265
 RUN cd x265/build/linux \

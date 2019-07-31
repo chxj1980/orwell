@@ -157,9 +157,10 @@ function assemble() {
       #--extra-cflags="-I/opt/intel/mediasdk/include" \
       #--extra-ldflags="-L/opt/intel/mediasdk/lib" \
       #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
-      --arch=${ARCH} \
-      --enable-libmfx \
+      --arch=${ARCH} \ #command does not exist
+      #--enable-libmfx \ #command does not exist
       #--enable-vaapi \
+      --disable-vaapi \ #command does not exist
       --enable-opencl \
       --disable-debug \
       --enable-nvenc \
@@ -175,7 +176,7 @@ function assemble() {
       --enable-libx265 \
       --enable-openssl \
       --enable-pic \
-      --extra-libs="-lpthread -libm -libc -lz -ldl" \
+      --extra-libs="-lpthread -libm -libc -lz -ldl -lvdpau -lX11" \
       --enable-nonfree 
       PATH="$HOME/bin:$PATH" make -j$(nproc) 
       make -j$(nproc) install 
@@ -224,10 +225,10 @@ function installHeaders() {
 
 #ensureSources
 
-build armeabi-v7a 16 android
-build arm64-v8a 21 android
-build x86 16 android
-build x86_64 21 android
+#build armeabi-v7a 16 android
+#build arm64-v8a 21 android
+#build x86 16 android
+#build x86_64 21 android
 build x86_64 _ desktop
 
 installHeaders

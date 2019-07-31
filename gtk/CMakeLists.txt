@@ -17,6 +17,8 @@ find_library(GL_LIBRARY GL)
 find_library(X11_LIBRARY X11)
 find_library(ZLIB_LIBRARY z)
 find_library(LIBDL_LIBRARY dl)
+find_library(LIB_VDPAU vdpau) #sudo apt install libvdpau-dev
+
 
 #sudo apt install -y libgtkmm-3.0-dev
 find_package(PkgConfig)
@@ -37,14 +39,14 @@ set(FFMPEG_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/x86_
 include_directories(${FFMPEG_SRC_DIR}/build/desktop/x86_64/include)
 
 if (UNIX)
-	add_library(AVUTIL_UPDATED_LIB SHARED IMPORTED)
-	set_target_properties(AVUTIL_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libavutil.so)
-	add_library(AVCODEC_UPDATED_LIB SHARED IMPORTED)
-	set_target_properties(AVCODEC_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libavcodec.so)
-	add_library(SWS_SCALE_UPDATED_LIB SHARED IMPORTED)
-	set_target_properties(SWS_SCALE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libswscale.so)
-	add_library(SWRESAMPLE_UPDATED_LIB SHARED IMPORTED)
-	set_target_properties(SWRESAMPLE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libswresample.so)
+	add_library(AVUTIL_UPDATED_LIB STATIC IMPORTED)
+	set_target_properties(AVUTIL_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libavutil.a)
+	add_library(AVCODEC_UPDATED_LIB STATIC IMPORTED)
+	set_target_properties(AVCODEC_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libavcodec.a)
+	add_library(SWS_SCALE_UPDATED_LIB STATIC IMPORTED)
+	set_target_properties(SWS_SCALE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libswscale.a)
+	add_library(SWRESAMPLE_UPDATED_LIB STATIC IMPORTED)
+	set_target_properties(SWRESAMPLE_UPDATED_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libswresample.a)
 endif (UNIX)
 
 if (WIN32)
@@ -54,7 +56,7 @@ endif (WIN32)
 add_executable(orwell ${orwell_gtk3_SRCS})
 
 target_link_libraries( orwell PRIVATE
-			   Boost::thread 
-			   AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} ${LIBDL_LIBRARY} #zlib MUST come AFTER ffmpeg
-		       myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${X11_LIBRARY})
+	Boost::thread 
+	AVCODEC_UPDATED_LIB AVUTIL_UPDATED_LIB SWS_SCALE_UPDATED_LIB SWRESAMPLE_UPDATED_LIB ${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${LIB_VDPAU} #zlib MUST come AFTER ffmpeg
+	myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${X11_LIBRARY})
 
