@@ -102,8 +102,8 @@ function assemble() {
     --extra-cflags="-O3 -fPIC $EXTRA_CFLAGS" \
     --sysroot=${SYSROOT} \
     --enable-shared \
-    #--disable-static \
-    --disable-debug \ #should I disable this for debugging?
+    --disable-static \
+    --disable-debug \
     --disable-runtime-cpudetect \
     --disable-programs \
     --disable-muxers \
@@ -112,10 +112,10 @@ function assemble() {
     ${DECODERS_TO_ENABLE} \
     --disable-bsfs \
     --disable-pthreads \
-    #--disable-avdevice \
+    --disable-avdevice \
     --disable-network \
     --disable-postproc \
-    --disable-swresample \
+    #--disable-swresample \
     #--disable-avfilter \
     ${EXTRA_CONFIGURE_FLAGS}
 
