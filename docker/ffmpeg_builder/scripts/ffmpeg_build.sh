@@ -102,8 +102,8 @@ function assemble() {
     --extra-cflags="-O3 -fPIC $EXTRA_CFLAGS" \
     --sysroot=${SYSROOT} \
     --enable-shared \
-    --disable-static \
-    --disable-debug \
+    #--disable-static \
+    --disable-debug \ #should I disable this for debugging?
     --disable-runtime-cpudetect \
     --disable-programs \
     --disable-muxers \
@@ -112,11 +112,11 @@ function assemble() {
     ${DECODERS_TO_ENABLE} \
     --disable-bsfs \
     --disable-pthreads \
-    --disable-avdevice \
+    #--disable-avdevice \
     --disable-network \
     --disable-postproc \
     --disable-swresample \
-    --disable-avfilter \
+    #--disable-avfilter \
     ${EXTRA_CONFIGURE_FLAGS}
 
     make clean
@@ -231,10 +231,10 @@ function installHeaders() {
 
 #ensureSources
 
-#build armeabi-v7a 16 android
-#build arm64-v8a 21 android
-#build x86 16 android
-#build x86_64 21 android
+build armeabi-v7a 16 android
+build arm64-v8a 21 android
+build x86 16 android
+build x86_64 21 android
 build x86_64 _ desktop
 
 installHeaders

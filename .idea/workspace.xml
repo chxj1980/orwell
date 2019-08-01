@@ -2,47 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1342ab49-b898-4a46-9e28-3f0e47939f55" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/androidTest/java/com/example/orwellandroid/ExampleInstrumentedTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/native-lib.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/java/com/example/orwellandroid/MainActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/app/src/test/java/com/example/orwellandroid/ExampleUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/orwellAndroid/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/ffmpeg_build.Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/docker/ffmpeg_build.Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/ffmpeg_builder/scripts/ffmpeg_build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/docker/ffmpeg_builder/scripts/ffmpeg_build.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,52 +16,44 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/orwell$_home_lz_orwell_OrwellAndroid_build_gradle.ic" NAME="$PROJECT_DIR$/OrwellAndroid/build.gradle Coverage Results" MODIFIED="1564372585825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="testRunner" value="GRADLE" />
+    <option name="delegatedBuild" value="true" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OrwellAndroid/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/OrwellAndroid/app/src/main/cpp/CMakeLists.txt">
+        <entry file="file://$PROJECT_DIR$/orwellAndroid/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-end-line="67" />
+            <state relative-caret-position="90">
+              <caret line="6" column="47" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OrwellAndroid/build.gradle">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OrwellAndroid/gradle.properties">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OrwellAndroid/local.properties">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OrwellAndroid/OrwellAndroid.iml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/OrwellAndroid/settings.gradle">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gtk/CMakeLists.txt">
+        <entry file="file://$PROJECT_DIR$/orwellAndroid/local.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1185">
-              <caret line="79" column="32" selection-start-line="79" selection-start-column="1" selection-end-line="79" selection-end-column="32" />
+            <state relative-caret-position="165">
+              <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/orwellAndroid/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -118,6 +73,7 @@
       <list>
         <option value="$PROJECT_DIR$/OrwellAndroid/app/src/main/cpp/CMakeLists2.txt" />
         <option value="$PROJECT_DIR$/OrwellAndroid/app/src/main/cpp/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/orwellAndroid/local.properties" />
       </list>
     </option>
   </component>
@@ -127,7 +83,7 @@
     <option name="width" value="1853" />
     <option name="height" value="1055" />
   </component>
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
@@ -136,6 +92,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -157,30 +114,25 @@
             <path>
               <item name="orwell" type="b2602c69:ProjectViewProjectNode" />
               <item name="orwell" type="462c0819:PsiDirectoryNode" />
-              <item name="gtk" type="462c0819:PsiDirectoryNode" />
+              <item name="orwellAndroid" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="orwell" type="b2602c69:ProjectViewProjectNode" />
               <item name="orwell" type="462c0819:PsiDirectoryNode" />
-              <item name="OrwellAndroid" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="orwell" type="b2602c69:ProjectViewProjectNode" />
-              <item name="orwell" type="462c0819:PsiDirectoryNode" />
-              <item name="OrwellAndroid" type="462c0819:PsiDirectoryNode" />
+              <item name="orwellAndroid" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="orwell" type="b2602c69:ProjectViewProjectNode" />
               <item name="orwell" type="462c0819:PsiDirectoryNode" />
-              <item name="OrwellAndroid" type="462c0819:PsiDirectoryNode" />
+              <item name="orwellAndroid" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="orwell" type="b2602c69:ProjectViewProjectNode" />
               <item name="orwell" type="462c0819:PsiDirectoryNode" />
-              <item name="OrwellAndroid" type="462c0819:PsiDirectoryNode" />
+              <item name="orwellAndroid" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
@@ -188,7 +140,7 @@
             <path>
               <item name="orwell" type="b2602c69:ProjectViewProjectNode" />
               <item name="orwell" type="462c0819:PsiDirectoryNode" />
-              <item name="OrwellAndroid" type="462c0819:PsiDirectoryNode" />
+              <item name="orwellAndroid" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
@@ -198,13 +150,17 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$PROJECT_DIR$/../Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AndroidStudioProjects/OrwellAndroid" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/orwellAndroid" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="run" />
+    </option>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -219,45 +175,30 @@
     </option>
   </component>
   <component name="RunManager" selected="Gradle./home/lz/orwell/OrwellAndroid/build.gradle">
-    <configuration name="/home/lz/orwell/OrwellAndroid/app/build.gradle (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/OrwellAndroid/app/build.gradle" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list />
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="/home/lz/orwell/OrwellAndroid/app/build.gradle" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/OrwellAndroid/app/build.gradle" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list />
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="/home/lz/orwell/OrwellAndroid/build.gradle" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/OrwellAndroid/build.gradle" />
         <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="run" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="/home/lz/orwell/orwellAndroid/app/build.gradle (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/orwellAndroid/app/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" />
         <option name="taskDescriptions">
           <list />
@@ -270,11 +211,71 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="/home/lz/orwell/orwellAndroid/app/build.gradle (2)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/orwellAndroid/app/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="/home/lz/orwell/orwellAndroid/app/build.gradle" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/orwellAndroid/app/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="/home/lz/orwell/orwellAndroid/build.gradle" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/orwellAndroid/build.gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle" />
+      <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle (1)" />
+      <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle (2)" />
+      <item itemvalue="Gradle./home/lz/orwell/OrwellAndroid/build.gradle" />
+      <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/build.gradle" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle./home/lz/orwell/OrwellAndroid/build.gradle" />
-        <item itemvalue="Gradle./home/lz/orwell/OrwellAndroid/app/build.gradle (1)" />
-        <item itemvalue="Gradle./home/lz/orwell/OrwellAndroid/app/build.gradle" />
+        <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle" />
+        <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/build.gradle" />
+        <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle (2)" />
+        <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -293,10 +294,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.22896175" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.22786885" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
@@ -308,46 +308,62 @@
       <window_info anchor="bottom" id="Terminal" order="2" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="4" weight="0.32937366" />
-      <window_info anchor="bottom" id="Debug" order="5" />
+      <window_info anchor="bottom" id="Debug" order="5" weight="0.32937366" />
+      <window_info anchor="bottom" id="Messages" order="6" weight="0.32937366" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Palette&#9;" order="2" />
       <window_info anchor="right" id="Coverage" order="3" side_tool="true" />
+      <window_info anchor="right" id="Assistant" order="4" weight="0.3375761" />
     </layout>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/OrwellAndroid/app/src/main/cpp/CMakeLists2.txt" />
-    <entry file="file://$PROJECT_DIR$/OrwellAndroid/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OrwellAndroid/build.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OrwellAndroid/local.properties">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OrwellAndroid/OrwellAndroid.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OrwellAndroid/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/OrwellAndroid/app/build.gradle" />
+    <entry file="file://$PROJECT_DIR$/OrwellAndroid/build.gradle" />
+    <entry file="file://$PROJECT_DIR$/OrwellAndroid/local.properties" />
+    <entry file="file://$PROJECT_DIR$/OrwellAndroid/OrwellAndroid.iml" />
+    <entry file="file://$PROJECT_DIR$/OrwellAndroid/settings.gradle" />
+    <entry file="file://$PROJECT_DIR$/OrwellAndroid/gradle.properties" />
+    <entry file="file://$PROJECT_DIR$/OrwellAndroid/app/src/main/cpp/CMakeLists.txt" />
     <entry file="file://$PROJECT_DIR$/gtk/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="79" column="32" selection-start-line="79" selection-start-column="1" selection-end-line="79" selection-end-column="32" />
+        <state relative-caret-position="76">
+          <caret line="10" column="58" selection-start-line="10" selection-start-column="58" selection-end-line="10" selection-end-column="58" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/OrwellAndroid/gradle.properties">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OrwellAndroid/app/src/main/cpp/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-end-line="67" />
+        <state relative-caret-position="510">
+          <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/orwellAndroid/local.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/orwellAndroid/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/orwellAndroid/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="47" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="hg4idea.settings">
+    <option name="CHECK_INCOMING_OUTGOING" value="true" />
+    <option name="RECENT_HG_ROOT_PATH" value="$PROJECT_DIR$/deps/x265" />
   </component>
 </project>

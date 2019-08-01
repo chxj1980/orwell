@@ -71,3 +71,6 @@ gtk/ffmpeg-prefix/*
 gtk/_zlib/*
 deps/ffmpeg-release-amd64-static/*
 deps/build/*
+gtk/Makefile
+gtk/_myRtspClient/
+orwellAndroid/app/.cxx/*

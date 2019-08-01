@@ -28,7 +28,7 @@ pkg_check_modules(GTKMM gtkmm-3.0) #sudo apt-get install libgtkmm-3.0-dev
 link_directories(${GTKMM_LIBRARY_DIRS})
 include_directories(include ${GTKMM_INCLUDE_DIRS})
 
-add_subdirectory(../myRtspClient myrtsp)
+add_subdirectory(../myRtspClient _myRtspClient)
 include_directories(../myRtspClient/myRtspClient/include)
 include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)

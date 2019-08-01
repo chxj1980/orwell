@@ -170,6 +170,19 @@ orwell/fast:
 .PHONY : orwell/fast
 
 #=============================================================================
+# Target rules for targets named myRtspClient-static
+
+# Build rule for target.
+myRtspClient-static: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 myRtspClient-static
+.PHONY : myRtspClient-static
+
+# fast build rule for target.
+myRtspClient-static/fast:
+	$(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/build
+.PHONY : myRtspClient-static/fast
+
+#=============================================================================
 # Target rules for targets named myRtspClient
 
 # Build rule for target.
@@ -179,7 +192,7 @@ myRtspClient: cmake_check_build_system
 
 # fast build rule for target.
 myRtspClient/fast:
-	$(MAKE) -f myrtsp/CMakeFiles/myRtspClient.dir/build.make myrtsp/CMakeFiles/myRtspClient.dir/build
+	$(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/build
 .PHONY : myRtspClient/fast
 
 #=============================================================================
@@ -192,7 +205,7 @@ jrtplib-shared: cmake_check_build_system
 
 # fast build rule for target.
 jrtplib-shared/fast:
-	$(MAKE) -f myrtsp/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared.dir/build.make myrtsp/third_party/JRTPLIB/src/CMakeFiles/jrtplib-shared.dir/build
+	$(MAKE) -f _myRtspClient/_JTRPLIB/src/CMakeFiles/jrtplib-shared.dir/build.make _myRtspClient/_JTRPLIB/src/CMakeFiles/jrtplib-shared.dir/build
 .PHONY : jrtplib-shared/fast
 
 #=============================================================================
@@ -205,7 +218,7 @@ jrtplib-static: cmake_check_build_system
 
 # fast build rule for target.
 jrtplib-static/fast:
-	$(MAKE) -f myrtsp/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build.make myrtsp/third_party/JRTPLIB/src/CMakeFiles/jrtplib-static.dir/build
+	$(MAKE) -f _myRtspClient/_JTRPLIB/src/CMakeFiles/jrtplib-static.dir/build.make _myRtspClient/_JTRPLIB/src/CMakeFiles/jrtplib-static.dir/build
 .PHONY : jrtplib-static/fast
 
 OpenglArea.o: OpenglArea.cpp.o
@@ -518,6 +531,7 @@ help:
 	@echo "... list_install_components"
 	@echo "... install/local"
 	@echo "... install"
+	@echo "... myRtspClient-static"
 	@echo "... myRtspClient"
 	@echo "... jrtplib-shared"
 	@echo "... jrtplib-static"
