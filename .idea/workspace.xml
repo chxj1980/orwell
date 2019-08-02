@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1342ab49-b898-4a46-9e28-3f0e47939f55" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/ffmpeg_builder/scripts/ffmpeg_build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/docker/ffmpeg_builder/scripts/ffmpeg_build.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt" afterDir="false" />
-    </list>
+    <list default="true" id="1342ab49-b898-4a46-9e28-3f0e47939f55" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +20,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
+            <state relative-caret-position="525">
+              <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -92,7 +87,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -150,6 +144,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -263,10 +258,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle" />
+      <item itemvalue="Gradle./home/lz/orwell/OrwellAndroid/build.gradle" />
       <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle (1)" />
       <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle (2)" />
-      <item itemvalue="Gradle./home/lz/orwell/OrwellAndroid/build.gradle" />
+      <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/app/build.gradle" />
       <item itemvalue="Gradle./home/lz/orwell/orwellAndroid/build.gradle" />
     </list>
     <recent_temporary>
@@ -335,8 +330,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/orwellAndroid/app/src/main/cpp/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
+        <state relative-caret-position="525">
+          <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
         </state>
       </provider>
     </entry>

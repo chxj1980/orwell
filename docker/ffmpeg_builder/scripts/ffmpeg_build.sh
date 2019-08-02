@@ -128,18 +128,18 @@ function assemble() {
     ${TOOLCHAIN_PATH}/bin/${CROSS_PREFIX}readelf --dynamic ${BUILD_DIR}/${ARCH}/lib/*.so | grep 'TEXTREL\|File' >> ${STATS_DIR}/text-relocations.txt
 
     cd ${BASE_DIR}
-  elif [ "$TYPE" == pc ]; then
-      echo "Configuring $TYPE of arch $ARCH..."
-      ./configure \
-      --prefix=${BUILD_DIR}/${ARCH} \
-      --enable-nonfree \
-      --enable-nvenc \
-      --enable-libx264 \
-      --enable-shared \
-      --disable-static \
-      --enable-gpl \
-      --enable-cuda \
-      --enable-cuvid 
+  #elif [ "$TYPE" == pc ]; then
+  #    echo "Configuring $TYPE of arch $ARCH..."
+  #    ./configure \
+  #    --prefix=${BUILD_DIR}/${ARCH} \
+  #    --enable-nonfree \
+  #    --enable-nvenc \
+  #    --enable-libx264 \
+  #    --enable-shared \
+  #    --disable-static \
+  #    --enable-gpl \
+  #    --enable-cuda \
+  #    --enable-cuvid 
 
   elif [ "$TYPE" == desktop ]; then
      #https://gist.github.com/Brainiarc7/4f831867f8e55d35cbcb527e15f9f116
@@ -202,12 +202,26 @@ function installLibs() {
   cp ${CP_DIR}/lib/*.so ${OUTPUT_SUBDIR}
 }
 
+#Android Studio's build.gradle file expects the following file structure:
+#${BUILD_DIR}/${TYPE}/${ARCH}/lib1.so
+#${BUILD_DIR}/${TYPE}/${ARCH}/lib2.so
+#...
+#But ffmpeg compiles into ${BUILD_DIR}/${TYPE}/${ARCH}/lib
+function copyToOutterDirectory() {
+  ARCH=$1
+  ANDROID_API=$2
+  TYPE=$3
+  cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.so ${BUILD_DIR}/${TYPE}/${ARCH}
+  cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.a ${BUILD_DIR}/${TYPE}/${ARCH}
+}
+
 function build() {
   ARCH=$1
   ANDROID_API=$2
   TYPE=$3
 
   assemble ${ARCH} ${ANDROID_API} ${TYPE}
+  copyToOutterDirectory ${ARCH} ${ANDROID_API} ${TYPE}
   #installLibs ${ARCH} ${TYPE}
 }
 

@@ -7,6 +7,7 @@ extern "C"
 {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
+#include <libavfilter/avfilter.h>
 #include <libswscale/swscale.h>
 #include <libavutil/frame.h>
 #include <libavutil/hwcontext.h>
