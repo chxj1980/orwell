@@ -136,7 +136,7 @@ bool FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength
     return true;
 }
 
-void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength) {
+void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame) {
     hardwareDecode(frameBuffer, frameLength);
     //Now get things back grom GPU memory
     if (decodedAvFrame->format == avPixelFormat) {
@@ -146,10 +146,16 @@ void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength) {
             std::cout << "av_hwframe_transfer_data error, could not transfer video from GPU memory " << ret << std::endl;
             //goto fail;
         }
-        tmp_frame = fromGPUAvFrame;
+        /*
+            Now the decoded frame from hardware is in CPU memory, in frame struct
+        */
+        FfmpegDecoder::avFrameToFrame(fromGPUAvFrame, frame);
+        //tmp_frame = fromGPUAvFrame;
     } else
-        tmp_frame = decodedAvFrame;
-
+        std::cout << "FfmpegHardwareDecoder::decodeFrame: something is wrong, decodedAvFrame->format != avPixelFormat" << std::endl;
+        //tmp_frame = decodedAvFrame;
+    /*
+    //This code is for transforming into a buffer and saving into disk
     int size = av_image_get_buffer_size(static_cast<AVPixelFormat>(tmp_frame->format), 
                                         tmp_frame->width,
                                         tmp_frame->height, 1);
@@ -169,6 +175,14 @@ void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength) {
         fprintf(stderr, "Can not copy image to buffer\n");
         //goto fail;
     }
+    */
+    /*
+        Most important code line. If we ended here, it means avFrame has the decoded frame.
+        We just need to convert our avFrame to a generic Frame object. 
+        Now caller has a video frame and can render it.
+	*/
+	
+    //av_frame_unref(fromGPUAvFrame);
 }
 
     /*

@@ -20,8 +20,6 @@ extern "C"
 class FfmpegDecoder: public Decoder
 {
 public:
-	enum Codec{H264, H265} codec;
-
 	~FfmpegDecoder(){
 		av_frame_free(&avFrame);
 	}
@@ -58,7 +56,6 @@ public:
 	*/
 
 protected:
-
 	AVPicture        *avPicture;
 	AVCodec          *avCodec;
 	AVCodecContext   *avCodecContext;

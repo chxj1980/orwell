@@ -29,7 +29,7 @@ class FfmpegHardwareDecoder: public FfmpegDecoder {
             Calls hardwareDecode() then gets video from GPU memory to CPU memory and 
             sends to VideoReceiver instance.
         */
-        void decodeFrame(uint8_t* frameBuffer, int frameLength);
+        void decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame);
         //
         AVPixelFormat print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt);
         AVPixelFormat get_format(struct AVCodecContext *s, const AVPixelFormat *fmt);
