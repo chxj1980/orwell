@@ -36,7 +36,7 @@ std::vector<std::string> FfmpegHardwareDecoder::getSupportedDevices()
 	return result;
 }
 
-bool FfmpegHardwareDecoder::init() {
+int FfmpegHardwareDecoder::init() {
     //create context here
 
     AVHWDeviceType aVHWDeviceType = av_hwdevice_find_type_by_name(hardwareType.c_str());
@@ -47,7 +47,7 @@ bool FfmpegHardwareDecoder::init() {
   		    std::cout << i << ", ";
             std::cout << std::endl;
         std::cout << "end of list." << std::endl;
-        return false;
+        return 1;
     }
     
     switch(codec) {
@@ -57,7 +57,7 @@ bool FfmpegHardwareDecoder::init() {
         case H265:
             //avCodec = avcodec_find_decoder(AV_CODEC_ID_H265);
             std::cout << "H265 not yet supported" << std::endl;
-            return false;
+            return 2;
             break;
     }
     
@@ -65,7 +65,7 @@ bool FfmpegHardwareDecoder::init() {
  
     if (!(avCodecContext = avcodec_alloc_context3(avCodec))) {
         std::cout << "avCodecContext error:" << AVERROR(ENOMEM) << std::endl;
-        return false;
+        return 3;
     }
 
     for (int i = 0;; i++) {
@@ -96,7 +96,7 @@ bool FfmpegHardwareDecoder::init() {
 
     if ((err = av_hwdevice_ctx_create(&avBufferRef, aVHWDeviceType,NULL, NULL, 0)) < 0) {
         std::cout << "av_hwdevice_ctx_create failed to create hardware device context." << std::endl;
-        return false;
+        return 4;
     }
 
     avCodecContext->hw_device_ctx = av_buffer_ref(avBufferRef);
@@ -104,10 +104,10 @@ bool FfmpegHardwareDecoder::init() {
     int ret = 0;
     if ((ret = avcodec_open2(avCodecContext, avCodec, NULL)) < 0) {
         std::cout << "avcodec_open2 problem" << std::endl;
-		return false;
+		return 5;
     }
 
-   return true;
+   return 0;
 }
 
 bool FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength) {

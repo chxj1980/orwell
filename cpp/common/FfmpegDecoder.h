@@ -1,6 +1,5 @@
 #ifndef FfmpegDecoder_H
 #define FfmpegDecoder_H
-#include "FrameUpdater.h"
 #include <vector>
 
 extern "C"
@@ -15,17 +14,19 @@ extern "C"
 #include <iostream>
 #include "VideoReceiver.h"
 #include "VideoRecorder.h"
+#include "Decoder.h"
 
 
-class FfmpegDecoder
+class FfmpegDecoder: public Decoder
 {
 public:
 	enum Codec{H264, H265} codec;
+
 	~FfmpegDecoder(){
 		av_frame_free(&avFrame);
 	}
 	//Initiates all the av things
-	virtual bool init() = 0;
+	virtual int init() = 0;
 	/* 
 		Decodes to CPU memory. 
 		If invoked in a FfmpegSoftwareDecoder instance, it'll simply do
@@ -36,25 +37,35 @@ public:
 		FfmpegHardwareDecoder::hardwareDecode().
 	*/
 	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength)=0;
-	//Decoded data decoded through decodeFrame will be sent to videoReceiver
-	void setVideoReceiver(VideoReceiver * videoReceiver) {
-		this->videoReceiver = videoReceiver;
+
+	static int avFrameToFrame(AVFrame* avFrame, Frame* frame) {
+		for (int i=0; i<=FRAME_CHANNELS_SIZE; i++)
+			frame->frameBuffer[i] = avFrame->data[i];
+
+		frame->linesize = avFrame->linesize;
+		frame->width    = avFrame->width;
+		frame->height   = avFrame->height;
+		frame->format   = (AVPixelFormat) avFrame->format;
 	}
-	void disableVideoReceiver() {
-		this->videoReceiver = nullptr;
+	/*
+	static int frameToAvFrame(AvFrame* avFrame, Frame* frame) {
+		avFrame->data[0] = frame->frameBuffer[0];
+		//...?
+		avFrame->linesize = frame
+		avFrame->width = frame->width;
+		avFrame->height = frame->height;
 	}
+	*/
 
 protected:
 
-	AVPicture        avPicture;
-	AVCodec         *avCodec;
-	AVCodecContext  *avCodecContext;
-	AVFrame         *avFrame;
-	SwsContext      *swsContext;
-	AVStream        *avStream;
-	AVFormatContext *avFormatContext;
-	VideoReceiver   *videoReceiver = nullptr;
-
+	AVPicture        *avPicture;
+	AVCodec          *avCodec;
+	AVCodecContext   *avCodecContext;
+	AVFrame          *avFrame;
+	SwsContext       *swsContext;
+	AVStream         *avStream;
+	AVFormatContext  *avFormatContext;
 };
 
 #endif // FfmpegDecoder_H

@@ -1,6 +1,6 @@
 #include "FfmpegSoftwareDecoder.h"
 
-bool FfmpegSoftwareDecoder::init()
+int FfmpegSoftwareDecoder::init()
 {
     //avcodec_register_all(); //Deprecated
 	avFrame = av_frame_alloc();
@@ -9,21 +9,27 @@ bool FfmpegSoftwareDecoder::init()
 
 	if (!avCodec) {
 		std::cout << "avcodec_find_decoder problem" << std::endl;
-		return false;
+		return 1;
 	}
 
 	avCodecContext = avcodec_alloc_context3(avCodec);
 
 	if (avcodec_open2(avCodecContext, avCodec, NULL) < 0) {
 		std::cout << "avcodec_open2 problem" << std::endl;
-		return false;
+		return 2;
 	}
 
-	return true;
+	return 0;
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
 void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
+{	
+	decodeFrame(frameBuffer, frameLength, frame);
+	this->videoReceiver->receiveVideo(frame);
+}
+
+void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame)
 {
 	if (frameLength <= 0) return;
 
@@ -46,9 +52,12 @@ void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	if (!sendPacketResult) {
 		int receiveFrameResult = avcodec_receive_frame(avCodecContext, avFrame);
 		if (!receiveFrameResult) {
-			if (this->videoReceiver!=nullptr) {
-				this->videoReceiver->receiveVideo(avFrame->data, avFrame->width, avFrame->height);
-			}
+			/*
+				Most important code line. If we ended here, it means avFrame has the decoded frame.
+				We just need to convert our avFrame to a generic Frame object. 
+				Now caller has a video frame and can render it.
+			*/
+			FfmpegDecoder::avFrameToFrame(avFrame, frame);
 		} else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF)) {
 			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult << std::endl;
 		} else {
@@ -82,6 +91,7 @@ void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 				break;
 		}
 	}
+
 }
 	//if (frameFinished) {
 		/*

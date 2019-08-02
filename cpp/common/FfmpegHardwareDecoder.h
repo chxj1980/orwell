@@ -22,7 +22,7 @@ class FfmpegHardwareDecoder: public FfmpegDecoder {
             av_buffer_unref(&avBufferRef);
             //av_freep(&buffer);
         }
-        bool init();
+        int init();
         //Decodes to GPU memory but not get it back to CPU memory
         bool hardwareDecode(uint8_t* frameBuffer, int frameLength);
         /* 

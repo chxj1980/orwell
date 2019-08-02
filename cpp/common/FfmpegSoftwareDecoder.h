@@ -7,8 +7,9 @@ class FfmpegSoftwareDecoder: public FfmpegDecoder {
         FfmpegSoftwareDecoder(Codec codec) {
             this->codec = codec;
         }
-        bool init();
+        int init();
         void decodeFrame(uint8_t* frameBuffer, int frameLength);
+        void decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame);
     private:
     	
 };
