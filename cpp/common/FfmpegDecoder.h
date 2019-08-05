@@ -37,10 +37,10 @@ public:
 	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength)=0;
 
 	static int avFrameToFrame(AVFrame* avFrame, Frame* frame) {
-		for (int i=0; i<=FRAME_CHANNELS_SIZE; i++)
-			frame->frameBuffer[i] = avFrame->data[i];
-
-		frame->linesize = avFrame->linesize;
+		for (int i=0; i<=FRAME_CHANNELS_SIZE; i++) {
+			frame->buffer[i] = avFrame->data[i];
+			frame->linesize[i] = avFrame->linesize[i];
+		}
 		frame->width    = avFrame->width;
 		frame->height   = avFrame->height;
 		frame->format   = (AVPixelFormat) avFrame->format;

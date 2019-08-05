@@ -29,6 +29,10 @@ public:
 		- frame is the pointer to the decoded frame data
 	*/
 	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame)=0;
+	/*
+		Decodes directly to the videoReceiver
+	*/
+	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength)=0;
 	//Decoded data decoded through decodeFrame will be sent to videoReceiver
 	void setVideoReceiver(VideoReceiver* videoReceiver) {
 		this->videoReceiver = videoReceiver;

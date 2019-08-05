@@ -221,32 +221,59 @@ jrtplib-static/fast:
 	$(MAKE) -f _myRtspClient/_JTRPLIB/src/CMakeFiles/jrtplib-static.dir/build.make _myRtspClient/_JTRPLIB/src/CMakeFiles/jrtplib-static.dir/build
 .PHONY : jrtplib-static/fast
 
-OpenglArea.o: OpenglArea.cpp.o
+OpenGLArea.o: OpenGLArea.cpp.o
 
-.PHONY : OpenglArea.o
+.PHONY : OpenGLArea.o
 
 # target to build an object file
-OpenglArea.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglArea.cpp.o
-.PHONY : OpenglArea.cpp.o
+OpenGLArea.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenGLArea.cpp.o
+.PHONY : OpenGLArea.cpp.o
 
-OpenglArea.i: OpenglArea.cpp.i
+OpenGLArea.i: OpenGLArea.cpp.i
 
-.PHONY : OpenglArea.i
+.PHONY : OpenGLArea.i
 
 # target to preprocess a source file
-OpenglArea.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglArea.cpp.i
-.PHONY : OpenglArea.cpp.i
+OpenGLArea.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenGLArea.cpp.i
+.PHONY : OpenGLArea.cpp.i
 
-OpenglArea.s: OpenglArea.cpp.s
+OpenGLArea.s: OpenGLArea.cpp.s
 
-.PHONY : OpenglArea.s
+.PHONY : OpenGLArea.s
 
 # target to generate assembly for a file
-OpenglArea.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglArea.cpp.s
-.PHONY : OpenglArea.cpp.s
+OpenGLArea.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenGLArea.cpp.s
+.PHONY : OpenGLArea.cpp.s
+
+OpenglSmartRenderer.o: OpenglSmartRenderer.cpp.o
+
+.PHONY : OpenglSmartRenderer.o
+
+# target to build an object file
+OpenglSmartRenderer.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglSmartRenderer.cpp.o
+.PHONY : OpenglSmartRenderer.cpp.o
+
+OpenglSmartRenderer.i: OpenglSmartRenderer.cpp.i
+
+.PHONY : OpenglSmartRenderer.i
+
+# target to preprocess a source file
+OpenglSmartRenderer.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglSmartRenderer.cpp.i
+.PHONY : OpenglSmartRenderer.cpp.i
+
+OpenglSmartRenderer.s: OpenglSmartRenderer.cpp.s
+
+.PHONY : OpenglSmartRenderer.s
+
+# target to generate assembly for a file
+OpenglSmartRenderer.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/OpenglSmartRenderer.cpp.s
+.PHONY : OpenglSmartRenderer.cpp.s
 
 Program.o: Program.cpp.o
 
@@ -535,9 +562,12 @@ help:
 	@echo "... myRtspClient"
 	@echo "... jrtplib-shared"
 	@echo "... jrtplib-static"
-	@echo "... OpenglArea.o"
-	@echo "... OpenglArea.i"
-	@echo "... OpenglArea.s"
+	@echo "... OpenGLArea.o"
+	@echo "... OpenGLArea.i"
+	@echo "... OpenGLArea.s"
+	@echo "... OpenglSmartRenderer.o"
+	@echo "... OpenglSmartRenderer.i"
+	@echo "... OpenglSmartRenderer.s"
 	@echo "... Program.o"
 	@echo "... Program.i"
 	@echo "... Program.s"

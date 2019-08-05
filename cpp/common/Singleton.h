@@ -43,7 +43,7 @@ public:
     static void DisableStreamReceiver(std::string id) {
         mutex.lock();
         SingletonObject singletonObject = streamList[id];
-        singletonObject.mediaStream->ffmpegDecoder->disableVideoReceiver();
+        singletonObject.mediaStream->decoder->disableVideoReceiver();
         mutex.unlock();
     }
 

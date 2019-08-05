@@ -136,6 +136,12 @@ bool FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength
     return true;
 }
 
+void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
+{	
+	decodeFrame(frameBuffer, frameLength, frame);
+	this->videoReceiver->receiveVideo(frame);
+}
+
 void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame) {
     hardwareDecode(frameBuffer, frameLength);
     //Now get things back grom GPU memory

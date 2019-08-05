@@ -1,4 +1,4 @@
-#include "OpenglArea.h"
+#include "OpenGLArea.h"
 
 #include <gtkmm/drawingarea.h>
 #include <gdk/gdkx.h>
@@ -9,6 +9,9 @@
 
 #include <GL/glew.h>
 #include <GL/glx.h>
+
+#define VERTEX_POINTER 0
+#define FRAGMENT_POINTER 1
 
 class XVisualInfoDeleter {
 public:
@@ -97,4 +100,3 @@ bool OpenGLArea::on_draw (const Cairo::RefPtr<Cairo::Context> &cr) {
 
   return true;
 }
-

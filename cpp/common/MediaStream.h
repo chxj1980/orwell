@@ -10,16 +10,17 @@
 class MediaStream {
 	public:
 	std::string   uri;
-	FfmpegDecoder* ffmpegDecoder;
-	FrameUpdater* frameUpdater;
+	std::shared_ptr<Decoder> decoder;
+	std::shared_ptr<VideoReceiver> videoReceiver;
 	RtspClient    rtspClient;
   public:
     MediaStream (std::string uri);
-		//TODO: create a decoder class so we can have other types of decoders
-		void setDecoder(FfmpegDecoder* ffmpegDecoder) {this->ffmpegDecoder = ffmpegDecoder;}
-		int init();
-		int receiveFrame();
-		void run();
+	void setDecoder(std::shared_ptr<Decoder> decoder) {
+		this->decoder = decoder;
+	}
+	int init();
+	int receiveFrame();
+	void run();
 	private:
 		bool firstConnection = true;
 		//void ByeFromServerClbk();
