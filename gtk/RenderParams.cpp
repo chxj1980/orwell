@@ -79,13 +79,13 @@ class RenderParams{
             , uSize(u)
             , vSize(v)
 
-            , yInternalformat(yf1)
-            , uInternalformat(uf1)
-            , vInternalformat(vf1)
-            , yGlFormat(yf2)
-            , uGlFormat(uf2)
-            , vGlFormat(vf2)
-            , textureFormat(f3)
+            , yInternalformat(yf1)//f1
+            , uInternalformat(uf1)//f1
+            , vInternalformat(vf1)//f1
+            , yGlFormat(yf2)//f2
+            , uGlFormat(uf2)//f2
+            , vGlFormat(vf2)//f2
+            , textureFormat(f3)//f3
 
             , isPlanar(planar)
             , dataType(dataType)
