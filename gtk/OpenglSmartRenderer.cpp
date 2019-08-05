@@ -50,6 +50,14 @@ int OpenglSmartRenderer::receiveVideo(Frame *frame)
 
 void OpenglSmartRenderer::glInit()
 {
+	Shader vertex_shader(ShaderType::Vertex, "simple_vertex.shader");
+	Shader fragment_shader(ShaderType::Fragment, "fragment_yuv.shader");
+
+	program = std::make_unique<Program>();
+	program->attach_shader(vertex_shader);
+	//program->attach_shader(fragment_shader);
+
+	program->link();
 }
 
 void OpenglSmartRenderer::glDraw()
@@ -62,7 +70,7 @@ void OpenglSmartRenderer::glDraw()
 		{
 			glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-			Shader vertex_shader(ShaderType::Vertex, "vertex_yuv.shader");
+			Shader vertex_shader(ShaderType::Vertex, "simple_vertex.shader");
 			Shader fragment_shader(ShaderType::Fragment, "fragment_yuv.shader");
 
 			program = std::make_unique<Program>();
