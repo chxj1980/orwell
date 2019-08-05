@@ -75,3 +75,4 @@ gtk/Makefile
 gtk/_myRtspClient/
 orwellAndroid/app/.cxx/*
 orwellAndroid/.cxx/*
+gtk/Makefile

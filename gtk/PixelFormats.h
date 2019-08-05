@@ -1,8 +1,9 @@
 #ifndef PIXEL_FORMATS_H
 #define PIXEL_FORMATS_H
 
+//TODO: include both pixftm.h and glx.h myself (only the structs needed here)
 #include <libavutil/pixfmt.h>
-#include <vector>
+#include <GL/glx.h>
 
 enum TextureFormat{
     YUV = 0,
@@ -45,14 +46,24 @@ Fraction three = {1,3};
 Fraction four  = {1,4};
 
 struct PixelFormat{
-    Fraction yuvSizes[3]; //Cast to AVRational if needed, but I don't think I will
+    Fraction yuvSizes[3];
     Fraction yuvWidths[3];
     Fraction yuvHeights[3];
     int yuvInternalFormat[3];
-    int yuvGlFormat[3]; //cast to GLenum
+    GLenum yuvGlFormat[3]; //int or GLenum
+    int textureFormat;
     bool isPlanar;
-    int dataType; //cast to GLenum
+    GLenum dataType; //int ot GLenum
 };
 
-std::vector<PixelFormat> pixelFormats;
+/*
+    Let's put 100, don't know how many and don't want to auto generate because
+    I also want to edit that file by hand
+*/
+class PixelFormats{
+    public:
+        PixelFormat pixelFormats[100];
+        PixelFormats();
+
+};
 #endif //PIXEL_FORMATS_H
