@@ -8,8 +8,8 @@
 class Program
 {
   private:
-	bool linked;
-	GLuint id;
+	bool linked = false;
+	GLuint id = 0;
 
   public:
 	Program();

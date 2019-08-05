@@ -25,7 +25,7 @@ class OpenGLArea : public Gtk::DrawingArea, public VideoReceiver
 
   protected:
 	bool firstFrameReceived = false;
-	Program program;
+	std::unique_ptr<Program> program;
 
   private:
 	void on_glx_init();

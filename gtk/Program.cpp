@@ -7,11 +7,6 @@
 
 Program::Program()
 {
-	std::cout << "Program constructor" << std::endl;
-
-	this->id = 0;
-	this->linked = false;
-
 	this->create();
 }
 
@@ -34,7 +29,6 @@ GLuint Program::get_id() const
 bool Program::create()
 {
 	this->id = glCreateProgram();
-
 	return (this->id != 0);
 }
 

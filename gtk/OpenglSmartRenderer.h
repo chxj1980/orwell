@@ -40,6 +40,7 @@ class OpenglSmartRenderer : public OpenGLArea
     GLuint unis[3] = {0};
     GLuint texs[3] = {0};
     int format;
+    bool firstRun = true;
     //GLuint program;
     //Display *xdisplay;
     //GLXDrawable drawable;

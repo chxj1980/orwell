@@ -50,79 +50,85 @@ int OpenglSmartRenderer::receiveVideo(Frame *frame)
 
 void OpenglSmartRenderer::glInit()
 {
-	//Check to see if we received the first frame, so we have frameWidth
-	//and frameHeight values setted
-	if (this->firstFrameReceived)
-	{
-		glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-
-		Shader vertex_shader(ShaderType::Vertex, "vertex_yuv.shader");
-		Shader fragment_shader(ShaderType::Fragment, "fragment_yuv.shader");
-
-		//program = new Program();
-		program.attach_shader(vertex_shader);
-		program.attach_shader(fragment_shader);
-
-		program.link();
-		unis[0] = glGetUniformLocation(program.get_id(), "tex_y");
-		unis[1] = glGetUniformLocation(program.get_id(), "tex_u");
-		unis[2] = glGetUniformLocation(program.get_id(), "tex_v");
-
-		glGenTextures(3, texs); //TODO: delete texture
-
-		//Y
-		glBindTexture(GL_TEXTURE_2D, texs[0]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//U
-		glBindTexture(GL_TEXTURE_2D, texs[1]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//V
-		glBindTexture(GL_TEXTURE_2D, texs[2]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	}
 }
 
 void OpenglSmartRenderer::glDraw()
 {
-	//glClear(GL_COLOR_BUFFER_BIT);
-	program.use();
+	//Check to see if we received the first frame, so we have frameWidth
+	//and frameHeight values setted
+	if (this->firstFrameReceived)
+	{
+		if (this->firstRun)
+		{
+			glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-	//GLint originTextureUnit;
-	//glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);
+			Shader vertex_shader(ShaderType::Vertex, "vertex_yuv.shader");
+			Shader fragment_shader(ShaderType::Fragment, "fragment_yuv.shader");
 
-	glVertexAttribPointer(VERTEX_POINTER, 2, GL_FLOAT, 0, 0, vertices);
-	glEnableVertexAttribArray(VERTEX_POINTER);
+			program = std::make_unique<Program>();
+			program->attach_shader(vertex_shader);
+			program->attach_shader(fragment_shader);
 
-	glVertexAttribPointer(FRAGMENT_POINTER, 2, GL_FLOAT, 0, 0, textureCoordinates);
-	glEnableVertexAttribArray(FRAGMENT_POINTER);
+			program->link();
+			unis[0] = glGetUniformLocation(program->get_id(), "tex_y");
+			unis[1] = glGetUniformLocation(program->get_id(), "tex_u");
+			unis[2] = glGetUniformLocation(program->get_id(), "tex_v");
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texs[0]);
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, buffer[0]);
-	glUniform1i(unis[0], 0);
+			glGenTextures(3, texs); //TODO: delete texture
 
-	glActiveTexture(GL_TEXTURE0 + 1);
-	glBindTexture(GL_TEXTURE_2D, texs[1]);
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, buffer[1]);
-	glUniform1i(unis[1], 1);
+			//Y
+			glBindTexture(GL_TEXTURE_2D, texs[0]);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			//U
+			glBindTexture(GL_TEXTURE_2D, texs[1]);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			//V
+			glBindTexture(GL_TEXTURE_2D, texs[2]);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			firstRun = false;
+		}
 
-	glActiveTexture(GL_TEXTURE0 + 2);
-	glBindTexture(GL_TEXTURE_2D, texs[2]);
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, buffer[2]);
-	glUniform1i(unis[2], 2);
+		//glClear(GL_COLOR_BUFFER_BIT);
+		program->use();
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	//program->disableAttributeArray(A_VER);
-	//program->disableAttributeArray(T_VER);
-	//program->release();
+		//GLint originTextureUnit;
+		//glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);
 
-	//glActiveTexture(originTextureUnit);
+		glVertexAttribPointer(VERTEX_POINTER, 2, GL_FLOAT, 0, 0, vertices);
+		glEnableVertexAttribArray(VERTEX_POINTER);
 
-	//triangle->draw ();
+		glVertexAttribPointer(FRAGMENT_POINTER, 2, GL_FLOAT, 0, 0, textureCoordinates);
+		glEnableVertexAttribArray(FRAGMENT_POINTER);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texs[0]);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, buffer[0]);
+		glUniform1i(unis[0], 0);
+
+		glActiveTexture(GL_TEXTURE0 + 1);
+		glBindTexture(GL_TEXTURE_2D, texs[1]);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, buffer[1]);
+		glUniform1i(unis[1], 1);
+
+		glActiveTexture(GL_TEXTURE0 + 2);
+		glBindTexture(GL_TEXTURE_2D, texs[2]);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, buffer[2]);
+		glUniform1i(unis[2], 2);
+
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		//program->disableAttributeArray(A_VER);
+		//program->disableAttributeArray(T_VER);
+		//program->release();
+
+		//glActiveTexture(originTextureUnit);
+
+		//triangle->draw ();
+		firstFrameReceived = false;
+	}
 }
