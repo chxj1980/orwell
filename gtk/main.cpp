@@ -16,7 +16,7 @@
 #include <mutex>
 
 #include "OpenGLArea.h"
-
+#include "OpenglSmartRenderer.h"
 
 class GLWindow : public Gtk::Window
 {
@@ -24,13 +24,13 @@ class GLWindow : public Gtk::Window
 	GLWindow()
 	{
 		vbox = new Gtk::VBox;
-		drawing_area = new OpenGLArea();
+		drawing_area = new OpenglSmartRenderer();
 		/*
 			GtkWidget* Gtk::Widget::gobj() 	
 			Provides access to the underlying C GObject.
-		 */
-		GtkDrawingArea* gDrawingArea = drawing_area->gobj();
-		GtkWidget* gWidget = GTK_WIDGET(gDrawingArea);
+		*/
+		GtkDrawingArea *gDrawingArea = drawing_area->gobj();
+		GtkWidget *gWidget = GTK_WIDGET(gDrawingArea);
 		vbox->pack_start(*drawing_area, true, true);
 		add(*vbox);
 	}
@@ -38,7 +38,7 @@ class GLWindow : public Gtk::Window
   private:
 	Gtk::Button *button;
 	Gtk::VBox *vbox;
-	OpenGLArea *drawing_area;
+	OpenglSmartRenderer *drawing_area;
 };
 
 int main()
@@ -47,14 +47,14 @@ int main()
 	SingletonObject singletonObject;
 	singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
 	std::cout << "supported hardware: " << std::endl;
-	for (auto i: FfmpegHardwareDecoder::getSupportedDevices())
-  		std::cout << i << std::endl;
-		
+	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
+		std::cout << i << std::endl;
+
 	auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264,
-																		 FfmpegHardwareDecoder::HARDWARE, 
+																		 FfmpegHardwareDecoder::HARDWARE,
 																		 std::string("cuda"));
 	auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
-	
+
 	singletonObject.mediaStream->setDecoder(ffmpegSoftwareDecoder);
 	singletonObject.mediaThread = std::make_shared<std::thread>(&MediaStream::run, singletonObject.mediaStream);
 	Singleton::instance()->addStream("cam1", singletonObject);
