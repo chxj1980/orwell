@@ -50,9 +50,7 @@ int main()
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		std::cout << i << std::endl;
 
-	auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264,
-																		 FfmpegHardwareDecoder::HARDWARE,
-																		 std::string("cuda"));
+	auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264,FfmpegHardwareDecoder::HARDWARE,std::string("cuda"));
 	auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
 
 	singletonObject.mediaStream->setDecoder(ffmpegSoftwareDecoder);

@@ -62,8 +62,11 @@ struct PixelFormat{
 */
 class PixelFormats{
     public:
-        PixelFormat pixelFormats[100];
+        static PixelFormat pixelFormats[100];
         PixelFormats();
+        PixelFormat* get(int pixelFormat) {
+            return &(this->pixelFormats[pixelFormat]);
+        }
 
 };
 #endif //PIXEL_FORMATS_H
