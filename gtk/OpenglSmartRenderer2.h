@@ -3,6 +3,8 @@
 
 #include "OpenGLArea.h"
 #include "PixelFormats.h"
+#include "Singleton.h"
+
 
 class OpenglSmartRenderer2 : public OpenGLArea, public VideoReceiver
 {
@@ -10,6 +12,11 @@ public:
 	unsigned char *buffer[3] = {0};
 	OpenglSmartRenderer2()
 	{
+		std::cout << "OpenglSmartRenderer2 constructor" << std::endl;
+
+		set_size_request(640, 360);
+		Singleton::instance()->getStream("cam1").mediaStream->decoder->setVideoReceiver(this);
+		std::cout << "OpenglSmartRenderer2 constructor end" << std::endl;
 
 	}
 	void init();

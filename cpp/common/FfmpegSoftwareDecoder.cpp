@@ -19,14 +19,20 @@ int FfmpegSoftwareDecoder::init()
 		return 2;
 	}
 
+	frame = new Frame();
+
 	return 0;
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
 void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
-{	
+{
+	//Decodes video into `frame`. In the future it's going to decode to a queue 
 	decodeFrame(frameBuffer, frameLength, frame);
-	this->videoReceiver->receiveVideo(frame);
+	if (this->videoReceiver)
+		this->videoReceiver->receiveVideo(frame);
+	else
+		std::cout << "FfmpegSoftwareDecoder::decodeFrame: no videoReceiver setted yet" << std::endl;
 }
 
 void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame)

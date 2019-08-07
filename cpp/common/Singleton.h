@@ -40,7 +40,7 @@ public:
     //Very important. Must be called from React Native when view is being changed, 
     //so the Media Player gets destroyed and there's no place for ffmpegDecoder to send
     //video data. Otherwise it tries to send data do invalid object.
-    static void DisableStreamReceiver(std::string id) {
+    static void disableStreamReceiver(std::string id) {
         mutex.lock();
         SingletonObject singletonObject = streamList[id];
         singletonObject.mediaStream->decoder->disableVideoReceiver();

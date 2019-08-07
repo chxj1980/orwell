@@ -1,12 +1,8 @@
 #include "OpenglSmartRenderer2.h"
-#include "Singleton.h"
 
 void OpenglSmartRenderer2::init()
 {
-	std::cout << "OpenGLArea init" << std::endl;
-
-	set_size_request(640, 360);
-	Singleton::instance()->getStream("cam1").mediaStream->decoder->setVideoReceiver(this);
+	
 }
 /*
 ~OpenGLArea::OpenGLArea()

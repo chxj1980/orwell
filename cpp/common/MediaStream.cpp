@@ -38,15 +38,15 @@ MediaStream::MediaStream (std::string uri):rtspClient(uri),uri(uri) {
 void MediaStream::run() {
 	//init();
 	int r = decoder->init();
-	if (!r) {
-		std::cout << "problem with ffmpeg decoder init"  << std::endl;
-	} else {
+	if (r!=0) 
+		std::cout << "problem with ffmpeg decoder init, error: " << r  << std::endl;
+	else 
 		while (true) {
 			while (init()!=0) {}
 			receiveFrame();
 			//break;
 		}
-	}
+	
 }
 
 int MediaStream::init()

@@ -34,7 +34,9 @@ public:
 	*/
 	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength)=0;
 	//Decoded data decoded through decodeFrame will be sent to videoReceiver
+	//TODO: study the living time of VideoReceiver
 	void setVideoReceiver(VideoReceiver* videoReceiver) {
+		std::cout << "setting videoReceiver" << std::endl;
 		this->videoReceiver = videoReceiver;
 	}
 	

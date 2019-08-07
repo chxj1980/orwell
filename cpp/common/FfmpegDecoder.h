@@ -56,6 +56,7 @@ public:
 	*/
 
 protected:
+	//TODO: make objects out of this
 	AVPicture        *avPicture;
 	AVCodec          *avCodec;
 	AVCodecContext   *avCodecContext;
