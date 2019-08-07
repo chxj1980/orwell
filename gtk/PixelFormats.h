@@ -5,7 +5,11 @@
 #include <libavutil/pixfmt.h>
 #include <GL/glx.h>
 
-enum TextureFormat{
+/* 
+    These types are used in the shader. There's an if section that deals with
+    each one of them.
+*/
+enum TextureFormat {
     YUV = 0,
     YUVJ = 1,
     RGB = 2,
@@ -38,12 +42,6 @@ struct Fraction {
     int numerator;
     int denominator;
 };
-
-Fraction zero  = {0,1};
-Fraction one   = {1,1};
-Fraction two   = {1,2};
-Fraction three = {1,3};
-Fraction four  = {1,4};
 
 struct PixelFormat{
     Fraction yuvSizes[3];
