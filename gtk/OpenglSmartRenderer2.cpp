@@ -24,6 +24,7 @@ void OpenglSmartRenderer2::glInit()
 
 void OpenglSmartRenderer2::glDraw()
 {
+	std::cout << "glDraw()" << std::endl;
 	/*
 		By putting everythng inside a bit if (firstFrameReceived),
 		we only create the resources after we know the size and pixel format
@@ -35,7 +36,7 @@ void OpenglSmartRenderer2::glDraw()
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
 	if (this->firstFrameReceived && frame->width!=0)
 	{
-		std::cout << "getting pixelformat for " << frame->format << std::endl;
+		//std::cout << "getting pixelformat for " << frame->format << std::endl;
 		pixelFormat = PixelFormats::get((int) frame->format);
 		//In the first run we create everything needed
 		if (this->firstRun)
@@ -180,6 +181,7 @@ void OpenglSmartRenderer2::glDraw()
 
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
+
 				//TODO: why he used frame->linesize[i] instead of frame->width? frame->width worked perfectly for me
 				int width = frame->width * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
 				int height = frame->height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;

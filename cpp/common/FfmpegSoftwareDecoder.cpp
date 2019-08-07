@@ -30,7 +30,6 @@ void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	//Decodes video into `frame`. In the future it's going to decode to a queue 
 	decodeFrame(frameBuffer, frameLength, frame);
 	if (this->videoReceiver) {
-		std::cout << "gonna call receiveVideo with frame format: " << frame->format << " and width: " << frame->width << " and linesize[0] " << frame->linesize[0] << "" << std::endl;
 		this->videoReceiver->receiveVideo(frame);
 	}else
 		std::cout << "FfmpegSoftwareDecoder::decodeFrame: no videoReceiver setted yet" << std::endl;
