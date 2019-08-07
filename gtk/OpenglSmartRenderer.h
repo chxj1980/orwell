@@ -1,9 +1,9 @@
-#ifndef OpenglYUV_H
-#define OpenglYUV_H
+#ifndef OPENGLSMARTRENDERER_H
+#define OPENGLSMARTRENDERER_H
 
 #include "OpenGLArea.h"
 
-class OpenglSmartRenderer : public OpenGLArea
+class OpenglSmartRenderer : public OpenGLArea, public VideoReceiver
 {
   public:
     unsigned char *buffer[3] = {0};
@@ -47,4 +47,4 @@ class OpenglSmartRenderer : public OpenGLArea
     //GLXContext context;
 };
 
-#endif //OpenglYUV_H
+#endif //OPENGLSMARTRENDERER_H

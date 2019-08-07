@@ -62,32 +62,51 @@ void OpenglSmartRenderer2::glDraw()
 		we only create the resources after we know the size and pixel format
 		of the received frame. 
 	*/
+	int textureFormat;
+	int alpha;
+	PixelFormat* pixelFormat;
 	if (this->firstFrameReceived)
 	{
 		//In the first run we create everything needed
 		if (this->firstRun)
 		{
+			//This is a pointer to an object that is created with this renderer, so it never goes away
+			pixelFormat = PixelFormats::get((int) frame->format);
 			//glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 			//Shader vertex_shader(ShaderType::Vertex, "video.vert");
 			//Shader fragment_shader(ShaderType::Fragment, "planar.frag");
 
 			program = std::make_unique<Program>();
-
+			
 			program->attach_shader(Shader(ShaderType::Vertex, "video.vert"));
-			program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
+
+			/*
+				Todo: be careful if renderers will be reused for other video formats. 
+				I think it shouldn't, but if it's done, make everything be redone, including
+				planar vs packed shader options. Maybe create a reset method?
+			*/
+			if (pixelFormat->isPlanar)
+				program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
+			else
+				program->attach_shader(Shader(ShaderType::Fragment, "packed.frag"));
 
 			program->link();
 
-			vextexInLocation = program->attributeLocation("vertexIn");
-			textureInLocaltion = program->attributeLocation("textureIn");
+			//vextexInLocation = program->attributeLocation("vertexIn");
+			//textureInLocaltion = program->attributeLocation("textureIn");
 
-			textureLocaltion[0] = glGetUniformLocation(program->get_id(), "tex_y");
-			textureLocaltion[1] = glGetUniformLocation(program->get_id(), "tex_u");
-			textureLocaltion[2] = glGetUniformLocation(program->get_id(), "tex_v");
+			textureLocation[0] = glGetUniformLocation(program->get_id(), "tex_y");
+			textureLocation[1] = glGetUniformLocation(program->get_id(), "tex_u");
+			textureLocation[2] = glGetUniformLocation(program->get_id(), "tex_v");
 
-			alpha = program->uniformLocation("alpha");
-			textureFormat = program->uniformLocation("tex_format");
+			//alpha = program->uniformLocation("alpha");
+			alpha =  glGetUniformLocation(program->get_id(), "alpha");
+			//program->setUniformValue(mAlpha, (GLfloat)1.0);
+			glUniform1f(alpha, 1.0f);
+			//textureFormat = program->uniformLocation("tex_format");
+			textureFormat =  glGetUniformLocation(program->get_id(), "tex_format");
+
 			//mTextureOffset = program->uniformLocation("tex_offset");
 			//mImageWidthId = program->uniformLocation("imageWidth");
 			//mImageHeightId = program->uniformLocation("imageHeight");
@@ -110,25 +129,23 @@ void OpenglSmartRenderer2::glDraw()
 						component, in the case of an YUV frame, or the details about RGB in the
 						case of an RGB frame.
 					*/
-					//This is a pointer to an object that is created with this renderer, so it never goes away
-					PixelFormat *pixelFormat = PixelFormats::get(frame->format);
-					Fraction widthRatio = pixelFormat->yuvWidths[i]->ratio;
-					Fraction heightRatio = pixelFormat->yuvHeights[i]->ratio;
+					Fraction widthRatio = pixelFormat->yuvWidths[i];
+					Fraction heightRatio = pixelFormat->yuvHeights[i];
 					/*
 						The width and height of our texture is determined by our widthRation and heightRatio.
 						TODO: explain it more.
 					 */
-					int width = frame->linesize * widthRatio.numerator / heightRatio.denominator;
+					int width = frame->linesize[i] * widthRatio.numerator / heightRatio.denominator;
 					int height = frame->height * heightRatio.numerator / heightRatio.denominator;
 
 					glTexImage2D(GL_TEXTURE_2D,
 								 0,
-								 pixelFormat.yuvInternalformat[i],
+								 pixelFormat->yuvInternalFormat[i],
 								 width,
 								 height,
 								 0,
-								 pixelFormat.yuvGlFormat[i],
-								 pixelFormat.dataType,
+								 pixelFormat->yuvGlFormat[i],
+								 pixelFormat->dataType,
 								 NULL);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -140,7 +157,7 @@ void OpenglSmartRenderer2::glDraw()
 				}
 				initiatedTextures = true;
 			}
-
+			//To be done
 			if (!initiatedFrameBufferObjects)
 			{
 				for (int i = 0; i < 1; i++)
@@ -176,6 +193,8 @@ void OpenglSmartRenderer2::glDraw()
 
 		program->use();
 
+		//https://community.khronos.org/t/i-passed-a-pointer-to-glvertexattribpointer-without-binded-buffer-and-it-works/104367
+		//TODO: to be changed to buffer object on CORE version, because only yhis version works (read link above)
 		glVertexAttribPointer(VERTEX_POINTER, 2, GL_FLOAT, 0, 0, vertices);
 		glEnableVertexAttribArray(VERTEX_POINTER);
 
@@ -194,19 +213,30 @@ void OpenglSmartRenderer2::glDraw()
 			{
 				int textureSize = linesize * frame->height;
 
-				textureSize = textureSize * pixelFormat.yuvSizes[j].numerator / pixelFormat.yuvSizes[j].denominator;
+				textureSize = textureSize * pixelFormat->yuvSizes[j].numerator / pixelFormat->yuvSizes[j].denominator;
 
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
 
-				int width = linesize * pixelFormat.yuvWidths[j].numerator / pixelFormat.yuvWidths[j].denominator;
-				int height = frame->height * pixelFormat.yuvHeights[j].numerator / pixelFormat.yuvHeights[j].denominator;
-
-				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, params.yuvGlFormat[j], params.dataType, NULL);
+				int width = linesize * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
+				int height = frame->height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
+				//Copy frame here!
+				glTexSubImage2D(GL_TEXTURE_2D, 
+								0, 
+								0, 
+								0, 
+								width, 
+								height, 
+								pixelFormat->yuvGlFormat[j], 
+								pixelFormat->dataType, 
+								frame->buffer[j]);//NULL);
 			}
-			program->setUniformValue(textureLocaltion[j], j);
+			//program->setUniformValue(textureLocation[j], j);
+			glUniform1i(textureLocation[j],j);
 			//m_pbo[pboIndex][j].release();
 		}
+		//program->setUniformValue(textureFormat, (GLfloat) frame->format);
+		glUniform1f(textureFormat, (GLfloat) frame->format);
 
 		//GLint originTextureUnit;
 		//glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);

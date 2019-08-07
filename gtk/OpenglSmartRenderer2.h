@@ -1,10 +1,10 @@
-#ifndef OpenglYUV_H
-#define OpenglYUV_H
+#ifndef OPENGLSMARTRENDERER2_H
+#define OPENGLSMARTRENDERER2_H
 
 #include "OpenGLArea.h"
 #include "PixelFormats.h"
 
-class OpenglSmartRenderer2 : public OpenGLArea
+class OpenglSmartRenderer2 : public OpenGLArea, public VideoReceiver
 {
 public:
 	unsigned char *buffer[3] = {0};
@@ -49,7 +49,10 @@ private:
 	bool firstRun = true;
 	bool initiatedTextures = false;
 	bool initiatedFrameBufferObjects = false;
+	static const int TEXTURE_NUMBER = 3;
 	GLuint textureId[TEXTURE_NUMBER];
+	//int textureFormat;
+	int textureLocation[TEXTURE_NUMBER];
 	//PixelFormats pixelFormats;
 	//GLuint program;
 	//Display *xdisplay;
@@ -57,4 +60,4 @@ private:
 	//GLXContext context;
 };
 
-#endif //OpenglYUV_H
+#endif //OPENGLSMARTRENDERER2_H

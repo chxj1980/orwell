@@ -50,23 +50,28 @@ struct PixelFormat{
     Fraction yuvWidths[3];
     Fraction yuvHeights[3];
     int yuvInternalFormat[3];
-    GLenum yuvGlFormat[3]; //int or GLenum
+    GLenum yuvGlFormat[3]; //int or GLenum?
     int textureFormat;
     bool isPlanar;
-    GLenum dataType; //int ot GLenum
+    GLenum dataType; //int ot GLenum?
 };
 
 /*
+    Just a class to initiate all the objects when constructed.
+    Single instance of it to be stored on `PixelFormats` class.
     Let's put 100, don't know how many and don't want to auto generate because
-    I also want to edit that file by hand
+    I also want to edit that file by hand for each new addition.
 */
-class PixelFormats{
+class StaticPixelFormats {
     public:
-        static PixelFormat pixelFormats[100];
-        PixelFormats();
-        PixelFormat* get(int pixelFormat) {
-            return &(this->pixelFormats[pixelFormat]);
+        PixelFormat pixelFormats[100];
+        StaticPixelFormats();
+};
+class PixelFormats {
+    public:
+        static StaticPixelFormats staticPixelFormats;
+        static PixelFormat* get(int format) {
+            return &staticPixelFormats.pixelFormats[format];
         }
-
 };
 #endif //PIXEL_FORMATS_H

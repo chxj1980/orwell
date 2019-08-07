@@ -8,13 +8,12 @@
 #include <GL/glew.h>
 #include <GL/glx.h>
 
-class OpenGLArea : public Gtk::DrawingArea, public VideoReceiver
+class OpenGLArea : public Gtk::DrawingArea
 {
   public:
 	OpenGLArea();
 	unsigned char *buffer[3] = {0};
 	virtual void init(){};
-	virtual int receiveVideo(Frame *frame) = 0;
 
 	void on_realize();
 	bool on_draw(const Cairo::RefPtr<Cairo::Context> &);

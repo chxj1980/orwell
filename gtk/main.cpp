@@ -17,6 +17,7 @@
 
 #include "OpenGLArea.h"
 #include "OpenglSmartRenderer.h"
+#include "OpenglSmartRenderer2.h"
 
 class GLWindow : public Gtk::Window
 {
@@ -24,7 +25,7 @@ class GLWindow : public Gtk::Window
 	GLWindow()
 	{
 		vbox = new Gtk::VBox;
-		drawing_area = new OpenglSmartRenderer();
+		drawing_area = new OpenglSmartRenderer2();
 		/*
 			GtkWidget* Gtk::Widget::gobj() 	
 			Provides access to the underlying C GObject.
@@ -38,7 +39,7 @@ class GLWindow : public Gtk::Window
   private:
 	Gtk::Button *button;
 	Gtk::VBox *vbox;
-	OpenglSmartRenderer *drawing_area;
+	OpenglSmartRenderer2 *drawing_area;
 };
 
 int main()
