@@ -1,3 +1,5 @@
+#version 130
+
 #ifdef GL_ES
 // Set default precision to medium
 precision mediump int;
@@ -9,6 +11,6 @@ attribute vec2 textureIn;
 uniform mat4 matrix;
 varying vec2 textureOut;
 void main(void) {
-    gl_Position = matrix * vertexIn;
+    gl_Position = vertexIn;
     textureOut = textureIn;
 }

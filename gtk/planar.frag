@@ -1,3 +1,5 @@
+#version 130
+
 #ifdef GL_ES
 // Set default precision to medium
 precision mediump int;
@@ -60,13 +62,13 @@ vec4 GaussianBlur(sampler2D tex0, vec2 texCoordinates, float blurAmnt, int passi
 }
 void main()
 {
-    if(textureOut.x > 1.0 - tex_offset){
-        gl_FragColor.a = 0;
-        gl_FragColor.r = 0;
-        gl_FragColor.g = 0;
-        gl_FragColor.b = 0;
-        return;
-    }
+    //if(textureOut.x > 1.0 - tex_offset){
+    //    gl_FragColor.a = 0;
+    //    gl_FragColor.r = 0;
+    //    gl_FragColor.g = 0;
+     //   gl_FragColor.b = 0;
+    //return;
+    //}
     vec3 yuv;
     vec4 rgba;
     if(tex_format == 0 || tex_format == 1){
@@ -113,8 +115,6 @@ void main()
         yuv.b = texture2D(tex_v, textureOut).r - 0.5;
     }
 
-
-
     if(tex_format == 0 || tex_format == 10 || tex_format == 16){//yuv | p10le | //YUV16
         rgba.r = yuv.r + 1.596 * yuv.b;
         rgba.g = yuv.r - 0.813 * yuv.b - 0.391 * yuv.g;
@@ -123,6 +123,11 @@ void main()
         rgba.r = yuv.r + 1.402 * yuv.b;
         rgba.g = yuv.r - 0.34413 * yuv.g - 0.71414 * yuv.b;
         rgba.b = yuv.r + 1.772 * yuv.g;
+        //vec3 rgb_;
+        //rgb_ = mat3(1.0, 1.0, 1.0,
+		//0.0, -0.39465, 2.03211,
+		//1.13983, -0.58060, 0.0) * yuv;
+        //rgba = vec4(rgb_,alpha);
     }
     else if(tex_format == 2){ //rgb
         rgba.rgb = yuv.rgb;
@@ -160,15 +165,14 @@ void main()
     if(enableHDR){
         rgba.rgb = toHDR(rgba.rgb,1.0);
     }
-    rgba.a = alpha;
     gl_FragColor = rgba;
-
+    //gl_FragColor = vec4(0.5, 0.0, 0.0, 1.0);
 //    sampler2D tex0, vec2 texCoordinates, float blurAmnt, int passingTurn, float sigma, float numBlurPixelsPerSide
-    if(enableGaussianBlur)//        
-    {
-        gl_FragColor *= GaussianBlur(tex_y, textureOut, 0, 1, 1, 9);
-    }
-    else{
+    //if(enableGaussianBlur)//        
+    //{
+    //    gl_FragColor *= GaussianBlur(tex_y, textureOut, 0, 1, 1, 9);
+    //}
+    //else{
 //        gl_FragColor.a = 0.5;
-    }
+    //}
 }

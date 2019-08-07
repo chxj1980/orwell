@@ -1,3 +1,5 @@
+#version 130
+
 #ifdef GL_ES
 // Set default precision to medium
 precision mediump int;
@@ -96,7 +98,7 @@ void main() {
         gl_FragColor.b = y + 2.018 * u;
         gl_FragColor.a = alpha;
     }
-
+    //gl_FragColor = vec4(0.5, 0.0, 0.0, 1.0);
 
     //HDR
 //    vec4 intens = smoothstep(0.2,0.8,gl_FragColor) + normalize(vec4(gl_FragColor.xyz, 1.0));

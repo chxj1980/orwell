@@ -13,39 +13,8 @@ void OpenglSmartRenderer2::init()
 //void OpenGLArea::receiveVideo(unsigned char **videoBuffer, int frameWidth, int frameHeight)
 int OpenglSmartRenderer2::receiveVideo(Frame *frame)
 {
-	std::cout << "OpenglSmartRenderer2::receiveVideo" << std::endl;
 	this->frame = frame;
 	firstFrameReceived = true;
-	/* 
-	this->frameWidth = frame->width;
-	this->frameHeight = frame->height;
-	this->format = frame->format;
-	if (format != -1 && this->format != frame->format)
-	{
-		//ERROR: format changed from one frame to another, this renderer does not support this
-		return 1;
-	}
-	//We don't use switch here because I want to return if problem happens
-	if (frame->format == AV_PIX_FMT_YUV420P)
-	{
-		if (!firstFrameReceived)
-		{
-			buffer[0] = new unsigned char[frameWidth * frameHeight];	 //Y
-			buffer[1] = new unsigned char[frameWidth * frameHeight / 4]; //U
-			buffer[2] = new unsigned char[frameWidth * frameHeight / 4]; //V
-			firstFrameReceived = true;
-		}
-		else
-		{
-			memcpy(buffer[0], frame->buffer[0], frameWidth * frameHeight);
-			memcpy(buffer[1], frame->buffer[1], frameWidth * frameHeight / 4);
-			memcpy(buffer[2], frame->buffer[2], frameWidth * frameHeight / 4);
-		}
-	}
-	else if (frame->format == AV_PIX_FMT_ABGR)
-	{
-	}
-	*/
 	queue_draw();
 }
 
@@ -77,7 +46,7 @@ void OpenglSmartRenderer2::glDraw()
 				std::cout << "ERROR, format of decoded frame is not supported" << std::endl;
 				return;
 			}
-			//glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+			glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 			//Shader vertex_shader(ShaderType::Vertex, "video.vert");
 			//Shader fragment_shader(ShaderType::Fragment, "planar.frag");
@@ -108,7 +77,7 @@ void OpenglSmartRenderer2::glDraw()
 			//alpha = program->uniformLocation("alpha");
 			alpha =  glGetUniformLocation(program->get_id(), "alpha");
 			//program->setUniformValue(mAlpha, (GLfloat)1.0);
-			glUniform1f(alpha, 1.0f);
+			glUniform1f(alpha, (GLfloat)1.0);
 			//textureFormat = program->uniformLocation("tex_format");
 			textureFormat =  glGetUniformLocation(program->get_id(), "tex_format");
 
@@ -140,9 +109,10 @@ void OpenglSmartRenderer2::glDraw()
 						The width and height of our texture is determined by our widthRation and heightRatio.
 						TODO: explain it more.
 					 */
-					int width = frame->linesize[i] * widthRatio.numerator / heightRatio.denominator;
+					//TODO: why he used frame->linesize[i] instead of frame->width? frame->width worked perfectly for me
+					int width = frame->width * widthRatio.numerator / heightRatio.denominator;
 					int height = frame->height * heightRatio.numerator / heightRatio.denominator;
-					std::cout << "yuv plane number: " << i << " has width: " << width << " and height: " << height << std::endl;
+					//std::cout << "yuv plane number: " << i << " has width: " << width << " and height: " << height << std::endl;
 
 
 					glTexImage2D(GL_TEXTURE_2D,
@@ -179,22 +149,6 @@ void OpenglSmartRenderer2::glDraw()
 				initiatedFrameBufferObjects = true;
 			}
 
-			//-------
-			//Y
-			//glBindTexture(GL_TEXTURE_2D, texs[0]);
-			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth, frameHeight, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			//U
-			//glBindTexture(GL_TEXTURE_2D, texs[1]);
-			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			//V
-			//glBindTexture(GL_TEXTURE_2D, texs[2]);
-			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, frameWidth / 2, frameHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			firstRun = false;
 		}
 
@@ -219,18 +173,17 @@ void OpenglSmartRenderer2::glDraw()
 			if (buffer != NULL && linesize != 0)
 			{
 				int textureSize = linesize * frame->height;
-				std::cout << "gonna read pixelFormat->yuvSizes[" << j << "]" << std::endl;
-				std::cout << "yuvSizes[" << j << "].numerator is " << pixelFormat->yuvSizes[j].numerator << std::endl;
-				std::cout << "yuvSizes[" << j << "].denominator is " << pixelFormat->yuvSizes[j].denominator << std::endl;
-				textureSize = textureSize * pixelFormat->yuvSizes[j].numerator / pixelFormat->yuvSizes[j].denominator;
-				std::cout << "textureSize for texture number " << j << " is " << textureSize << std::endl;
-
+				//std::cout << "gonna read pixelFormat->yuvSizes[" << j << "]" << std::endl;
+				//std::cout << "yuvSizes[" << j << "].numerator is " << pixelFormat->yuvSizes[j].numerator << std::endl;
+				//std::cout << "yuvSizes[" << j << "].denominator is " << pixelFormat->yuvSizes[j].denominator << std::endl;
+				//textureSize = textureSize * pixelFormat->yuvSizes[j].numerator / pixelFormat->yuvSizes[j].denominator;
 
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
-
-				int width = linesize * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
+				//TODO: why he used frame->linesize[i] instead of frame->width? frame->width worked perfectly for me
+				int width = frame->width * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
 				int height = frame->height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
+
 				//Copy frame here!
 				glTexSubImage2D(GL_TEXTURE_2D, 
 								0, 
@@ -247,7 +200,10 @@ void OpenglSmartRenderer2::glDraw()
 			//m_pbo[pboIndex][j].release();
 		}
 		//program->setUniformValue(textureFormat, (GLfloat) frame->format);
-		glUniform1f(textureFormat, (GLfloat) frame->format);
+		//std::cout << "setting textureFormat to " << pixelFormat->textureFormat << std::endl;
+		//std::cout << "isPlanar? " << pixelFormat->isPlanar << std::endl;
+
+		glUniform1f(textureFormat, (GLfloat) pixelFormat->textureFormat);
 
 		//GLint originTextureUnit;
 		//glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);
