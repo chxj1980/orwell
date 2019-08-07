@@ -66,13 +66,13 @@ void OpenglSmartRenderer2::glDraw()
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
 	if (this->firstFrameReceived && frame->width!=0)
 	{
+		std::cout << "getting pixelformat for " << frame->format << std::endl;
+		pixelFormat = PixelFormats::get((int) frame->format);
 		//In the first run we create everything needed
 		if (this->firstRun)
 		{
 			std::cout << "firstRun of OpenglSmartRenderer2" << std::endl;
 			//This is a pointer to an object that is created with this renderer, so it never goes away
-			std::cout << "getting pixelformat for " << frame->format << std::endl;
-			pixelFormat = PixelFormats::get((int) frame->format);
 			if (!pixelFormat) {
 				std::cout << "ERROR, format of decoded frame is not supported" << std::endl;
 				return;
