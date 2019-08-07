@@ -45,7 +45,7 @@ public:
 	const int FRAGMENT_POINTER = 1;
 
 private:
-	//bool firstFrameReceived = false;
+	bool firstFrameReceived = false;
 	//void on_glx_init ();
 	Frame *frame;
 	int frameWidth = 0;

@@ -58,6 +58,8 @@ int main()
 	singletonObject.mediaThread = std::make_shared<std::thread>(&MediaStream::run, singletonObject.mediaStream);
 	Singleton::instance()->addStream("cam1", singletonObject);
 
+	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton. 
+	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
 	GLWindow window;
 	window.show_all();
 

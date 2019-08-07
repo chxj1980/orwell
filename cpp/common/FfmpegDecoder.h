@@ -43,6 +43,8 @@ public:
 		}
 		frame->width    = avFrame->width;
 		frame->height   = avFrame->height;
+		//std::cout << "avFrame converter" <<  std::endl;
+		//std::cout << "format of avFrame is " << avFrame->format << std::endl;
 		frame->format   = (AVPixelFormat) avFrame->format;
 	}
 	/*

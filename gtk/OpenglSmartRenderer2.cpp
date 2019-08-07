@@ -13,7 +13,9 @@ void OpenglSmartRenderer2::init()
 //void OpenGLArea::receiveVideo(unsigned char **videoBuffer, int frameWidth, int frameHeight)
 int OpenglSmartRenderer2::receiveVideo(Frame *frame)
 {
+	std::cout << "OpenglSmartRenderer2::receiveVideo" << std::endl;
 	this->frame = frame;
+	firstFrameReceived = true;
 	/* 
 	this->frameWidth = frame->width;
 	this->frameHeight = frame->height;
@@ -61,13 +63,20 @@ void OpenglSmartRenderer2::glDraw()
 	int textureFormat;
 	int alpha;
 	PixelFormat* pixelFormat;
-	if (this->firstFrameReceived)
+	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
+	if (this->firstFrameReceived && frame->width!=0)
 	{
 		//In the first run we create everything needed
 		if (this->firstRun)
 		{
+			std::cout << "firstRun of OpenglSmartRenderer2" << std::endl;
 			//This is a pointer to an object that is created with this renderer, so it never goes away
+			std::cout << "getting pixelformat for " << frame->format << std::endl;
 			pixelFormat = PixelFormats::get((int) frame->format);
+			if (!pixelFormat) {
+				std::cout << "ERROR, format of decoded frame is not supported" << std::endl;
+				return;
+			}
 			//glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 			//Shader vertex_shader(ShaderType::Vertex, "video.vert");
@@ -133,6 +142,8 @@ void OpenglSmartRenderer2::glDraw()
 					 */
 					int width = frame->linesize[i] * widthRatio.numerator / heightRatio.denominator;
 					int height = frame->height * heightRatio.numerator / heightRatio.denominator;
+					std::cout << "yuv plane number: " << i << " has width: " << width << " and height: " << height << std::endl;
+
 
 					glTexImage2D(GL_TEXTURE_2D,
 								 0,
@@ -208,8 +219,12 @@ void OpenglSmartRenderer2::glDraw()
 			if (buffer != NULL && linesize != 0)
 			{
 				int textureSize = linesize * frame->height;
-
+				std::cout << "gonna read pixelFormat->yuvSizes[" << j << "]" << std::endl;
+				std::cout << "yuvSizes[" << j << "].numerator is " << pixelFormat->yuvSizes[j].numerator << std::endl;
+				std::cout << "yuvSizes[" << j << "].denominator is " << pixelFormat->yuvSizes[j].denominator << std::endl;
 				textureSize = textureSize * pixelFormat->yuvSizes[j].numerator / pixelFormat->yuvSizes[j].denominator;
+				std::cout << "textureSize for texture number " << j << " is " << textureSize << std::endl;
+
 
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
