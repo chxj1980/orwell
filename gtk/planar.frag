@@ -6,8 +6,6 @@ precision mediump int;
 precision mediump float;
 #endif
 
-//#include "qrc:/effects.glsl"
-
 uniform sampler2D tex_y;
 uniform sampler2D tex_u;
 uniform sampler2D tex_v;

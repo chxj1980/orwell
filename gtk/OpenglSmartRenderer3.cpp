@@ -26,8 +26,7 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 	try
 	{
 		glArea.throw_if_error();
-		glClearColor(0.0, 0.0, 0.0, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
+		
 
 		glDraw();
 
@@ -56,7 +55,7 @@ void OpenglSmartRenderer3::glDraw()
 	if (this->firstFrameReceived && frame->width != 0)
 	{
 		std::cout << "Received frame with width: " << frame->width << " and height: " << frame->height << std::endl;
-		//std::cout << "getting pixelformat for " << frame->format << std::endl;
+		std::cout << "getting pixelformat for " << (int)frame->format << std::endl;
 		pixelFormat = PixelFormats::get((int)frame->format);
 		//In the first run we create everything needed
 		if (this->firstRun)
@@ -74,7 +73,6 @@ void OpenglSmartRenderer3::glDraw()
 			//Shader fragment_shader(ShaderType::Fragment, "planar.frag");
 
 			program = std::make_unique<Program>();
-
 			program->attach_shader(Shader(ShaderType::Vertex, "video.vert"));
 
 			/*
@@ -83,8 +81,8 @@ void OpenglSmartRenderer3::glDraw()
 				planar vs packed shader options. Maybe create a reset method?
 			*/
 			if (pixelFormat->isPlanar)
-				program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
-			//program->attach_shader(Shader(ShaderType::Fragment, "fragment_yuv.shader"));
+				//program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
+				program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
 			else
 				program->attach_shader(Shader(ShaderType::Fragment, "packed.frag"));
 
@@ -95,36 +93,36 @@ void OpenglSmartRenderer3::glDraw()
 
 			glGenVertexArrays(1, &VAO);
 			glGenBuffers(1, &VBO);
+			glGenBuffers(1, &TBO);
+
+			
 			//glGenBuffers(1, &EBO);
 			// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 			glBindVertexArray(VAO);
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-			glBindBuffer(GL_TEXTURE_BUFFER, TBO);
-			glBufferData(GL_TEXTURE_BUFFER, sizeof(textureCoordinates), textureCoordinates, GL_STATIC_DRAW);
-
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-			//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-			glVertexAttribPointer(vextexInLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_textures), vertices_textures, GL_STATIC_DRAW);
+			glVertexAttribPointer(vextexInLocation, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
 			glEnableVertexAttribArray(vextexInLocation);
 
-			//TODO: why this isn't needed?
-			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(textureInLocation);
 
+			//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
+			//glBufferData(GL_TEXTURE_BUFFER, sizeof(textureCoordinates), textureCoordinates, GL_STATIC_DRAW);//TODO: static or stream?
+			//glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+			//glEnableVertexAttribArray(textureInLocation);
+
 			// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_TEXTURE_BUFFER, 0);
+			//glBindBuffer(GL_ARRAY_BUFFER, 0);
+			//glBindBuffer(GL_TEXTURE_BUFFER, 0);
 
 			// remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
 			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 			// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
 			// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-			glBindVertexArray(0);
+			//glBindVertexArray(0);
 
 			//vextexInLocation = program->attributeLocation("vertexIn");
 			//textureInLocaltion = program->attributeLocation("textureIn");
@@ -146,15 +144,15 @@ void OpenglSmartRenderer3::glDraw()
 			//mEnableHDRId = program->uniformLocation("enableHDR");
 			//enableGaussianBlurId = program->uniformLocation("enableGaussianBlur");
 
-			//glGenTextures(TEXTURE_NUMBER, texs); //TODO: delete texture
-
 			//-------
 			if (!initiatedTextures)
 			{
 				std::cout << "initiatedTextures" << std::endl;
+				//TODO: delete these textures
 				glGenTextures(TEXTURE_NUMBER, textureId);
 				for (int i = 0; i < TEXTURE_NUMBER; i++)
 				{
+					//std::cout << "initiating texture " << i << std::endl;
 					glBindTexture(GL_TEXTURE_2D, textureId[i]);
 					/*
 						Our Frame called `frame` has a PixelFormat (example: AV_PIX_FMT_YUV420P). 
@@ -182,7 +180,7 @@ void OpenglSmartRenderer3::glDraw()
 								 0,
 								 pixelFormat->yuvGlFormat[i],
 								 pixelFormat->dataType,
-								 NULL);
+								 NULL);//frame->buffer[i]);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -226,6 +224,7 @@ void OpenglSmartRenderer3::glDraw()
 		{
 			glActiveTexture(GL_TEXTURE0 + j);
 			glBindTexture(GL_TEXTURE_2D, textureId[j]);
+			//glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, TBO);
 
 			int linesize = frame->linesize[j];
 			uint8_t *buffer = frame->buffer[j];
@@ -233,10 +232,6 @@ void OpenglSmartRenderer3::glDraw()
 			if (buffer != NULL && linesize != 0)
 			{
 				int textureSize = linesize * frame->height;
-				std::cout << "gonna read pixelFormat->yuvSizes[" << j << "]" << std::endl;
-				std::cout << "yuvSizes[" << j << "].numerator is " << pixelFormat->yuvSizes[j].numerator << std::endl;
-				std::cout << "yuvSizes[" << j << "].denominator is " << pixelFormat->yuvSizes[j].denominator << std::endl;
-				//textureSize = textureSize * pixelFormat->yuvSizes[j].numerator / pixelFormat->yuvSizes[j].denominator;
 
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
@@ -244,7 +239,7 @@ void OpenglSmartRenderer3::glDraw()
 				//TODO: why he used frame->linesize[i] instead of frame->width? frame->width worked perfectly for me
 				int width = frame->width * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
 				int height = frame->height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
-
+				//std::cout << "width: " << width << " height: " << height << std::endl;
 				//Copy frame here!
 				glTexSubImage2D(GL_TEXTURE_2D,
 								0,
@@ -256,50 +251,14 @@ void OpenglSmartRenderer3::glDraw()
 								pixelFormat->dataType,
 								frame->buffer[j]); //NULL);
 			}
-			//program->setUniformValue(textureLocation[j], j);
 			glUniform1i(textureLocation[j], j);
 			//m_pbo[pboIndex][j].release();
 		}
-		//program->setUniformValue(textureFormat, (GLfloat) frame->format);
-		std::cout << "setting textureFormat to " << pixelFormat->textureFormat << std::endl;
-		std::cout << "isPlanar? " << pixelFormat->isPlanar << std::endl;
-
 		glUniform1f(textureFormat, (GLfloat)pixelFormat->textureFormat);
 
-		//GLint originTextureUnit;
-		//glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);
-
-		//glVertexAttribPointer(VERTEX_POINTER, 2, GL_FLOAT, 0, 0, vertices);
-		//glEnableVertexAttribArray(VERTEX_POINTER);
-
-		//glVertexAttribPointer(FRAGMENT_POINTER, 2, GL_FLOAT, 0, 0, textureCoordinates);
-		//glEnableVertexAttribArray(FRAGMENT_POINTER);
-
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, texs[0]);
-		//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth, frameHeight, GL_RED, GL_UNSIGNED_BYTE, buffer[0]);
-		//glUniform1i(unis[0], 0);
-
-		//glActiveTexture(GL_TEXTURE0 + 1);
-		//glBindTexture(GL_TEXTURE_2D, texs[1]);
-		//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, buffer[1]);
-		//glUniform1i(unis[1], 1);
-
-		//glActiveTexture(GL_TEXTURE0 + 2);
-		//glBindTexture(GL_TEXTURE_2D, texs[2]);
-		//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, buffer[2]);
-		//glUniform1i(unis[2], 2);
 		glBindVertexArray(VAO);
+		//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		//glBindVertexArray(VAO);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		//program->disableAttributeArray(A_VER);
-		//program->disableAttributeArray(T_VER);
-		//program->release();
-
-		//glActiveTexture(originTextureUnit);
-
-		//triangle->draw ();
 		firstFrameReceived = false;
 	}
 }

@@ -48,7 +48,7 @@ int main(int argc,  char** argv)
 	auto app = Gtk::Application::create(argc, argv, "");
     
 	SingletonObject singletonObject;
-	singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
+	singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_1");
 	std::cout << "supported hardware: " << std::endl;
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		std::cout << i << std::endl;

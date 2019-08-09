@@ -33,11 +33,19 @@ public:
 		-1.0f, 1.0f, 0.0f,  //top left
 		1.0f, 1.0f, 0.0f};  //top rigth
 
+	//not used
 	const unsigned int indices[6] = {
 		// note that we start from 0!
 		0, 1, 2, // first triangle
 		2, 3, 1  // second triangle
 	};
+
+	const GLfloat vertices_textures[20] = {
+		//vertices            //positions
+		-1.0f, -1.0f, 0.0f,    0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f,     1.0f, 1.0f,
+		-1.0f, 1.0f, 0.0f,     0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,      1.0f, 0.0f};
 
 	const GLfloat textureCoordinates[8] = {
 		0.0f, 1.0f,
