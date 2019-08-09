@@ -74,6 +74,8 @@ void Program::use() const
 {
 	if (this->linked)
 		glUseProgram(this->id);
+	else
+		std::cout << "PROGRAM NOT LINKED" << std::endl;
 }
 
 void Program::remove()

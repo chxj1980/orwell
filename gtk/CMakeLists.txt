@@ -33,7 +33,7 @@ include_directories(../myRtspClient/myRtspClient/include)
 include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
 
-file(GLOB orwell_gtk3_SRCS main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp SimpleRenderer.cpp Program.cpp Shader.cpp PixelFormats.cpp "../cpp/common/*")
+file(GLOB orwell_gtk3_SRCS main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp PixelFormats.cpp "../cpp/common/*")
 
 set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
 set(FFMPEG_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/x86_64/lib)

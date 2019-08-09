@@ -74,10 +74,10 @@ private:
 	static const int TEXTURE_NUMBER = 3;
 	GLuint textureId[TEXTURE_NUMBER];
 	//int textureFormat;
-	int textureLocation[TEXTURE_NUMBER];
+	GLint textureLocation[TEXTURE_NUMBER];
 	unsigned int VBO, VAO, TBO, EBO;
-	int vextexInLocation;
-	int textureInLocation;
+	GLint vextexInLocation;
+	GLint textureInLocation;
 	//PixelFormats pixelFormats;
 	//GLuint program;
 	//Display *xdisplay;

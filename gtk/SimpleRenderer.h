@@ -28,23 +28,13 @@ public:
 	void glInit();
 	void glDraw();
 
-	float vertices2[9] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
-	};
+	const GLfloat vertices_textures[20] = {
+		//vertices            //positions
+		-1.0f, -1.0f, 0.0f,    0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f,     1.0f, 1.0f,
+		-1.0f, 1.0f, 0.0f,     0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,      1.0f, 0.0f};
 
-	const GLfloat vertices[8] = {
-		-1.0f, -1.0f,
-		1.0f, -1.0f,
-		-1.0f, 1.0f,
-		1.0f, 1.0f};
-
-	const GLfloat textureCoordinates[8] = {
-		0.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f};
 
 	const int VERTEX_POINTER = 0;
 	const int FRAGMENT_POINTER = 1;

@@ -21,15 +21,24 @@ void OpenglSmartRenderer3::glInit()
 {
 }
 
+void err(std::string a) {
+	std::cout << a << std::endl;
+	GLenum err;
+		while ((err = glGetError()) != GL_NO_ERROR)
+		{
+			std::cerr << ">>>>>>>>>>>>>>>>OpenGL error: " << err << std::endl;
+		}
+}
+
 bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 {
 	try
 	{
 		glArea.throw_if_error();
+
 		
-
 		glDraw();
-
+		
 		glFlush();
 	}
 	catch (const Gdk::GLError &gle)
@@ -74,39 +83,43 @@ void OpenglSmartRenderer3::glDraw()
 
 			program = std::make_unique<Program>();
 			program->attach_shader(Shader(ShaderType::Vertex, "video.vert"));
-
+			err("86");
 			/*
 				Todo: be careful if renderers will be reused for other video formats. 
 				I think it shouldn't, but if it's done, make everything be redone, including
 				planar vs packed shader options. Maybe create a reset method?
 			*/
 			if (pixelFormat->isPlanar)
-				//program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
-				program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
+				program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
+				//program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
 			else
 				program->attach_shader(Shader(ShaderType::Fragment, "packed.frag"));
+			err("97");
 
 			program->link();
+			err("100");
 
 			vextexInLocation = glGetAttribLocation(program->get_id(), "aPos");
 			textureInLocation = glGetAttribLocation(program->get_id(), "aTexCoord");
+			err("104");
 
 			glGenVertexArrays(1, &VAO);
 			glGenBuffers(1, &VBO);
-			glGenBuffers(1, &TBO);
+			//glGenBuffers(1, &TBO);
 
-			
 			//glGenBuffers(1, &EBO);
 			// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 			glBindVertexArray(VAO);
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_textures), vertices_textures, GL_STATIC_DRAW);
-			glVertexAttribPointer(vextexInLocation, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+
+			glVertexAttribPointer(vextexInLocation, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)0);
 			glEnableVertexAttribArray(vextexInLocation);
 
-			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
 			glEnableVertexAttribArray(textureInLocation);
+			err("122");
 
 			//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
 			//glBufferData(GL_TEXTURE_BUFFER, sizeof(textureCoordinates), textureCoordinates, GL_STATIC_DRAW);//TODO: static or stream?
@@ -130,13 +143,17 @@ void OpenglSmartRenderer3::glDraw()
 			textureLocation[0] = glGetUniformLocation(program->get_id(), "tex_y");
 			textureLocation[1] = glGetUniformLocation(program->get_id(), "tex_u");
 			textureLocation[2] = glGetUniformLocation(program->get_id(), "tex_v");
+			err("146");
 
 			//alpha = program->uniformLocation("alpha");
 			alpha = glGetUniformLocation(program->get_id(), "alpha");
 			//program->setUniformValue(mAlpha, (GLfloat)1.0);
-			glUniform1f(alpha, (GLfloat)1.0);
+			err("151");
+			//glUniform1f(alpha, (GLfloat)1.0);
+			err("152");
 			//textureFormat = program->uniformLocation("tex_format");
 			textureFormat = glGetUniformLocation(program->get_id(), "tex_format");
+			err("154");
 
 			//mTextureOffset = program->uniformLocation("tex_offset");
 			//mImageWidthId = program->uniformLocation("imageWidth");
@@ -150,10 +167,15 @@ void OpenglSmartRenderer3::glDraw()
 				std::cout << "initiatedTextures" << std::endl;
 				//TODO: delete these textures
 				glGenTextures(TEXTURE_NUMBER, textureId);
+				err("168");
+
 				for (int i = 0; i < TEXTURE_NUMBER; i++)
 				{
 					//std::cout << "initiating texture " << i << std::endl;
 					glBindTexture(GL_TEXTURE_2D, textureId[i]);
+					std::cout << i << std::endl;
+					err("176");
+
 					/*
 						Our Frame called `frame` has a PixelFormat (example: AV_PIX_FMT_YUV420P). 
 						We're gonna get, in the list of PixelFormats, for parameters for this format.
@@ -180,7 +202,7 @@ void OpenglSmartRenderer3::glDraw()
 								 0,
 								 pixelFormat->yuvGlFormat[i],
 								 pixelFormat->dataType,
-								 NULL);//frame->buffer[i]);
+								 NULL); //frame->buffer[i]);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -191,6 +213,8 @@ void OpenglSmartRenderer3::glDraw()
 				}
 				initiatedTextures = true;
 			}
+			err("213");
+
 			//To be done
 			if (!initiatedFrameBufferObjects)
 			{

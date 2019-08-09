@@ -20,9 +20,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -38,9 +38,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUVJ,
         //bool isPlanar
@@ -56,9 +56,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -74,9 +74,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUVJ,
         //bool isPlanar
@@ -92,9 +92,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -110,9 +110,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUVJ,
         //bool isPlanar
@@ -128,9 +128,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         GRAY,
         //bool isPlanar
@@ -220,7 +220,7 @@ StaticPixelFormats::StaticPixelFormats() {
         //GLint yuvInternalFormat[3];
         {GL_RGB8,GL_RGB8,GL_RGB8},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         RGB,
         //bool isPlanar
@@ -238,7 +238,7 @@ StaticPixelFormats::StaticPixelFormats() {
         //GLint yuvInternalFormat[3];
         {GL_RGB8,GL_RGB8,GL_RGB8},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         RGB,
         //bool isPlanar
@@ -254,9 +254,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         RGB,
         //bool isPlanar
@@ -308,9 +308,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,zero,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE4,GL_LUMINANCE4,GL_LUMINANCE4},
+        {GL_RED4,GL_RED4,GL_RED4},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         BGR4,
         //bool isPlanar
@@ -326,9 +326,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE_ALPHA,GL_LUMINANCE},
+        {GL_RED,GL_RED_ALPHA,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE_ALPHA,GL_LUMINANCE},
+        {GL_RED,GL_RED_ALPHA,GL_RED},
         //int textureFormat
         NV12,
         //bool isPlanar
@@ -344,9 +344,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE_ALPHA,GL_LUMINANCE},
+        {GL_RED,GL_RED_ALPHA,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE_ALPHA,GL_LUMINANCE},
+        {GL_RED,GL_RED_ALPHA,GL_RED},
         //int textureFormat
         NV21,
         //bool isPlanar
@@ -362,9 +362,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //int textureFormat
         YUV420P10LE,
         //bool isPlanar
@@ -380,9 +380,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //int textureFormat
         YUV420P10LE,
         //bool isPlanar
@@ -398,9 +398,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //int textureFormat
         YUV420P10LE,
         //bool isPlanar
@@ -416,9 +416,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //int textureFormat
         YUV420P10LE,
         //bool isPlanar
@@ -434,9 +434,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //int textureFormat
         YUV420P10LE,
         //bool isPlanar
@@ -452,9 +452,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //int textureFormat
         YUV420P10LE,
         //bool isPlanar
@@ -470,9 +470,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,four,four},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -488,9 +488,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -578,9 +578,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,zero,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         GRAY,
         //bool isPlanar
@@ -596,9 +596,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,zero,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         GRAY,
         //bool isPlanar
@@ -614,9 +614,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -632,9 +632,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUVJ,
         //bool isPlanar
@@ -650,9 +650,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -668,9 +668,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         UYYVYY,
         //bool isPlanar
@@ -758,9 +758,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV16,
         //bool isPlanar
@@ -776,9 +776,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV16,
         //bool isPlanar
@@ -794,9 +794,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV16,
         //bool isPlanar
@@ -812,9 +812,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV16,
         //bool isPlanar
@@ -830,9 +830,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV16,
         //bool isPlanar
@@ -848,9 +848,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV16,
         //bool isPlanar
@@ -866,9 +866,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -884,9 +884,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -902,9 +902,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -920,9 +920,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         BGGR,
         //bool isPlanar
@@ -938,9 +938,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         RGGB,
         //bool isPlanar
@@ -956,9 +956,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         GBRG,
         //bool isPlanar
@@ -974,9 +974,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         GRBG,
         //bool isPlanar
@@ -992,9 +992,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         GRBG,
         //bool isPlanar
@@ -1082,9 +1082,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,zero,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         RGB,
         //bool isPlanar
@@ -1100,9 +1100,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,zero,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE16,GL_LUMINANCE16,GL_LUMINANCE16},
+        {GL_RED16,GL_RED16,GL_RED16},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         BGR,
         //bool isPlanar
@@ -1118,9 +1118,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,zero,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         RGB,
         //bool isPlanar
@@ -1136,9 +1136,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,zero,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA},
+        {GL_RED_ALPHA,GL_RED_ALPHA,GL_RED_ALPHA},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         BGR,
         //bool isPlanar
@@ -1154,9 +1154,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,one,one},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -1172,9 +1172,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,two},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE},
+        {GL_RED,GL_RED,GL_RED},
         //int textureFormat
         YUV,
         //bool isPlanar
@@ -1190,9 +1190,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //Fraction yuvHeights[3];
         {one,two,zero},
         //GLint yuvInternalFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE_ALPHA,GL_LUMINANCE},
+        {GL_RED,GL_RED_ALPHA,GL_RED},
         //GLenum yuvGlFormat[3];
-        {GL_LUMINANCE,GL_LUMINANCE_ALPHA,GL_LUMINANCE},
+        {GL_RED,GL_RED_ALPHA,GL_RED},
         //int textureFormat
         NV12,
         //bool isPlanar
