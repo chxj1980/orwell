@@ -2,7 +2,6 @@
 
 void OpenglSmartRenderer3::init()
 {
-	
 }
 /*
 ~OpenGLArea::OpenGLArea()
@@ -22,23 +21,24 @@ void OpenglSmartRenderer3::glInit()
 {
 }
 
-bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context) {
+bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
+{
 	try
-    {
+	{
 		glArea.throw_if_error();
-        glClearColor(0.0, 0.0, 0.0, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(0.0, 0.0, 0.0, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT);
 
-        glDraw();
+		glDraw();
 
-        glFlush();
-    }
-    catch (const Gdk::GLError &gle)
-    {
-        std::cerr << "An error occurred in the render callback of the GLArea" << std::endl;
-        std::cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << std::endl;
-        return false;
-    }
+		glFlush();
+	}
+	catch (const Gdk::GLError &gle)
+	{
+		std::cerr << "An error occurred in the render callback of the GLArea" << std::endl;
+		std::cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << std::endl;
+		return false;
+	}
 }
 
 void OpenglSmartRenderer3::glDraw()
@@ -51,19 +51,20 @@ void OpenglSmartRenderer3::glDraw()
 	*/
 	int textureFormat;
 	int alpha;
-	PixelFormat* pixelFormat;
+	PixelFormat *pixelFormat;
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
-	if (this->firstFrameReceived && frame->width!=0)
+	if (this->firstFrameReceived && frame->width != 0)
 	{
 		std::cout << "Received frame with width: " << frame->width << " and height: " << frame->height << std::endl;
 		//std::cout << "getting pixelformat for " << frame->format << std::endl;
-		pixelFormat = PixelFormats::get((int) frame->format);
+		pixelFormat = PixelFormats::get((int)frame->format);
 		//In the first run we create everything needed
 		if (this->firstRun)
 		{
 			std::cout << "firstRun of OpenglSmartRenderer3" << std::endl;
 			//This is a pointer to an object that is created with this renderer, so it never goes away
-			if (!pixelFormat) {
+			if (!pixelFormat)
+			{
 				std::cout << "ERROR, format of decoded frame is not supported" << std::endl;
 				return;
 			}
@@ -73,7 +74,7 @@ void OpenglSmartRenderer3::glDraw()
 			//Shader fragment_shader(ShaderType::Fragment, "planar.frag");
 
 			program = std::make_unique<Program>();
-			
+
 			program->attach_shader(Shader(ShaderType::Vertex, "video.vert"));
 
 			/*
@@ -83,10 +84,47 @@ void OpenglSmartRenderer3::glDraw()
 			*/
 			if (pixelFormat->isPlanar)
 				program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
+			//program->attach_shader(Shader(ShaderType::Fragment, "fragment_yuv.shader"));
 			else
 				program->attach_shader(Shader(ShaderType::Fragment, "packed.frag"));
 
 			program->link();
+
+			vextexInLocation = glGetAttribLocation(program->get_id(), "aPos");
+			textureInLocation = glGetAttribLocation(program->get_id(), "aTexCoord");
+
+			glGenVertexArrays(1, &VAO);
+			glGenBuffers(1, &VBO);
+			//glGenBuffers(1, &EBO);
+			// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+			glBindVertexArray(VAO);
+
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+			glBindBuffer(GL_TEXTURE_BUFFER, TBO);
+			glBufferData(GL_TEXTURE_BUFFER, sizeof(textureCoordinates), textureCoordinates, GL_STATIC_DRAW);
+
+			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+			//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+			glVertexAttribPointer(vextexInLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+			glEnableVertexAttribArray(vextexInLocation);
+
+			//TODO: why this isn't needed?
+			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+			glEnableVertexAttribArray(textureInLocation);
+
+			// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_TEXTURE_BUFFER, 0);
+
+			// remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
+			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+			// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+			// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+			glBindVertexArray(0);
 
 			//vextexInLocation = program->attributeLocation("vertexIn");
 			//textureInLocaltion = program->attributeLocation("textureIn");
@@ -96,11 +134,11 @@ void OpenglSmartRenderer3::glDraw()
 			textureLocation[2] = glGetUniformLocation(program->get_id(), "tex_v");
 
 			//alpha = program->uniformLocation("alpha");
-			alpha =  glGetUniformLocation(program->get_id(), "alpha");
+			alpha = glGetUniformLocation(program->get_id(), "alpha");
 			//program->setUniformValue(mAlpha, (GLfloat)1.0);
 			glUniform1f(alpha, (GLfloat)1.0);
 			//textureFormat = program->uniformLocation("tex_format");
-			textureFormat =  glGetUniformLocation(program->get_id(), "tex_format");
+			textureFormat = glGetUniformLocation(program->get_id(), "tex_format");
 
 			//mTextureOffset = program->uniformLocation("tex_offset");
 			//mImageWidthId = program->uniformLocation("imageWidth");
@@ -135,7 +173,6 @@ void OpenglSmartRenderer3::glDraw()
 					int width = frame->width * widthRatio.numerator / heightRatio.denominator;
 					int height = frame->height * heightRatio.numerator / heightRatio.denominator;
 					//std::cout << "yuv plane number: " << i << " has width: " << width << " and height: " << height << std::endl;
-
 
 					glTexImage2D(GL_TEXTURE_2D,
 								 0,
@@ -178,11 +215,12 @@ void OpenglSmartRenderer3::glDraw()
 
 		//https://community.khronos.org/t/i-passed-a-pointer-to-glvertexattribpointer-without-binded-buffer-and-it-works/104367
 		//TODO: to be changed to buffer object on CORE version, because only yhis version works (read link above)
-		glVertexAttribPointer(VERTEX_POINTER, 2, GL_FLOAT, 0, 0, vertices);
-		glEnableVertexAttribArray(VERTEX_POINTER);
 
-		glVertexAttribPointer(FRAGMENT_POINTER, 2, GL_FLOAT, 0, 0, textureCoordinates);
-		glEnableVertexAttribArray(FRAGMENT_POINTER);
+		//glVertexAttribPointer(VERTEX_POINTER, 2, GL_FLOAT, 0, 0, vertices);
+		//glEnableVertexAttribArray(VERTEX_POINTER);
+
+		//glVertexAttribPointer(FRAGMENT_POINTER, 2, GL_FLOAT, 0, 0, textureCoordinates);
+		//glEnableVertexAttribArray(FRAGMENT_POINTER);
 
 		for (int j = 0; j < TEXTURE_NUMBER; j++)
 		{
@@ -195,9 +233,9 @@ void OpenglSmartRenderer3::glDraw()
 			if (buffer != NULL && linesize != 0)
 			{
 				int textureSize = linesize * frame->height;
-				//std::cout << "gonna read pixelFormat->yuvSizes[" << j << "]" << std::endl;
-				//std::cout << "yuvSizes[" << j << "].numerator is " << pixelFormat->yuvSizes[j].numerator << std::endl;
-				//std::cout << "yuvSizes[" << j << "].denominator is " << pixelFormat->yuvSizes[j].denominator << std::endl;
+				std::cout << "gonna read pixelFormat->yuvSizes[" << j << "]" << std::endl;
+				std::cout << "yuvSizes[" << j << "].numerator is " << pixelFormat->yuvSizes[j].numerator << std::endl;
+				std::cout << "yuvSizes[" << j << "].denominator is " << pixelFormat->yuvSizes[j].denominator << std::endl;
 				//textureSize = textureSize * pixelFormat->yuvSizes[j].numerator / pixelFormat->yuvSizes[j].denominator;
 
 				//if (m_pbo[pboIndex][j].size() != textureSize)
@@ -208,25 +246,25 @@ void OpenglSmartRenderer3::glDraw()
 				int height = frame->height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
 
 				//Copy frame here!
-				glTexSubImage2D(GL_TEXTURE_2D, 
-								0, 
-								0, 
-								0, 
-								width, 
-								height, 
-								pixelFormat->yuvGlFormat[j], 
-								pixelFormat->dataType, 
-								frame->buffer[j]);//NULL);
+				glTexSubImage2D(GL_TEXTURE_2D,
+								0,
+								0,
+								0,
+								width,
+								height,
+								pixelFormat->yuvGlFormat[j],
+								pixelFormat->dataType,
+								frame->buffer[j]); //NULL);
 			}
 			//program->setUniformValue(textureLocation[j], j);
-			glUniform1i(textureLocation[j],j);
+			glUniform1i(textureLocation[j], j);
 			//m_pbo[pboIndex][j].release();
 		}
 		//program->setUniformValue(textureFormat, (GLfloat) frame->format);
-		//std::cout << "setting textureFormat to " << pixelFormat->textureFormat << std::endl;
-		//std::cout << "isPlanar? " << pixelFormat->isPlanar << std::endl;
+		std::cout << "setting textureFormat to " << pixelFormat->textureFormat << std::endl;
+		std::cout << "isPlanar? " << pixelFormat->isPlanar << std::endl;
 
-		glUniform1f(textureFormat, (GLfloat) pixelFormat->textureFormat);
+		glUniform1f(textureFormat, (GLfloat)pixelFormat->textureFormat);
 
 		//GLint originTextureUnit;
 		//glGetIntegerv(GL_ACTIVE_TEXTURE, &originTextureUnit);
@@ -251,8 +289,10 @@ void OpenglSmartRenderer3::glDraw()
 		//glBindTexture(GL_TEXTURE_2D, texs[2]);
 		//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, frameWidth / 2, frameHeight / 2, GL_RED, GL_UNSIGNED_BYTE, buffer[2]);
 		//glUniform1i(unis[2], 2);
-
+		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		//glBindVertexArray(VAO);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		//program->disableAttributeArray(A_VER);
 		//program->disableAttributeArray(T_VER);
 		//program->release();

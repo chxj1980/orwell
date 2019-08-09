@@ -1,4 +1,4 @@
-#version 130 
+#version 330
 
 varying vec2 textureOut;
 uniform sampler2D tex_y;
@@ -8,9 +8,9 @@ void main(void)
 {
 	vec3 yuv;
 	vec3 rgb;
-	yuv.x = texture2D(tex_y, textureOut).r;
-	yuv.y = texture2D(tex_u, textureOut).r - 0.5;
-	yuv.z = texture2D(tex_v, textureOut).r - 0.5;
+	yuv.x = texture(tex_y, textureOut).r;
+	yuv.y = texture(tex_u, textureOut).r - 0.5;
+	yuv.z = texture(tex_v, textureOut).r - 0.5;
 	rgb = mat3(1.0, 1.0, 1.0,
 		0.0, -0.39465, 2.03211,
 		1.13983, -0.58060, 0.0) * yuv;

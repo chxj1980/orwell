@@ -1,16 +1,14 @@
-#version 130
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aColor;
+layout (location = 2) in vec2 aTexCoord;
 
-#ifdef GL_ES
-// Set default precision to medium
-precision mediump int;
-precision mediump float;
-#endif
+out vec3 ourColor;
+out vec2 TexCoord;
 
-attribute vec4 vertexIn;
-attribute vec2 textureIn;
-uniform mat4 matrix;
-varying vec2 textureOut;
-void main(void) {
-    gl_Position = vertexIn;
-    textureOut = textureIn;
+void main()
+{
+    gl_Position = vec4(aPos, 1.0);
+    ourColor = aColor;
+    TexCoord = aTexCoord;
 }

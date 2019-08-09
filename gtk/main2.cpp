@@ -47,26 +47,14 @@ int main(int argc,  char** argv)
 	//Gtk::Main kit;
 	auto app = Gtk::Application::create(argc, argv, "");
     
-	SingletonObject singletonObject;
-	singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
-	std::cout << "supported hardware: " << std::endl;
-	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
-		std::cout << i << std::endl;
-
-	auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264,FfmpegHardwareDecoder::HARDWARE,std::string("cuda"));
-	auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
-
-	singletonObject.mediaStream->setDecoder(ffmpegSoftwareDecoder);
-	singletonObject.mediaThread = std::make_shared<std::thread>(&MediaStream::run, singletonObject.mediaStream);
-	Singleton::instance()->addStream("cam1", singletonObject);
-
+	
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton. 
 	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
 	//GLWindow window;
 	//window.show_all();
-	OpenglSmartRenderer3 openglSmartRenderer3;
-	//SimpleRenderer simpleRenderer;
-	return app->run(openglSmartRenderer3);
-	//return app->run(simpleRenderer);
+	//OpenglSmartRenderer3 openglSmartRenderer3;
+	SimpleRenderer simpleRenderer;
+	//return app->run(openglSmartRenderer3);
+	return app->run(simpleRenderer);
 	//kit.run(window);
 }

@@ -1,4 +1,6 @@
 
+#ifndef OPENGLAREA_H
+#define OPENGLAREA_H
 #include <iostream>
 #include <string>
 #include <vector>
@@ -23,3 +25,4 @@ public:
     virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context){};
     //void draw_triangle();
 };
+#endif //OPENGLAREA_H
