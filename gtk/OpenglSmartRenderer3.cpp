@@ -76,9 +76,6 @@ void OpenglSmartRenderer3::glDraw()
 			}
 			//glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-			//Shader vertex_shader(ShaderType::Vertex, "video.vert");
-			//Shader fragment_shader(ShaderType::Fragment, "planar.frag");
-
 			program = std::make_unique<Program>();
 			program->attach_shader(Shader(ShaderType::Vertex, "video.vert"));
 			/*
@@ -99,6 +96,7 @@ void OpenglSmartRenderer3::glDraw()
 
 			glGenVertexArrays(1, &VAO);
 			glGenBuffers(1, &VBO);
+			glGenBuffers(3, pixelBufferObjects);
 			
 			glBindVertexArray(VAO);
 
@@ -196,19 +194,11 @@ void OpenglSmartRenderer3::glDraw()
 
 		program->use();
 
-		//https://community.khronos.org/t/i-passed-a-pointer-to-glvertexattribpointer-without-binded-buffer-and-it-works/104367
-		//TODO: to be changed to buffer object on CORE version, because only yhis version works (read link above)
-
-		//glVertexAttribPointer(VERTEX_POINTER, 2, GL_FLOAT, 0, 0, vertices);
-		//glEnableVertexAttribArray(VERTEX_POINTER);
-
-		//glVertexAttribPointer(FRAGMENT_POINTER, 2, GL_FLOAT, 0, 0, textureCoordinates);
-		//glEnableVertexAttribArray(FRAGMENT_POINTER);
-
 		for (int j = 0; j < TEXTURE_NUMBER; j++)
 		{
 			glActiveTexture(GL_TEXTURE0 + j);
 			glBindTexture(GL_TEXTURE_2D, textureId[j]);
+			glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pixelBufferObjects[j]);
 			//glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, TBO);
 
 			int linesize = frame->linesize[j];
@@ -217,10 +207,10 @@ void OpenglSmartRenderer3::glDraw()
 			if (buffer != NULL && linesize != 0)
 			{
 				int textureSize = linesize * frame->height;
-
+				//textureSize = frame->width * frame->height;
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
-
+				glBufferData(GL_PIXEL_UNPACK_BUFFER, textureSize, frame->buffer[j], GL_STREAM_DRAW);
 				//TODO: why he used frame->linesize[i] instead of frame->width? frame->width worked perfectly for me
 				int width = frame->width * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
 				int height = frame->height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
@@ -234,7 +224,8 @@ void OpenglSmartRenderer3::glDraw()
 								height,
 								pixelFormat->yuvGlFormat[j],
 								pixelFormat->dataType,
-								frame->buffer[j]); //NULL);
+								NULL); //NULL);
+
 			}
 			glUniform1i(textureLocation[j], j);
 			//m_pbo[pboIndex][j].release();
@@ -244,6 +235,6 @@ void OpenglSmartRenderer3::glDraw()
 		glBindVertexArray(VAO);
 		//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		firstFrameReceived = false;
+
 	}
 }

@@ -75,6 +75,7 @@ private:
 	GLuint textureId[TEXTURE_NUMBER];
 	//int textureFormat;
 	GLint textureLocation[TEXTURE_NUMBER];
+	GLuint pixelBufferObjects[TEXTURE_NUMBER];
 	unsigned int VBO, VAO, TBO, EBO;
 	GLint vextexInLocation;
 	GLint textureInLocation;

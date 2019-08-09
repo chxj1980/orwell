@@ -16,6 +16,7 @@ struct Frame
     AVPixelFormat format;
     unsigned int width;
     unsigned int height;
+    bool received = false;
 };
 
 #endif // Frame_h
