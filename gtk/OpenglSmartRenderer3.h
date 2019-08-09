@@ -1,25 +1,25 @@
-#ifndef OPENGLSMARTRENDERER2_H
-#define OPENGLSMARTRENDERER2_H
-
-#include "OpenGLArea.h"
+#ifndef OPENGLSMARTRENDERER3_H
+#define OPENGLSMARTRENDERER3_H
+#include "OpenGLArea2.h"
+#include "VideoReceiver.h"
+#include "Program.h"
+#include "Frame.h"
 #include "PixelFormats.h"
 #include "Singleton.h"
 
-
-class OpenglSmartRenderer2 : public OpenGLArea, public VideoReceiver
+class OpenglSmartRenderer3 : public OpenGLArea2, public VideoReceiver
 {
 public:
 	unsigned char *buffer[3] = {0};
-	OpenglSmartRenderer2()
+	OpenglSmartRenderer3()
 	{
-		std::cout << "OpenglSmartRenderer2 constructor" << std::endl;
-		set_size_request(640, 360);
+		//set_size_request(640, 360);
 		Singleton::instance()->getStream("cam1").mediaStream->decoder->setVideoReceiver(this);
-		std::cout << "OpenglSmartRenderer2 constructor end" << std::endl;
 
 	}
 	void init();
 	int receiveVideo(Frame *frame);
+	bool render(const Glib::RefPtr<Gdk::GLContext> &context);
 
 	//virtual void on_realize();
 	//virtual bool on_draw (const Cairo::RefPtr<Cairo::Context> &);
@@ -42,9 +42,11 @@ public:
 
 	const int VERTEX_POINTER = 0;
 	const int FRAGMENT_POINTER = 1;
+protected:
+	bool firstFrameReceived = false;
+	std::unique_ptr<Program> program;
 
 private:
-	bool firstFrameReceived = false;
 	//void on_glx_init ();
 	Frame *frame;
 	int frameWidth = 0;
@@ -66,4 +68,4 @@ private:
 	//GLXContext context;
 };
 
-#endif //OPENGLSMARTRENDERER2_H
+#endif //OPENGLSMARTRENDERER3_H

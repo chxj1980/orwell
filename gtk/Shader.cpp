@@ -5,8 +5,8 @@
 #include <giomm/datainputstream.h>
 
 #include "Shader.h"
+#include <epoxy/gl.h>
 
-#include <GL/glew.h>
 
 Shader::Shader(ShaderType type)
 {

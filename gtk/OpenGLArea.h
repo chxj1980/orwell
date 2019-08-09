@@ -5,8 +5,7 @@
 #include "VideoReceiver.h"
 #include "Program.h"
 #include "Frame.h"
-#include <GL/glew.h>
-#include <GL/glx.h>
+
 
 class OpenGLArea : public Gtk::DrawingArea
 {
@@ -28,7 +27,7 @@ class OpenGLArea : public Gtk::DrawingArea
 
   private:
 	void on_glx_init();
-	Display *xdisplay;
+	Display *display;
 	GLXDrawable drawable;
 	GLXContext context;
 };

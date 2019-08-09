@@ -33,7 +33,7 @@ include_directories(../myRtspClient/myRtspClient/include)
 include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
 
-file(GLOB orwell_gtk3_SRCS "*.cpp" "../cpp/common/*")
+file(GLOB orwell_gtk3_SRCS main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp PixelFormats.cpp "../cpp/common/*")
 
 set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
 set(FFMPEG_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/x86_64/lib)
@@ -59,5 +59,5 @@ add_executable(orwell ${orwell_gtk3_SRCS})
 target_link_libraries( orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11}
-	myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY})
+	myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
 

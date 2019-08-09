@@ -2,8 +2,7 @@
 #define PROGRAM_H
 
 #include "Shader.h"
-
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 class Program
 {

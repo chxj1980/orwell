@@ -2,8 +2,7 @@
 #define _EVG_SHADER_
 
 #include <string>
-
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 enum class ShaderType : GLenum
 {

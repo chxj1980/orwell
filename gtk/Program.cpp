@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 
-#include <GL/glew.h>
-
 #include "Program.h"
 
 Program::Program()
