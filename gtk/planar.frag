@@ -97,12 +97,13 @@ void main()
     }else if(tex_format == 8 || tex_format == 9){ //NV12 | NV21
         yuv.r = texture(tex_y, TexCoord).r - 0.0625;
         vec4 uv = texture( tex_u, TexCoord);
+        //TODO: check if the modifications I made are working. I exchanged a for g
         if(tex_format == 9){ //NV21
-            yuv.g = uv.a - 0.5;
+            yuv.g = uv.g - 0.5;
             yuv.b = uv.r - 0.5;
         }else{ //NV12
             yuv.g = uv.r - 0.5;
-            yuv.b = uv.a - 0.5;
+            yuv.b = uv.g - 0.5;
         }
     }else if(tex_format == 16 || tex_format == 17){ //YUV16 YUVJ16
         if(tex_format == 16){

@@ -21,8 +21,8 @@ void OpenglSmartRenderer3::glInit()
 {
 }
 
-void err(std::string a) {
-	std::cout << a << std::endl;
+void err(std::string lineInformation) {
+	std::cout << lineInformation << std::endl;
 	GLenum err;
 		while ((err = glGetError()) != GL_NO_ERROR)
 		{
@@ -36,7 +36,6 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 	{
 		glArea.throw_if_error();
 
-		
 		glDraw();
 		
 		glFlush();
@@ -51,7 +50,6 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 
 void OpenglSmartRenderer3::glDraw()
 {
-	std::cout << "glDraw()" << std::endl;
 	/*
 		By putting everythng inside a bit if (firstFrameReceived),
 		we only create the resources after we know the size and pixel format
@@ -63,8 +61,8 @@ void OpenglSmartRenderer3::glDraw()
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
 	if (this->firstFrameReceived && frame->width != 0)
 	{
-		std::cout << "Received frame with width: " << frame->width << " and height: " << frame->height << std::endl;
-		std::cout << "getting pixelformat for " << (int)frame->format << std::endl;
+		//std::cout << "Received frame with width: " << frame->width << " and height: " << frame->height << std::endl;
+		//std::cout << "getting pixelformat for " << (int)frame->format << std::endl;
 		pixelFormat = PixelFormats::get((int)frame->format);
 		//In the first run we create everything needed
 		if (this->firstRun)
@@ -83,7 +81,6 @@ void OpenglSmartRenderer3::glDraw()
 
 			program = std::make_unique<Program>();
 			program->attach_shader(Shader(ShaderType::Vertex, "video.vert"));
-			err("86");
 			/*
 				Todo: be careful if renderers will be reused for other video formats. 
 				I think it shouldn't, but if it's done, make everything be redone, including
@@ -94,21 +91,15 @@ void OpenglSmartRenderer3::glDraw()
 				//program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
 			else
 				program->attach_shader(Shader(ShaderType::Fragment, "packed.frag"));
-			err("97");
 
 			program->link();
-			err("100");
 
 			vextexInLocation = glGetAttribLocation(program->get_id(), "aPos");
 			textureInLocation = glGetAttribLocation(program->get_id(), "aTexCoord");
-			err("104");
 
 			glGenVertexArrays(1, &VAO);
 			glGenBuffers(1, &VBO);
-			//glGenBuffers(1, &TBO);
-
-			//glGenBuffers(1, &EBO);
-			// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+			
 			glBindVertexArray(VAO);
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -119,41 +110,15 @@ void OpenglSmartRenderer3::glDraw()
 
 			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
 			glEnableVertexAttribArray(textureInLocation);
-			err("122");
-
-			//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
-			//glBufferData(GL_TEXTURE_BUFFER, sizeof(textureCoordinates), textureCoordinates, GL_STATIC_DRAW);//TODO: static or stream?
-			//glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
-			//glEnableVertexAttribArray(textureInLocation);
-
-			// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-			//glBindBuffer(GL_ARRAY_BUFFER, 0);
-			//glBindBuffer(GL_TEXTURE_BUFFER, 0);
-
-			// remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-			// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-			// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-			//glBindVertexArray(0);
-
-			//vextexInLocation = program->attributeLocation("vertexIn");
-			//textureInLocaltion = program->attributeLocation("textureIn");
 
 			textureLocation[0] = glGetUniformLocation(program->get_id(), "tex_y");
 			textureLocation[1] = glGetUniformLocation(program->get_id(), "tex_u");
 			textureLocation[2] = glGetUniformLocation(program->get_id(), "tex_v");
-			err("146");
 
 			//alpha = program->uniformLocation("alpha");
 			alpha = glGetUniformLocation(program->get_id(), "alpha");
-			//program->setUniformValue(mAlpha, (GLfloat)1.0);
-			err("151");
-			//glUniform1f(alpha, (GLfloat)1.0);
-			err("152");
-			//textureFormat = program->uniformLocation("tex_format");
+			glUniform1f(alpha, (GLfloat)1.0);
 			textureFormat = glGetUniformLocation(program->get_id(), "tex_format");
-			err("154");
 
 			//mTextureOffset = program->uniformLocation("tex_offset");
 			//mImageWidthId = program->uniformLocation("imageWidth");
@@ -167,14 +132,11 @@ void OpenglSmartRenderer3::glDraw()
 				std::cout << "initiatedTextures" << std::endl;
 				//TODO: delete these textures
 				glGenTextures(TEXTURE_NUMBER, textureId);
-				err("168");
 
 				for (int i = 0; i < TEXTURE_NUMBER; i++)
 				{
-					//std::cout << "initiating texture " << i << std::endl;
 					glBindTexture(GL_TEXTURE_2D, textureId[i]);
 					std::cout << i << std::endl;
-					err("176");
 
 					/*
 						Our Frame called `frame` has a PixelFormat (example: AV_PIX_FMT_YUV420P). 
@@ -213,7 +175,6 @@ void OpenglSmartRenderer3::glDraw()
 				}
 				initiatedTextures = true;
 			}
-			err("213");
 
 			//To be done
 			if (!initiatedFrameBufferObjects)

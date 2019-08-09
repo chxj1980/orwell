@@ -82,6 +82,9 @@ data = data.splitlines()
 data = [x for x in data if x!='']
 data = [x for x in data if not '//' in x]
 data = list(map(lambda x: x.replace(';', ''), data))
+data = list(map(lambda x: x.replace('GL_LUMINANCE16', 'GL_R16'), data)) #GL_LUMINANCE is not supported on CORE profile
+data = list(map(lambda x: x.replace('GL_LUMINANCE_ALPHA', 'GL_RG'), data)) #GL_LUMINANCE is not supported on CORE profile
+data = list(map(lambda x: x.replace('GL_LUMINANCE', 'GL_RED'), data)) #GL_LUMINANCE is not supported on CORE profile
 data = list(map(lambda x: x.replace(' ', ''), data))
 
 for d in data:

@@ -14,7 +14,8 @@ params[AV_PIX_FMT_MONOBLACK] = RenderParams(AV_PIX_FMT_MONOBLACK,one,one,one,one
 params[AV_PIX_FMT_PAL8] = RenderParams(AV_PIX_FMT_PAL8,one,one,one,one,one,one,one,two,two,GL_LUMINANCE,GL_LUMINANCE,RGB,true);
 params[AV_PIX_FMT_BGR8] = RenderParams(AV_PIX_FMT_BGR8,one,zero,zero,one,zero,zero,one,zero,zero,GL_RGB,GL_RGB,BGR8,false,GL_UNSIGNED_BYTE_2_3_3_REV);
 params[AV_PIX_FMT_RGB8] = RenderParams(AV_PIX_FMT_RGB8,one,zero,zero,one,zero,zero,one,zero,zero,GL_RGB,GL_RGB,BGR8,false,GL_UNSIGNED_BYTE_3_3_2);
-params[AV_PIX_FMT_BGR4] = RenderParams(AV_PIX_FMT_BGR4,one,zero,zero,one,zero,zero,one,zero,zero,GL_LUMINANCE4,GL_LUMINANCE,BGR4,false,GL_UNSIGNED_BYTE);
+//TODO: There's no GL_RED with 4 bits on https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml, what should I do?
+//params[AV_PIX_FMT_BGR4] = RenderParams(AV_PIX_FMT_BGR4,one,zero,zero,one,zero,zero,one,zero,zero,GL_LUMINANCE4,GL_LUMINANCE,BGR4,false,GL_UNSIGNED_BYTE);
 params[AV_PIX_FMT_NV12] = RenderParams(AV_PIX_FMT_NV12,one,two,zero,one,two,zero,one,two,zero,GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE,GL_LUMINANCE,NV12,true);
 params[AV_PIX_FMT_NV21] = RenderParams(AV_PIX_FMT_NV21,one,two,zero,one,two,zero,one,two,zero,GL_LUMINANCE,GL_LUMINANCE,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,GL_LUMINANCE,GL_LUMINANCE,NV21,true);
 params[AV_PIX_FMT_YUV420P10LE] = RenderParams(AV_PIX_FMT_YUV420P10LE,two, two,two,one,two,two,one,two,two,GL_LUMINANCE_ALPHA,GL_LUMINANCE_ALPHA,YUV420P10LE,true);
