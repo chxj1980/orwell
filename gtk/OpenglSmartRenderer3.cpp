@@ -26,6 +26,7 @@ void OpenglSmartRenderer3::run()
 			This way, if decodedFramesFifo is empty, the rendering process will wait, which is good, no CPU time is wasted.
 		*/
 		Frame frame = decodedFramesFifo->pop_front();
+		//This deleted the old frame automatically, and its destructor destroys all the data it had
 		this->frame = frame;
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
@@ -117,13 +118,13 @@ void OpenglSmartRenderer3::glDraw()
 			vextexInLocation = glGetAttribLocation(program->get_id(), "aPos");
 			textureInLocation = glGetAttribLocation(program->get_id(), "aTexCoord");
 
-			glGenVertexArrays(1, &VAO);
-			glGenBuffers(1, &VBO);
+			glGenVertexArrays(1, &vertexArrayObject);
+			glGenBuffers(1, &vertexBufferObject);
 			glGenBuffers(3, pixelBufferObjects);
 
-			glBindVertexArray(VAO);
+			glBindVertexArray(vertexArrayObject);
 
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_textures), vertices_textures, GL_STATIC_DRAW);
 
 			glVertexAttribPointer(vextexInLocation, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)0);
@@ -259,7 +260,7 @@ void OpenglSmartRenderer3::glDraw()
 		}
 		glUniform1f(textureFormat, (GLfloat)pixelFormat->textureFormat);
 
-		glBindVertexArray(VAO);
+		glBindVertexArray(vertexArrayObject);
 		//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	}
