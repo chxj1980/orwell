@@ -6,6 +6,7 @@
 #include "Frame.h"
 #include "PixelFormats.h"
 #include "Singleton.h"
+#include "ThreadSafeDeque.h"
 #include <mutex>
 #include <condition_variable>
 
@@ -21,6 +22,10 @@ public:
 	void init();
 	int receiveVideo(Frame *frame);
 	bool render(const Glib::RefPtr<Gdk::GLContext> &context);
+	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo)
+	{
+		this->decodedFramesFifo = decodedFramesFifo;
+	}
 
 	//virtual void on_realize();
 	//virtual bool on_draw (const Cairo::RefPtr<Cairo::Context> &);
@@ -28,6 +33,8 @@ public:
 
 	void glInit();
 	void glDraw();
+
+	void run();
 
 	const GLfloat vertices[12] = {
 		-1.0f, -1.0f, 0.0f, //bottom left
@@ -61,10 +68,11 @@ public:
 protected:
 	bool firstFrameReceived = false;
 	std::unique_ptr<Program> program;
+	std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo;
 
 private:
 	//void on_glx_init ();
-	Frame *frame;
+	Frame frame;
 	int frameWidth = 0;
 	int frameHeight = 0;
 	GLuint unis[3] = {0};

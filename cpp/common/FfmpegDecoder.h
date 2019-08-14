@@ -37,8 +37,9 @@ public:
 	{
 		for (int i = 0; i <= FRAME_CHANNELS_SIZE; i++)
 		{
-			frame.buffer[i] = 
+			frame.buffer[i] = new uint8_t;
 			frame.buffer[i] = avFrame->data[i];
+			frame.linesize[i] = new uint8_t;
 			frame.linesize[i] = avFrame->linesize[i];
 		}
 		frame.width = avFrame->width;
@@ -58,7 +59,7 @@ public:
 	*/
 	~FfmpegDecoder()
 	{
-		av_frame_free(&avFrame);
+		//av_frame_free(&avFrame);
 		avcodec_free_context(&avCodecContext);
 		//av_packet_unref(avPacket);
 		//delete?

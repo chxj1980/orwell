@@ -30,7 +30,7 @@ class Frame
         */
         enum {FFMPEG, MEDIA_CODEC} decodedFrom;
         //frameBuffer is an array of pointers just as in AvFrame from ffmpeg
-        uint8_t* buffer[FRAME_CHANNELS_SIZE]; //ffmpeg-specific
+        uint8_t* buffer[FRAME_CHANNELS_SIZE]; //ffmpeg-specific //https://stackoverflow.com/questions/29297809/determining-size-of-data0-in-avframe-of-ffmpeg
         int linesize [FRAME_CHANNELS_SIZE]; //ffmpeg-specific
         unsigned int lenght; //ffmpeg-specific
         AVPixelFormat format; //ffmpeg-specific

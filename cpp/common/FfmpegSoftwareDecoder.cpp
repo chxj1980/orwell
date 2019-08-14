@@ -29,8 +29,8 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	frame.decodedFrom = Frame::FFMPEG;
 	//Decodes video into `frame`. 
 	int r = decodeFrame(frameBuffer, frameLength, frame);
-	//Adds the frame to the end of the FIFO. Then when it's consumed, it suffers a pop_back
-	if (r!=0) 
+	//Adds the frame to the end of the FIFO.
+	if (r==0) 
 		this->decodedFramesFifo->emplace_back(frame);
 	return r;
 	//if (this->videoReceiver) {

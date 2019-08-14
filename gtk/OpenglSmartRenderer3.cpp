@@ -17,6 +17,22 @@ int OpenglSmartRenderer3::receiveVideo(Frame *frame)
 	queue_draw();
 }
 
+void OpenglSmartRenderer3::run()
+{
+	while (true) {
+		//TODO: certify that the operation below is MOVING the frame to here, not copying it
+		/*
+			ThreadSafeDeque decodedFramesFifo is a nice object because it will only pop_front when it has data.
+			This way, if decodedFramesFifo is empty, the rendering process will wait, which is good, no CPU time is wasted.
+		*/
+		Frame frame = decodedFramesFifo->pop_front();
+		this->frame = frame;
+		if (!firstFrameReceived)
+			firstFrameReceived = true;
+		queue_draw();
+	}
+}
+
 void OpenglSmartRenderer3::glInit()
 {
 }
@@ -66,11 +82,11 @@ void OpenglSmartRenderer3::glDraw()
 	int alpha;
 	PixelFormat *pixelFormat;
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
-	if (this->firstFrameReceived && frame->width != 0)
+	if (this->firstFrameReceived && frame.width != 0)
 	{
-		//std::cout << "Received frame with width: " << frame->width << " and height: " << frame->height << std::endl;
-		//std::cout << "getting pixelformat for " << (int)frame->format << std::endl;
-		pixelFormat = PixelFormats::get((int)frame->format);
+		//std::cout << "Received frame with width: " << frame.width << " and height: " << frame.height << std::endl;
+		//std::cout << "getting pixelformat for " << (int)frame.format << std::endl;
+		pixelFormat = PixelFormats::get((int)frame.format);
 		//In the first run we create everything needed
 		if (this->firstRun)
 		{
@@ -156,9 +172,9 @@ void OpenglSmartRenderer3::glDraw()
 						The width and height of our texture is determined by our widthRation and heightRatio.
 						TODO: explain it more.
 					 */
-					//TODO: why he used frame->linesize[i] instead of frame->width? frame->width worked perfectly for me
-					int width = frame->width * widthRatio.numerator / heightRatio.denominator;
-					int height = frame->height * heightRatio.numerator / heightRatio.denominator;
+					//TODO: why he used frame.linesize[i] instead of frame.width? frame.width worked perfectly for me
+					int width = frame.width * widthRatio.numerator / heightRatio.denominator;
+					int height = frame.height * heightRatio.numerator / heightRatio.denominator;
 					//std::cout << "yuv plane number: " << i << " has width: " << width << " and height: " << height << std::endl;
 
 					glTexImage2D(GL_TEXTURE_2D,
@@ -169,7 +185,7 @@ void OpenglSmartRenderer3::glDraw()
 								 0,
 								 pixelFormat->yuvGlFormat[i],
 								 pixelFormat->dataType,
-								 NULL); //frame->buffer[i]);
+								 NULL); //frame.buffer[i]);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -208,24 +224,24 @@ void OpenglSmartRenderer3::glDraw()
 			glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pixelBufferObjects[j]);
 			//glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, TBO);
 
-			int linesize = frame->linesize[j];
-			uint8_t *buffer = frame->buffer[j];
+			int linesize = frame.linesize[j];
+			uint8_t *buffer = frame.buffer[j];
 
 			if (buffer != NULL && linesize != 0)
 			{
 				std::cout << "linesize: " << linesize << std::endl;
-				int textureSize = linesize * frame->height;
-				std::cout << "frame->width: " << frame->width << " frame->height: " << frame->height << std::endl;
+				int textureSize = linesize * frame.height;
+				std::cout << "frame.width: " << frame.width << " frame.height: " << frame.height << std::endl;
 
-				//textureSize = frame->width * frame->height;
+				//textureSize = frame.width * frame.height;
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
 				//TODO: readi this http://www.ffmpeg-archive.org/Decoder-AVFrame-data-linesize-confusion-td2965985.html
-				glBufferData(GL_PIXEL_UNPACK_BUFFER, textureSize, frame->buffer[j], GL_STREAM_DRAW);
-				//TODO: why he used frame->linesize[i] instead of frame->width? frame->width worked perfectly for me
-				int width = frame->width * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
+				glBufferData(GL_PIXEL_UNPACK_BUFFER, textureSize, frame.buffer[j], GL_STREAM_DRAW);
+				//TODO: why he used frame.linesize[i] instead of frame.width? frame.width worked perfectly for me
+				int width = frame.width * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
 				width = linesize;
-				int height = frame->height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
+				int height = frame.height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
 				std::cout << "width: " << width << " height: " << height << std::endl;
 				//Copy frame here!
 				glTexSubImage2D(GL_TEXTURE_2D,
