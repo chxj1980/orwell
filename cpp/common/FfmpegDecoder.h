@@ -16,13 +16,9 @@ extern "C"
 #include "VideoRecorder.h"
 #include "Decoder.h"
 
-
-class FfmpegDecoder: public Decoder
+class FfmpegDecoder : public Decoder
 {
 public:
-	~FfmpegDecoder(){
-		av_frame_free(&avFrame);
-	}
 	//Initiates all the av things
 	virtual int init() = 0;
 	/* 
@@ -34,18 +30,22 @@ public:
 		To just decode to GPU memory but not get it in CPU memory, use
 		FfmpegHardwareDecoder::hardwareDecode().
 	*/
-	virtual void decodeFrame(uint8_t* frameBuffer, int frameLength)=0;
+	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength) = 0;
+	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame) = 0;
 
-	static int avFrameToFrame(AVFrame* avFrame, Frame* frame) {
-		for (int i=0; i<=FRAME_CHANNELS_SIZE; i++) {
-			frame->buffer[i] = avFrame->data[i];
-			frame->linesize[i] = avFrame->linesize[i];
+	static int avFrameToFrame(AVFrame* avFrame, Frame &frame)
+	{
+		for (int i = 0; i <= FRAME_CHANNELS_SIZE; i++)
+		{
+			frame.buffer[i] = 
+			frame.buffer[i] = avFrame->data[i];
+			frame.linesize[i] = avFrame->linesize[i];
 		}
-		frame->width    = avFrame->width;
-		frame->height   = avFrame->height;
+		frame.width = avFrame->width;
+		frame.height = avFrame->height;
 		//std::cout << "avFrame converter" <<  std::endl;
 		//std::cout << "format of avFrame is " << avFrame->format << std::endl;
-		frame->format   = (AVPixelFormat) avFrame->format;
+		frame.format = (AVPixelFormat) avFrame->format;
 	}
 	/*
 	static int frameToAvFrame(AvFrame* avFrame, Frame* frame) {
@@ -56,17 +56,23 @@ public:
 		avFrame->height = frame->height;
 	}
 	*/
+	~FfmpegDecoder()
+	{
+		av_frame_free(&avFrame);
+		avcodec_free_context(&avCodecContext);
+		//av_packet_unref(avPacket);
+		//delete?
+	}
 
 protected:
 	//TODO: make objects out of this
-	AVPicture        *avPicture;
-	AVCodec          *avCodec;
-	AVCodecContext   *avCodecContext;
-	AVFrame          *avFrame;
-	SwsContext       *swsContext;
-	AVStream         *avStream;
-	AVFormatContext  *avFormatContext;
+	AVPicture *avPicture;
+	AVCodec *avCodec;
+	AVCodecContext *avCodecContext;
+	AVFrame *avFrame;
+	SwsContext *swsContext;
+	AVStream *avStream;
+	AVFormatContext *avFormatContext;
 };
 
 #endif // FfmpegDecoder_H
-

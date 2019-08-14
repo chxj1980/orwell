@@ -6,6 +6,8 @@
 #include "Frame.h"
 #include "PixelFormats.h"
 #include "Singleton.h"
+#include <mutex>
+#include <condition_variable>
 
 class OpenglSmartRenderer3 : public OpenGLArea2, public VideoReceiver
 {
@@ -42,10 +44,10 @@ public:
 
 	const GLfloat vertices_textures[20] = {
 		//vertices            //positions
-		-1.0f, -1.0f, 0.0f,    0.0f, 1.0f,
-		1.0f, -1.0f, 0.0f,     1.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f,     0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,      1.0f, 0.0f};
+		-1.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 0.0f};
 
 	const GLfloat textureCoordinates[8] = {
 		0.0f, 1.0f,
@@ -79,6 +81,8 @@ private:
 	unsigned int VBO, VAO, TBO, EBO;
 	GLint vextexInLocation;
 	GLint textureInLocation;
+	//std::mutex mutex;
+	//std::condition_variable conditionVariable;
 	//PixelFormats pixelFormats;
 	//GLuint program;
 	//Display *xdisplay;

@@ -15,6 +15,20 @@ class FfmpegHardwareDecoder: public FfmpegDecoder {
         FfmpegHardwareDecoder(Codec codec, Device device, std::string hardwareType):device(device), hardwareType(hardwareType){
             this->codec = codec;
         };
+        
+        int init();
+        //Decodes to GPU memory but not get it back to CPU memory
+        int hardwareDecode(uint8_t* frameBuffer, int frameLength);
+        /* 
+            Calls hardwareDecode() then gets video from GPU memory to CPU memory and 
+            sends to VideoReceiver instance.
+        */
+        int decodeFrame(uint8_t* frameBuffer, int frameLength);
+        int decodeFrame(uint8_t* frameBuffer, int frameLength, Frame& frame);
+        //
+        AVPixelFormat print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt);
+        AVPixelFormat get_format(struct AVCodecContext *s, const AVPixelFormat *fmt);
+
         ~FfmpegHardwareDecoder(){
             av_frame_free(&decodedAvFrame);
             av_frame_free(&fromGPUAvFrame);
@@ -22,18 +36,6 @@ class FfmpegHardwareDecoder: public FfmpegDecoder {
             av_buffer_unref(&avBufferRef);
             //av_freep(&buffer);
         }
-        int init();
-        //Decodes to GPU memory but not get it back to CPU memory
-        bool hardwareDecode(uint8_t* frameBuffer, int frameLength);
-        /* 
-            Calls hardwareDecode() then gets video from GPU memory to CPU memory and 
-            sends to VideoReceiver instance.
-        */
-        void decodeFrame(uint8_t* frameBuffer, int frameLength);
-        void decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame);
-        //
-        AVPixelFormat print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt);
-        AVPixelFormat get_format(struct AVCodecContext *s, const AVPixelFormat *fmt);
     private:
     	AVBufferRef 	*avBufferRef;
         AVFrame         *decodedAvFrame = NULL;

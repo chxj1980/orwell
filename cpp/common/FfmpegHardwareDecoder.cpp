@@ -110,7 +110,7 @@ int FfmpegHardwareDecoder::init() {
    return 0;
 }
 
-bool FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength) {
+int FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength) {
     avPacket.size = frameLength;
 	avPacket.data = frameBuffer;
     int ret = avcodec_send_packet(avCodecContext, &avPacket);
@@ -136,29 +136,41 @@ bool FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength
     return true;
 }
 
-void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
+int FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 {	
-	decodeFrame(frameBuffer, frameLength, frame);
-	this->videoReceiver->receiveVideo(frame);
+	Frame frame;
+	frame.decodedFrom = Frame::FFMPEG;
+	//Decodes video into `frame`. 
+	int r = decodeFrame(frameBuffer, frameLength, frame);
+	//Adds the frame to the end of the FIFO. Then when it's consumed, it suffers a pop_back
+	if (r!=0)
+        this->decodedFramesFifo->emplace_back(frame);
+    return r;
 }
 
-void FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame) {
-    hardwareDecode(frameBuffer, frameLength);
+int FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame& frame) {
+    bool r = hardwareDecode(frameBuffer, frameLength);
+
+    if (r!=0)
+        return -1;
     //Now get things back grom GPU memory
     if (decodedAvFrame->format == avPixelFormat) {
         /* retrieve data from GPU to CPU */
         int ret = 0;
         if ((ret = av_hwframe_transfer_data(fromGPUAvFrame, decodedAvFrame, 0)) < 0) {
             std::cout << "av_hwframe_transfer_data error, could not transfer video from GPU memory " << ret << std::endl;
+            return ret;
             //goto fail;
         }
         /*
             Now the decoded frame from hardware is in CPU memory, in frame struct
         */
         FfmpegDecoder::avFrameToFrame(fromGPUAvFrame, frame);
+        return 0;
         //tmp_frame = fromGPUAvFrame;
     } else
         std::cout << "FfmpegHardwareDecoder::decodeFrame: something is wrong, decodedAvFrame->format != avPixelFormat" << std::endl;
+        return -2;
         //tmp_frame = decodedAvFrame;
     /*
     //This code is for transforming into a buffer and saving into disk

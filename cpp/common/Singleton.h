@@ -7,11 +7,15 @@
 #include "MediaStream.h"
 #include <thread>
 #include <mutex>
+#include <deque>
+#include "Frame.h"
 
 
 struct SingletonObject {
     std::shared_ptr<MediaStream> mediaStream;
     std::shared_ptr<std::thread> mediaThread;
+    std::shared_ptr<Decoder> decoder;
+    std::shared_ptr<std::deque<Frame>> decodedFrames;
     std::shared_ptr<VideoReceiver> videoReceiver;
     std::shared_ptr<VideoRecorder> videoRecorder;
     //std::shared_ptr<MovementTracker> movementTracker

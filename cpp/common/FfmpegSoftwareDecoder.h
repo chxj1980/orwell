@@ -8,8 +8,8 @@ class FfmpegSoftwareDecoder: public FfmpegDecoder {
             this->codec = codec;
         }
         int init();
-        void decodeFrame(uint8_t* frameBuffer, int frameLength);
-        void decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame);
+        int decodeFrame(uint8_t* frameBuffer, int frameLength);
+        int decodeFrame(uint8_t* frameBuffer, int frameLength, Frame& frame);
     private:
     	
 };

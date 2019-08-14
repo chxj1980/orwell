@@ -19,23 +19,27 @@ int FfmpegSoftwareDecoder::init()
 		return 2;
 	}
 
-	frame = new Frame();
-
 	return 0;
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
-void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
+int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 {
-	//Decodes video into `frame`. In the future it's going to decode to a queue 
-	decodeFrame(frameBuffer, frameLength, frame);
-	if (this->videoReceiver) {
-		this->videoReceiver->receiveVideo(frame);
-	}else
-		std::cout << "FfmpegSoftwareDecoder::decodeFrame: no videoReceiver setted yet" << std::endl;
+	Frame frame;
+	frame.decodedFrom = Frame::FFMPEG;
+	//Decodes video into `frame`. 
+	int r = decodeFrame(frameBuffer, frameLength, frame);
+	//Adds the frame to the end of the FIFO. Then when it's consumed, it suffers a pop_back
+	if (r!=0) 
+		this->decodedFramesFifo->emplace_back(frame);
+	return r;
+	//if (this->videoReceiver) {
+		//this->videoReceiver->receiveVideo(frame);
+	//}else
+		//std::cout << "FfmpegSoftwareDecoder::decodeFrame: no videoReceiver setted yet" << std::endl;
 }
 
-void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame* frame)
+int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame& frame)
 {
 	if (frameLength <= 0) return;
 
@@ -64,9 +68,12 @@ void FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, F
 				Now caller has a video frame and can render it.
 			*/
 			FfmpegDecoder::avFrameToFrame(avFrame, frame);
+			return 0;
 		} else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF)) {
 			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult << std::endl;
+			return -1;
 		} else {
+			//TODO: return numbers here indicating errors
 			switch (receiveFrameResult) {
 				//Not exactly an error, we just have to wait for more data
 				case AVERROR(EAGAIN):

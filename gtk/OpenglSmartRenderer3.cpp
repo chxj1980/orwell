@@ -21,13 +21,14 @@ void OpenglSmartRenderer3::glInit()
 {
 }
 
-void err(std::string lineInformation) {
+void err(std::string lineInformation)
+{
 	std::cout << lineInformation << std::endl;
 	GLenum err;
-		while ((err = glGetError()) != GL_NO_ERROR)
-		{
-			std::cerr << ">>>>>>>>>>>>>>>>OpenGL error: " << err << std::endl;
-		}
+	while ((err = glGetError()) != GL_NO_ERROR)
+	{
+		std::cerr << ">>>>>>>>>>>>>>>>OpenGL error: " << err << std::endl;
+	}
 }
 
 bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
@@ -36,8 +37,14 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 	{
 		glArea.throw_if_error();
 
+		//std::unique_lock<std::mutex> lock(mutex);
+		//conditionVariable.wait(lock, [] { return ready; });
 		glDraw();
-		
+		// Manual unlocking is done before notifying, to avoid waking up
+		// the waiting thread only to block again (see notify_one for details)
+		//lock.unlock();
+		//conditionVariable.notify_one();
+
 		glFlush();
 	}
 	catch (const Gdk::GLError &gle)
@@ -85,7 +92,7 @@ void OpenglSmartRenderer3::glDraw()
 			*/
 			if (pixelFormat->isPlanar)
 				program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
-				//program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
+			//program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
 			else
 				program->attach_shader(Shader(ShaderType::Fragment, "packed.frag"));
 
@@ -97,7 +104,7 @@ void OpenglSmartRenderer3::glDraw()
 			glGenVertexArrays(1, &VAO);
 			glGenBuffers(1, &VBO);
 			glGenBuffers(3, pixelBufferObjects);
-			
+
 			glBindVertexArray(VAO);
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -206,15 +213,20 @@ void OpenglSmartRenderer3::glDraw()
 
 			if (buffer != NULL && linesize != 0)
 			{
+				std::cout << "linesize: " << linesize << std::endl;
 				int textureSize = linesize * frame->height;
+				std::cout << "frame->width: " << frame->width << " frame->height: " << frame->height << std::endl;
+
 				//textureSize = frame->width * frame->height;
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
+				//TODO: readi this http://www.ffmpeg-archive.org/Decoder-AVFrame-data-linesize-confusion-td2965985.html
 				glBufferData(GL_PIXEL_UNPACK_BUFFER, textureSize, frame->buffer[j], GL_STREAM_DRAW);
 				//TODO: why he used frame->linesize[i] instead of frame->width? frame->width worked perfectly for me
 				int width = frame->width * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
+				width = linesize;
 				int height = frame->height * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
-				//std::cout << "width: " << width << " height: " << height << std::endl;
+				std::cout << "width: " << width << " height: " << height << std::endl;
 				//Copy frame here!
 				glTexSubImage2D(GL_TEXTURE_2D,
 								0,
@@ -225,7 +237,6 @@ void OpenglSmartRenderer3::glDraw()
 								pixelFormat->yuvGlFormat[j],
 								pixelFormat->dataType,
 								NULL); //NULL);
-
 			}
 			glUniform1i(textureLocation[j], j);
 			//m_pbo[pboIndex][j].release();
@@ -235,6 +246,5 @@ void OpenglSmartRenderer3::glDraw()
 		glBindVertexArray(VAO);
 		//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
 	}
 }

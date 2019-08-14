@@ -50,7 +50,7 @@ void OpenGLArea2::realize()
         glArea.throw_if_error();
         //init_buffers();
         //init_shaders();
-    }
+    }@lucasmzanella
     catch (const Gdk::GLError &gle)
     {
         cerr << "An error occured making the context current during realize:" << endl;
