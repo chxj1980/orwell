@@ -85,12 +85,9 @@ public:
 	}
 
 protected:
-	//TODO: make objects out of this
-	//AVPicture *avPicture;
+	
 	AVCodec *avCodec;
-	//AVCodecContext *avCodecContext;
 	std::unique_ptr<AVCodecContext, AVCodecContextDeleter> avCodecContext;
-	//AVFrame *avFrame;
 	SwsContext *swsContext;
 	AVStream *avStream;
 	AVFormatContext *avFormatContext;
