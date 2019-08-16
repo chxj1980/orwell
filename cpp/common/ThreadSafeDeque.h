@@ -6,8 +6,7 @@
 template <typename T>
 class ThreadSafeDeque
 {
-
-    using const_iterator = typename std::deque<T>::const_iterator;
+    //using const_iterator = typename std::deque<T>::const_iterator;
 
 public:
     template <typename... Args>
@@ -30,6 +29,8 @@ public:
         Returns the front element and removes it from the collection
         No exception is ever returned as we garanty that the deque is not empty
         before trying to return data.
+        This is useful in our while loop renderer, because it just waits if there
+        are no members to be popped.
     */
     T pop_front(void) noexcept
     {

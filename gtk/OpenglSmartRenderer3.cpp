@@ -32,6 +32,7 @@ void OpenglSmartRenderer3::run()
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
 		    TODO: verify if this indeed happens
 		*/
+		//TODO: is move really necessary here? Copying just a unique_ptr isn't time consuming
 		this->frame = std::move(frame);
 		if (!firstFrameReceived)
 			firstFrameReceived = true;

@@ -16,6 +16,26 @@ extern "C"
 #include "VideoRecorder.h"
 #include "Decoder.h"
 
+struct AVPacketDeleter
+{
+    void operator()(AVPacket *avPacket) { av_free_packet(avPacket);}
+};
+
+struct AVFrameDeleter
+{
+    void operator()(AVFrame *avFrame) { av_frame_unref(avFrame); }
+};
+
+struct AVBufferRefDeleter
+{
+    void operator()(AVBufferRef *avBufferRef) { av_buffer_unref(&avBufferRef); }
+};
+
+struct AVCodecContextDeleter
+{
+    void operator()(AVCodecContext *avCodecContext) { avcodec_free_context(&avCodecContext); }
+};
+
 class FfmpegDecoder : public Decoder
 {
 public:
@@ -59,16 +79,17 @@ public:
 	~FfmpegDecoder()
 	{
 		//av_frame_free(&avFrame);
-		avcodec_free_context(&avCodecContext);
+		//avcodec_free_context(&avCodecContext);
 		//av_packet_unref(avPacket);
 		//delete?
 	}
 
 protected:
 	//TODO: make objects out of this
-	AVPicture *avPicture;
+	//AVPicture *avPicture;
 	AVCodec *avCodec;
-	AVCodecContext *avCodecContext;
+	//AVCodecContext *avCodecContext;
+	std::unique_ptr<AVCodecContext, AVCodecContextDeleter> avCodecContext;
 	//AVFrame *avFrame;
 	SwsContext *swsContext;
 	AVStream *avStream;

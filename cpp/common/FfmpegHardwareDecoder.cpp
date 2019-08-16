@@ -67,8 +67,8 @@ int FfmpegHardwareDecoder::init()
     }
 
     avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
-
-    if (!(avCodecContext = avcodec_alloc_context3(avCodec)))
+    avCodecContext.reset(avcodec_alloc_context3(avCodec));
+    if (!(avCodecContext.get()))
     {
         std::cout << "avCodecContext error:" << AVERROR(ENOMEM) << std::endl;
         return 3;
@@ -103,16 +103,16 @@ int FfmpegHardwareDecoder::init()
 
     int err = 0;
 
-    if ((err = av_hwdevice_ctx_create(&avBufferRef, aVHWDeviceType, NULL, NULL, 0)) < 0)
+    if ((err = av_hwdevice_ctx_create(&avBufferRef.get(), aVHWDeviceType, NULL, NULL, 0)) < 0)
     {
         std::cout << "av_hwdevice_ctx_create failed to create hardware device context." << std::endl;
         return 4;
     }
 
-    avCodecContext->hw_device_ctx = av_buffer_ref(avBufferRef);
+    avCodecContext->hw_device_ctx = av_buffer_ref(avBufferRef.get());
 
     int ret = 0;
-    if ((ret = avcodec_open2(avCodecContext, avCodec, NULL)) < 0)
+    if ((ret = avcodec_open2(avCodecContext.get(), avCodec, NULL)) < 0)
     {
         std::cout << "avcodec_open2 problem" << std::endl;
         return 5;
@@ -123,25 +123,28 @@ int FfmpegHardwareDecoder::init()
 
 int FfmpegHardwareDecoder::hardwareDecode(uint8_t *frameBuffer, int frameLength)
 {
-    avPacket.size = frameLength;
-    avPacket.data = frameBuffer;
-    int ret = avcodec_send_packet(avCodecContext, &avPacket);
+    avPacket.get()->size = frameLength;
+    avPacket.get()->data = frameBuffer;
+    int ret = avcodec_send_packet(avCodecContext.get(), avPacket.get());
     if (ret < 0)
     {
         std::cout << "avcodec_send_packet error " << ret << std::endl;
         return false;
     }
-    if (!(decodedAvFrame = av_frame_alloc()) || !(fromGPUAvFrame = av_frame_alloc()))
+    decodedAvFrame.reset(av_frame_alloc());
+    fromGPUAvFrame.reset(av_frame_alloc());
+
+    if (!(decodedAvFrame.get()) || !(fromGPUAvFrame.get()))
     {
         std::cout << "Can not alloc frame " << ret << std::endl;
         //ret = AVERROR(ENOMEM);
         //goto fail;
     }
-    ret = avcodec_receive_frame(avCodecContext, decodedAvFrame);
+    ret = avcodec_receive_frame(avCodecContext.get(), decodedAvFrame.get());
     if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
     {
-        av_frame_free(&decodedAvFrame);
-        av_frame_free(&fromGPUAvFrame);
+        //av_frame_free(&decodedAvFrame);
+        //av_frame_free(&fromGPUAvFrame);
         return 0;
     }
     else if (ret < 0)
@@ -172,15 +175,15 @@ int FfmpegHardwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, Fr
     if (r != 0)
         return -1;
 	//Create a pointer to avFrame and put into unique_ptr immediately so we don't forget to delete it
-    AVFrame* av;
-	av = av_frame_alloc();
-	avframe_unique_ptr avFrameUniquePtr(av);
+    //AVFrame* av;
+	//av = av_frame_alloc();
+	std::unique_ptr<AVFrame, AVFrameDeleter> avFrameUniquePtr(av_frame_alloc());
 
     if (decodedAvFrame->format == avPixelFormat)
     {
         /* retrieve data from GPU to CPU */
         int ret = 0;
-        if ((ret = av_hwframe_transfer_data(avFrameUniquePtr.get(), decodedAvFrame, 0)) < 0)
+        if ((ret = av_hwframe_transfer_data(avFrameUniquePtr.get(), decodedAvFrame.get(), 0)) < 0)
         {
             std::cout << "av_hwframe_transfer_data error, could not transfer video from GPU memory " << ret << std::endl;
             return ret;

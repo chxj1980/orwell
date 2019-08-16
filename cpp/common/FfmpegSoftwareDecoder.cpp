@@ -12,9 +12,9 @@ int FfmpegSoftwareDecoder::init()
 		return 1;
 	}
 
-	avCodecContext = avcodec_alloc_context3(avCodec);
+	avCodecContext.reset(avcodec_alloc_context3(avCodec));
 
-	if (avcodec_open2(avCodecContext, avCodec, NULL) < 0) {
+	if (avcodec_open2(avCodecContext.get(), avCodec, NULL) < 0) {
 		std::cout << "avcodec_open2 problem" << std::endl;
 		return 2;
 	}
@@ -45,25 +45,26 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Fr
 
 	int frameFinished = 0;
 	
-	AVPacket* avPacket = av_packet_alloc();
-	if (!avPacket) std::cout << "av packet error" << std::endl;
+	//AVPacket* avPacket = av_packet_alloc();
+	std::unique_ptr<AVPacket, AVPacketDeleter> avPacket(av_packet_alloc());
+	if (!avPacket.get()) std::cout << "av packet error" << std::endl;
 	//AVRational tb = avCodecContext->time_base; //For fixed-fps content, timebase should be 1/framerate and timestamp increments should be identically 1. This often, but not always is the inverse of the frame rate or field rate for video. 1/time_base is not the average frame rate if the frame rate is not constant.
     //AVRational frameRate = av_guess_frame_rate(avFormatContext, avStream, NULL); //Guess the frame rate, based on both the container and codec information. 
 
-	avPacket->size = frameLength;
-	avPacket->data = frameBuffer;
+	avPacket.get()->size = frameLength;
+	avPacket.get()->data = frameBuffer;
 
     //https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET); 
 
-	int sendPacketResult = avcodec_send_packet(avCodecContext, avPacket);
+	int sendPacketResult = avcodec_send_packet(avCodecContext.get(), avPacket.get());
 	//Create a pointer to avFrame and put into unique_ptr immediately so we don't forget to delete it
-	AVFrame* av;
-	av = av_frame_alloc();
-	avframe_unique_ptr avFrameUniquePtr(av);
+	//AVFrame* av;
+	//av = av_frame_alloc();
+	std::unique_ptr<AVFrame, AVFrameDeleter> avFrameUniquePtr(av_frame_alloc());
 	if (!sendPacketResult) {
-		int receiveFrameResult = avcodec_receive_frame(avCodecContext, avFrameUniquePtr.get());
+		int receiveFrameResult = avcodec_receive_frame(avCodecContext.get(), avFrameUniquePtr.get());
 		if (!receiveFrameResult) {
 			/*
 				Most important code line. If we ended here, it means avFrame has the decoded frame.

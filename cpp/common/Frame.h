@@ -6,11 +6,7 @@
 #include <libavutil/pixfmt.h>
 #include <unordered_set>
 #include <libavutil/frame.h>
-struct AVFrameDeleter
-{
-    void operator()(AVFrame *avFrame) { av_frame_unref(avFrame); }
-};
-typedef std::unique_ptr<AVFrame, AVFrameDeleter> avframe_unique_ptr;
+#include "FfmpegDecoder.h"
 class Frame
 {
 public:
@@ -26,7 +22,7 @@ public:
         FFMPEG,
         MEDIA_CODEC
     } decodedFrom;
-    avframe_unique_ptr avFrame;
+    std::unique_ptr<AVFrame, AVFrameDeleter> avFrame;
     ~Frame()
     {
         /*
