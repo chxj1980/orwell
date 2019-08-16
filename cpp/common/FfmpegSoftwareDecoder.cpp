@@ -3,7 +3,7 @@
 int FfmpegSoftwareDecoder::init()
 {
     //avcodec_register_all(); //Deprecated
-	avFrame = av_frame_alloc();
+	//avFrame = av_frame_alloc();
 
 	avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
 
@@ -30,7 +30,7 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
 	//Decodes video into `frame`. 
 	int r = decodeFrame(frameBuffer, frameLength, frame);
 	//Adds the frame to the end of the FIFO.
-	if (r==0) 
+	if (r==0)
 		this->decodedFramesFifo->emplace_back(frame);
 	return r;
 	//if (this->videoReceiver) {
@@ -58,16 +58,20 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Fr
 	av_log_set_level(AV_LOG_QUIET); 
 
 	int sendPacketResult = avcodec_send_packet(avCodecContext, avPacket);
-
+	//Create a pointer to avFrame and put into unique_ptr immediately so we don't forget to delete it
+	AVFrame* av;
+	av = av_frame_alloc();
+	avframe_unique_ptr avFrameUniquePtr(av);
 	if (!sendPacketResult) {
-		int receiveFrameResult = avcodec_receive_frame(avCodecContext, avFrame);
+		int receiveFrameResult = avcodec_receive_frame(avCodecContext, avFrameUniquePtr.get());
 		if (!receiveFrameResult) {
 			/*
 				Most important code line. If we ended here, it means avFrame has the decoded frame.
 				We just need to convert our avFrame to a generic Frame object. 
 				Now caller has a video frame and can render it.
 			*/
-			FfmpegDecoder::avFrameToFrame(avFrame, frame);
+            frame.avFrame = std::move(avFrameUniquePtr);
+			//FfmpegDecoder::avFrameToFrame(avFrame, frame);
 			return 0;
 		} else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF)) {
 			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult << std::endl;

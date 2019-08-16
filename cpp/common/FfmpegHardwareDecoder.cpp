@@ -1,13 +1,15 @@
 #include "FfmpegHardwareDecoder.h"
-struct avCodecContextOpaque {
-    AVPixelFormat* avPixelFormat;
+struct avCodecContextOpaque
+{
+    AVPixelFormat *avPixelFormat;
 };
 //Callback of avCodecContext which selects the correct pixel format. TODO: write a better definition for this
 enum AVPixelFormat get_hw_format(AVCodecContext *ctx, const enum AVPixelFormat *pix_fmts)
 {
     const enum AVPixelFormat *p;
 
-    for (p = pix_fmts; *p != -1; p++) {
+    for (p = pix_fmts; *p != -1; p++)
+    {
         if (*p == *(((avCodecContextOpaque *)(ctx->opaque))->avPixelFormat))
             return *p;
     }
@@ -26,57 +28,64 @@ AVPixelFormat FfmpegHardwareDecoder::get_format(struct AVCodecContext *s, const 
 
 std::vector<std::string> FfmpegHardwareDecoder::getSupportedDevices()
 {
-	//Begin with any type since we're gonna iterate through all until we get back to AV_HWDEVICE_TYPE_NONE
-	AVHWDeviceType type = AV_HWDEVICE_TYPE_NONE;
-	std::vector<std::string> result;
-	while ((type = av_hwdevice_iterate_types(type)) != AV_HWDEVICE_TYPE_NONE)
-	{
-		result.push_back(std::string(av_hwdevice_get_type_name(type)));
-	}
-	return result;
+    //Begin with any type since we're gonna iterate through all until we get back to AV_HWDEVICE_TYPE_NONE
+    AVHWDeviceType type = AV_HWDEVICE_TYPE_NONE;
+    std::vector<std::string> result;
+    while ((type = av_hwdevice_iterate_types(type)) != AV_HWDEVICE_TYPE_NONE)
+    {
+        result.push_back(std::string(av_hwdevice_get_type_name(type)));
+    }
+    return result;
 }
 
-int FfmpegHardwareDecoder::init() {
+int FfmpegHardwareDecoder::init()
+{
     //create context here
 
     AVHWDeviceType aVHWDeviceType = av_hwdevice_find_type_by_name(hardwareType.c_str());
-    if (aVHWDeviceType == AV_HWDEVICE_TYPE_NONE) {
+    if (aVHWDeviceType == AV_HWDEVICE_TYPE_NONE)
+    {
         std::cout << "ERROR: Device " << hardwareType << "not supported. " << std::endl;
         std::cout << "List of supported devices: " << std::endl;
-        for (auto i: FfmpegHardwareDecoder::getSupportedDevices())
-  		    std::cout << i << ", ";
-            std::cout << std::endl;
+        for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
+            std::cout << i << ", ";
+        std::cout << std::endl;
         std::cout << "end of list." << std::endl;
         return 1;
     }
-    
-    switch(codec) {
-        case H264:
-            avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
-            break;
-        case H265:
-            //avCodec = avcodec_find_decoder(AV_CODEC_ID_H265);
-            std::cout << "H265 not yet supported" << std::endl;
-            return 2;
-            break;
+
+    switch (codec)
+    {
+    case H264:
+        avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
+        break;
+    case H265:
+        //avCodec = avcodec_find_decoder(AV_CODEC_ID_H265);
+        std::cout << "H265 not yet supported" << std::endl;
+        return 2;
+        break;
     }
-    
+
     avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
- 
-    if (!(avCodecContext = avcodec_alloc_context3(avCodec))) {
+
+    if (!(avCodecContext = avcodec_alloc_context3(avCodec)))
+    {
         std::cout << "avCodecContext error:" << AVERROR(ENOMEM) << std::endl;
         return 3;
     }
 
-    for (int i = 0;; i++) {
+    for (int i = 0;; i++)
+    {
         const AVCodecHWConfig *config = avcodec_get_hw_config(avCodec, i);
-        if (!config) {
+        if (!config)
+        {
             fprintf(stderr, "Decoder %s does not support device type %s.\n",
                     avCodec->name, av_hwdevice_get_type_name(aVHWDeviceType));
             return -1;
         }
         if (config->methods & AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX &&
-            config->device_type == aVHWDeviceType) {
+            config->device_type == aVHWDeviceType)
+        {
             avPixelFormat = config->pix_fmt;
             break;
         }
@@ -94,7 +103,8 @@ int FfmpegHardwareDecoder::init() {
 
     int err = 0;
 
-    if ((err = av_hwdevice_ctx_create(&avBufferRef, aVHWDeviceType,NULL, NULL, 0)) < 0) {
+    if ((err = av_hwdevice_ctx_create(&avBufferRef, aVHWDeviceType, NULL, NULL, 0)) < 0)
+    {
         std::cout << "av_hwdevice_ctx_create failed to create hardware device context." << std::endl;
         return 4;
     }
@@ -102,33 +112,40 @@ int FfmpegHardwareDecoder::init() {
     avCodecContext->hw_device_ctx = av_buffer_ref(avBufferRef);
 
     int ret = 0;
-    if ((ret = avcodec_open2(avCodecContext, avCodec, NULL)) < 0) {
+    if ((ret = avcodec_open2(avCodecContext, avCodec, NULL)) < 0)
+    {
         std::cout << "avcodec_open2 problem" << std::endl;
-		return 5;
+        return 5;
     }
 
-   return 0;
+    return 0;
 }
 
-int FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength) {
+int FfmpegHardwareDecoder::hardwareDecode(uint8_t *frameBuffer, int frameLength)
+{
     avPacket.size = frameLength;
-	avPacket.data = frameBuffer;
+    avPacket.data = frameBuffer;
     int ret = avcodec_send_packet(avCodecContext, &avPacket);
-    if (ret < 0) {
+    if (ret < 0)
+    {
         std::cout << "avcodec_send_packet error " << ret << std::endl;
         return false;
     }
-    if (!(decodedAvFrame = av_frame_alloc()) || !(fromGPUAvFrame = av_frame_alloc())) {
+    if (!(decodedAvFrame = av_frame_alloc()) || !(fromGPUAvFrame = av_frame_alloc()))
+    {
         std::cout << "Can not alloc frame " << ret << std::endl;
         //ret = AVERROR(ENOMEM);
         //goto fail;
     }
     ret = avcodec_receive_frame(avCodecContext, decodedAvFrame);
-    if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+    if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+    {
         av_frame_free(&decodedAvFrame);
         av_frame_free(&fromGPUAvFrame);
         return 0;
-    } else if (ret < 0) {
+    }
+    else if (ret < 0)
+    {
         std::cout << "avcodec_receive_frame error " << ret << std::endl;
         //goto fail;
     }
@@ -136,42 +153,54 @@ int FfmpegHardwareDecoder::hardwareDecode(uint8_t* frameBuffer, int frameLength)
     return true;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
-{	
-	Frame frame;
-	frame.decodedFrom = Frame::FFMPEG;
-	//Decodes video into `frame`. 
-	int r = decodeFrame(frameBuffer, frameLength, frame);
-	//Adds the frame to the end of the FIFO.
-	if (r!=0)
+int FfmpegHardwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
+{
+    Frame frame;
+    frame.decodedFrom = Frame::FFMPEG;
+    //Decodes video into `frame`.
+    int r = decodeFrame(frameBuffer, frameLength, frame);
+    //Adds the frame to the end of the FIFO.
+    if (r != 0)
         this->decodedFramesFifo->emplace_back(frame);
     return r;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame& frame) {
+int FfmpegHardwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame)
+{
     bool r = hardwareDecode(frameBuffer, frameLength);
 
-    if (r!=0)
+    if (r != 0)
         return -1;
-    //Now get things back grom GPU memory
-    if (decodedAvFrame->format == avPixelFormat) {
+	//Create a pointer to avFrame and put into unique_ptr immediately so we don't forget to delete it
+    AVFrame* av;
+	av = av_frame_alloc();
+	avframe_unique_ptr avFrameUniquePtr(av);
+
+    if (decodedAvFrame->format == avPixelFormat)
+    {
         /* retrieve data from GPU to CPU */
         int ret = 0;
-        if ((ret = av_hwframe_transfer_data(fromGPUAvFrame, decodedAvFrame, 0)) < 0) {
+        if ((ret = av_hwframe_transfer_data(avFrameUniquePtr.get(), decodedAvFrame, 0)) < 0)
+        {
             std::cout << "av_hwframe_transfer_data error, could not transfer video from GPU memory " << ret << std::endl;
             return ret;
             //goto fail;
+        } else {
+            frame.avFrame = std::move(avFrameUniquePtr);
         }
         /*
             Now the decoded frame from hardware is in CPU memory, in frame struct
         */
-        FfmpegDecoder::avFrameToFrame(fromGPUAvFrame, frame);
+        
+
+        //FfmpegDecoder::avFrameToFrame(fromGPUAvFrame, frame);
         return 0;
         //tmp_frame = fromGPUAvFrame;
-    } else
+    }
+    else
         std::cout << "FfmpegHardwareDecoder::decodeFrame: something is wrong, decodedAvFrame->format != avPixelFormat" << std::endl;
-        return -2;
-        //tmp_frame = decodedAvFrame;
+    return -2;
+    //tmp_frame = decodedAvFrame;
     /*
     //This code is for transforming into a buffer and saving into disk
     int size = av_image_get_buffer_size(static_cast<AVPixelFormat>(tmp_frame->format), 
@@ -199,11 +228,11 @@ int FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Fr
         We just need to convert our avFrame to a generic Frame object. 
         Now caller has a video frame and can render it.
 	*/
-	
+
     //av_frame_unref(fromGPUAvFrame);
 }
 
-    /*
+/*
     if (!(decoder_ctx = avcodec_alloc_context3(decoder)))
         return AVERROR(ENOMEM);
 
@@ -247,13 +276,12 @@ int FfmpegHardwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Fr
     return 0;
     */
 
-
-AVPixelFormat FfmpegHardwareDecoder::print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx,const AVPixelFormat *fmt)
+AVPixelFormat FfmpegHardwareDecoder::print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt)
 {
-	//const AVPixFmtDescriptor *desc;
-	//const AVCodecHWConfig *config;
-	int i, n;
-	/* 
+    //const AVPixFmtDescriptor *desc;
+    //const AVCodecHWConfig *config;
+    int i, n;
+    /* 
      // If a device was supplied when the codec was opened, assume that the
      // user wants to use it.
      if (avctx->hw_device_ctx && avctx->codec->hw_configs) {
@@ -275,17 +303,17 @@ AVPixelFormat FfmpegHardwareDecoder::print_avaliable_pixel_formats_for_hardware(
          }
      }
 	*/
-	// No device or other setup, so we have to choose from things which
-	// don't any other external information.
+    // No device or other setup, so we have to choose from things which
+    // don't any other external information.
 
-	// Finally, traverse the list in order and choose the first entry
-	// with no external dependencies (if there is no hardware configuration
-	// information available then this just picks the first entry).
-	printf("supported formats are \n");
-	for (n = 0; fmt[n] != AV_PIX_FMT_NONE; n++)
-	{
+    // Finally, traverse the list in order and choose the first entry
+    // with no external dependencies (if there is no hardware configuration
+    // information available then this just picks the first entry).
+    printf("supported formats are \n");
+    for (n = 0; fmt[n] != AV_PIX_FMT_NONE; n++)
+    {
 
-		/* 
+        /* 
          for (i = 0;; i++) {
 			 
              config = avcodec_get_hw_config(avctx->codec, i);
@@ -295,7 +323,7 @@ AVPixelFormat FfmpegHardwareDecoder::print_avaliable_pixel_formats_for_hardware(
                  break;
          }
 		 */
-		/* 
+        /* 
          if (!config) {
              // No specific config available, so the decoder must be able
              // to handle this format without any additional setup.
@@ -306,8 +334,8 @@ AVPixelFormat FfmpegHardwareDecoder::print_avaliable_pixel_formats_for_hardware(
              return fmt[n];
          }
 		 */
-	}
+    }
 
-	// Nothing is usable, give up.
-	return AV_PIX_FMT_NONE;
+    // Nothing is usable, give up.
+    return AV_PIX_FMT_NONE;
 }

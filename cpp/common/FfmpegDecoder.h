@@ -32,14 +32,12 @@ public:
 	*/
 	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength) = 0;
 	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame) = 0;
-
+	/* 
 	static int avFrameToFrame(AVFrame* avFrame, Frame &frame)
 	{
 		for (int i = 0; i <= FRAME_CHANNELS_SIZE; i++)
 		{
-			frame.buffer[i] = new uint8_t;
 			frame.buffer[i] = avFrame->data[i];
-			frame.linesize[i] = new uint8_t;
 			frame.linesize[i] = avFrame->linesize[i];
 		}
 		frame.width = avFrame->width;
@@ -48,6 +46,7 @@ public:
 		//std::cout << "format of avFrame is " << avFrame->format << std::endl;
 		frame.format = (AVPixelFormat) avFrame->format;
 	}
+	*/
 	/*
 	static int frameToAvFrame(AvFrame* avFrame, Frame* frame) {
 		avFrame->data[0] = frame->frameBuffer[0];
@@ -70,7 +69,7 @@ protected:
 	AVPicture *avPicture;
 	AVCodec *avCodec;
 	AVCodecContext *avCodecContext;
-	AVFrame *avFrame;
+	//AVFrame *avFrame;
 	SwsContext *swsContext;
 	AVStream *avStream;
 	AVFormatContext *avFormatContext;

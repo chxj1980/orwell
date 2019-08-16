@@ -60,7 +60,11 @@
         "forward_list": "cpp",
         "filesystem": "cpp",
         "valarray": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "memory_resource": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "string": "cpp"
     },
     "search.exclude": {
         "**/node_modules": false

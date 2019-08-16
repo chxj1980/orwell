@@ -31,7 +31,7 @@ class FfmpegHardwareDecoder: public FfmpegDecoder {
 
         ~FfmpegHardwareDecoder(){
             av_frame_free(&decodedAvFrame);
-            av_frame_free(&fromGPUAvFrame);
+            //av_frame_free(&fromGPUAvFrame);
             avcodec_free_context(&avCodecContext);
             av_buffer_unref(&avBufferRef);
             //av_freep(&buffer);
@@ -39,7 +39,7 @@ class FfmpegHardwareDecoder: public FfmpegDecoder {
     private:
     	AVBufferRef 	*avBufferRef;
         AVFrame         *decodedAvFrame = NULL;
-        AVFrame         *fromGPUAvFrame = NULL;
+        //AVFrame         *fromGPUAvFrame = NULL;
         AVFrame         *tmp_frame = NULL;
         AVPacket         avPacket;
         //Image from GPU memory gets stored here

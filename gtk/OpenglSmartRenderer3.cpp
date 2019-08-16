@@ -19,15 +19,20 @@ int OpenglSmartRenderer3::receiveVideo(Frame *frame)
 
 void OpenglSmartRenderer3::run()
 {
-	while (true) {
+	/*
+		ThreadSafeDeque decodedFramesFifo is a nice object because it will only pop_front when it has data.
+		This way, if decodedFramesFifo is empty, this rendering loop will wait, which is good, no CPU time is wasted.
+	*/
+	while (true)
+	{
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
-		/*
-			ThreadSafeDeque decodedFramesFifo is a nice object because it will only pop_front when it has data.
-			This way, if decodedFramesFifo is empty, the rendering process will wait, which is good, no CPU time is wasted.
-		*/
 		Frame frame = decodedFramesFifo->pop_front();
-		//This deleted the old frame automatically, and its destructor destroys all the data it had
-		this->frame = frame;
+		/* 
+		    Since the frame is gone from the fifo, it only exists here. We move it to the renderer and then we 
+		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
+		    TODO: verify if this indeed happens
+		*/
+		this->frame = std::move(frame);
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
 		queue_draw();

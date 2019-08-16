@@ -12,8 +12,12 @@
 class Decoder
 {
 public:
-	enum Codec{H264, H265} codec;
-	
+	enum Codec
+	{
+		H264,
+		H265
+	} codec;
+
 	//Initiates the decoder contexts
 	virtual int init() = 0;
 	/* 
@@ -29,31 +33,35 @@ public:
 		- frameLength contains size of frameBuffer
 		- frame is the pointer to the decoded frame data
 	*/
-	virtual int decodeFrame(uint8_t* frameBuffer, int frameLength, Frame& frame)=0;
+	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame) = 0;
 	/*
 		Decodes directly to the videoReceiver
 	*/
-	virtual int decodeFrame(uint8_t* frameBuffer, int frameLength)=0;
+	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength) = 0;
 	//Decoded data decoded through decodeFrame will be sent to videoReceiver
 	//TODO: study the living time of VideoReceiver
-	void setVideoReceiver(VideoReceiver* videoReceiver) {
+	void setVideoReceiver(VideoReceiver *videoReceiver)
+	{
 		this->videoReceiver = videoReceiver;
 	}
 
-	void setUncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> uncodedFramesFifo) {
+	void setUncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> uncodedFramesFifo)
+	{
 		this->uncodedFramesFifo = uncodedFramesFifo;
 	}
 
-	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo) {
+	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo)
+	{
 		this->decodedFramesFifo = decodedFramesFifo;
 	}
-	
-	void disableVideoReceiver() {
+
+	void disableVideoReceiver()
+	{
 		this->videoReceiver = nullptr;
 	}
 
 protected:
-	VideoReceiver* videoReceiver;
+	VideoReceiver *videoReceiver;
 	/*
 		Here we store a pointer to our FIFO, which is a simple thread safe deque implementation
 
@@ -66,4 +74,3 @@ protected:
 };
 
 #endif // Decoder_H
-
