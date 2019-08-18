@@ -24,6 +24,10 @@ void OpenglSmartRenderer3::run()
 		This way, if decodedFramesFifo is empty, this rendering loop will wait, which is good, no CPU time is wasted.
 	*/
 	std::cout << "OpenglSmartRenderer3 run called" << std::endl;
+	if (!decodedFramesFifo) {
+		std::cerr << "No decodedFramesFifo setted for this renderer" << std::endl;
+		return;
+	}
 	while (true)
 	{
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it

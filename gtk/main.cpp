@@ -70,6 +70,7 @@ int main(int argc,  char** argv)
 	//GLWindow window;
 	//window.show_all();
 	OpenglSmartRenderer3 openglSmartRenderer3;
+	openglSmartRenderer3.setDecodedFramesFifo(singletonObject.decodedFramesFifo);
 	auto openglSmartRenderer3Thread = std::make_shared<std::thread>(&OpenglSmartRenderer3::run, &openglSmartRenderer3);
 	//SimpleRenderer simpleRenderer;
 	//return app->run();

@@ -23,7 +23,6 @@ public:
     template <typename... Args>
     void emplace_back(Args &&... args)
     {
-        std::cout << "emplace_back" << std::endl;
         addDataProtected([&] {
             _collection.emplace_back(std::forward<Args>(args)...);
         });

@@ -34,7 +34,9 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
 	Frame frame;
 	frame.decodedFrom = Frame::FFMPEG;
 	int r = decodeFrame(frameBuffer, frameLength, frame);
-	//Adds the frame to the end of the FIFO.
+	if (!decodedFramesFifo) {
+		std::cerr << "No decodedFramesFifo setted in FfmpegSoftwareDecoder" << std::endl;
+	}
 	if (r == 0)
 		this->decodedFramesFifo->emplace_back(std::move(frame));
 	return r;
