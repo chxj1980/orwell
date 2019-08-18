@@ -23,6 +23,7 @@ void OpenglSmartRenderer3::run()
 		ThreadSafeDeque decodedFramesFifo is a nice object because it will only pop_front when it has data.
 		This way, if decodedFramesFifo is empty, this rendering loop will wait, which is good, no CPU time is wasted.
 	*/
+	std::cout << "OpenglSmartRenderer3 run called" << std::endl;
 	while (true)
 	{
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it

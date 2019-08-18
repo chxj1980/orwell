@@ -4,6 +4,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <deque>
+#include <iostream>
 
 template <typename T>
 class ThreadSafeDeque
@@ -22,6 +23,7 @@ public:
     template <typename... Args>
     void emplace_back(Args &&... args)
     {
+        std::cout << "emplace_back" << std::endl;
         addDataProtected([&] {
             _collection.emplace_back(std::forward<Args>(args)...);
         });
@@ -37,6 +39,7 @@ public:
     T pop_front(void) noexcept
     {
         std::unique_lock<std::mutex> lock{_mutex};
+
         while (_collection.empty())
         {
             _condNewData.wait(lock);
@@ -60,7 +63,7 @@ public:
 
     typename std::deque<T>::size_type size() const noexcept
     {
-        return lockAndDoAndReturn([&] {
+        return lockAndDo([&] {
             return _collection.size();
         });
     }
@@ -70,21 +73,14 @@ private:
         Locks the thread and do something with the deque. 
         Then unique_lock goes away and unlocks the thread
     */
+
     template <class F>
-    F lockAndDoAndReturn(F &&fct)
+    auto lockAndDo(F &&fct)
     {
         std::unique_lock<std::mutex> lock{_mutex};
         return fct();
-        //lock.unlock(); //Not needed as unique_lock does this when it goes away
     }
-    template <class F>
-    void lockAndDo(F &&fct)
-    {
-        std::unique_lock<std::mutex> lock{_mutex};
-        fct();
-        //lock.unlock(); //Not needed as unique_lock does this when it goes away
-    }
-    
+
     template <class F>
     void addDataProtected(F &&fct)
     {

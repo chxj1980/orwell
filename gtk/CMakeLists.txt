@@ -61,3 +61,7 @@ target_link_libraries( orwell PRIVATE
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11}
 	myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
 
+#LAB is for testing things
+file(GLOB lab_SRCS main3.cpp)
+add_executable(lab ${lab_SRCS})
+target_link_libraries(lab pthread)

@@ -10,13 +10,14 @@
 #include <deque>
 #include "Frame.h"
 
-
-struct SingletonObject {
+struct SingletonObject
+{
     std::shared_ptr<MediaStream> mediaStream;
     std::shared_ptr<std::thread> mediaThread;
+    std::shared_ptr<ThreadSafeDeque<Frame>> uncodedFramesFifo;
+    std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;
-    std::shared_ptr<std::deque<Frame>> decodedFrames;
-    std::shared_ptr<VideoReceiver> videoReceiver;
+    //std::shared_ptr<VideoReceiver> videoReceiver;
     std::shared_ptr<VideoRecorder> videoRecorder;
     //std::shared_ptr<MovementTracker> movementTracker
 };
@@ -25,16 +26,18 @@ struct SingletonObject {
 class Singleton
 {
 public:
-    Singleton(Singleton const&) = delete;
-    Singleton& operator=(Singleton const&) = delete;
+    Singleton(Singleton const &) = delete;
+    Singleton &operator=(Singleton const &) = delete;
 
-    static void addStream(std::string id, SingletonObject singletonObject) {
+    static void addStream(std::string id, SingletonObject singletonObject)
+    {
         mutex.lock();
         streamList[id] = singletonObject;
         mutex.unlock();
     }
 
-    static SingletonObject getStream(std::string id) {
+    static SingletonObject getStream(std::string id)
+    {
         mutex.lock();
         SingletonObject singletonObject = streamList[id];
         mutex.unlock();
@@ -47,10 +50,9 @@ public:
         return s;
     }
 
-
 private:
     Singleton() {}
-    static std::map<std::string,SingletonObject> streamList;
+    static std::map<std::string, SingletonObject> streamList;
     static std::mutex mutex;
 };
 

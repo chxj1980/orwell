@@ -48,15 +48,20 @@ int main(int argc,  char** argv)
 	auto app = Gtk::Application::create(argc, argv, "");
     
 	SingletonObject singletonObject;
-	singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.102:10554/tcp/av0_1");
+	singletonObject.mediaStream = std::make_shared<MediaStream>("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
 	std::cout << "supported hardware: " << std::endl;
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		std::cout << i << std::endl;
 
+	//singletonObject.uncodedFramesFifo = std::make_shared<ThreadSafeDeque<Frame>>();
+	singletonObject.decodedFramesFifo = std::make_shared<ThreadSafeDeque<Frame>>();
 	auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264,FfmpegHardwareDecoder::HARDWARE,std::string("cuda"));
 	auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
+	singletonObject.decoder = ffmpegSoftwareDecoder;
+	singletonObject.mediaStream->setDecoder(singletonObject.decoder);
+	//singletonObject.decoder->setUncodedFramesFifo(singletonObject.uncodedFramesFifo);
+	singletonObject.decoder->setDecodedFramesFifo(singletonObject.decodedFramesFifo);
 
-	singletonObject.mediaStream->setDecoder(ffmpegSoftwareDecoder);
 	singletonObject.mediaThread = std::make_shared<std::thread>(&MediaStream::run, singletonObject.mediaStream);
 	Singleton::instance()->addStream("cam1", singletonObject);
 
@@ -65,7 +70,9 @@ int main(int argc,  char** argv)
 	//GLWindow window;
 	//window.show_all();
 	OpenglSmartRenderer3 openglSmartRenderer3;
+	auto openglSmartRenderer3Thread = std::make_shared<std::thread>(&OpenglSmartRenderer3::run, &openglSmartRenderer3);
 	//SimpleRenderer simpleRenderer;
+	//return app->run();
 	return app->run(openglSmartRenderer3);
 	//return app->run(simpleRenderer);
 	//kit.run(window);
