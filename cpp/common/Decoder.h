@@ -3,8 +3,6 @@
 #include <vector>
 
 #include <iostream>
-#include "VideoReceiver.h"
-#include "VideoRecorder.h"
 #include <memory>
 #include "Frame.h"
 #include "ThreadSafeDeque.h"
@@ -39,11 +37,7 @@ public:
 	*/
 	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength) = 0;
 	//Decoded data decoded through decodeFrame will be sent to videoReceiver
-	//TODO: study the living time of VideoReceiver
-	void setVideoReceiver(VideoReceiver *videoReceiver)
-	{
-		this->videoReceiver = videoReceiver;
-	}
+
 	/*
 		Here go all the raw frames, as readed from network or file (Frame format is just a placeholder for now)
 	*/
@@ -59,13 +53,8 @@ public:
 		this->decodedFramesFifo = decodedFramesFifo;
 	}
 
-	void disableVideoReceiver()
-	{
-		this->videoReceiver = nullptr;
-	}
 
 protected:
-	VideoReceiver *videoReceiver;
 	/*
 		Here we store a pointer to our FIFOs, which are made of a simple thread-safe 
 		deque implementation called ThreadSafeDeque

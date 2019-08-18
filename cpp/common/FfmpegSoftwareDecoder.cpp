@@ -2,117 +2,124 @@
 
 int FfmpegSoftwareDecoder::init()
 {
-    //avcodec_register_all(); //Deprecated
-	//avFrame = av_frame_alloc();
+	if (codec==H264)
+		avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
+	else if(codec==H265){
+		//avCodec = avcodec_find_decoder(AV_CODEC_ID_H265);
+		std::cout << "H265 not yet supported" << std::endl;
+		return -1;
+	}
 
-	avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
-
-	if (!avCodec) {
+	if (!avCodec)
+	{
 		std::cout << "avcodec_find_decoder problem" << std::endl;
-		return 1;
+		return -2;
 	}
 
 	avCodecContext.reset(avcodec_alloc_context3(avCodec));
 
-	if (avcodec_open2(avCodecContext.get(), avCodec, NULL) < 0) {
-		std::cout << "avcodec_open2 problem" << std::endl;
-		return 2;
+	int ret = avcodec_open2(avCodecContext.get(), avCodec, NULL);
+	if (ret < 0)
+	{
+		std::cout << "avcodec_open2 problem: " << ret << std::endl;
+		return -3;
 	}
 
 	return 0;
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
-int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength)
+int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
 {
 	Frame frame;
 	frame.decodedFrom = Frame::FFMPEG;
-	//Decodes video into `frame`. 
 	int r = decodeFrame(frameBuffer, frameLength, frame);
 	//Adds the frame to the end of the FIFO.
-	if (r==0)
-		this->decodedFramesFifo->emplace_back(frame);
+	if (r == 0)
+		this->decodedFramesFifo->emplace_back(std::move(frame));
 	return r;
-	//if (this->videoReceiver) {
-		//this->videoReceiver->receiveVideo(frame);
-	//}else
-		//std::cout << "FfmpegSoftwareDecoder::decodeFrame: no videoReceiver setted yet" << std::endl;
+	
 }
 
-int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Frame& frame)
+int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame)
 {
-	if (frameLength <= 0) return;
+	//Disable ffmpeg annoying output
+	av_log_set_level(AV_LOG_QUIET);
+	if (frameLength <= 0)
+		return -1;
 
 	int frameFinished = 0;
-	
-	//AVPacket* avPacket = av_packet_alloc();
-	std::unique_ptr<AVPacket, AVPacketDeleter> avPacket(av_packet_alloc());
-	if (!avPacket.get()) std::cout << "av packet error" << std::endl;
-	//AVRational tb = avCodecContext->time_base; //For fixed-fps content, timebase should be 1/framerate and timestamp increments should be identically 1. This often, but not always is the inverse of the frame rate or field rate for video. 1/time_base is not the average frame rate if the frame rate is not constant.
-    //AVRational frameRate = av_guess_frame_rate(avFormatContext, avStream, NULL); //Guess the frame rate, based on both the container and codec information. 
 
+	std::unique_ptr<AVPacket, AVPacketDeleter> avPacket(av_packet_alloc());
+	if (!avPacket.get())
+		std::cout << "av packet error" << std::endl;
+	
 	avPacket.get()->size = frameLength;
 	avPacket.get()->data = frameBuffer;
 
-    //https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
-	//Disable ffmpeg annoying output
-	av_log_set_level(AV_LOG_QUIET); 
+	//https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 
 	int sendPacketResult = avcodec_send_packet(avCodecContext.get(), avPacket.get());
-	//Create a pointer to avFrame and put into unique_ptr immediately so we don't forget to delete it
-	//AVFrame* av;
-	//av = av_frame_alloc();
-	std::unique_ptr<AVFrame, AVFrameDeleter> avFrameUniquePtr(av_frame_alloc());
-	if (!sendPacketResult) {
-		int receiveFrameResult = avcodec_receive_frame(avCodecContext.get(), avFrameUniquePtr.get());
-		if (!receiveFrameResult) {
+
+	std::unique_ptr<AVFrame, AVFrameDeleter> avFrame(av_frame_alloc());
+	if (!sendPacketResult)
+	{
+		int receiveFrameResult = avcodec_receive_frame(avCodecContext.get(), avFrame.get());
+		if (!receiveFrameResult)
+		{
 			/*
 				Most important code line. If we ended here, it means avFrame has the decoded frame.
-				We just need to convert our avFrame to a generic Frame object. 
+				We just need to move our avFrame to a generic Frame object. 
 				Now caller has a video frame and can render it.
 			*/
-            frame.avFrame = std::move(avFrameUniquePtr);
-			//FfmpegDecoder::avFrameToFrame(avFrame, frame);
+			frame.avFrame = std::move(avFrame);
 			return 0;
-		} else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF)) {
+		}
+		else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF))
+		{
 			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult << std::endl;
-			return -1;
-		} else {
+			return -2;
+		}
+		else
+		{
 			//TODO: return numbers here indicating errors
-			switch (receiveFrameResult) {
-				//Not exactly an error, we just have to wait for more data
-				case AVERROR(EAGAIN):
-					break;
-				//To be done: what does this error mean? I think it's literally the end of an mp4 file
-				case AVERROR_EOF:
-					std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
-					break;
-				//To be done: describe what error is this in std cout before stopping
-				default:
-					std::cout << "avcodec_receive_frame returned error, stopping..." << receiveFrameResult /*<< av_err2str(result).c_str()*/ << std::endl;
-					break;
+			switch (receiveFrameResult)
+			{
+			//Not exactly an error, we just have to wait for more data
+			case AVERROR(EAGAIN):
+				break;
+			//To be done: what does this error mean? I think it's literally the end of an mp4 file
+			case AVERROR_EOF:
+				std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
+				break;
+			//To be done: describe what error is this in std cout before stopping
+			default:
+				std::cout << "avcodec_receive_frame returned error, stopping..." << receiveFrameResult /*<< av_err2str(result).c_str()*/ << std::endl;
+				break;
 				//Error happened, should break anyway
 				break;
 			}
 		}
-	} else {
-		switch (sendPacketResult) {
-			case AVERROR(EAGAIN):
-				std::cout << "avcodec_send_packet EAGAIN" << std::endl;
-				break;
-			case AVERROR_EOF:
-				std::cout << "avcodec_send_packet AVERROR_EOF" << std::endl;
-				break;
-			//To be done: debug which erros are these. Last time I checked it was a bunch of -1094995529 errors
-			default:
-				//std::cout << "ffmpeg default unknown error number " << result << " for " << this->uri << std::endl;
-				break;
+	}
+	else
+	{
+		switch (sendPacketResult)
+		{
+		case AVERROR(EAGAIN):
+			std::cout << "avcodec_send_packet EAGAIN" << std::endl;
+			break;
+		case AVERROR_EOF:
+			std::cout << "avcodec_send_packet AVERROR_EOF" << std::endl;
+			break;
+		//To be done: debug which erros are these. Last time I checked it was a bunch of -1094995529 errors
+		default:
+			//std::cout << "ffmpeg default unknown error number " << result << " for " << this->uri << std::endl;
+			break;
 		}
 	}
-
 }
-	//if (frameFinished) {
-		/*
+//if (frameFinished) {
+/*
 		double dpts = NAN;
 
 		if (avFrame->pts != AV_NOPTS_VALUE)
@@ -127,9 +134,9 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Fr
 		pts = (frame->pts == AV_NOPTS_VALUE) ? NAN : frame->pts * av_q2d(tb);
 		*/
 
-		//int width = avFrame->width;
-		//int height= avFrame->height;
-		/*
+//int width = avFrame->width;
+//int height= avFrame->height;
+/*
 		AvPicture* picture;
 		picture = avcodec_alloc_frame();
 		int ret = avpicture_alloc(picture, AV_PIX_FMT_YUV420P, width, height);
@@ -153,12 +160,12 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t* frameBuffer, int frameLength, Fr
 		int rr = sws_scale(convertContext, avFrame->data, avFrame->linesize,
 						   0, frame->height, picture->data, picture->linesize);
 		*/
-		/*
+/*
 		if(dpts > mClock->getClockTime())
 		{
 			QThread::msleep((dpts-mClock->getClockTime())*1000);
 		}
 		*/
-		
-		//av_frame_unref(avFrame);
-	//}
+
+//av_frame_unref(avFrame);
+//}

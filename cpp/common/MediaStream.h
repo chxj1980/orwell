@@ -1,7 +1,7 @@
 #ifndef MEDIASTREAM_H
 #define MEDIASTREAM_H
 #include <iostream>
-#include "FfmpegDecoder.h"
+#include "Decoder.h"
 #include "rtspClient.h"
 #include "FrameUpdater.h"
 #include "VideoReceiver.h"

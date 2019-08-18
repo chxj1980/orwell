@@ -1,6 +1,5 @@
 #ifndef FfmpegDecoder_H
 #define FfmpegDecoder_H
-#include <vector>
 
 extern "C"
 {
@@ -11,32 +10,13 @@ extern "C"
 #include <libavutil/frame.h>
 #include <libavutil/hwcontext.h>
 }
+
 #include <iostream>
-#include "VideoReceiver.h"
 #include "VideoRecorder.h"
 #include "Decoder.h"
+#include "FfmpegDeleters.h"
 
-struct AVPacketDeleter
-{
-	void operator()(AVPacket *avPacket) { av_free_packet(avPacket); }
-};
-
-struct AVFrameDeleter
-{
-	void operator()(AVFrame *avFrame) { av_frame_unref(avFrame); }
-};
-
-struct AVBufferRefDeleter
-{
-	void operator()(AVBufferRef *avBufferRef) { av_buffer_unref(&avBufferRef); }
-};
-
-struct AVCodecContextDeleter
-{
-	void operator()(AVCodecContext *avCodecContext) { avcodec_free_context(&avCodecContext); }
-};
-
-class FfmpegDecoder : public Decoder
+class FfmpegDecoder: public Decoder
 {
 public:
 	//Initiates all the av things
@@ -67,15 +47,7 @@ public:
 		frame.format = (AVPixelFormat) avFrame->format;
 	}
 	*/
-	/*
-	static int frameToAvFrame(AvFrame* avFrame, Frame* frame) {
-		avFrame->data[0] = frame->frameBuffer[0];
-		//...?
-		avFrame->linesize = frame
-		avFrame->width = frame->width;
-		avFrame->height = frame->height;
-	}
-	*/
+
 	~FfmpegDecoder()
 	{
 		//av_frame_free(&avFrame);

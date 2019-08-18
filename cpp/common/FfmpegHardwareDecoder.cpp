@@ -4,6 +4,7 @@ struct avCodecContextOpaque
     AVPixelFormat *avPixelFormat;
 };
 //Callback of avCodecContext which selects the correct pixel format. TODO: write a better definition for this
+//TODO: study ifetime of AVPixelFormat
 enum AVPixelFormat get_hw_format(AVCodecContext *ctx, const enum AVPixelFormat *pix_fmts)
 {
     const enum AVPixelFormat *p;
@@ -171,7 +172,7 @@ int FfmpegHardwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
     int r = decodeFrame(frameBuffer, frameLength, frame);
     //Adds the frame to the end of the FIFO.
     if (r != 0)
-        this->decodedFramesFifo->emplace_back(frame);
+        this->decodedFramesFifo->emplace_back(std::move(frame));
     return r;
 }
 

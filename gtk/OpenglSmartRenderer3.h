@@ -17,10 +17,10 @@ public:
 	OpenglSmartRenderer3()
 	{
 		//set_size_request(640, 360);
-		Singleton::instance()->getStream("cam1").mediaStream->decoder->setVideoReceiver(this);
+		//Singleton::instance()->getStream("cam1").mediaStream->decoder->setVideoReceiver(this);
 	}
 	void init();
-	int receiveVideo(Frame *frame);
+	int receiveVideo(Frame& frame);
 	bool render(const Glib::RefPtr<Gdk::GLContext> &context);
 	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo)
 	{
@@ -36,31 +36,14 @@ public:
 
 	void run();
 
-	const GLfloat vertices[12] = {
-		-1.0f, -1.0f, 0.0f, //bottom left
-		1.0f, -1.0f, 0.0f,  //bottom rigth
-		-1.0f, 1.0f, 0.0f,  //top left
-		1.0f, 1.0f, 0.0f};  //top rigth
-
-	//not used
-	const unsigned int indices[6] = {
-		// note that we start from 0!
-		0, 1, 2, // first triangle
-		2, 3, 1  // second triangle
-	};
-
 	const GLfloat vertices_textures[20] = {
 		//vertices            //positions
-		-1.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-		1.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f, 1.0f, 0.0f};
+		-1.0f, -1.0f, 0.0f,   0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f,    1.0f, 1.0f,
+		-1.0f, 1.0f, 0.0f,    0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,     1.0f, 0.0f
+	};
 
-	const GLfloat textureCoordinates[8] = {
-		0.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f};
 
 	const int VERTEX_POINTER = 0;
 	const int FRAGMENT_POINTER = 1;
@@ -75,8 +58,6 @@ private:
 	Frame frame;
 	int frameWidth = 0;
 	int frameHeight = 0;
-	GLuint unis[3] = {0};
-	GLuint texs[3] = {0};
 	int format;
 	bool firstRun = true;
 	bool initiatedTextures = false;

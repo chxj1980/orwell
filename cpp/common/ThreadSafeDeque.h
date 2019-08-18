@@ -1,3 +1,5 @@
+#ifndef ThreadSafeDeque_H
+#define ThreadSafeDeque_H
 //based on https://www.xtof.info/blog/?p=593
 #include <mutex>
 #include <condition_variable>
@@ -56,9 +58,9 @@ public:
         return elem;
     }
 
-    std::deque<T>::size_type size() const noexcept
+    typename std::deque<T>::size_type size() const noexcept
     {
-        return lockAndDo([&] {
+        return lockAndDoAndReturn([&] {
             return _collection.size();
         });
     }
@@ -69,17 +71,24 @@ private:
         Then unique_lock goes away and unlocks the thread
     */
     template <class F>
-    F lockAndDo(F &&fct)
+    F lockAndDoAndReturn(F &&fct)
     {
         std::unique_lock<std::mutex> lock{_mutex};
         return fct();
+        //lock.unlock(); //Not needed as unique_lock does this when it goes away
+    }
+    template <class F>
+    void lockAndDo(F &&fct)
+    {
+        std::unique_lock<std::mutex> lock{_mutex};
+        fct();
         //lock.unlock(); //Not needed as unique_lock does this when it goes away
     }
     
     template <class F>
     void addDataProtected(F &&fct)
     {
-        lockAndDo(std::forward<F>(f));
+        lockAndDo(std::forward<F>(fct));
         _condNewData.notify_one();
     }
 
@@ -87,3 +96,4 @@ private:
     std::mutex _mutex;                    // Mutex protecting the concrete storage
     std::condition_variable _condNewData; // Condition used to notify that new data are available.
 };
+#endif //ThreadSafeDeque_H
