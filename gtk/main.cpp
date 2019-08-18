@@ -53,8 +53,8 @@ int main(int argc,  char** argv)
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		std::cout << i << std::endl;
 
-	//singletonObject.uncodedFramesFifo = std::make_shared<ThreadSafeDeque<Frame>>();
-	singletonObject.decodedFramesFifo = std::make_shared<ThreadSafeDeque<Frame>>();
+	//singletonObject.uncodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
+	singletonObject.decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
 	auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264,FfmpegHardwareDecoder::HARDWARE,std::string("cuda"));
 	auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
 	singletonObject.decoder = ffmpegSoftwareDecoder;

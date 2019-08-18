@@ -12,7 +12,7 @@ extern "C"
 }
 #include "FfmpegDeleters.h"
 
-class Frame
+class DecodedFrame
 {
 public:
     enum

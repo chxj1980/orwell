@@ -8,14 +8,14 @@
 #include <thread>
 #include <mutex>
 #include <deque>
-#include "Frame.h"
+#include "DecodedFrame.h"
 
 struct SingletonObject
 {
     std::shared_ptr<MediaStream> mediaStream;
     std::shared_ptr<std::thread> mediaThread;
-    std::shared_ptr<ThreadSafeDeque<Frame>> uncodedFramesFifo;
-    std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo;
+    std::shared_ptr<ThreadSafeDeque<DecodedFrame>> uncodedFramesFifo;
+    std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;
     //std::shared_ptr<VideoReceiver> videoReceiver;
     std::shared_ptr<VideoRecorder> videoRecorder;

@@ -3,7 +3,7 @@
 #include "OpenGLArea2.h"
 #include "VideoReceiver.h"
 #include "Program.h"
-#include "Frame.h"
+#include "DecodedFrame.h"
 #include "PixelFormats.h"
 #include "Singleton.h"
 
@@ -44,7 +44,7 @@ protected:
 
 private:
 	//void on_glx_init ();
-	Frame *frame;
+	DecodedFrame *frame;
 	int frameWidth = 0;
 	int frameHeight = 0;
 	GLuint unis[3] = {0};

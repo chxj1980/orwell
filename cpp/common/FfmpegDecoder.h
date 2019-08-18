@@ -31,7 +31,7 @@ public:
 		FfmpegHardwareDecoder::hardwareDecode().
 	*/
 	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength) = 0;
-	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame) = 0;
+	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame) = 0;
 	/* 
 	static int avFrameToFrame(AVFrame* avFrame, Frame &frame)
 	{

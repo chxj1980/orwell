@@ -10,7 +10,7 @@ void OpenglSmartRenderer3::init()
 }
 */
 //void OpenGLArea::receiveVideo(unsigned char **videoBuffer, int frameWidth, int frameHeight)
-int OpenglSmartRenderer3::receiveVideo(Frame& frame)
+int OpenglSmartRenderer3::receiveVideo(DecodedFrame& frame)
 {
 	this->frame = std::move(frame);
 	firstFrameReceived = true;
@@ -32,7 +32,7 @@ void OpenglSmartRenderer3::run()
 	while (true)
 	{
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
-		Frame frame = decodedFramesFifo->pop_front();
+		DecodedFrame frame = decodedFramesFifo->pop_front();
 		/* 
 		    Since the frame is gone from the fifo, it only exists here. We move it to the renderer and then we 
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one

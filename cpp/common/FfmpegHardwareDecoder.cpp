@@ -166,8 +166,8 @@ int FfmpegHardwareDecoder::hardwareDecode(uint8_t *frameBuffer, int frameLength)
 
 int FfmpegHardwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
 {
-    Frame frame;
-    frame.decodedFrom = Frame::FFMPEG;
+    DecodedFrame frame;
+    frame.decodedFrom = DecodedFrame::FFMPEG;
     //Decodes video into `frame`.
     int r = decodeFrame(frameBuffer, frameLength, frame);
     if (!decodedFramesFifo) {
@@ -179,7 +179,7 @@ int FfmpegHardwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
     return r;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame)
+int FfmpegHardwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame)
 {
     bool r = hardwareDecode(frameBuffer, frameLength);
 

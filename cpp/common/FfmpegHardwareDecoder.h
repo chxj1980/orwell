@@ -31,7 +31,7 @@ public:
             sends to VideoReceiver instance.
         */
     int decodeFrame(uint8_t *frameBuffer, int frameLength);
-    int decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame);
+    int decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame);
     //
     AVPixelFormat print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt);
     AVPixelFormat get_format(struct AVCodecContext *s, const AVPixelFormat *fmt);

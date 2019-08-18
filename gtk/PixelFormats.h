@@ -62,6 +62,7 @@ struct PixelFormat{
 */
 class StaticPixelFormats {
     public:
+        //TODO: change it to a container format that supports searching
         PixelFormat pixelFormats[100];
         StaticPixelFormats();
 };

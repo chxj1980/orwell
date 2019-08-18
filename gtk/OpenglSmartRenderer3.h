@@ -3,7 +3,7 @@
 #include "OpenGLArea2.h"
 #include "VideoReceiver.h"
 #include "Program.h"
-#include "Frame.h"
+#include "DecodedFrame.h"
 #include "PixelFormats.h"
 #include "Singleton.h"
 #include "ThreadSafeDeque.h"
@@ -20,9 +20,9 @@ public:
 		//Singleton::instance()->getStream("cam1").mediaStream->decoder->setVideoReceiver(this);
 	}
 	void init();
-	int receiveVideo(Frame& frame);
+	int receiveVideo(DecodedFrame& frame);
 	bool render(const Glib::RefPtr<Gdk::GLContext> &context);
-	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo)
+	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo)
 	{
 		this->decodedFramesFifo = decodedFramesFifo;
 	}
@@ -51,11 +51,11 @@ public:
 protected:
 	bool firstFrameReceived = false;
 	std::unique_ptr<Program> program;
-	std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo;
+	std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
 
 private:
 	//void on_glx_init ();
-	Frame frame;
+	DecodedFrame frame;
 	int frameWidth = 0;
 	int frameHeight = 0;
 	int format;

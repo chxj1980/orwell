@@ -31,8 +31,8 @@ int FfmpegSoftwareDecoder::init()
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
 int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
 {
-	Frame frame;
-	frame.decodedFrom = Frame::FFMPEG;
+	DecodedFrame frame;
+	frame.decodedFrom = DecodedFrame::FFMPEG;
 	int r = decodeFrame(frameBuffer, frameLength, frame);
 	if (!decodedFramesFifo) {
 		std::cerr << "No decodedFramesFifo setted in FfmpegSoftwareDecoder" << std::endl;
@@ -43,7 +43,7 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
 	
 }
 
-int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame)
+int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame)
 {
 	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET);

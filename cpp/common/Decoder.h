@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <memory>
-#include "Frame.h"
+#include "DecodedFrame.h"
 #include "ThreadSafeDeque.h"
 
 class Decoder
@@ -31,7 +31,7 @@ public:
 		- frameLength contains size of frameBuffer
 		- frame is the pointer to the decoded frame data
 	*/
-	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, Frame &frame) = 0;
+	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame) = 0;
 	/*
 		Decodes directly to the videoReceiver
 	*/
@@ -41,14 +41,14 @@ public:
 	/*
 		Here go all the raw frames, as readed from network or file (Frame format is just a placeholder for now)
 	*/
-	void setUncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> uncodedFramesFifo)
+	void setUncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> uncodedFramesFifo)
 	{
 		this->uncodedFramesFifo = uncodedFramesFifo;
 	}
 	/*
 		Here go all the decoded frames
 	*/
-	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo)
+	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo)
 	{
 		this->decodedFramesFifo = decodedFramesFifo;
 	}
@@ -59,8 +59,8 @@ protected:
 		Here we store a pointer to our FIFOs, which are made of a simple thread-safe 
 		deque implementation called ThreadSafeDeque
 	*/
-	std::shared_ptr<ThreadSafeDeque<Frame>> uncodedFramesFifo;
-	std::shared_ptr<ThreadSafeDeque<Frame>> decodedFramesFifo;
+	std::shared_ptr<ThreadSafeDeque<DecodedFrame>> uncodedFramesFifo;
+	std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
 
 };
 
