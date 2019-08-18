@@ -32,18 +32,19 @@ int main(int argc, char **argv)
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		std::cout << i << std::endl;
 	//FIFO encoded and decoder
-	singletonObject.encodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
+	singletonObject.encodedFramesFifo = std::make_shared<ThreadSafeDeque<EncodedFrame>>();
 	singletonObject.decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
 	//Decoders
 	auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
 	auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
 	//Decoder specific configuration
 	singletonObject.decoder = ffmpegSoftwareDecoder;
-	singletonObject.decoder.setEncodedFramesFifo(singletonObject.encodedFramesFifo);
+	singletonObject.decoder->setEncodedFramesFifo(singletonObject.encodedFramesFifo);
 	singletonObject.decoder->setDecodedFramesFifo(singletonObject.decodedFramesFifo);
 	singletonObject.decoderThread = std::make_shared<std::thread>(&Decoder::run, singletonObject.decoder);
 	//RTSP client
 	singletonObject.mediaStream->setDecoder(singletonObject.decoder);
+	singletonObject.mediaStream->setEncodedFramesFifo(singletonObject.encodedFramesFifo);
 	singletonObject.mediaThread = std::make_shared<std::thread>(&MediaStream::run, singletonObject.mediaStream);
 
 	Singleton::instance()->addStream("cam1", singletonObject);

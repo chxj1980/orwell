@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <memory>
+#include "EncodedFrame.h"
 #include "DecodedFrame.h"
 #include "ThreadSafeDeque.h"
 
@@ -38,7 +39,7 @@ public:
 				decodeFrame() access its pointers and is blocking. When decodeFrame 
 				finishes, `frame` is gone and its contents are automatically deleted
 			*/
-			decodeFrame(frame->frameBuffer.get(), frame.frameSize);
+			decodeFrame(frame.frameBuffer.get(), frame.frameSize);
 		}
 	}
 	//Initiates the decoder contexts
@@ -66,7 +67,7 @@ public:
 	/*
 		Here go all the raw frames, as readed from network or file (Frame format is just a placeholder for now)
 	*/
-	void setUncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> encodedFramesFifo)
+	void setEncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo)
 	{
 		this->encodedFramesFifo = encodedFramesFifo;
 	}

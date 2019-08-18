@@ -185,10 +185,8 @@ int MediaStream::receiveFrame() {
     /* Get SPS, PPS, VPS manually end */
 	unsigned int a = 0;
 
-	EncodedFrame frame(408304);
-
     while (true) {
-		//size_t size = 0;
+		EncodedFrame frame(408304);
 		a++;
 
 		if(!rtspClient.GetMediaData("video", frame.frameBuffer.get(), &frame.frameSize, frame.bufferSize)) {

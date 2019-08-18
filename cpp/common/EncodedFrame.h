@@ -1,3 +1,5 @@
+#ifndef EncodedFrame_H
+#define EncodedFrame_H
 #include <iostream>
 #include <stdio.h>
 #include <sys/types.h>
@@ -22,3 +24,4 @@ public:
     size_t frameSize = 0;
     std::unique_ptr<uint8_t> frameBuffer;
 };
+#endif //EncodedFrame_H
