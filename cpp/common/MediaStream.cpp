@@ -127,7 +127,7 @@ int MediaStream::init()
 	 * refered in SDP, only play the first 'video' 
 	 * session, the same as 'audio'.*/
 	if(rtspClient.DoPLAY("video", NULL, NULL, NULL) != RTSP_NO_ERROR) {
-		printf("DoPLAY error\n");
+		printf("DoPLAY #include <stdio.h> error\n");
 		printf("%s\n", rtspClient.GetResponse().c_str());
 		return 8;
 	}
@@ -146,8 +146,8 @@ int MediaStream::receiveFrame() {
 	//const size_t BufSize = 398304;
 	//uint8_t buf[/*4 +*/ BufSize];//4 bytes for 0x00000001 at beggining
 	//uint8_t* paddedBuf = buf + 4;
-	const size_t bufferSize = 408304;//TODO: make it variable according to video's size
-    uint8_t frameBuffer[bufferSize];
+	//const size_t bufferSize = 408304;//TODO: make it variable according to video's size
+    //uint8_t frameBuffer[bufferSize];
 
     //size_t write_size = 0;
 	//std::cout << "accessed char" << std::endl;
@@ -185,11 +185,13 @@ int MediaStream::receiveFrame() {
     /* Get SPS, PPS, VPS manually end */
 	unsigned int a = 0;
 
+	EncodedFrame frame(408304);
+
     while (true) {
-		size_t size = 0;
+		//size_t size = 0;
 		a++;
 
-		if(!rtspClient.GetMediaData("video", frameBuffer, &size, bufferSize)) {
+		if(!rtspClient.GetMediaData("video", frame.frameBuffer.get(), &frame.frameSize, frame.bufferSize)) {
 			if(ByeFromServerFlag2) {
 				printf("ByeFromServerFlag\n");
 				return 0;
@@ -201,7 +203,12 @@ int MediaStream::receiveFrame() {
 			}
 			try_times++;
 		} else {
-			decoder->decodeFrame(frameBuffer, size);
+			if (!encodedFramesFifo) {
+				std::cerr << "MediaStream: no encodedFramesFifo setted, nowhere to send RTSP data!" << std::endl;
+			} else {
+				this->encodedFramesFifo->emplace_back(std::move(frame));
+			}
+			//decoder->decodeFrame(frameBuffer, size);
 		}
 	}
 	return 0;

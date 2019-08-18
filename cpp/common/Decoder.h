@@ -15,7 +15,32 @@ public:
 		H264,
 		H265
 	} codec;
-
+	/*
+		Thread loop that continuously pushes data from encodedFramesFifo and decoded it
+	*/
+	virtual void run()
+	{
+		if (!encodedFramesFifo)
+		{
+			std::cerr << "Decoder.h: no encodedFramesFifo setted, nowhere to pull data from" << std::endl;
+			return;
+		}
+		while (true)
+		{
+			/*
+				Pops an encoded frame from encodedFramesFifo. If there are none, it blocks, so
+				no CPU time is wasted.
+			*/
+			//TODO: certify that the operation below is MOVING the frame to here, not copying it
+			EncodedFrame frame = std::move(encodedFramesFifo->pop_front());
+			/* 
+				Since the frame is gone from the fifo, it only exists here. 
+				decodeFrame() access its pointers and is blocking. When decodeFrame 
+				finishes, `frame` is gone and its contents are automatically deleted
+			*/
+			decodeFrame(frame->frameBuffer.get(), frame.frameSize);
+		}
+	}
 	//Initiates the decoder contexts
 	virtual int init() = 0;
 	/* 
@@ -41,9 +66,9 @@ public:
 	/*
 		Here go all the raw frames, as readed from network or file (Frame format is just a placeholder for now)
 	*/
-	void setUncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> uncodedFramesFifo)
+	void setUncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> encodedFramesFifo)
 	{
-		this->uncodedFramesFifo = uncodedFramesFifo;
+		this->encodedFramesFifo = encodedFramesFifo;
 	}
 	/*
 		Here go all the decoded frames
@@ -53,15 +78,13 @@ public:
 		this->decodedFramesFifo = decodedFramesFifo;
 	}
 
-
 protected:
 	/*
 		Here we store a pointer to our FIFOs, which are made of a simple thread-safe 
 		deque implementation called ThreadSafeDeque
 	*/
-	std::shared_ptr<ThreadSafeDeque<DecodedFrame>> uncodedFramesFifo;
+	std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
 	std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
-
 };
 
 #endif // Decoder_H

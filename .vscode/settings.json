@@ -64,7 +64,10 @@
         "memory_resource": "cpp",
         "iterator": "cpp",
         "map": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "set": "cpp"
     },
     "search.exclude": {
         "**/node_modules": false

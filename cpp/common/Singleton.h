@@ -14,9 +14,10 @@ struct SingletonObject
 {
     std::shared_ptr<MediaStream> mediaStream;
     std::shared_ptr<std::thread> mediaThread;
-    std::shared_ptr<ThreadSafeDeque<DecodedFrame>> uncodedFramesFifo;
+    std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
     std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;
+    std::shared_ptr<std::thread> decoderThread;
     //std::shared_ptr<VideoReceiver> videoReceiver;
     std::shared_ptr<VideoRecorder> videoRecorder;
     //std::shared_ptr<MovementTracker> movementTracker
