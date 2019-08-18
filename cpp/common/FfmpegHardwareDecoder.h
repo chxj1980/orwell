@@ -20,7 +20,7 @@ public:
     FfmpegHardwareDecoder(Codec codec, Device device, std::string hardwareType) : device(device), hardwareType(hardwareType)
     {
         this->codec = codec;
-        avPacket.reset(new AVPacket());
+        //avPacket.reset(new AVPacket());
     };
 
     int init();
@@ -56,7 +56,7 @@ private:
     //AVFrame         *fromGPUAvFrame = NULL;
     //AVFrame         *tmp_frame = NULL;
     //AVPacket avPacket;
-    std::unique_ptr<AVPacket, AVPacketDeleter> avPacket;
+    std::unique_ptr<AVPacket, AVPacketDeleter> avPacket {new AVPacket()};
 
     //Image from GPU memory gets stored here
     uint8_t *buffer = NULL;

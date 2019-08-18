@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #Converts things from here: https://github.com/yuan631111976/qtavplayer/blob/b4394d620076cedb05fdc006daee2918baeb73d9/AVOutput.cpp
 import re
-
+#TODO: add AV_PIX_FMT_YUV420P,{1,1},{1,1},{1,1},{1,1},{1,1},{1,1},{1,1},{1,1},{1,1},0,0,0,false to formats.cp
 def constructorWith14Elements(elements):
     struct = '''    pixelFormats[{0}] = PixelFormat {{
         //Fraction yuvSizes[3];

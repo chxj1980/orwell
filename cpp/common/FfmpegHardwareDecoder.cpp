@@ -101,9 +101,16 @@ int FfmpegHardwareDecoder::init()
     //This callback selects the right AvPixelFormat for the hardware decoder
     avCodecContext->get_format = get_hw_format;
 
+    AVBufferRef* avBufferRef_ptr;
     int err = 0;
-
-    if ((err = av_hwdevice_ctx_create(&avBufferRef.get(), aVHWDeviceType, NULL, NULL, 0)) < 0)
+    err = av_hwdevice_ctx_create(&avBufferRef_ptr, aVHWDeviceType, NULL, NULL, 0);
+    /*
+        Important, immediately add our pointer to our unique_ptr container, so we don't forget
+        to add later. We just didn't add it at its constrcutor because we need to pass a reference
+        to it.
+    */
+    avBufferRef.reset(avBufferRef_ptr);
+    if (err < 0)
     {
         std::cout << "av_hwdevice_ctx_create failed to create hardware device context." << std::endl;
         return 4;

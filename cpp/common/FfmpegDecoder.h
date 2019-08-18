@@ -18,22 +18,22 @@ extern "C"
 
 struct AVPacketDeleter
 {
-    void operator()(AVPacket *avPacket) { av_free_packet(avPacket);}
+	void operator()(AVPacket *avPacket) { av_free_packet(avPacket); }
 };
 
 struct AVFrameDeleter
 {
-    void operator()(AVFrame *avFrame) { av_frame_unref(avFrame); }
+	void operator()(AVFrame *avFrame) { av_frame_unref(avFrame); }
 };
 
 struct AVBufferRefDeleter
 {
-    void operator()(AVBufferRef *avBufferRef) { av_buffer_unref(&avBufferRef); }
+	void operator()(AVBufferRef *avBufferRef) { av_buffer_unref(&avBufferRef); }
 };
 
 struct AVCodecContextDeleter
 {
-    void operator()(AVCodecContext *avCodecContext) { avcodec_free_context(&avCodecContext); }
+	void operator()(AVCodecContext *avCodecContext) { avcodec_free_context(&avCodecContext); }
 };
 
 class FfmpegDecoder : public Decoder
@@ -85,12 +85,13 @@ public:
 	}
 
 protected:
-	
 	AVCodec *avCodec;
 	std::unique_ptr<AVCodecContext, AVCodecContextDeleter> avCodecContext;
-	SwsContext *swsContext;
-	AVStream *avStream;
-	AVFormatContext *avFormatContext;
+	std::unique_ptr<AVBufferRef, AVBufferRefDeleter> avBufferRef;
+
+	//SwsContext *swsContext;
+	//AVStream *avStream;
+	//AVFormatContext *avFormatContext;
 };
 
 #endif // FfmpegDecoder_H
