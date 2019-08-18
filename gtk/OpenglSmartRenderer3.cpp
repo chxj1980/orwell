@@ -28,6 +28,7 @@ void OpenglSmartRenderer3::run()
 		std::cerr << "No decodedFramesFifo setted for this renderer" << std::endl;
 		return;
 	}
+	int i = 0;
 	while (true)
 	{
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
@@ -37,10 +38,11 @@ void OpenglSmartRenderer3::run()
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
 		    TODO: verify if this indeed happens
 		*/
-		//TODO: is move really necessary here? Copying just a unique_ptr isn't time consuming
 		this->frame = std::move(frame);
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
+		i++;
+		std::cout << i << std::endl;
 		queue_draw();
 	}
 }
@@ -67,7 +69,7 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 
 		//std::unique_lock<std::mutex> lock(mutex);
 		//conditionVariable.wait(lock, [] { return ready; });
-		glDraw();
+		//glDraw();
 		// Manual unlocking is done before notifying, to avoid waking up
 		// the waiting thread only to block again (see notify_one for details)
 		//lock.unlock();

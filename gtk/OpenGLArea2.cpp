@@ -25,10 +25,10 @@ OpenGLArea2::OpenGLArea2()
     m_VBox.add(glArea);
 
     // Connect gl area signals
-    glArea.signal_realize().connect(sigc::mem_fun(*this, &OpenGLArea2::realize));
+    //glArea.signal_realize().connect(sigc::mem_fun(*this, &OpenGLArea2::realize));
     // Important that the unrealize signal calls our handler to clean up
     // GL resources _before_ the default unrealize handler is called (the "false")
-    glArea.signal_unrealize().connect(sigc::mem_fun(*this, &OpenGLArea2::unrealize), false);
+    //glArea.signal_unrealize().connect(sigc::mem_fun(*this, &OpenGLArea2::unrealize), false);
     glArea.signal_render().connect(sigc::mem_fun(*this, &OpenGLArea2::render), false);
 
     glArea.show();
@@ -39,7 +39,7 @@ OpenGLArea2::OpenGLArea2()
 OpenGLArea2::~OpenGLArea2()
 {
 }
-
+/* 
 void OpenGLArea2::realize()
 {
     cerr << "Realize !" << endl;
@@ -75,7 +75,7 @@ void OpenGLArea2::unrealize()
         cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << endl;
     }
 }
-
+*/
 //void Example_GLArea::draw(const Glib::RefPtr<Gtk::Adjustment> &adj)
 //{
     //m_RotationAngles[axis] = adj->get_value();

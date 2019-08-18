@@ -20,8 +20,8 @@ public:
     //Gtk::Box m_Controls{Gtk::ORIENTATION_VERTICAL, false};
 
 
-    void realize();
-    void unrealize();
+    //void realize();
+    //void unrealize();
     virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context){};
     //void draw_triangle();
 };

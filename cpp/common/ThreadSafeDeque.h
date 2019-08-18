@@ -74,7 +74,7 @@ private:
     */
 
     template <class F>
-    auto lockAndDo(F &&fct)
+    decltype(auto) lockAndDo(F &&fct)
     {
         std::unique_lock<std::mutex> lock{_mutex};
         return fct();
