@@ -2,17 +2,31 @@
 #define SLog_H
 #include <iostream>
 #include <mutex>
+/*
+    Simple logging class designed to accomodate android logging too.
+    No high performance, only simple logging.
+*/
 class SLog
 {
 public:
-    static const bool NO_NEW_LINE = false;
+    enum CONFIG
+    {
+        NO_NEW_LINE,
+        TO_FILE,
+    } config;
     SLog()
     {
         init();
     }
-    SLog(bool newLine) : newLine(newLine)
+    template <typename T>
+    SLog(T t) :
     {
         init();
+    }
+    template <typename T, typename... Args>
+    SLog(T t, Args... args) : SLog(args...)
+    {
+        //init();
     }
     void init()
     {
@@ -25,20 +39,30 @@ public:
         mutex.unlock();
     }
     template <typename T>
+    void applyConfiguration(T t)
+    {
+    }
+    template <typename T>
     void log(T message)
     {
         std::cout << message;
     }
+    template <typename T>
+    SLog &&operator()(T t)
+    {
+        applyConfiguration(t);
+        return std::forward<SLog>(this);
+    }
+    template <typename T, typename... Args>
+    SLog &&operator()(T t, Args... args)
+    {
+        operator()(t);
+        operator()(args...);
+        return std::forward<SLog>(this);
+    }
 
 private:
-    /* 
-    Very important, only one global mutex, otherwise
-    we couldn't call like this:
-    SLog() << "hello " << "world";
-    and expect it to be thread safe between consicutive 
-    << operator calls
-    */
-    static std::mutex mutex;
+    std::mutex mutex;
     bool newLine = true;
 };
 
@@ -48,4 +72,5 @@ SLog &&operator<<(SLog &&sLog, T message)
     sLog.log(message);
     return std::forward<SLog>(sLog);
 }
+
 #endif //SLog_H
