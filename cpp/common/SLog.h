@@ -83,7 +83,7 @@ struct SLogBuffer
 {
     public:
     std::stringstream ss;
-    SLog sLog;
+    SLog* sLog;
     SLogBuffer() = default;
     SLogBuffer(const SLogBuffer &) = delete;
     SLogBuffer &operator=(const SLogBuffer &) = delete;
@@ -100,7 +100,7 @@ struct SLogBuffer
 
     ~SLogBuffer()
     {
-        sLog.queue(ss);
+        sLog->queue(ss);
     }
 };
 /* 
@@ -112,10 +112,10 @@ SLog &&operator<<(SLog &&sLog, T message)
 }//SLogBuffer
 */
 template <typename T>
-SLogBuffer &&operator<<(SLog &&sLog, T message)
+SLogBuffer operator<<(SLog &&sLog, T message)
 {
     SLogBuffer buffer;
-    buffer.sLog = std::move(sLog);
+    buffer.sLog = &sLog;
     buffer.ss << std::forward<T>(message);
     return buffer;
 }
