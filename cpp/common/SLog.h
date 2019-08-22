@@ -3,11 +3,90 @@
 #include <iostream>
 #include <mutex>
 #include <sstream>
+#include <queue>
+template <typename T>
+class ThreadSafeQueue
+{
+public:
+    /* 
+        Returns the front element and removes it from the collection
+        No exception is ever returned as we garanty that the deque is not empty
+        before trying to return data.
+        This is useful in our while loop renderer, because it just waits if there
+        are no members to be popped.
+    */
+    T pop(void) noexcept
+    {
+        std::unique_lock<std::mutex> lock{_mutex};
+
+        while (_collection.empty())
+        {
+            _condNewData.wait(lock);
+        }
+        auto elem = std::move(_collection.front());
+        _collection.pop();
+        return elem;
+    }
+    template <typename... Args>
+    void emplace(Args &&... args)
+    {
+        addDataProtected([&] {
+            _collection.emplace(std::forward<Args>(args)...);
+        });
+    }
+
+private:
+    /*
+        Locks the thread and do something with the deque. 
+        Then unique_lock goes away and unlocks the thread
+    */
+    template <class F>
+    decltype(auto) lockAndDo(F &&fct)
+    {
+        std::unique_lock<std::mutex> lock{_mutex};
+        return fct();
+    }
+
+    template <class F>
+    void addDataProtected(F &&fct)
+    {
+        lockAndDo(std::forward<F>(fct));
+        _condNewData.notify_one();
+    }
+
+private:
+    std::queue<T> _collection;            // Concrete, not thread safe, storage.
+    std::mutex _mutex;                    // Mutex protecting the concrete storage
+    std::condition_variable _condNewData; // Condition used to notify that new data are available.
+};
+class LoggerThread
+{
+public:
+    LoggerThread(std::unique_ptr<ThreadSafeQueue<std::string>> logMessages) : logMessages(std::move(logMessages))
+    {
+        thread = std::thread(&LoggerThread::run, this);
+    }
+    void run()
+    {
+        /* 
+            Blocks until a message is added to queue, so no CPU time is wasted 
+            in thread loop
+        */
+        std::cout << "thread started " << std::endl;
+        auto message = logMessages->pop();
+        std::cout << "printing message " << std::endl;
+        std::cout << message << std::flush;
+    }
+
+private:
+    std::unique_ptr<ThreadSafeQueue<std::string>> logMessages;
+    std::thread thread;
+    std::condition_variable condNewData;
+};
 /*
     Simple logging class designed to accomodate android logging too.
     No high performance, only simple logging.
 */
-
 class SLog
 {
 public:
@@ -20,22 +99,18 @@ public:
     SLog()
     {
     }
-    template <typename T>
-    void SLog_(T t)
-    {
-        applyConfiguration(t);
-    }
+
     template <typename T, typename... Args>
     SLog(T t, Args... args)
     {
-        SLog_(t);
+        applyConfiguration(t);
         SLog(args...);
     }
 
     template <typename T>
     void applyConfiguration(T t)
     {
-        std::cout << "applying configuration: " << t << std::endl;
+        //std::cout << "applying configuration: " << t << std::endl;
         switch (t)
         {
         case NO_NEW_LINE:
@@ -54,10 +129,12 @@ public:
     template <typename T>
     void accumulateMessage(T message)
     {
-        std::cout << message;
+        //std::cout << message;
     }
-    void queue(std::stringstream& stringStream) {
-        std::cout << stringStream.str() << std::endl;;
+    void queue(std::stringstream &stringStream)
+    {
+        //std::cout << 'queueing ' << stringStream.str() << std::endl;
+        logMessages->emplace(stringStream.str());
     }
     template <typename T>
     SLog &&operator()(T t)
@@ -74,16 +151,20 @@ public:
     }
 
 private:
-    std::mutex mutex;
+    std::unique_ptr<ThreadSafeQueue<std::string>> logMessages;
+    LoggerThread loggerThread{std::move(logMessages)};
+
+public:
     bool newLine = true;
     bool toFile = false;
     bool noConsole = false;
 };
+
 struct SLogBuffer
 {
-    public:
+public:
     std::stringstream ss;
-    SLog* sLog;
+    SLog *sLog;
     SLogBuffer() = default;
     SLogBuffer(const SLogBuffer &) = delete;
     SLogBuffer &operator=(const SLogBuffer &) = delete;
@@ -100,7 +181,13 @@ struct SLogBuffer
 
     ~SLogBuffer()
     {
-        sLog->queue(ss);
+        if (sLog->newLine)
+            sLog->queue(ss);
+        else
+        {
+            ss << "\n";
+            sLog->queue(ss);
+        }
     }
 };
 /* 
