@@ -13,20 +13,22 @@ public:
     {
         NO_NEW_LINE,
         TO_FILE,
+        NO_CONSOLE
     } config;
     SLog()
     {
         init();
     }
     template <typename T>
-    SLog(T t) :
+    void SLog_(T t)
     {
-        init();
+        applyConfiguration(t);
     }
     template <typename T, typename... Args>
-    SLog(T t, Args... args) : SLog(args...)
+    SLog(T t, Args... args)
     {
-        //init();
+        SLog_(t);
+        SLog(args...);
     }
     void init()
     {
@@ -41,6 +43,21 @@ public:
     template <typename T>
     void applyConfiguration(T t)
     {
+        std::cout << "applying configuration: " << t << std::endl;
+        switch (t)
+        {
+        case NO_NEW_LINE:
+            newLine = false;
+            break;
+        case TO_FILE:
+            toFile = true;
+            break;
+        case NO_CONSOLE:
+            noConsole = true;
+            break;
+        default:
+            break;
+        }
     }
     template <typename T>
     void log(T message)
@@ -51,19 +68,21 @@ public:
     SLog &&operator()(T t)
     {
         applyConfiguration(t);
-        return std::forward<SLog>(this);
+        return std::forward<SLog>(*this);
     }
     template <typename T, typename... Args>
     SLog &&operator()(T t, Args... args)
     {
-        operator()(t);
+        SLog && a = operator()(t);
         operator()(args...);
-        return std::forward<SLog>(this);
+        return std::forward<SLog>(a);
     }
 
 private:
     std::mutex mutex;
     bool newLine = true;
+    bool toFile = false;
+    bool noConsole = false;
 };
 
 template <typename T>
