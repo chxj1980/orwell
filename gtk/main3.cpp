@@ -3,11 +3,17 @@
 #include "ThreadSafeDeque.h"
 #include "SLog.h"
 #include <sstream>
+#include <cxxopts.hpp>
+cxxopts::Options options("Orwell", "Orwell GTK laboratory");
 
 int main() {
-    SLog LOG(SLog::NO_NEW_LINE, SLog::NO_CONSOLE);
-    LOG() << "hello" << " world";
-    LOG() << "testando: " << 1;
+    //options.add_options()
+    //("d,debug", "Enable debugging")
+    //("f,file", "File name", cxxopts::value<std::string>());
+
+    SLog LOG;
+    LOG << "hello" << " world";
+    LOG << "testando: " << 1;
     while (true) {
 
     }

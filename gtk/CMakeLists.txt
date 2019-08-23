@@ -32,6 +32,8 @@ add_subdirectory(../myRtspClient _myRtspClient)
 include_directories(../myRtspClient/myRtspClient/include)
 include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
+include_directories(../deps/cxxopts/include)
+
 
 file(GLOB orwell_gtk3_SRCS main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp PixelFormats.cpp "../cpp/common/*")
 
@@ -62,6 +64,6 @@ target_link_libraries( orwell PRIVATE
 	myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
 
 #LAB is for testing things
-file(GLOB lab_SRCS main3.cpp)
+file(GLOB lab_SRCS main3.cpp ../cpp/common/SLog.cpp)
 add_executable(lab ${lab_SRCS})
 target_link_libraries(lab pthread)

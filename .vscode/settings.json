@@ -67,7 +67,8 @@
         "string": "cpp",
         "hash_map": "cpp",
         "hash_set": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "regex": "cpp"
     },
     "search.exclude": {
         "**/node_modules": false

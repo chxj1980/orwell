@@ -5,6 +5,7 @@
 #include <sstream>
 #include <queue>
 #include <condition_variable>
+#include <thread>
 
 template <typename T>
 class ThreadSafeQueue
@@ -65,20 +66,21 @@ private:
 class LoggerThread
 {
 public:
-    LoggerThread(std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages) : logMessages(logMessages)
+    LoggerThread(std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages): logMessages(logMessages)
     {
         thread = std::thread(&LoggerThread::run, this);
     }
     ~LoggerThread()
     {
     }
+    
     void run()
     {
         while (true)
         {
             /* 
-            Blocks until a message is added to queue, so no CPU time is wasted 
-            in thread loop
+                Blocks until a message is added to queue, so no CPU time is wasted 
+                in thread loop
             */
             auto message = logMessages->pop();
             std::cout << message.str() << std::flush;
@@ -103,7 +105,8 @@ public:
         TO_FILE,
         NO_CONSOLE
     } config;
-    SLog() = default;
+    SLog() {
+    };
 
     template <typename T, typename... Args>
     SLog(T t, Args... args) : SLog(args...)
@@ -158,17 +161,29 @@ public:
         return std::forward<SLog>(a);
     }
 
-private:
+public:
     //ThreadSafeQueue<std::stringstream> logMessages;
-    std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages = std::make_shared<ThreadSafeQueue<std::stringstream>>();
-    LoggerThread loggerThread{logMessages};
+    static std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages;
+    static LoggerThread loggerThread;
 
 public:
     bool newLine = true;
     bool toFile = false;
     bool noConsole = false;
 };
-
+struct CategorizedMessage
+{
+public:
+    std::string category;
+    std::stringstream ss;
+};
+struct Category
+{
+    Category(std::string category) : category(category){
+    }
+private:
+    std::string category;
+}; 
 struct SLogBuffer
 {
 public:
@@ -191,24 +206,22 @@ public:
     ~SLogBuffer()
     {
         if (sLog->newLine)
-            sLog->queue(std::move(ss));
-        else
-        {
             ss << "\n";
-            sLog->queue(std::move(ss));
-        }
+        sLog->queue(std::move(ss));
     }
 };
-/* 
-template <typename T>
-SLog &&operator<<(SLog &&sLog, T message)
-{
-    sLog.accumulateMessage(message);
-    return std::forward<SLog>(sLog);
-}//SLogBuffer
-*/
+
 template <typename T>
 SLogBuffer operator<<(SLog &&sLog, T message)
+{
+    SLogBuffer buffer;
+    buffer.sLog = &sLog;
+    buffer.ss << std::forward<T>(message);
+    return buffer;
+}
+
+template <typename T>
+SLogBuffer operator<<(SLog &sLog, T message)
 {
     SLogBuffer buffer;
     buffer.sLog = &sLog;
