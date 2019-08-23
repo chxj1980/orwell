@@ -126,7 +126,7 @@ class LoggerThread
 public:
     LoggerThread(std::shared_ptr<ThreadSafeQueue<Message>> logMessages,
                  std::shared_ptr<std::unordered_set<Category>> allowTheseCategories) : logMessages(logMessages),
-                                                                      allowTheseCategories(allowTheseCategories)
+                                                                                       allowTheseCategories(allowTheseCategories)
     {
         thread = std::thread(&LoggerThread::run, this);
     }
