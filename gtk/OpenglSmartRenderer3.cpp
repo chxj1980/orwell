@@ -66,16 +66,10 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 	try
 	{
 		glArea.throw_if_error();
-
-		//std::unique_lock<std::mutex> lock(mutex);
-		//conditionVariable.wait(lock, [] { return ready; });
+		
 		//glDraw();
-		// Manual unlocking is done before notifying, to avoid waking up
-		// the waiting thread only to block again (see notify_one for details)
-		//lock.unlock();
-		//conditionVariable.notify_one();
 
-		glFlush();
+		glFinish();
 	}
 	catch (const Gdk::GLError &gle)
 	{

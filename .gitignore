@@ -76,3 +76,4 @@ gtk/_myRtspClient/
 orwellAndroid/app/.cxx/*
 orwellAndroid/.cxx/*
 gtk/Makefile
+gtk/lab

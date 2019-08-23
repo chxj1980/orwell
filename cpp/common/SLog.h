@@ -62,18 +62,21 @@ private:
     std::mutex _mutex;                    // Mutex protecting the concrete storage
     std::condition_variable _condNewData; // Condition used to notify that new data are available.
 };
-
+/*
+    Class that picks messages from queue and writes to specific targets
+    depending on the message itself
+ */
 class LoggerThread
 {
 public:
-    LoggerThread(std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages): logMessages(logMessages)
+    LoggerThread(std::shared_ptr<ThreadSafeQueue<Message>> logMessages) : logMessages(logMessages)
     {
         thread = std::thread(&LoggerThread::run, this);
     }
     ~LoggerThread()
     {
     }
-    
+
     void run()
     {
         while (true)
@@ -83,12 +86,12 @@ public:
                 in thread loop
             */
             auto message = logMessages->pop();
-            std::cout << message.str() << std::flush;
+            std::cout << message.message.str() << std::flush;
         }
     }
 
 private:
-    std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages;
+    std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
     std::thread thread;
     std::condition_variable condNewData;
 };
@@ -99,20 +102,41 @@ private:
 class SLog
 {
 public:
+    struct Category
+    {
+        Category()
+        {
+        }
+        Category(std::string category) : category(category)
+        {
+        }
+
+    public:
+        std::string category;
+    };
+    struct SubCategory : Category
+    {
+        SubCategory():Category()
+        {
+        }
+        SubCategory(std::string category) : Category(category)
+        {
+        }
+    };
+
     enum CONFIG
     {
         NO_NEW_LINE,
         TO_FILE,
         NO_CONSOLE
     } config;
-    SLog() {
-    };
+
+    SLog(){};
 
     template <typename T, typename... Args>
     SLog(T t, Args... args) : SLog(args...)
     {
         applyConfiguration(t);
-        //SLog(args...);
     }
 
     template <typename T>
@@ -134,14 +158,19 @@ public:
             break;
         }
     }
-    template <typename T>
-    void accumulateMessage(T message)
+    void applyConfiguration(SLog::Category category)
     {
-        //std::cout << message;
+        this->category = category;
     }
-    void queue(std::stringstream &&stringStream)
+    /* 
+    void applyConfiguration(SLog::SubCategory subCategory)
     {
-        logMessages->emplace(std::move(stringStream));
+        this->subCategory = subCategory;
+    }
+    */
+    void queue(Message &&message)
+    {
+        logMessages->emplace(std::move(message));
     }
     SLog &&operator()()
     {
@@ -162,28 +191,24 @@ public:
     }
 
 public:
-    //ThreadSafeQueue<std::stringstream> logMessages;
-    static std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages;
+    static std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
     static LoggerThread loggerThread;
 
 public:
     bool newLine = true;
     bool toFile = false;
     bool noConsole = false;
+    Category category;
+    //SubCategory subCategory;
 };
-struct CategorizedMessage
+struct Message
 {
 public:
-    std::string category;
-    std::stringstream ss;
+    SLog::Category category;
+    SLog::SubCategory subCategory;
+    std::stringstream message;
 };
-struct Category
-{
-    Category(std::string category) : category(category){
-    }
-private:
-    std::string category;
-}; 
+
 struct SLogBuffer
 {
 public:
@@ -207,7 +232,11 @@ public:
     {
         if (sLog->newLine)
             ss << "\n";
-        sLog->queue(std::move(ss));
+        Message message;
+        message.category = std::move(sLog->category);
+        message.subCategory = std::move(sLog->subCategory);
+        message.message = std::move(ss);
+        sLog->queue(std::move(message));
     }
 };
 
