@@ -62,6 +62,27 @@ private:
     std::mutex _mutex;                    // Mutex protecting the concrete storage
     std::condition_variable _condNewData; // Condition used to notify that new data are available.
 };
+struct Category
+{
+    Category()
+    {
+    }
+    Category(std::string category) : category(category)
+    {
+    }
+
+public:
+    std::string category;
+};
+struct SubCategory : Category
+{
+    SubCategory() : Category()
+    {
+    }
+    SubCategory(std::string category) : Category(category)
+    {
+    }
+};
 /*
     Class that picks messages from queue and writes to specific targets
     depending on the message itself
@@ -69,7 +90,9 @@ private:
 class LoggerThread
 {
 public:
-    LoggerThread(std::shared_ptr<ThreadSafeQueue<Message>> logMessages) : logMessages(logMessages)
+    LoggerThread(std::shared_ptr<ThreadSafeQueue<Message>> logMessages,
+                 std::unordered_set<Category> allowTheseCategories) : logMessages(logMessages),
+                                                                      allowTheseCategories(allowTheseCategories)
     {
         thread = std::thread(&LoggerThread::run, this);
     }
@@ -86,7 +109,9 @@ public:
                 in thread loop
             */
             auto message = logMessages->pop();
-            std::cout << message.message.str() << std::flush;
+            //If category is in the set of allowed categories, we do things
+            if (allowTheseCategories.find(message.category) != allowTheseCategories.end())
+                std::cout << message.message.str() << std::flush;
         }
     }
 
@@ -94,6 +119,7 @@ private:
     std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
     std::thread thread;
     std::condition_variable condNewData;
+    std::unordered_set<Category> allowTheseCategories;
 };
 /*
     Simple logging class designed to accomodate android logging too.
@@ -102,28 +128,6 @@ private:
 class SLog
 {
 public:
-    struct Category
-    {
-        Category()
-        {
-        }
-        Category(std::string category) : category(category)
-        {
-        }
-
-    public:
-        std::string category;
-    };
-    struct SubCategory : Category
-    {
-        SubCategory():Category()
-        {
-        }
-        SubCategory(std::string category) : Category(category)
-        {
-        }
-    };
-
     enum CONFIG
     {
         NO_NEW_LINE,
@@ -172,6 +176,31 @@ public:
     {
         logMessages->emplace(std::move(message));
     }
+    void enableCategory(Category category)
+    {
+        allowTheseCategories.emplace(std::move(category));
+    }
+    template <typename T, typename... Args>
+    void enableCategories(T t, Args... args)
+    {
+        enableCategory(t);
+        enableCategories(args...);
+    }
+    void disableCategory(Category category)
+    {
+        auto search = allowTheseCategories.find(std::move(category));
+        if (search != allowTheseCategories.end())
+        {
+            allowTheseCategories.erase(search);
+        }
+    }
+    template <typename T, typename... Args>
+    void disableCategories(T t, Args... args)
+    {
+        disableCategory(t);
+        disableCategories(args...)
+    }
+
     SLog &&operator()()
     {
         return std::forward<SLog>(*this);
@@ -180,6 +209,9 @@ public:
     SLog &&operator()(T t)
     {
         applyConfiguration(t);
+        {
+            allowTheseCategories.erase(search);
+        }
         return std::forward<SLog>(*this);
     }
     template <typename T, typename... Args>
@@ -193,6 +225,7 @@ public:
 public:
     static std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
     static LoggerThread loggerThread;
+    static std::unordered_set<Category> allowTheseCategories;
 
 public:
     bool newLine = true;
@@ -234,7 +267,7 @@ public:
             ss << "\n";
         Message message;
         message.category = std::move(sLog->category);
-        message.subCategory = std::move(sLog->subCategory);
+        //message.subCategory = std::move(sLog->subCategory);
         message.message = std::move(ss);
         sLog->queue(std::move(message));
     }
