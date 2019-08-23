@@ -75,41 +75,44 @@ struct Category
 public:
     std::string category;
 };
-struct SubCategory : Category
+struct SubCategory
 {
-    SubCategory() : Category()
+    SubCategory()
     {
     }
-    SubCategory(std::string category) : Category(category)
+    SubCategory(std::string subCategory) : subCategory(subCategory)
     {
     }
+
+public:
+    std::string subCategory;
 };
 struct CategoryHash
 {
-    std::size_t operator()(Category const& category) const noexcept
+    std::size_t operator()(Category const &category) const noexcept
     {
         std::size_t hash = std::hash<std::string>{}(category.category);
         return hash;
     }
 };
-bool operator==(const Category& x, const Category& y)
+inline bool operator==(const Category &x, const Category &y)
 {
     return x.category == y.category;
 }
 namespace std
 {
-    template<>
-    struct hash<Category>
-    {
-        typedef Category argument_type;
-        typedef size_t result_type;
+template <>
+struct hash<Category>
+{
+    typedef Category argument_type;
+    typedef size_t result_type;
 
-        size_t operator()(const Category& category) const
-        {
-            return std::hash<std::string>{}(category.category);
-        }
-    };
-}
+    size_t operator()(const Category &category) const
+    {
+        return std::hash<std::string>{}(category.category);
+    }
+};
+} // namespace std
 struct Message
 {
 public:
@@ -210,17 +213,17 @@ public:
     {
         logMessages->emplace(std::move(message));
     }
-    void enableCategory(Category category)
+    static void enableCategories(Category category)
     {
         allowTheseCategories->emplace(std::move(category));
     }
     template <typename T, typename... Args>
-    void enableCategories(T t, Args... args)
+    static void enableCategories(T t, Args... args)
     {
-        enableCategory(t);
+        enableCategories(t);
         enableCategories(args...);
     }
-    void disableCategory(Category category)
+    static void disableCategories(Category category)
     {
         auto search = allowTheseCategories->find(std::move(category));
         if (search != allowTheseCategories->end())
@@ -229,9 +232,9 @@ public:
         }
     }
     template <typename T, typename... Args>
-    void disableCategories(T t, Args... args)
+    static void disableCategories(T t, Args... args)
     {
-        disableCategory(t);
+        disableCategories(t);
         disableCategories(args...);
     }
 
