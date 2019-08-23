@@ -4,6 +4,8 @@
 #include <mutex>
 #include <sstream>
 #include <queue>
+#include <condition_variable>
+
 template <typename T>
 class ThreadSafeQueue
 {
@@ -59,27 +61,32 @@ private:
     std::mutex _mutex;                    // Mutex protecting the concrete storage
     std::condition_variable _condNewData; // Condition used to notify that new data are available.
 };
+
 class LoggerThread
 {
 public:
-    LoggerThread(std::unique_ptr<ThreadSafeQueue<std::string>> logMessages) : logMessages(std::move(logMessages))
+    LoggerThread(std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages) : logMessages(logMessages)
     {
         thread = std::thread(&LoggerThread::run, this);
     }
+    ~LoggerThread()
+    {
+    }
     void run()
     {
-        /* 
+        while (true)
+        {
+            /* 
             Blocks until a message is added to queue, so no CPU time is wasted 
             in thread loop
-        */
-        std::cout << "thread started " << std::endl;
-        auto message = logMessages->pop();
-        std::cout << "printing message " << std::endl;
-        std::cout << message << std::flush;
+            */
+            auto message = logMessages->pop();
+            std::cout << message.str() << std::flush;
+        }
     }
 
 private:
-    std::unique_ptr<ThreadSafeQueue<std::string>> logMessages;
+    std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages;
     std::thread thread;
     std::condition_variable condNewData;
 };
@@ -96,15 +103,13 @@ public:
         TO_FILE,
         NO_CONSOLE
     } config;
-    SLog()
-    {
-    }
+    SLog() = default;
 
     template <typename T, typename... Args>
-    SLog(T t, Args... args)
+    SLog(T t, Args... args) : SLog(args...)
     {
         applyConfiguration(t);
-        SLog(args...);
+        //SLog(args...);
     }
 
     template <typename T>
@@ -131,10 +136,13 @@ public:
     {
         //std::cout << message;
     }
-    void queue(std::stringstream &stringStream)
+    void queue(std::stringstream &&stringStream)
     {
-        //std::cout << 'queueing ' << stringStream.str() << std::endl;
-        logMessages->emplace(stringStream.str());
+        logMessages->emplace(std::move(stringStream));
+    }
+    SLog &&operator()()
+    {
+        return std::forward<SLog>(*this);
     }
     template <typename T>
     SLog &&operator()(T t)
@@ -151,8 +159,9 @@ public:
     }
 
 private:
-    std::unique_ptr<ThreadSafeQueue<std::string>> logMessages;
-    LoggerThread loggerThread{std::move(logMessages)};
+    //ThreadSafeQueue<std::stringstream> logMessages;
+    std::shared_ptr<ThreadSafeQueue<std::stringstream>> logMessages = std::make_shared<ThreadSafeQueue<std::stringstream>>();
+    LoggerThread loggerThread{logMessages};
 
 public:
     bool newLine = true;
@@ -182,11 +191,11 @@ public:
     ~SLogBuffer()
     {
         if (sLog->newLine)
-            sLog->queue(ss);
+            sLog->queue(std::move(ss));
         else
         {
             ss << "\n";
-            sLog->queue(ss);
+            sLog->queue(std::move(ss));
         }
     }
 };
