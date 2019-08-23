@@ -6,6 +6,7 @@
 #include <queue>
 #include <condition_variable>
 #include <thread>
+#include <unordered_set>
 
 template <typename T>
 class ThreadSafeQueue
@@ -83,6 +84,39 @@ struct SubCategory : Category
     {
     }
 };
+struct CategoryHash
+{
+    std::size_t operator()(Category const& category) const noexcept
+    {
+        std::size_t hash = std::hash<std::string>{}(category.category);
+        return hash;
+    }
+};
+bool operator==(const Category& x, const Category& y)
+{
+    return x.category == y.category;
+}
+namespace std
+{
+    template<>
+    struct hash<Category>
+    {
+        typedef Category argument_type;
+        typedef size_t result_type;
+
+        size_t operator()(const Category& category) const
+        {
+            return std::hash<std::string>{}(category.category);
+        }
+    };
+}
+struct Message
+{
+public:
+    Category category;
+    SubCategory subCategory;
+    std::stringstream message;
+};
 /*
     Class that picks messages from queue and writes to specific targets
     depending on the message itself
@@ -91,7 +125,7 @@ class LoggerThread
 {
 public:
     LoggerThread(std::shared_ptr<ThreadSafeQueue<Message>> logMessages,
-                 std::unordered_set<Category> allowTheseCategories) : logMessages(logMessages),
+                 std::shared_ptr<std::unordered_set<Category>> allowTheseCategories) : logMessages(logMessages),
                                                                       allowTheseCategories(allowTheseCategories)
     {
         thread = std::thread(&LoggerThread::run, this);
@@ -110,7 +144,7 @@ public:
             */
             auto message = logMessages->pop();
             //If category is in the set of allowed categories, we do things
-            if (allowTheseCategories.find(message.category) != allowTheseCategories.end())
+            if (allowTheseCategories->find(message.category) != allowTheseCategories->end())
                 std::cout << message.message.str() << std::flush;
         }
     }
@@ -119,7 +153,7 @@ private:
     std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
     std::thread thread;
     std::condition_variable condNewData;
-    std::unordered_set<Category> allowTheseCategories;
+    std::shared_ptr<std::unordered_set<Category>> allowTheseCategories;
 };
 /*
     Simple logging class designed to accomodate android logging too.
@@ -143,11 +177,11 @@ public:
         applyConfiguration(t);
     }
 
-    template <typename T>
-    void applyConfiguration(T t)
+    //template <typename T>
+    void applyConfiguration(CONFIG config)
     {
         //std::cout << "applying configuration: " << t << std::endl;
-        switch (t)
+        switch (config)
         {
         case NO_NEW_LINE:
             newLine = false;
@@ -162,7 +196,7 @@ public:
             break;
         }
     }
-    void applyConfiguration(SLog::Category category)
+    void applyConfiguration(Category category)
     {
         this->category = category;
     }
@@ -178,7 +212,7 @@ public:
     }
     void enableCategory(Category category)
     {
-        allowTheseCategories.emplace(std::move(category));
+        allowTheseCategories->emplace(std::move(category));
     }
     template <typename T, typename... Args>
     void enableCategories(T t, Args... args)
@@ -188,17 +222,17 @@ public:
     }
     void disableCategory(Category category)
     {
-        auto search = allowTheseCategories.find(std::move(category));
-        if (search != allowTheseCategories.end())
+        auto search = allowTheseCategories->find(std::move(category));
+        if (search != allowTheseCategories->end())
         {
-            allowTheseCategories.erase(search);
+            allowTheseCategories->erase(search);
         }
     }
     template <typename T, typename... Args>
     void disableCategories(T t, Args... args)
     {
         disableCategory(t);
-        disableCategories(args...)
+        disableCategories(args...);
     }
 
     SLog &&operator()()
@@ -209,9 +243,6 @@ public:
     SLog &&operator()(T t)
     {
         applyConfiguration(t);
-        {
-            allowTheseCategories.erase(search);
-        }
         return std::forward<SLog>(*this);
     }
     template <typename T, typename... Args>
@@ -225,7 +256,7 @@ public:
 public:
     static std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
     static LoggerThread loggerThread;
-    static std::unordered_set<Category> allowTheseCategories;
+    static std::shared_ptr<std::unordered_set<Category>> allowTheseCategories;
 
 public:
     bool newLine = true;
@@ -233,13 +264,6 @@ public:
     bool noConsole = false;
     Category category;
     //SubCategory subCategory;
-};
-struct Message
-{
-public:
-    SLog::Category category;
-    SLog::SubCategory subCategory;
-    std::stringstream message;
 };
 
 struct SLogBuffer
