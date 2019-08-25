@@ -70,6 +70,8 @@ private:
 	unsigned int vertexBufferObject, vertexArrayObject, TBO, EBO;
 	GLint vextexInLocation;
 	GLint textureInLocation;
+	std::mutex mutex;
+	std::condition_variable conditionVariable;
 	//std::mutex mutex;
 	//std::condition_variable conditionVariable;
 	//PixelFormats pixelFormats;

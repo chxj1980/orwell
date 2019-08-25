@@ -10,7 +10,7 @@ void OpenglSmartRenderer3::init()
 }
 */
 //void OpenGLArea::receiveVideo(unsigned char **videoBuffer, int frameWidth, int frameHeight)
-int OpenglSmartRenderer3::receiveVideo(DecodedFrame& frame)
+int OpenglSmartRenderer3::receiveVideo(DecodedFrame &frame)
 {
 	this->frame = std::move(frame);
 	firstFrameReceived = true;
@@ -24,13 +24,15 @@ void OpenglSmartRenderer3::run()
 		This way, if decodedFramesFifo is empty, this rendering loop will wait, which is good, no CPU time is wasted.
 	*/
 	std::cout << "OpenglSmartRenderer3 run called" << std::endl;
-	if (!decodedFramesFifo) {
+	if (!decodedFramesFifo)
+	{
 		std::cerr << "No decodedFramesFifo setted for this renderer" << std::endl;
 		return;
 	}
 	int i = 0;
 	while (true)
 	{
+		std::unique_lock<std::mutex> lock{mutex};
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
 		DecodedFrame frame = decodedFramesFifo->pop_front();
 		/* 
@@ -44,6 +46,9 @@ void OpenglSmartRenderer3::run()
 		i++;
 		std::cout << i << std::endl;
 		queue_draw();
+		std::cout << "waiting" << std::endl;
+		conditionVariable.wait(lock);
+		std::cout << "waited" << std::endl;
 	}
 }
 
@@ -66,17 +71,22 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 	try
 	{
 		glArea.throw_if_error();
-		
-		//glDraw();
+
+		glDraw();
 
 		glFinish();
+		std::cout << "gonna notify" << std::endl;
+		conditionVariable.notify_one();
+		std::cout << "did notify" << std::endl;
 	}
 	catch (const Gdk::GLError &gle)
 	{
 		std::cerr << "An error occurred in the render callback of the GLArea" << std::endl;
 		std::cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << std::endl;
+		conditionVariable.notify_one();
 		return false;
 	}
+	conditionVariable.notify_one();
 }
 
 void OpenglSmartRenderer3::glDraw()
@@ -92,9 +102,27 @@ void OpenglSmartRenderer3::glDraw()
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
 	if (this->firstFrameReceived && frame.width() != 0)
 	{
-		//std::cout << "Received frame with width: " << frame.width << " and height: " << frame.height << std::endl;
-		//std::cout << "getting pixelformat for " << (int)frame.format << std::endl;
+		std::cout << "Received frame with width: " << frame.width() << " and height: " << frame.height() << std::endl;
+		std::cout << "getting pixelformat for " << (int)frame.format() << std::endl;
 		pixelFormat = PixelFormats::get((int)frame.format());
+		//--------------
+		int width[3];
+		int height[3];
+		int linesize[3];
+		int textureSize[3];
+		for (int i = 0; i <= 2; i++)
+		{
+			Fraction widthRatio = pixelFormat->yuvWidths[i];
+			Fraction heightRatio = pixelFormat->yuvHeights[i];
+			linesize[i] = frame.linesize(i);
+			width[i] = linesize[i] * widthRatio.numerator / heightRatio.denominator;
+			width[i] = frame.width() * widthRatio.numerator / heightRatio.denominator;
+			//width = linesize[i];
+			height[i] = frame.height() * heightRatio.numerator / heightRatio.denominator;
+			std::cout << "linesize: " << linesize[i] << std::endl;
+			textureSize[i] = width[i] * height[i];
+		}
+		//--------------
 		//In the first run we create everything needed
 		if (this->firstRun)
 		{
@@ -165,7 +193,6 @@ void OpenglSmartRenderer3::glDraw()
 				for (int i = 0; i < TEXTURE_NUMBER; i++)
 				{
 					glBindTexture(GL_TEXTURE_2D, textureId[i]);
-					std::cout << i << std::endl;
 
 					/*
 						Our Frame called `frame` has a PixelFormat (example: AV_PIX_FMT_YUV420P). 
@@ -174,22 +201,28 @@ void OpenglSmartRenderer3::glDraw()
 						component, in the case of an YUV frame, or the details about RGB in the
 						case of an RGB frame.
 					*/
-					Fraction widthRatio = pixelFormat->yuvWidths[i];
-					Fraction heightRatio = pixelFormat->yuvHeights[i];
+					//Fraction widthRatio = pixelFormat->yuvWidths[i];
+					//Fraction heightRatio = pixelFormat->yuvHeights[i];
 					/*
 						The width and height of our texture is determined by our widthRation and heightRatio.
 						TODO: explain it more.
 					 */
 					//TODO: why he used frame.linesize[i] instead of frame.width? frame.width worked perfectly for me
-					int width = frame.width() * widthRatio.numerator / heightRatio.denominator;
-					int height = frame.height() * heightRatio.numerator / heightRatio.denominator;
+					//int width = frame.width() * widthRatio.numerator / heightRatio.denominator;
+					//width = frame.linesize(i);
+					//int height = frame.height() * heightRatio.numerator / heightRatio.denominator;
 					//std::cout << "yuv plane number: " << i << " has width: " << width << " and height: " << height << std::endl;
-
+					//Fraction widthRatio = pixelFormat->yuvWidths[i];
+					//Fraction heightRatio = pixelFormat->yuvHeights[i];
+					//int linesize = frame.linesize(i);
+					//int width = linesize * widthRatio.numerator / heightRatio.denominator;
+					//width = linesize;
+					//int height = frame.height() * heightRatio.numerator / heightRatio.denominator;
 					glTexImage2D(GL_TEXTURE_2D,
 								 0,
 								 pixelFormat->yuvInternalFormat[i],
-								 width,
-								 height,
+								 width[i],
+								 height[i],
 								 0,
 								 pixelFormat->yuvGlFormat[i],
 								 pixelFormat->dataType,
@@ -224,6 +257,7 @@ void OpenglSmartRenderer3::glDraw()
 		}
 
 		program->use();
+		//std::cout << "------------------" << std::endl;
 
 		for (int j = 0; j < TEXTURE_NUMBER; j++)
 		{
@@ -232,35 +266,48 @@ void OpenglSmartRenderer3::glDraw()
 			glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pixelBufferObjects[j]);
 			//glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, TBO);
 
-			int linesize = frame.linesize(j);
+			//int linesize = frame.linesize(j);
 			uint8_t *buffer = frame.buffer(j);
+			int linesize = frame.linesize(j);
 
 			if (buffer != NULL && linesize != 0)
 			{
-				std::cout << "linesize: " << linesize << std::endl;
-				int textureSize = linesize * frame.height();
-				std::cout << "frame.width: " << frame.width() << " frame.height: " << frame.height() << std::endl;
+				//Fraction widthRatio = pixelFormat->yuvWidths[j];
+				//Fraction heightRatio = pixelFormat->yuvHeights[j];
+				//int width = linesize * widthRatio.numerator / heightRatio.denominator;
+				//width = linesize;
+				//int height = frame.height() * heightRatio.numerator / heightRatio.denominator;
+				//std::cout << "linesize: " << linesize << std::endl;
+				//int textureSize = width * height;
+				//textureSize =  frame.width()* frame.height();
+				//std::cout << "frame.width: " << frame.width() << " frame.height: " << frame.height() << std::endl;
+				//std::cout << "width: " << width << " height: " << height << std::endl;
 
 				//textureSize = frame.width * frame.height;
 				//if (m_pbo[pboIndex][j].size() != textureSize)
 				//	m_pbo[pboIndex][j].allocate(textureSize);
 				//TODO: readi this http://www.ffmpeg-archive.org/Decoder-AVFrame-data-linesize-confusion-td2965985.html
-				glBufferData(GL_PIXEL_UNPACK_BUFFER, textureSize, frame.buffer(j), GL_STREAM_DRAW);
+				//std::cout << "gonna buffer data " << j << std::endl;
+				glBufferData(GL_PIXEL_UNPACK_BUFFER, textureSize[j], frame.buffer(j), GL_STREAM_DRAW);
+				//std::cout << "buffered data " << std::endl;
+
 				//TODO: why he used frame.linesize[i] instead of frame.width? frame.width worked perfectly for me
-				int width = frame.width() * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
-				width = linesize;
-				int height = frame.height() * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
-				std::cout << "width: " << width << " height: " << height << std::endl;
+				//int width = linesize * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
+				//width = linesize;
+				//int height = frame.height() * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
+				//std::cout << "width: " << width << " height: " << height << std::endl;
 				//Copy frame here!
+				//std::cout << "gonna glTexSubImage2D " << std::endl;
 				glTexSubImage2D(GL_TEXTURE_2D,
 								0,
 								0,
 								0,
-								width,
-								height,
+								width[j],
+								height[j],
 								pixelFormat->yuvGlFormat[j],
 								pixelFormat->dataType,
-								NULL); //NULL);
+								NULL); //frame.buffer(j)); //NULL);
+									   //std::cout << "did glTexSubImage2D " << std::endl;
 			}
 			glUniform1i(textureLocation[j], j);
 			//m_pbo[pboIndex][j].release();
@@ -269,6 +316,9 @@ void OpenglSmartRenderer3::glDraw()
 
 		glBindVertexArray(vertexArrayObject);
 		//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
+		//std::cout << "gonna glDrawArrays " << std::endl;
+
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		std::cout << "did glDrawArrays " << std::endl;
 	}
 }
