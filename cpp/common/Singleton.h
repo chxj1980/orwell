@@ -9,7 +9,9 @@
 #include <mutex>
 #include <deque>
 #include "DecodedFrame.h"
+#include "Orwell.h"
 
+/* 
 struct SingletonObject
 {
     std::shared_ptr<MediaStream> mediaStream;
@@ -22,6 +24,7 @@ struct SingletonObject
     std::shared_ptr<VideoRecorder> videoRecorder;
     //std::shared_ptr<MovementTracker> movementTracker
 };
+*/
 
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern/40337728#40337728
 class Singleton
@@ -30,19 +33,19 @@ public:
     Singleton(Singleton const &) = delete;
     Singleton &operator=(Singleton const &) = delete;
 
-    static void addStream(std::string id, SingletonObject singletonObject)
+    static void addStream(std::string id, Orwell orwell)
     {
         mutex.lock();
-        streamList[id] = singletonObject;
+        orwellList[id] = orwell;
         mutex.unlock();
     }
 
-    static SingletonObject getStream(std::string id)
+    static Orwell getStream(std::string id)
     {
         mutex.lock();
-        SingletonObject singletonObject = streamList[id];
+        Orwell orwell = orwellList[id];
         mutex.unlock();
-        return singletonObject;
+        return orwell;
     }
 
     static std::shared_ptr<Singleton> instance()
@@ -53,7 +56,7 @@ public:
 
 private:
     Singleton() {}
-    static std::map<std::string, SingletonObject> streamList;
+    static std::map<std::string, Orwell> orwellList;
     static std::mutex mutex;
 };
 

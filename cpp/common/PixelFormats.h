@@ -4,7 +4,8 @@
 //TODO: include both pixftm.h and glx.h myself (only the structs needed here)
 #include <libavutil/pixfmt.h>
 #include <GL/glx.h>
-
+#include <string>
+#include <map>
 /* 
     These types are used in the shader. There's an if section that deals with
     each one of them.
@@ -52,6 +53,7 @@ struct PixelFormat{
     int textureFormat;
     bool isPlanar;
     GLenum dataType; //int ot GLenum?
+    std::string humanReadablePixelFormat;
 };
 
 /*
@@ -62,15 +64,15 @@ struct PixelFormat{
 */
 class StaticPixelFormats {
     public:
-        //TODO: change it to a container format that supports searching
-        PixelFormat pixelFormats[100];
+        std::map<int,PixelFormat> pixelFormats;
         StaticPixelFormats();
 };
 class PixelFormats {
     public:
         static StaticPixelFormats staticPixelFormats;
+        //TODO: add support for verifying if there exists mapped value
         static PixelFormat* get(int format) {
-            return &staticPixelFormats.pixelFormats[format];
+            return &staticPixelFormats.pixelFormats.at(format);
         }
 };
 #endif //PIXEL_FORMATS_H

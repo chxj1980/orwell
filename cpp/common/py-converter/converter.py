@@ -19,7 +19,9 @@ def constructorWith14Elements(elements):
         //bool isPlanar
         {13},
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "{0}"
     }};'''.format(*elements)
     return struct
 
@@ -40,7 +42,9 @@ def constructorWith15Elements(elements):
         //bool isPlanar
         {13},
         //GLenum dataType
-        {14}
+        {14},
+        //std::string humanReadablePixelFormat
+        "{0}"
     }};'''.format(*elements)
     return struct
 
@@ -61,7 +65,9 @@ def constructorWith18Elements(elements):
         //bool isPlanar
         {17},
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "{0}"
     }};'''.format(*elements)
     return struct
 

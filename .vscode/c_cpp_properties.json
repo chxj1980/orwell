@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/deps/ffmpeg"
+                "${workspaceFolder}/deps/ffmpeg",
+                "/home/lz/Android/Sdk/ndk/20.0.5594570/sysroot/usr/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

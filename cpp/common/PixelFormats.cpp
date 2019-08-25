@@ -28,7 +28,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV420P"
     };
     pixelFormats[AV_PIX_FMT_YUVJ420P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -46,7 +48,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVJ420P"
     };
     pixelFormats[AV_PIX_FMT_YUV422P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -64,7 +68,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV422P"
     };
     pixelFormats[AV_PIX_FMT_YUVJ422P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -82,7 +88,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVJ422P"
     };
     pixelFormats[AV_PIX_FMT_YUV444P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -100,7 +108,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV444P"
     };
     pixelFormats[AV_PIX_FMT_YUVJ444P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -118,7 +128,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVJ444P"
     };
     pixelFormats[AV_PIX_FMT_GRAY8] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -136,7 +148,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_GRAY8"
     };
     pixelFormats[AV_PIX_FMT_UYVY422] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -154,7 +168,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_UYVY422"
     };
     pixelFormats[AV_PIX_FMT_YUYV422] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -172,7 +188,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUYV422"
     };
     pixelFormats[AV_PIX_FMT_BGR24] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -190,7 +208,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BGR24"
     };
     pixelFormats[AV_PIX_FMT_RGB24] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -208,7 +228,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGB24"
     };
     pixelFormats[AV_PIX_FMT_MONOWHITE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -226,7 +248,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_MONOWHITE"
     };
     pixelFormats[AV_PIX_FMT_MONOBLACK] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -244,7 +268,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_MONOBLACK"
     };
     pixelFormats[AV_PIX_FMT_PAL8] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -262,7 +288,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_PAL8"
     };
     pixelFormats[AV_PIX_FMT_BGR8] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -280,7 +308,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE_2_3_3_REV
+        GL_UNSIGNED_BYTE_2_3_3_REV,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BGR8"
     };
     pixelFormats[AV_PIX_FMT_RGB8] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -298,7 +328,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE_3_3_2
+        GL_UNSIGNED_BYTE_3_3_2,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGB8"
     };
     pixelFormats[AV_PIX_FMT_NV12] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -316,7 +348,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_NV12"
     };
     pixelFormats[AV_PIX_FMT_NV21] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -334,7 +368,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_NV21"
     };
     pixelFormats[AV_PIX_FMT_YUV420P10LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -352,7 +388,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV420P10LE"
     };
     pixelFormats[AV_PIX_FMT_YUV422P10LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -370,7 +408,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV422P10LE"
     };
     pixelFormats[AV_PIX_FMT_YUV444P10LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -388,7 +428,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV444P10LE"
     };
     pixelFormats[AV_PIX_FMT_YUVA420P10LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -406,7 +448,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVA420P10LE"
     };
     pixelFormats[AV_PIX_FMT_YUVA422P10LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -424,7 +468,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVA422P10LE"
     };
     pixelFormats[AV_PIX_FMT_YUVA444P10LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -442,7 +488,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVA444P10LE"
     };
     pixelFormats[AV_PIX_FMT_YUV410P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -460,7 +508,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV410P"
     };
     pixelFormats[AV_PIX_FMT_YUV411P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -478,7 +528,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV411P"
     };
     pixelFormats[AV_PIX_FMT_ARGB] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -496,7 +548,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_ARGB"
     };
     pixelFormats[AV_PIX_FMT_RGBA] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -514,7 +568,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGBA"
     };
     pixelFormats[AV_PIX_FMT_ABGR] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -532,7 +588,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_ABGR"
     };
     pixelFormats[AV_PIX_FMT_BGRA] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -550,7 +608,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BGRA"
     };
     pixelFormats[AV_PIX_FMT_GRAY16BE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -568,7 +628,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_GRAY16BE"
     };
     pixelFormats[AV_PIX_FMT_GRAY16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -586,7 +648,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_GRAY16LE"
     };
     pixelFormats[AV_PIX_FMT_YUV440P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -604,7 +668,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV440P"
     };
     pixelFormats[AV_PIX_FMT_YUVJ440P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -622,7 +688,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVJ440P"
     };
     pixelFormats[AV_PIX_FMT_YUVA420P] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -640,7 +708,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVA420P"
     };
     pixelFormats[AV_PIX_FMT_UYYVYY411] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -658,7 +728,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_UYYVYY411"
     };
     pixelFormats[AV_PIX_FMT_RGB444LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -676,7 +748,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_SHORT_4_4_4_4
+        GL_UNSIGNED_SHORT_4_4_4_4,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGB444LE"
     };
     pixelFormats[AV_PIX_FMT_RGB444BE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -694,7 +768,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_SHORT_4_4_4_4
+        GL_UNSIGNED_SHORT_4_4_4_4,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGB444BE"
     };
     pixelFormats[AV_PIX_FMT_BGR444LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -712,7 +788,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_SHORT_4_4_4_4
+        GL_UNSIGNED_SHORT_4_4_4_4,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BGR444LE"
     };
     pixelFormats[AV_PIX_FMT_BGR444BE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -730,7 +808,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         false,
         //GLenum dataType
-        GL_UNSIGNED_SHORT_4_4_4_4
+        GL_UNSIGNED_SHORT_4_4_4_4,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BGR444BE"
     };
     pixelFormats[AV_PIX_FMT_YUV420P16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -748,7 +828,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV420P16LE"
     };
     pixelFormats[AV_PIX_FMT_YUV420P16BE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -766,7 +848,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV420P16BE"
     };
     pixelFormats[AV_PIX_FMT_YUV422P16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -784,7 +868,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV422P16LE"
     };
     pixelFormats[AV_PIX_FMT_YUV422P16BE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -802,7 +888,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV422P16BE"
     };
     pixelFormats[AV_PIX_FMT_YUV444P16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -820,7 +908,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV444P16LE"
     };
     pixelFormats[AV_PIX_FMT_YUV444P16BE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -838,7 +928,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUV444P16BE"
     };
     pixelFormats[AV_PIX_FMT_YUVA420P16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -856,7 +948,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVA420P16LE"
     };
     pixelFormats[AV_PIX_FMT_YUVA422P16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -874,7 +968,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVA422P16LE"
     };
     pixelFormats[AV_PIX_FMT_YUVA444P16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -892,7 +988,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_YUVA444P16LE"
     };
     pixelFormats[AV_PIX_FMT_BAYER_BGGR16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -910,7 +1008,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BAYER_BGGR16LE"
     };
     pixelFormats[AV_PIX_FMT_BAYER_RGGB16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -928,7 +1028,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BAYER_RGGB16LE"
     };
     pixelFormats[AV_PIX_FMT_BAYER_GBRG16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -946,7 +1048,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BAYER_GBRG16LE"
     };
     pixelFormats[AV_PIX_FMT_BAYER_GRBG16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -964,7 +1068,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BAYER_GRBG16LE"
     };
     pixelFormats[AV_PIX_FMT_BAYER_GRBG16LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -982,7 +1088,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BAYER_GRBG16LE"
     };
     pixelFormats[AV_PIX_FMT_RGB565LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1000,7 +1108,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT_5_6_5
+        GL_UNSIGNED_SHORT_5_6_5,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGB565LE"
     };
     pixelFormats[AV_PIX_FMT_RGB555LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1018,7 +1128,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT_1_5_5_5_REV
+        GL_UNSIGNED_SHORT_1_5_5_5_REV,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGB555LE"
     };
     pixelFormats[AV_PIX_FMT_BGR565LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1036,7 +1148,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT_5_6_5
+        GL_UNSIGNED_SHORT_5_6_5,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BGR565LE"
     };
     pixelFormats[AV_PIX_FMT_RGB555LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1054,7 +1168,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT_1_5_5_5_REV
+        GL_UNSIGNED_SHORT_1_5_5_5_REV,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGB555LE"
     };
     pixelFormats[AV_PIX_FMT_RGB48LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1072,7 +1188,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGB48LE"
     };
     pixelFormats[AV_PIX_FMT_BGR48LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1090,7 +1208,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BGR48LE"
     };
     pixelFormats[AV_PIX_FMT_RGBA64LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1108,7 +1228,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_RGBA64LE"
     };
     pixelFormats[AV_PIX_FMT_BGRA64LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1126,7 +1248,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_SHORT
+        GL_UNSIGNED_SHORT,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_BGRA64LE"
     };
     pixelFormats[AV_PIX_FMT_NV16] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1144,7 +1268,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_NV16"
     };
     pixelFormats[AV_PIX_FMT_NV20LE] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1162,7 +1288,9 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_NV20LE"
     };
     pixelFormats[AV_PIX_FMT_DXVA2_VLD] = PixelFormat {
         //Fraction yuvSizes[3];
@@ -1180,6 +1308,8 @@ StaticPixelFormats::StaticPixelFormats() {
         //bool isPlanar
         true,
         //GLenum dataType
-        GL_UNSIGNED_BYTE
+        GL_UNSIGNED_BYTE,
+        //std::string humanReadablePixelFormat
+        "AV_PIX_FMT_DXVA2_VLD"
     };
 }

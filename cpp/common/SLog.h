@@ -119,6 +119,7 @@ public:
     Category category;
     SubCategory subCategory;
     std::stringstream message;
+    std::shared_ptr<std::unordered_set<CONFIG>> configurations;
 };
 /*
     Class that picks messages from queue and writes to specific targets
@@ -183,6 +184,8 @@ public:
     //template <typename T>
     void applyConfiguration(CONFIG config)
     {
+        configurations->emplace(config);
+        /* 
         //std::cout << "applying configuration: " << t << std::endl;
         switch (config)
         {
@@ -198,6 +201,7 @@ public:
         default:
             break;
         }
+        */
     }
     void applyConfiguration(Category category)
     {
@@ -257,6 +261,7 @@ public:
     }
 
 public:
+    std::shared_ptr<std::unordered_set<CONFIG>> configurations;
     static std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
     static LoggerThread loggerThread;
     static std::shared_ptr<std::unordered_set<Category>> allowTheseCategories;
@@ -294,6 +299,7 @@ public:
             ss << "\n";
         Message message;
         message.category = std::move(sLog->category);
+        message.configurations = sLog->configurations;
         //message.subCategory = std::move(sLog->subCategory);
         message.message = std::move(ss);
         sLog->queue(std::move(message));

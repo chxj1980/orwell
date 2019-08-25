@@ -70,6 +70,8 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 {
 	try
 	{
+		std::cout << "gonna render" << std::endl;
+
 		glArea.throw_if_error();
 
 		glDraw();
@@ -86,7 +88,6 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 		conditionVariable.notify_one();
 		return false;
 	}
-	conditionVariable.notify_one();
 }
 
 void OpenglSmartRenderer3::glDraw()
@@ -102,20 +103,28 @@ void OpenglSmartRenderer3::glDraw()
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
 	if (this->firstFrameReceived && frame.width() != 0)
 	{
-		std::cout << "Received frame with width: " << frame.width() << " and height: " << frame.height() << std::endl;
-		std::cout << "getting pixelformat for " << (int)frame.format() << std::endl;
-		pixelFormat = PixelFormats::get((int)frame.format());
+		//std::cout << "Received frame with width: " << frame.width() << " and height: " << frame.height() << std::endl;
+		//std::cout << "getting pixelformat for " << (int)frame.format() << std::endl;
+		std::cout << "begin drawing" << std::endl;
 		//--------------
 		int width[3];
 		int height[3];
 		int linesize[3];
 		int textureSize[3];
+		/*
+			Our Frame called `frame` has a PixelFormat (example: AV_PIX_FMT_YUV420P). 
+			We're gonna get, in the list of PixelFormats, for parameters for this format.
+			The parameters are things like the ratio of U and V components of the YUV 
+			component, in the case of an YUV frame, or the details about RGB in the
+			case of an RGB frame.
+		*/
+		pixelFormat = PixelFormats::get((int)frame.format());
 		for (int i = 0; i <= 2; i++)
 		{
 			Fraction widthRatio = pixelFormat->yuvWidths[i];
 			Fraction heightRatio = pixelFormat->yuvHeights[i];
 			linesize[i] = frame.linesize(i);
-			width[i] = linesize[i] * widthRatio.numerator / heightRatio.denominator;
+			//width[i] = linesize[i] * widthRatio.numerator / heightRatio.denominator;
 			width[i] = frame.width() * widthRatio.numerator / heightRatio.denominator;
 			//width = linesize[i];
 			height[i] = frame.height() * heightRatio.numerator / heightRatio.denominator;
@@ -194,13 +203,6 @@ void OpenglSmartRenderer3::glDraw()
 				{
 					glBindTexture(GL_TEXTURE_2D, textureId[i]);
 
-					/*
-						Our Frame called `frame` has a PixelFormat (example: AV_PIX_FMT_YUV420P). 
-						We're gonna get, in the list of PixelFormats, for parameters for this format.
-						The parameters are things like the ratio of U and V components of the YUV 
-						component, in the case of an YUV frame, or the details about RGB in the
-						case of an RGB frame.
-					*/
 					//Fraction widthRatio = pixelFormat->yuvWidths[i];
 					//Fraction heightRatio = pixelFormat->yuvHeights[i];
 					/*
@@ -268,9 +270,8 @@ void OpenglSmartRenderer3::glDraw()
 
 			//int linesize = frame.linesize(j);
 			uint8_t *buffer = frame.buffer(j);
-			int linesize = frame.linesize(j);
 
-			if (buffer != NULL && linesize != 0)
+			if (buffer != NULL && linesize[j] != 0)
 			{
 				//Fraction widthRatio = pixelFormat->yuvWidths[j];
 				//Fraction heightRatio = pixelFormat->yuvHeights[j];
@@ -312,7 +313,7 @@ void OpenglSmartRenderer3::glDraw()
 			glUniform1i(textureLocation[j], j);
 			//m_pbo[pboIndex][j].release();
 		}
-		glUniform1f(textureFormat, (GLfloat)pixelFormat->textureFormat);
+		glUniform1f(textureFormat, (GLfloat) pixelFormat->textureFormat);
 
 		glBindVertexArray(vertexArrayObject);
 		//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
