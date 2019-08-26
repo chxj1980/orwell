@@ -8,13 +8,15 @@
 */
 class Stoppable
 {
-    std::atomic<bool> shouldContinue;
+private:
+    std::atomic<bool> _shouldContinue;
 
 public:
-    Stoppable() {
-        shouldContinue.store(true);
+    Stoppable()
+    {
+        _shouldContinue.store(true);
     }
-   
+
     virtual void run() = 0;
     void operator()()
     {
@@ -22,11 +24,11 @@ public:
     }
     bool shouldContinue()
     {
-        return shouldContinue.load();
+        return _shouldContinue.load();
     }
     void stop()
     {
-        shouldContinue.store(true);
+        _shouldContinue.store(true);
     }
 };
 #endif //Stoppable_H

@@ -27,4 +27,4 @@ private:
     std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
     //void ByeFromServerClbk();
 };
-#endif // MyRTSPCLient_H
+#endif //MyRTSPCLient_H

@@ -8,7 +8,6 @@
 #include "MyRTSPClient.h"
 #include "FfmpegHardwareDecoder.h"
 #include "FfmpegSoftwareDecoder.h"
-#include "Singleton.h"
 #include "VideoReceiver.h"
 #include <string>
 #include <iostream>
@@ -20,12 +19,17 @@
 #include <mutex>
 #include <deque>
 #include "DecodedFrame.h"
+#ifdef __cplusplus
+#define EXTERNC extern "C"
+#else
+#define EXTERNC
+#endif
 class RTSPUrl
 {
 public:
     RTSPUrl(std::string url) : url(url) {}
     std::string url;
-}
+};
 /*
     Represents an Orwell instance. It's a collection of media stream,
     decoder, FIFOs and threads that deals with one stream (one camera)
@@ -33,6 +37,9 @@ public:
 class Orwell
 {
 public:
+    Orwell() {
+
+    }
     explicit Orwell(RTSPUrl rtspUrl);
     //explicit Orwell(OnvifURL onvifURL);
 
@@ -47,4 +54,11 @@ public:
     //std::shared_ptr<MovementTracker> movementTracker
 };
 
+//C interface 
+EXTERNC void* orwell_init_from_rtsp(char *rtspUrl);
+//EXTERN C void* orwell_init_from_onvif(char *onvifUrl);
+EXTERNC void orwell_destroy(void* mytype);
+EXTERNC void orwell_doit(void* self, int param);
+
+#undef EXTERNC
 #endif //Orwell_H

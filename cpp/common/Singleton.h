@@ -36,7 +36,8 @@ public:
     static void addStream(std::string id, Orwell orwell)
     {
         mutex.lock();
-        orwellList[id] = orwell;
+        //orwellList[id] = orwell;
+        orwellList.insert(std::pair<std::string, Orwell>(id, orwell));
         mutex.unlock();
     }
 

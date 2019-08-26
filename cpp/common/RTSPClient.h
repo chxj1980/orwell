@@ -36,7 +36,6 @@ public:
 	virtual int receivePacket() = 0;
 
 private:
-	bool firstConnection = true;
 	std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
 };
 #endif // RTSPCLient_H

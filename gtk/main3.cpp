@@ -10,7 +10,7 @@ int main() {
     //options.add_options()
     //("d,debug", "Enable debugging")
     //("f,file", "File name", cxxopts::value<std::string>());
-    SLog LOG(Category("main"));
+    SLog::SLog LOG(SLog::Category("main"));
     //SLog::enableCategories(Category("main"));
     LOG << "hello" << " world";
     LOG << "testando: " << 1;
