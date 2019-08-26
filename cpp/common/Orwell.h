@@ -46,9 +46,7 @@ public:
     std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;
     std::shared_ptr<std::thread> decoderThread;
-    //std::shared_ptr<VideoReceiver> videoReceiver;
     std::shared_ptr<VideoRecorder> videoRecorder;
-    //std::shared_ptr<MovementTracker> movementTracker
 };
 
 //C interface 
