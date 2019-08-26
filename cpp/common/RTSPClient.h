@@ -35,7 +35,7 @@ public:
 	*/
 	virtual int receivePacket() = 0;
 
-private:
+protected:
 	std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
 };
 #endif // RTSPCLient_H

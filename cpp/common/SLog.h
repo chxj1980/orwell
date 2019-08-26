@@ -136,8 +136,8 @@ class LoggerThread : public Stoppable
 {
 public:
     LoggerThread(std::shared_ptr<ThreadSafeQueue<Message>> logMessages,
-                 std::shared_ptr<UnorderedSetConfig> allowTheseCategories):logMessages(logMessages),
-                                                                           allowTheseCategories(allowTheseCategories)
+                 std::shared_ptr<UnorderedSetConfig> allowTheseCategories) : logMessages(logMessages),
+                                                                             allowTheseCategories(allowTheseCategories)
     {
         thread = std::thread(&LoggerThread::run, this);
     }
@@ -245,7 +245,7 @@ public:
     }
 
 public:
-    std::shared_ptr<std::unordered_set<Config>> configurations;
+    std::shared_ptr<std::unordered_set<Config>> configurations = std::make_shared<std::unordered_set<Config>>();
     static std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
     static LoggerThread loggerThread;
     static std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
@@ -270,7 +270,7 @@ public:
     SLogBuffer &operator<<(T &&message)
     {
         //ss << std::forward<T>(message);
-        this->message.message << std::forward<T>(message);
+        this->message.stringstream << std::forward<T>(message);
         return *this;
     }
 
@@ -292,7 +292,9 @@ SLogBuffer operator<<(SLog &&sLog, T message)
 {
     SLogBuffer buffer;
     //buffer.sLog = &sLog;
-    buffer.message.message << std::forward<T>(message);
+    buffer.message.category = sLog.category;
+    buffer.message.stringstream << std::forward<T>(message);
+    buffer.message.configurations = sLog.configurations;
     return buffer;
 }
 
@@ -301,7 +303,9 @@ SLogBuffer operator<<(SLog &sLog, T message)
 {
     SLogBuffer buffer;
     //buffer.sLog = &sLog;
-    buffer.message.message << std::forward<T>(message);
+    buffer.message.category = sLog.category;
+    buffer.message.stringstream << std::forward<T>(message);
+    buffer.message.configurations = sLog.configurations;
     return buffer;
 }
 } // namespace SLog

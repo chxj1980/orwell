@@ -17,13 +17,8 @@ public:
         HARDWARE
     } device;
     static std::vector<std::string> getSupportedDevices();
-    FfmpegHardwareDecoder(Codec codec, Device device, std::string hardwareType) : device(device), hardwareType(hardwareType)
-    {
-        this->codec = codec;
-        //avPacket.reset(new AVPacket());
-    };
+    FfmpegHardwareDecoder(Codec codec, Device device, std::string hardwareType);
 
-    int init();
     //Decodes to GPU memory but not get it back to CPU memory
     int hardwareDecode(uint8_t *frameBuffer, int frameLength);
     /* 
@@ -36,14 +31,6 @@ public:
     AVPixelFormat print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt);
     AVPixelFormat get_format(struct AVCodecContext *s, const AVPixelFormat *fmt);
 
-    ~FfmpegHardwareDecoder()
-    {
-        //av_frame_free(&decodedAvFrame);
-        //av_frame_free(&fromGPUAvFrame);
-        //avcodec_free_context(&avCodecContext);
-        //av_buffer_unref(&avBufferRef);
-        //av_freep(&buffer);
-    }
 
 private:
     //AVBufferRef *avBufferRef;

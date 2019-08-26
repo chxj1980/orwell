@@ -19,8 +19,6 @@ extern "C"
 class FfmpegDecoder: public Decoder
 {
 public:
-	//Initiates all the av things
-	virtual int init() = 0;
 	/* 
 		Decodes to CPU memory. 
 		If invoked in a FfmpegSoftwareDecoder instance, it'll simply do

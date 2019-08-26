@@ -1,19 +1,21 @@
 #include "FfmpegSoftwareDecoder.h"
 
-int FfmpegSoftwareDecoder::init()
+FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 {
-	if (codec==H264)
+	this->codec = codec;
+	if (codec == H264)
 		avCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
-	else if(codec==H265){
+	else if (codec == H265)
+	{
 		//avCodec = avcodec_find_decoder(AV_CODEC_ID_H265);
 		std::cout << "H265 not yet supported" << std::endl;
-		return -1;
+		//return -1;
 	}
 
 	if (!avCodec)
 	{
 		std::cout << "avcodec_find_decoder problem" << std::endl;
-		return -2;
+		//return -2;
 	}
 
 	avCodecContext.reset(avcodec_alloc_context3(avCodec));
@@ -22,10 +24,8 @@ int FfmpegSoftwareDecoder::init()
 	if (ret < 0)
 	{
 		std::cout << "avcodec_open2 problem: " << ret << std::endl;
-		return -3;
+		//return -3;
 	}
-
-	return 0;
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
@@ -34,13 +34,13 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
 	DecodedFrame frame;
 	frame.decodedFrom = DecodedFrame::FFMPEG;
 	int r = decodeFrame(frameBuffer, frameLength, frame);
-	if (!decodedFramesFifo) {
+	if (!decodedFramesFifo)
+	{
 		std::cerr << "No decodedFramesFifo setted in FfmpegSoftwareDecoder" << std::endl;
 	}
 	if (r == 0)
 		this->decodedFramesFifo->emplace_back(std::move(frame));
 	return r;
-	
 }
 
 int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame)
@@ -55,7 +55,7 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, De
 	std::unique_ptr<AVPacket, AVPacketDeleter> avPacket(av_packet_alloc());
 	if (!avPacket.get())
 		std::cout << "av packet error" << std::endl;
-	
+
 	avPacket.get()->size = frameLength;
 	avPacket.get()->data = frameBuffer;
 

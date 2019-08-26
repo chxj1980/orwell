@@ -42,8 +42,6 @@ public:
 			decodeFrame(frame.frameBuffer.get(), frame.frameSize);
 		}
 	}
-	//Initiates the decoder contexts
-	virtual int init() = 0;
 	/* 
 		Decodes to CPU memory. 
 		If invoked in a FfmpegSoftwareDecoder instance, it'll simply do

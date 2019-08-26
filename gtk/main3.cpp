@@ -11,7 +11,7 @@ int main() {
     //("d,debug", "Enable debugging")
     //("f,file", "File name", cxxopts::value<std::string>());
     SLog::SLog LOG(SLog::Category("main"));
-    //SLog::enableCategories(Category("main"));
+    SLog::SLog::enableCategories(SLog::Category("main"));
     LOG << "hello" << " world";
     LOG << "testando: " << 1;
     while (true) {

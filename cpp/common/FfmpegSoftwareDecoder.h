@@ -4,10 +4,7 @@
 
 class FfmpegSoftwareDecoder: public FfmpegDecoder {
     public:
-        FfmpegSoftwareDecoder(Codec codec) {
-            this->codec = codec;
-        }
-        int init();
+        FfmpegSoftwareDecoder(Codec codec);
         int decodeFrame(uint8_t* frameBuffer, int frameLength);
         int decodeFrame(uint8_t* frameBuffer, int frameLength, DecodedFrame& frame);
     private:

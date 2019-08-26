@@ -24,7 +24,6 @@ public:
 
 private:
     bool firstConnection = true;
-    std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
     //void ByeFromServerClbk();
 };
 #endif //MyRTSPCLient_H
