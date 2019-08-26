@@ -69,6 +69,7 @@ private:
 };
 struct Category
 {
+public:
     Category()
     {
     }
@@ -76,11 +77,11 @@ struct Category
     {
     }
 
-public:
     std::string category;
 };
 struct SubCategory
 {
+public:
     SubCategory()
     {
     }
@@ -88,7 +89,6 @@ struct SubCategory
     {
     }
 
-public:
     std::string subCategory;
 };
 
@@ -105,8 +105,7 @@ struct CategoryHash
 {
     std::size_t operator()(Category const &category) const noexcept
     {
-        std::size_t hash = std::hash<std::string>{}(category.category);
-        return hash;
+        return std::hash<std::string>{}(category.category);
     }
 };
 /*
@@ -126,7 +125,7 @@ struct Message
 public:
     Category category;
     SubCategory subCategory;
-    std::stringstream message;
+    std::stringstream stringstream;
     std::shared_ptr<std::unordered_set<Config>> configurations;
 };
 /*
@@ -137,8 +136,8 @@ class LoggerThread : public Stoppable
 {
 public:
     LoggerThread(std::shared_ptr<ThreadSafeQueue<Message>> logMessages,
-                 std::shared_ptr<UnorderedSetConfig> allowTheseCategories) : logMessages(logMessages),
-                                                                             allowTheseCategories(allowTheseCategories)
+                 std::shared_ptr<UnorderedSetConfig> allowTheseCategories):logMessages(logMessages),
+                                                                           allowTheseCategories(allowTheseCategories)
     {
         thread = std::thread(&LoggerThread::run, this);
     }
@@ -157,7 +156,7 @@ public:
             auto message = logMessages->pop();
             //If category is in the set of allowed categories, we do things
             if (allowTheseCategories->find(message.category) != allowTheseCategories->end())
-                std::cout << message.message.str() << std::flush;
+                std::cout << message.stringstream.str() << std::flush;
         }
     }
 
@@ -278,7 +277,7 @@ public:
     ~SLogBuffer()
     {
         if (message.configurations->find(Config::NO_NEW_LINE) == message.configurations->end())
-            message.message << "\n";
+            message.stringstream << "\n";
         //Message message;
         //message.category = std::move(sLog->category);
         //message.configurations = sLog->configurations;
