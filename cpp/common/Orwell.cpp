@@ -2,7 +2,7 @@
 
 Orwell::Orwell(RTSPUrl rtspUrl)
 {
-    mediaStream = std::make_shared<MediaStream>(rtspUrl.url);
+    rtspClient = std::make_shared<MyRTSPClient>(rtspUrl.url);
     //FIFO encoded and decoder
     encodedFramesFifo = std::make_shared<ThreadSafeDeque<EncodedFrame>>();
     decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
@@ -15,7 +15,6 @@ Orwell::Orwell(RTSPUrl rtspUrl)
     decoder->setDecodedFramesFifo(decodedFramesFifo);
     decoderThread = std::make_shared<std::thread>(&Decoder::run, decoder);
     //RTSP client
-    mediaStream->setDecoder(decoder);
-    mediaStream->setEncodedFramesFifo(encodedFramesFifo);
-    mediaStreamThread = std::make_shared<std::thread>(&MediaStream::run, mediaStream);
+    rtspClient->setEncodedFramesFifo(encodedFramesFifo);
+    rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
 }

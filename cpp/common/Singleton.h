@@ -4,7 +4,7 @@
 #include <memory>
 #include "VideoReceiver.h"
 #include "VideoRecorder.h"
-#include "MediaStream.h"
+#include "RTSPClient.h"
 #include <thread>
 #include <mutex>
 #include <deque>
@@ -14,7 +14,7 @@
 /* 
 struct SingletonObject
 {
-    std::shared_ptr<MediaStream> mediaStream;
+    std::shared_ptr<RTSPClient> rtspClient;
     std::shared_ptr<std::thread> mediaThread;
     std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
     std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;

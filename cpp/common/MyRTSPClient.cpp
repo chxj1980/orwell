@@ -19,85 +19,83 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "MediaStream.h"
-
-using std::cout;
-using std::endl;
+#include "MyRTSPClient.h"
 
 bool ByeFromServerFlag2 = false;
 void ByeFromServerClbk2()
 {
-	cout << "Server send BYE" << endl;
+	//cout << "Server send BYE" << endl;
 	ByeFromServerFlag2 = true;
 }
-//TODO: if uri is rtsp, do one thing. If it's a .mp4 file, do other thing
-MediaStream::MediaStream (std::string uri):rtspClient(uri),uri(uri) {
+MyRTSPClient::MyRTSPClient(std::string uri): RTSPClient(uri), myRtspClient(uri)
+{
 }
 
-
-void MediaStream::run() {
-	//init();
-	int r = decoder->init();
-	if (r!=0) 
-		std::cout << "problem with ffmpeg decoder init, error: " << r  << std::endl;
-	else 
-		while (true) {
-			while (init()!=0) {}
-			receiveFrame();
-			//break;
+void MyRTSPClient::run()
+{
+	while (shouldContinue())
+	{
+		while (init() != 0)
+		{
 		}
-	
+		receivePacket();
+	}
 }
 
-int MediaStream::init()
-{	
-	if (firstConnection) {
+int MyRTSPClient::init()
+{
+	if (firstConnection)
+	{
 		//std::cout << "RTSP connection for " << this->uri << std::endl;
-	} else {
+	}
+	else
+	{
 		//std::cout << "RTSP reconnection for " << this->uri << std::endl;
 	}
 	firstConnection = false;
-	
-	if (!decoder) {
-		//ERROR, return
-	}
+
 	//TODO: init this only one time
 
 	//decoder.setFrameUpdater(frameUpdater);
-	
+
 	//printf("DoOPTIONS():\n");
-	if(rtspClient.DoOPTIONS() != RTSP_NO_ERROR) {
+	if (myRtspClient.DoOPTIONS() != RTSP_NO_ERROR)
+	{
 		//printf("DoOPTIONS error\n");
 		return 1;
 	}
-	//printf("%s\n", rtspClient.GetResponse().c_str());
+	//printf("%s\n", myRtspClient.GetResponse().c_str());
 	/* Check whether server return '200'(OK) */
-	if(!rtspClient.IsResponse_200_OK()) {
+	if (!myRtspClient.IsResponse_200_OK())
+	{
 		printf("DoOPTIONS error\n");
-		printf("%s\n", rtspClient.GetSDP().c_str());
+		printf("%s\n", myRtspClient.GetSDP().c_str());
 		//init();
 		return 2;
 	}
 	//printf("DoDESCRIBE():\n");
 	/* Send DESCRIBE command to server */
-	if(rtspClient.DoDESCRIBE() != RTSP_NO_ERROR) {
+	if (myRtspClient.DoDESCRIBE() != RTSP_NO_ERROR)
+	{
 		printf("DoDESCRIBE error\n");
-		printf("%s\n", rtspClient.GetSDP().c_str());
+		printf("%s\n", myRtspClient.GetSDP().c_str());
 		//init();
 		return 3;
 	}
-	//printf("%s\n", rtspClient.GetResponse().c_str());
+	//printf("%s\n", myRtspClient.GetResponse().c_str());
 	/* Check whether server return '200'(OK) */
-	if(!rtspClient.IsResponse_200_OK()) {
+	if (!myRtspClient.IsResponse_200_OK())
+	{
 		printf("DoDESCRIBE error\n");
 		//init();
-		printf("%s\n", rtspClient.GetSDP().c_str());
+		printf("%s\n", myRtspClient.GetSDP().c_str());
 		return 4;
 	}
 
 	/* Parse SDP message after sending DESCRIBE command */
-	//printf("%s\n", rtspClient.GetSDP().c_str());
-	if(rtspClient.ParseSDP() != RTSP_NO_ERROR) {
+	//printf("%s\n", myRtspClient.GetSDP().c_str());
+	if (myRtspClient.ParseSDP() != RTSP_NO_ERROR)
+	{
 		printf("ParseSDP error\n");
 		return 5;
 	}
@@ -106,16 +104,18 @@ int MediaStream::init()
 	 * sessions which SDP refers. */
 	//printf("DoSETUP():\n");
 
-	if(rtspClient.DoSETUP("video", true) != RTSP_NO_ERROR) {//TODO: this DoSETUP actually works only for vstarcam cameras, change it to work with anything
+	if (myRtspClient.DoSETUP("video", true) != RTSP_NO_ERROR)
+	{ //TODO: this DoSETUP actually works only for vstarcam cameras, change it to work with anything
 		printf("DoSETUP error\n");
-		printf("%s\n", rtspClient.GetResponse().c_str());
+		printf("%s\n", myRtspClient.GetResponse().c_str());
 		return 6;
 	}
-	rtspClient.SetVideoByeFromServerClbk(ByeFromServerClbk2);
-	//printf("%s\n", rtspClient.GetResponse().c_str());
-	
+	myRtspClient.SetVideoByeFromServerClbk(ByeFromServerClbk2);
+	//printf("%s\n", myRtspClient.GetResponse().c_str());
+
 	/* Check whether server return '200'(OK) */
-	if(!rtspClient.IsResponse_200_OK()) {
+	if (!myRtspClient.IsResponse_200_OK())
+	{
 		printf("DoSETUP error\n");
 		return 7;
 	}
@@ -126,30 +126,33 @@ int MediaStream::init()
 	 * if there are several 'video' session 
 	 * refered in SDP, only play the first 'video' 
 	 * session, the same as 'audio'.*/
-	if(rtspClient.DoPLAY("video", NULL, NULL, NULL) != RTSP_NO_ERROR) {
+	if (myRtspClient.DoPLAY("video", NULL, NULL, NULL) != RTSP_NO_ERROR)
+	{
 		printf("DoPLAY #include <stdio.h> error\n");
-		printf("%s\n", rtspClient.GetResponse().c_str());
+		printf("%s\n", myRtspClient.GetResponse().c_str());
 		return 8;
 	}
-	
-	//printf("%s\n", rtspClient.GetResponse().c_str());
+
+	//printf("%s\n", myRtspClient.GetResponse().c_str());
 	/* Check whether server return '200'(OK) */
-	if(!rtspClient.IsResponse_200_OK()) {
+	if (!myRtspClient.IsResponse_200_OK())
+	{
 		printf("DoPLAY error\n");
 		return 9;
 	}
 	return 0;
 }
 
-int MediaStream::receiveFrame() {
+int MyRTSPClient::receivePacket()
+{
 	int try_times = 0;
 	//const size_t BufSize = 398304;
 	//uint8_t buf[/*4 +*/ BufSize];//4 bytes for 0x00000001 at beggining
 	//uint8_t* paddedBuf = buf + 4;
 	//const size_t bufferSize = 408304;//TODO: make it variable according to video's size
-    //uint8_t frameBuffer[bufferSize];
+	//uint8_t frameBuffer[bufferSize];
 
-    //size_t write_size = 0;
+	//size_t write_size = 0;
 	//std::cout << "accessed char" << std::endl;
 
 	/* Write h264 video data to file "test_packet_recv.h264" 
@@ -157,53 +160,62 @@ int MediaStream::receiveFrame() {
 	// int fd = open("test_packet_recv.h264", O_CREAT | O_RDWR, 0);
 	//int fd = open("test_packet_recv.h264", O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IXUSR);
 
-    /* By default, myRtsprtspClient will write SPS, PPS, VPS(H265 only) for H264/H265 video
+	/* By default, myRtspmyRtspClient will write SPS, PPS, VPS(H265 only) for H264/H265 video
        periodly when you invoke 'GetMediaData'. It could bring your video data stability.
        However, if you want a high performance, you could turn down this function and get 
        SPS, PPS, VPS by yourself just at the begining of the video data */
-    /* For convenience, you could refer to "simple_example.cpp" */
-    /* Get SPS, PPS, VPS manually start */
+	/* For convenience, you could refer to "simple_example.cpp" */
+	/* Get SPS, PPS, VPS manually start */
 	//std::cout << "writing vps" << std::endl;
 	/*
-    rtspClient.SetObtainVpsSpsPpsPeriodly(false);
-    if(!rtspClient.GetVPSNalu(paddedBuf, &size)) {
+    myRtspClient.SetObtainVpsSpsPpsPeriodly(false);
+    if(!myRtspClient.GetVPSNalu(paddedBuf, &size)) {
 		if(write(fd, paddedBuf, size) < 0) {
 			perror("write");
 		}
     } 
-    if(!rtspClient.GetSPSNalu(paddedBuf, &size)) {
+    if(!myRtspClient.GetSPSNalu(paddedBuf, &size)) {
 		if(write(fd, paddedBuf, size) < 0) {
 			perror("write");
 		}
     } 
-    if(!rtspClient.GetPPSNalu(paddedBuf, &size)) {
+    if(!myRtspClient.GetPPSNalu(paddedBuf, &size)) {
 		if(write(fd, paddedBuf, size) < 0) {
 			perror("write");
 		}
     }
-	*/ 
-    /* Get SPS, PPS, VPS manually end */
+	*/
+	/* Get SPS, PPS, VPS manually end */
 	unsigned int a = 0;
 
-    while (true) {
+	while (true)
+	{
 		EncodedFrame frame(408304);
 		a++;
 
-		if(!rtspClient.GetMediaData("video", frame.frameBuffer.get(), &frame.frameSize, frame.bufferSize)) {
-			if(ByeFromServerFlag2) {
+		if (!myRtspClient.GetMediaData("video", frame.frameBuffer.get(), &frame.frameSize, frame.bufferSize))
+		{
+			if (ByeFromServerFlag2)
+			{
 				printf("ByeFromServerFlag\n");
 				return 0;
 			}
-			if(try_times > 5) {
+			if (try_times > 5)
+			{
 				std::cout << "RTSP connection lost for " << this->uri << std::endl;
 				break;
 				return 1;
 			}
 			try_times++;
-		} else {
-			if (!encodedFramesFifo) {
-				std::cerr << "MediaStream: no encodedFramesFifo setted, nowhere to send RTSP data!" << std::endl;
-			} else {
+		}
+		else
+		{
+			if (!encodedFramesFifo)
+			{
+				std::cerr << "MyRTSPClient: no encodedFramesFifo setted, nowhere to send RTSP data!" << std::endl;
+			}
+			else
+			{
 				this->encodedFramesFifo->emplace_back(std::move(frame));
 			}
 			//decoder->decodeFrame(frameBuffer, size);
@@ -223,7 +235,7 @@ int MediaStream::receiveFrame() {
 	*/
 	//try_times = 0;
 	//printf("recv %lu\n", size);
-	
+
 	/*
     if(write_size > 0) {
         if(write(fd, buf, write_size) < 0) {
@@ -232,16 +244,16 @@ int MediaStream::receiveFrame() {
     }
 
 	printf("start TEARDOWN\n");
-    int err = rtspClient.DoTEARDOWN();
+    int err = myRtspClient.DoTEARDOWN();
 	// Send TEARDOWN command to teardown all of the sessions 
 	if(err != RTSP_NO_ERROR && err != RTSP_INVALID_MEDIA_SESSION) {
 		printf("DoTEARDOWN error: %d\n", err);
 		return 0;
 	}
 
-	printf("%s\n", rtspClient.GetResponse().c_str());
+	printf("%s\n", myRtspClient.GetResponse().c_str());
 	// Check whether server return '200'(OK) //
-	if(!rtspClient.IsResponse_200_OK()) {
+	if(!myRtspClient.IsResponse_200_OK()) {
 		printf("DoTEARDOWN error\n");
 		return 0;
 	}

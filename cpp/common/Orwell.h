@@ -4,7 +4,8 @@
 #include <memory>
 #include "VideoReceiver.h"
 #include "VideoRecorder.h"
-#include "MediaStream.h"
+#include "RTSPClient.h"
+#include "MyRTSPClient.h"
 #include "FfmpegHardwareDecoder.h"
 #include "FfmpegSoftwareDecoder.h"
 #include "Singleton.h"
@@ -32,11 +33,11 @@ public:
 class Orwell
 {
 public:
-    Orwell(RTSPUrl rtspUrl);
-    //Orwell(OnvifURL onvifURL);
+    explicit Orwell(RTSPUrl rtspUrl);
+    //explicit Orwell(OnvifURL onvifURL);
 
-    std::shared_ptr<MediaStream> mediaStream;
-    std::shared_ptr<std::thread> mediaStreamThread;
+    std::shared_ptr<RTSPClient> rtspClient;
+    std::shared_ptr<std::thread> rtspClientThread;
     std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
     std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;

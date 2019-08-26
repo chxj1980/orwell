@@ -3,7 +3,7 @@
 //#include <gtkmm/button.h>
 //#include <gtkmm/main.h>
 
-#include "MediaStream.h"
+#include "MyRTSPClient.h"
 #include "FfmpegHardwareDecoder.h"
 #include "FfmpegSoftwareDecoder.h"
 #include "Singleton.h"
