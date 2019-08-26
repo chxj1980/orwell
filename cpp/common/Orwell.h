@@ -37,9 +37,6 @@ public:
 class Orwell
 {
 public:
-    Orwell() {
-
-    }
     explicit Orwell(RTSPUrl rtspUrl);
     //explicit Orwell(OnvifURL onvifURL);
 

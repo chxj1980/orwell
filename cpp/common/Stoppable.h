@@ -28,7 +28,7 @@ public:
     }
     void stop()
     {
-        _shouldContinue.store(true);
+        _shouldContinue.store(false);
     }
 };
 #endif //Stoppable_H

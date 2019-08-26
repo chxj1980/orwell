@@ -34,13 +34,14 @@ public:
 				no CPU time is wasted.
 			*/
 			//TODO: certify that the operation below is MOVING the frame to here, not copying it
-			EncodedFrame frame = std::move(encodedFramesFifo->pop_front());
+			EncodedFrame encodedFrame = std::move(encodedFramesFifo->pop_front());
 			/* 
 				Since the frame is gone from the fifo, it only exists here. 
 				decodeFrame() access its pointers and is blocking. When decodeFrame 
-				finishes, `frame` is gone and its contents are automatically deleted
+				finishes, `encodedFrame` is gone and its contents are automatically deleted.
+				DecodedFrame is sent to the decodedFramesFifo
 			*/
-			decodeFrame(frame);
+			decodeFrame(encodedFrame);
 		}
 	}
 	/* 
@@ -58,13 +59,11 @@ public:
 	*/
 	virtual int decodeFrame(EncodedFrame& encodedFrame, DecodedFrame &decodedFrame) = 0;
 	/*
-		Decodes directly to the videoReceiver
+		Decodes directly to the decodedFramesFifo
 	*/
 	virtual int decodeFrame(EncodedFrame& encodedFrame) = 0;
-	//Decoded data decoded through decodeFrame will be sent to videoReceiver
-
 	/*
-		Here go all the raw frames, as readed from network or file (Frame format is just a placeholder for now)
+		Here go all the raw frames, as readed from network or file
 	*/
 	void setEncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo)
 	{

@@ -11,21 +11,6 @@
 #include "DecodedFrame.h"
 #include "Orwell.h"
 
-/* 
-struct SingletonObject
-{
-    std::shared_ptr<RTSPClient> rtspClient;
-    std::shared_ptr<std::thread> mediaThread;
-    std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
-    std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
-    std::shared_ptr<Decoder> decoder;
-    std::shared_ptr<std::thread> decoderThread;
-    //std::shared_ptr<VideoReceiver> videoReceiver;
-    std::shared_ptr<VideoRecorder> videoRecorder;
-    //std::shared_ptr<MovementTracker> movementTracker
-};
-*/
-
 //https://stackoverflow.com/questions/1008019/c-singleton-design-pattern/40337728#40337728
 class Singleton
 {
@@ -35,29 +20,25 @@ public:
 
     static void addStream(std::string id, Orwell orwell)
     {
-        mutex.lock();
-        //orwellList[id] = orwell;
-        orwellList.insert(std::pair<std::string, Orwell>(id, orwell));
-        mutex.unlock();
+        std::unique_lock<std::mutex> lock{mutex};
+        orwellMap.insert(std::pair<std::string, Orwell>(id, orwell));
     }
 
     static Orwell getStream(std::string id)
     {
-        mutex.lock();
-        Orwell orwell = orwellList[id];
-        mutex.unlock();
-        return orwell;
+        std::unique_lock<std::mutex> lock{mutex};
+        return orwellMap.at(id);
     }
 
     static std::shared_ptr<Singleton> instance()
     {
-        static std::shared_ptr<Singleton> s{new Singleton};
-        return s;
+        static std::shared_ptr<Singleton> singleton{new Singleton};
+        return singleton;
     }
 
 private:
     Singleton() {}
-    static std::map<std::string, Orwell> orwellList;
+    static std::map<std::string, Orwell> orwellMap;
     static std::mutex mutex;
 };
 
