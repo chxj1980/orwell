@@ -182,6 +182,10 @@ public:
         applyConfiguration(t);
     }
 
+    ~SLog() {
+        //STOP loggerThread here!
+    }
+
     //template <typename T>
     void applyConfiguration(Config config)
     {
@@ -197,8 +201,8 @@ public:
     {
         logMessages->emplace(std::move(message));
     }
-
-    static void enableCategories(Category category)
+    template <typename T>
+    static void enableCategories(T category)
     {
         allowTheseCategories->emplace(category);
     }
@@ -309,4 +313,6 @@ SLogBuffer operator<<(SLog &sLog, T message)
     return buffer;
 }
 } // namespace SLog
+#define SLOG_CATEGORY(x) static SLog::SLog LOG(SLog::Category(x));
+#define SLOG_ENABLE_CATEGORIES(...) SLog::SLog::enableCategories(__VA_ARGS__);
 #endif //SLog_H
