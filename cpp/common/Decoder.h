@@ -7,8 +7,9 @@
 #include "EncodedFrame.h"
 #include "DecodedFrame.h"
 #include "ThreadSafeDeque.h"
+#include "Stoppable.h"
 
-class Decoder
+class Decoder: public Stoppable
 {
 public:
 	enum Codec
@@ -26,7 +27,7 @@ public:
 			std::cerr << "Decoder.h: no encodedFramesFifo setted, nowhere to pull data from" << std::endl;
 			return;
 		}
-		while (true)
+		while (shouldContinue())
 		{
 			/*
 				Pops an encoded frame from encodedFramesFifo. If there are none, it blocks, so
@@ -39,7 +40,7 @@ public:
 				decodeFrame() access its pointers and is blocking. When decodeFrame 
 				finishes, `frame` is gone and its contents are automatically deleted
 			*/
-			decodeFrame(frame.frameBuffer.get(), frame.frameSize);
+			decodeFrame(frame);
 		}
 	}
 	/* 
@@ -55,11 +56,11 @@ public:
 		- frameLength contains size of frameBuffer
 		- frame is the pointer to the decoded frame data
 	*/
-	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame) = 0;
+	virtual int decodeFrame(EncodedFrame& encodedFrame, DecodedFrame &decodedFrame) = 0;
 	/*
 		Decodes directly to the videoReceiver
 	*/
-	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength) = 0;
+	virtual int decodeFrame(EncodedFrame& encodedFrame) = 0;
 	//Decoded data decoded through decodeFrame will be sent to videoReceiver
 
 	/*

@@ -29,11 +29,11 @@ FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
-int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
+int FfmpegSoftwareDecoder::decodeFrame(EncodedFrame& encodedFrame)
 {
 	DecodedFrame frame;
 	frame.decodedFrom = DecodedFrame::FFMPEG;
-	int r = decodeFrame(frameBuffer, frameLength, frame);
+	int r = decodeFrame(encodedFrame, frame);
 	if (!decodedFramesFifo)
 	{
 		std::cerr << "No decodedFramesFifo setted in FfmpegSoftwareDecoder" << std::endl;
@@ -43,11 +43,11 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength)
 	return r;
 }
 
-int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame)
+int FfmpegSoftwareDecoder::decodeFrame(EncodedFrame& encodedFrame, DecodedFrame &decodedFrame)
 {
 	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET);
-	if (frameLength <= 0)
+	if (encodedFrame.frameSize <= 0)
 		return -1;
 
 	int frameFinished = 0;
@@ -56,8 +56,8 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, De
 	if (!avPacket.get())
 		std::cout << "av packet error" << std::endl;
 
-	avPacket.get()->size = frameLength;
-	avPacket.get()->data = frameBuffer;
+	avPacket.get()->size = encodedFrame.frameSize;
+	avPacket.get()->data = encodedFrame.frameBuffer.get();
 
 	//https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 
@@ -74,7 +74,7 @@ int FfmpegSoftwareDecoder::decodeFrame(uint8_t *frameBuffer, int frameLength, De
 				We just need to move our avFrame to a generic Frame object. 
 				Now caller has a video frame and can render it.
 			*/
-			frame.avFrame = std::move(avFrame);
+			decodedFrame.avFrame = std::move(avFrame);
 			return 0;
 		}
 		else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF))

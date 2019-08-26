@@ -28,8 +28,8 @@ public:
 		To just decode to GPU memory but not get it in CPU memory, use
 		FfmpegHardwareDecoder::hardwareDecode().
 	*/
-	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength) = 0;
-	virtual int decodeFrame(uint8_t *frameBuffer, int frameLength, DecodedFrame &frame) = 0;
+	virtual int decodeFrame(EncodedFrame& encodedFrameh) = 0;
+	virtual int decodeFrame(EncodedFrame& encodedFrame, DecodedFrame &decodedFrame) = 0;
 	/* 
 	static int avFrameToFrame(AVFrame* avFrame, Frame &frame)
 	{
