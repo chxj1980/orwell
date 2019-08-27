@@ -39,51 +39,14 @@
 #include "media/NdkMediaCodec.h"
 #include "media/NdkMediaExtractor.h"
 
-// for __android_log_print(ANDROID_LOG_INFO, "YourApp", "formatted message");
-#include <android/log.h>
-#define TAG "NativeCodec"
-#define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, TAG, __VA_ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
-
 // for native window JNI
 #include <android/native_window_jni.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 
-typedef struct {
-    int fd;
-    ANativeWindow* window;
-    AMediaExtractor* ex;
-    AMediaCodec *codec;
-    int64_t renderstart;
-    bool sawInputEOS;
-    bool sawOutputEOS;
-    bool isPlaying;
-    bool renderonce;
-} workerdata;
-
-workerdata data = {-1, NULL, NULL, NULL, 0, false, false, false, false};
-
-enum {
-    kMsgCodecBuffer,
-    kMsgPause,
-    kMsgResume,
-    kMsgPauseAck,
-    kMsgDecodeDone,
-    kMsgSeek,
-};
-
-class mylooper: public looper {
-    virtual void handle(int what, void* obj);
-};
-
-static mylooper *mlooper = NULL;
-
-int64_t systemnanotime() {
-    timespec now;
-    clock_gettime(CLOCK_MONOTONIC, &now);
-    return now.tv_sec * 1000000000LL + now.tv_nsec;
-}
+#include "SLog.h"
+#include "Orwell.h"
+#include "Singleton.h"
 
 void doCodecWork(workerdata *d) {
 
@@ -147,67 +110,17 @@ void doCodecWork(workerdata *d) {
     }
 }
 
-void mylooper::handle(int what, void* obj) {
-    switch (what) {
-        case kMsgCodecBuffer:
-            doCodecWork((workerdata*)obj);
-            break;
-
-        case kMsgDecodeDone:
-        {
-            workerdata *d = (workerdata*)obj;
-            AMediaCodec_stop(d->codec);
-            AMediaCodec_delete(d->codec);
-            AMediaExtractor_delete(d->ex);
-            d->sawInputEOS = true;
-            d->sawOutputEOS = true;
-        }
-        break;
-
-        case kMsgSeek:
-        {
-            workerdata *d = (workerdata*)obj;
-            AMediaExtractor_seekTo(d->ex, 0, AMEDIAEXTRACTOR_SEEK_NEXT_SYNC);
-            AMediaCodec_flush(d->codec);
-            d->renderstart = -1;
-            d->sawInputEOS = false;
-            d->sawOutputEOS = false;
-            if (!d->isPlaying) {
-                d->renderonce = true;
-                post(kMsgCodecBuffer, d);
-            }
-            LOGV("seeked");
-        }
-        break;
-
-        case kMsgPause:
-        {
-            workerdata *d = (workerdata*)obj;
-            if (d->isPlaying) {
-                // flush all outstanding codecbuffer messages with a no-op message
-                d->isPlaying = false;
-                post(kMsgPauseAck, NULL, true);
-            }
-        }
-        break;
-
-        case kMsgResume:
-        {
-            workerdata *d = (workerdata*)obj;
-            if (!d->isPlaying) {
-                d->renderstart = -1;
-                d->isPlaying = true;
-                post(kMsgCodecBuffer, d);
-            }
-        }
-        break;
-    }
-}
-
-
 
 
 extern "C" {
+
+jboolean Java_com_example_nativecodec_NativeCodec_createOrwellFromRtsp(
+        JNIEnv* env, jclass clazz, jstring id, jstring rtspUrl) {
+    const char* rtspUrlChar = env->GetStringUTFChars(rtspUrl, NULL);
+    const char* idChar = env->GetStringUTFChars(id, NULL);
+
+    Singleton::instance()->addStream(idChar, Orwell(RTSPUrl(rtspUrlChar)));
+}
 
 jboolean Java_com_example_nativecodec_NativeCodec_createStreamingMediaPlayer(JNIEnv* env,
         jclass clazz, jobject assetMgr, jstring filename)

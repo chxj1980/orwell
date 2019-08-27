@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-add_compile_definitions(ANDROID)
+add_compile_options(-D ANDROID)
 project(orwell)
 set(PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../)
 
@@ -13,7 +13,7 @@ find_library(log-lib log)
 add_subdirectory(${PROJECT_ROOT}/myRtspClient _myRtspClient)
 include_directories(${PROJECT_ROOT}/myRtspClient/myRtspClient/include)
 
-file(GLOB LIBORWELL_SRCS "${PROJECT_ROOT}/cpp/common/*" )
+file(GLOB LIBORWELL_SRCS "${PROJECT_ROOT}/cpp/common/*" "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 include_directories(${PROJECT_ROOT}/cpp/common/ ${PROJECT_ROOT}/cpp/desktop/)
 
 set(FFMPEG_INCLUDE_DIR ${PROJECT_ROOT}/deps/ffmpeg/build/android/${ANDROID_ABI}/include)
