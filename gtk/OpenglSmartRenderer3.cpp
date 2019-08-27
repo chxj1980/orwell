@@ -107,9 +107,15 @@ void OpenglSmartRenderer3::glDraw()
 		//std::cout << "getting pixelformat for " << (int)frame.format() << std::endl;
 		std::cout << "begin drawing" << std::endl;
 		//--------------
+		//Width of each plane Y,U,V or R,G,B
 		int width[3];
+		//Height of each plane
 		int height[3];
+		//Stride of each plane (explained below)
 		int linesize[3];
+		//Planesize of each plane (explained below)
+		int planeSize[3];
+		//Texture size of each OpenGL texture
 		int textureSize[3];
 		/*
 			Our Frame called `frame` has a PixelFormat (example: AV_PIX_FMT_YUV420P). 
@@ -121,18 +127,39 @@ void OpenglSmartRenderer3::glDraw()
 		pixelFormat = PixelFormats::get((int)frame.format());
 		for (int i = 0; i <= 2; i++)
 		{
+			/*
+				Video width and height are from the first plane
+				of the YUV plane, for example.In YUV420P, for example, 
+				U and V are smaller.
+				Given the video width and height, which comes from the first
+				plane for YUV (TODO: write how it comes from RGB), we can calculate,
+				based on the pixel format, the width and height of the other planes (U,V) 
+				or G,B. We use widthRatio and heightRatio for that purpose.
+			*/
 			Fraction widthRatio = pixelFormat->yuvWidths[i];
 			Fraction heightRatio = pixelFormat->yuvHeights[i];
+			/*
+				linesize[i] is the stride (https://docs.microsoft.com/en-us/windows/win32/medfound/image-stride)
+				for each plane.
+				Basically, the stride must be greater or equal to the width of the plane,
+				and is there for performance purposes. 
+				We need to render to a texture. Each plane has a planeSize[i],
+				which is basically linesize[i]*height[i]. We need to take linesize in consideration
+				when copying to the texture, which is, of course, of size width[i]*height[i].
+				So, basically, we need to copy the plane to the texture ignoring the padding bytes 
+				that come after the stride.
+			*/
+			//TODO: can linesize be <0?
 			linesize[i] = frame.linesize(i);
-			//width[i] = linesize[i] * widthRatio.numerator / heightRatio.denominator;
 			width[i] = frame.width() * widthRatio.numerator / heightRatio.denominator;
-			//width = linesize[i];
 			height[i] = frame.height() * heightRatio.numerator / heightRatio.denominator;
-			std::cout << "linesize: " << linesize[i] << std::endl;
+			planeSize[i] = linesize[i] * height[i];
 			textureSize[i] = width[i] * height[i];
+			/*
+				Now that we setted width, height, linesize and planarSize, our renderer can
+				render the image by doing the correct copy taking the stride into account.
+			*/
 		}
-		//--------------
-		//In the first run we create everything needed
 		if (this->firstRun)
 		{
 			std::cout << "firstRun of OpenglSmartRenderer3" << std::endl;
@@ -147,7 +174,7 @@ void OpenglSmartRenderer3::glDraw()
 			program = std::make_unique<Program>();
 			program->attach_shader(Shader(ShaderType::Vertex, "video.vert"));
 			/*
-				Todo: be careful if renderers will be reused for other video formats. 
+				TODO: be careful if renderers will be reused for other video formats. 
 				I think it shouldn't, but if it's done, make everything be redone, including
 				planar vs packed shader options. Maybe create a reset method?
 			*/
@@ -202,24 +229,9 @@ void OpenglSmartRenderer3::glDraw()
 				for (int i = 0; i < TEXTURE_NUMBER; i++)
 				{
 					glBindTexture(GL_TEXTURE_2D, textureId[i]);
-
-					//Fraction widthRatio = pixelFormat->yuvWidths[i];
-					//Fraction heightRatio = pixelFormat->yuvHeights[i];
-					/*
-						The width and height of our texture is determined by our widthRation and heightRatio.
-						TODO: explain it more.
-					 */
-					//TODO: why he used frame.linesize[i] instead of frame.width? frame.width worked perfectly for me
-					//int width = frame.width() * widthRatio.numerator / heightRatio.denominator;
-					//width = frame.linesize(i);
-					//int height = frame.height() * heightRatio.numerator / heightRatio.denominator;
-					//std::cout << "yuv plane number: " << i << " has width: " << width << " and height: " << height << std::endl;
-					//Fraction widthRatio = pixelFormat->yuvWidths[i];
-					//Fraction heightRatio = pixelFormat->yuvHeights[i];
-					//int linesize = frame.linesize(i);
-					//int width = linesize * widthRatio.numerator / heightRatio.denominator;
-					//width = linesize;
-					//int height = frame.height() * heightRatio.numerator / heightRatio.denominator;
+					//We need to call glBufferData at least once, so then we can use glBufferSubData
+					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pixelBufferObjects[i]);
+					glBufferData(GL_PIXEL_UNPACK_BUFFER, textureSize[i], 0, GL_STREAM_DRAW);
 					glTexImage2D(GL_TEXTURE_2D,
 								 0,
 								 pixelFormat->yuvInternalFormat[i],
@@ -266,39 +278,23 @@ void OpenglSmartRenderer3::glDraw()
 			glActiveTexture(GL_TEXTURE0 + j);
 			glBindTexture(GL_TEXTURE_2D, textureId[j]);
 			glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pixelBufferObjects[j]);
+
 			//glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, TBO);
 
-			//int linesize = frame.linesize(j);
-			uint8_t *buffer = frame.buffer(j);
-
-			if (buffer != NULL && linesize[j] != 0)
+			if (frame.buffer(j) != NULL) // && linesize[j] != 0)
 			{
-				//Fraction widthRatio = pixelFormat->yuvWidths[j];
-				//Fraction heightRatio = pixelFormat->yuvHeights[j];
-				//int width = linesize * widthRatio.numerator / heightRatio.denominator;
-				//width = linesize;
-				//int height = frame.height() * heightRatio.numerator / heightRatio.denominator;
-				//std::cout << "linesize: " << linesize << std::endl;
-				//int textureSize = width * height;
-				//textureSize =  frame.width()* frame.height();
-				//std::cout << "frame.width: " << frame.width() << " frame.height: " << frame.height() << std::endl;
-				//std::cout << "width: " << width << " height: " << height << std::endl;
-
-				//textureSize = frame.width * frame.height;
-				//if (m_pbo[pboIndex][j].size() != textureSize)
-				//	m_pbo[pboIndex][j].allocate(textureSize);
-				//TODO: readi this http://www.ffmpeg-archive.org/Decoder-AVFrame-data-linesize-confusion-td2965985.html
-				//std::cout << "gonna buffer data " << j << std::endl;
-				glBufferData(GL_PIXEL_UNPACK_BUFFER, textureSize[j], frame.buffer(j), GL_STREAM_DRAW);
-				//std::cout << "buffered data " << std::endl;
-
-				//TODO: why he used frame.linesize[i] instead of frame.width? frame.width worked perfectly for me
-				//int width = linesize * pixelFormat->yuvWidths[j].numerator / pixelFormat->yuvWidths[j].denominator;
-				//width = linesize;
-				//int height = frame.height() * pixelFormat->yuvHeights[j].numerator / pixelFormat->yuvHeights[j].denominator;
-				//std::cout << "width: " << width << " height: " << height << std::endl;
-				//Copy frame here!
-				//std::cout << "gonna glTexSubImage2D " << std::endl;
+				/*
+					We're gonna write to our Pixel Buffer Object line by line ignoring the stride.
+					There are height[j] lines for the current plane j, and linesize[j] is the stride
+					for plane j.
+				*/
+				for (int i = 0; i <= height[j]; i++)
+				{
+					GLintptr offset = i * linesize[j];
+					//std::cout << "offset: " << offset << std::endl;
+					//std::cout << "width: " << width[j] << std::endl;
+					glBufferSubData(GL_PIXEL_UNPACK_BUFFER, offset, width[j], frame.buffer(j));
+				}
 				glTexSubImage2D(GL_TEXTURE_2D,
 								0,
 								0,
@@ -308,18 +304,12 @@ void OpenglSmartRenderer3::glDraw()
 								pixelFormat->yuvGlFormat[j],
 								pixelFormat->dataType,
 								NULL); //frame.buffer(j)); //NULL);
-									   //std::cout << "did glTexSubImage2D " << std::endl;
 			}
 			glUniform1i(textureLocation[j], j);
-			//m_pbo[pboIndex][j].release();
 		}
-		glUniform1f(textureFormat, (GLfloat) pixelFormat->textureFormat);
+		glUniform1f(textureFormat, (GLfloat)pixelFormat->textureFormat);
 
 		glBindVertexArray(vertexArrayObject);
-		//glBindBuffer(GL_TEXTURE_BUFFER, TBO);
-		//std::cout << "gonna glDrawArrays " << std::endl;
-
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		std::cout << "did glDrawArrays " << std::endl;
 	}
 }

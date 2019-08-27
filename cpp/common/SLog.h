@@ -347,11 +347,7 @@ SLogBuffer operator<<(SLog &&sLog, T message)
 template <typename T>
 SLogBuffer operator<<(SLog &sLog, T message)
 {
-    SLogBuffer buffer;
-    buffer.message.category = sLog.category;
-    buffer.message.stringstream << std::forward<T>(message);
-    buffer.message.configurations = sLog.configurations;
-    return buffer;
+    return operator<<(std::move(sLog), message);
 }
 } // namespace SLog
 #define SLOG_CATEGORY(x) static SLog::SLog LOG(SLog::Category(x));
