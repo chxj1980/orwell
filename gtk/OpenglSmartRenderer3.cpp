@@ -288,12 +288,13 @@ void OpenglSmartRenderer3::glDraw()
 					There are height[j] lines for the current plane j, and linesize[j] is the stride
 					for plane j.
 				*/
-				for (int i = 0; i <= height[j]; i++)
+				for (int i = 0; i <= height[j]-1; i++)
 				{
 					GLintptr offset = i * linesize[j];
+					
 					//std::cout << "offset: " << offset << std::endl;
 					//std::cout << "width: " << width[j] << std::endl;
-					glBufferSubData(GL_PIXEL_UNPACK_BUFFER, offset, width[j], frame.buffer(j));
+					glBufferSubData(GL_PIXEL_UNPACK_BUFFER, offset, width[j], frame.buffer(j) + offset);
 				}
 				glTexSubImage2D(GL_TEXTURE_2D,
 								0,
