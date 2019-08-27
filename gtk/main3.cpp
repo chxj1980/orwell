@@ -17,6 +17,7 @@ int main()
     //SLog::SLog::enableCategories("main", "main2");
     LOG << "hello" << " world";
     LOG << "testando: " << 1;
+    LOG(SLog::WARN) << "hi, this is a warning " << 1;
     while (true)
     {
     }

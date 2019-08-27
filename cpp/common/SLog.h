@@ -70,9 +70,6 @@ private:
 struct Category
 {
 public:
-    Category()
-    {
-    }
     Category(std::string category) : category(category)
     {
     }
@@ -82,9 +79,6 @@ public:
 struct SubCategory
 {
 public:
-    SubCategory()
-    {
-    }
     SubCategory(std::string subCategory) : subCategory(subCategory)
     {
     }
@@ -97,6 +91,13 @@ enum Config
     NO_NEW_LINE,
     TO_FILE,
     NO_CONSOLE
+};
+
+enum Level
+{
+    WARN,
+    INFO,
+    ERROR
 };
 /*
     Hash calculator for Category class. Used by std::unordered_set
@@ -123,11 +124,19 @@ typedef std::unordered_set<Category, CategoryHash, CategoryEqual> UnorderedSetCo
 struct Message
 {
 public:
+    Message() : category("Uncategorized"), subCategory("") {}
     Category category;
     SubCategory subCategory;
+    Level level = INFO;
     std::stringstream stringstream;
     std::shared_ptr<std::unordered_set<Config>> configurations;
 };
+/* 
+template <typename T, typenme U, typename V>
+bool unorderedSetHasElement(std::unordered_set<T, U, V>& unorderedSet, T element) {
+    return unorderedSet->find(element) != unorderedSet->end()
+}
+*/
 /*
     Class that picks messages from queue and writes to specific targets
     depending on the message itself
@@ -156,7 +165,20 @@ public:
             auto message = logMessages->pop();
             //If category is in the set of allowed categories, we do things
             if (allowTheseCategories->find(message.category) != allowTheseCategories->end())
-                std::cout << message.stringstream.str() << std::flush;
+            //if (unorderedSetHasElement<UnorderedSetConfig>(*allowTheseCategories, message.category))
+            {
+                //std::cout << "gonna print " << message.stringstream.str() << std::endl;
+                std::stringstream s;
+                s << "time, ";
+                if (message.level == WARN)
+                    s << "warn: ";
+                else if (message.level == INFO)
+                    s << "info: ";
+                else if (message.level == ERROR)
+                    s << "error: ";
+                s << message.stringstream.str();
+                std::cout << s.str() << std::flush;
+            }
         }
     }
 
@@ -167,96 +189,19 @@ private:
     std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
 };
 /*
-    Simple logging class designed to hold configurations.
-    One instance per class should be created, and a Category 
-    must be given. 
+    Little interface so we can call 'SLog' (actually SLogInterface) 
+    from SLogBuffer but also can use SLogBuffer from SLog
+    That is, we avoid classes depending on each others
 */
-class SLog
+class SLogInterface
 {
 public:
-    SLog(){};
-
-    template <typename T, typename... Args>
-    SLog(T t, Args... args) : SLog(args...)
-    {
-        applyConfiguration(t);
-    }
-
-    ~SLog() {
-        //STOP loggerThread here!
-    }
-
-    //template <typename T>
-    void applyConfiguration(Config config)
-    {
-        configurations->emplace(config);
-    }
-
-    void applyConfiguration(Category category)
-    {
-        this->category = category;
-    }
-
     static void queue(Message &&message)
     {
         logMessages->emplace(std::move(message));
     }
-    template <typename T>
-    static void enableCategories(T category)
-    {
-        allowTheseCategories->emplace(category);
-    }
-
-    template <typename T, typename... Args>
-    static void enableCategories(T t, Args... args)
-    {
-        enableCategories(t);
-        enableCategories(args...);
-    }
-
-    static void disableCategories(Category category)
-    {
-        auto search = allowTheseCategories->find(category);
-        if (search != allowTheseCategories->end())
-        {
-            allowTheseCategories->erase(search);
-        }
-    }
-
-    template <typename T, typename... Args>
-    static void disableCategories(T t, Args... args)
-    {
-        disableCategories(t);
-        disableCategories(args...);
-    }
-
-    SLog &&operator()()
-    {
-        return std::forward<SLog>(*this);
-    }
-    template <typename T>
-    SLog &&operator()(T t)
-    {
-        applyConfiguration(t);
-        return std::forward<SLog>(*this);
-    }
-    template <typename T, typename... Args>
-    SLog &&operator()(T t, Args... args)
-    {
-        SLog &&a = operator()(t);
-        operator()(args...);
-        return std::forward<SLog>(a);
-    }
-
-public:
-    std::shared_ptr<std::unordered_set<Config>> configurations = std::make_shared<std::unordered_set<Config>>();
     static std::shared_ptr<ThreadSafeQueue<Message>> logMessages;
-    static LoggerThread loggerThread;
-    static std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
-    Category category;
-    //SubCategory subCategory;
 };
-
 struct SLogBuffer
 {
 public:
@@ -287,15 +232,112 @@ public:
         //message.configurations = sLog->configurations;
         //message.subCategory = std::move(sLog->subCategory);
         //message.message = std::move(ss);
-        SLog::queue(std::move(message));
+        SLogInterface::queue(std::move(message));
     }
+};
+/*
+    Simple logging class designed to hold configurations.
+    One instance per class should be created, and a Category 
+    must be given. 
+*/
+class SLog : SLogInterface
+{
+public:
+    SLog() : category("Uncategorized"){};
+
+    template <typename T, typename... Args>
+    SLog(T t, Args... args) : SLog(args...)
+    {
+        applyConfiguration(t);
+    }
+
+    ~SLog()
+    {
+        //STOP loggerThread here!
+    }
+
+    //template <typename T>
+    void applyConfiguration(Config config)
+    {
+        configurations->emplace(config);
+    }
+
+    void applyConfiguration(Category category)
+    {
+        this->category = category;
+    }
+
+    template <typename T>
+    static void enableCategories(T category)
+    {
+        allowTheseCategories->emplace(category);
+    }
+
+    template <typename T, typename... Args>
+    static void enableCategories(T t, Args... args)
+    {
+        enableCategories(t);
+        enableCategories(args...);
+    }
+
+    static void disableCategories(Category category)
+    {
+        auto search = allowTheseCategories->find(category);
+        if (search != allowTheseCategories->end())
+        {
+            allowTheseCategories->erase(search);
+        }
+    }
+
+    template <typename T, typename... Args>
+    static void disableCategories(T t, Args... args)
+    {
+        disableCategories(t);
+        disableCategories(args...);
+    }
+
+    SLogBuffer operator()(Level level)
+    {
+        SLogBuffer buffer;
+        buffer.message.category = category;
+        buffer.message.level = level;
+        buffer.message.configurations = configurations;
+        //buffer.message.stringstream << "";
+        return buffer;
+        //return std::move(buffer);
+    }
+    /* 
+    SLog &&operator()()
+    {
+        return std::forward<SLog>(*this);
+    }
+    template <typename T>
+    SLog &&operator()(T t)
+    {
+        applyConfiguration(t);
+        return std::forward<SLog>(*this);
+    }
+    template <typename T, typename... Args>
+    SLog &&operator()(T t, Args... args)
+    {
+        SLog &&a = operator()(t);
+        operator()(args...);
+        return std::forward<SLog>(a);
+    }
+    */
+
+public:
+    std::shared_ptr<std::unordered_set<Config>> configurations = std::make_shared<std::unordered_set<Config>>();
+    static LoggerThread loggerThread;
+    static std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
+    Category category;
+    //SubCategory subCategory;
 };
 
 template <typename T>
 SLogBuffer operator<<(SLog &&sLog, T message)
 {
     SLogBuffer buffer;
-    //buffer.sLog = &sLog;
     buffer.message.category = sLog.category;
     buffer.message.stringstream << std::forward<T>(message);
     buffer.message.configurations = sLog.configurations;
@@ -306,7 +348,6 @@ template <typename T>
 SLogBuffer operator<<(SLog &sLog, T message)
 {
     SLogBuffer buffer;
-    //buffer.sLog = &sLog;
     buffer.message.category = sLog.category;
     buffer.message.stringstream << std::forward<T>(message);
     buffer.message.configurations = sLog.configurations;
