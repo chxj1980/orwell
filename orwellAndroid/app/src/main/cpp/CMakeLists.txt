@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.10.2)
-
+add_compile_definitions(ANDROID)
 project(orwell)
-
 set(PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON) # Find includes in corresponding build directories

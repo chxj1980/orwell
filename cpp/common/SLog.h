@@ -10,6 +10,9 @@
 #include <string>
 #include "Stoppable.h"
 
+#if defined(ANDROID)
+#include <android/log.h>
+#endif //ANDROID
 namespace SLog
 {
 template <typename T>
@@ -177,7 +180,15 @@ public:
                 else if (message.level == ERROR)
                     s << "error: ";
                 s << message.stringstream.str();
-                std::cout << s.str() << std::flush;
+
+                #if defined(ANDROID)
+                    if (message.level == ERROR)
+                        __android_log_print(ANDROID_LOG_ERROR, "", s.str().c_str());
+                    else
+                        __android_log_print(ANDROID_LOG_VERBOSE, "", s.str().c_str());
+                #else
+                    std::cout << s.str() << std::flush;
+                #endif //ANDROID
             }
         }
     }
