@@ -22,11 +22,11 @@ STATS_DIR=${OUT}/stats
 ANDROID_NDK_HOME=$NDK
 
 # No incremental compilation here. Just drop what was built previously
-rm -rf ${BUILD_DIR}
-rm -rf ${STATS_DIR}
-rm -rf ${OUTPUT_DIR}
-mkdir -p ${STATS_DIR}
-mkdir -p ${OUTPUT_DIR}
+#rm -rf ${BUILD_DIR}
+#rm -rf ${STATS_DIR}
+#rm -rf ${OUTPUT_DIR}
+#mkdir -p ${STATS_DIR}
+#mkdir -p ${OUTPUT_DIR}
 
 # Test if sources of the FFmpeg exist. If not - download them
 function ensureSources() {
@@ -250,5 +250,6 @@ build arm64-v8a 21 android
 build x86 16 android
 build x86_64 21 android
 build x86_64 _ desktop
+build arm64-v8a _ desktop #jetson nano and raspberry pi 4
 
 installHeaders

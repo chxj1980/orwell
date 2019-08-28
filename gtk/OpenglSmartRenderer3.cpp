@@ -32,7 +32,7 @@ void OpenglSmartRenderer3::run()
 	int i = 0;
 	while (true)
 	{
-		std::unique_lock<std::mutex> lock{mutex};
+		//std::unique_lock<std::mutex> lock{mutex};
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
 		DecodedFrame frame = decodedFramesFifo->pop_front();
 		/* 
@@ -40,15 +40,17 @@ void OpenglSmartRenderer3::run()
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
 		    TODO: verify if this indeed happens
 		*/
-		this->frame = std::move(frame);
+		std::unique_lock<std::mutex> lk{mutex};
+        this->frame = std::move(frame);
+        lk.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
 		i++;
 		std::cout << i << std::endl;
 		queue_draw();
-		std::cout << "waiting" << std::endl;
-		conditionVariable.wait(lock);
-		std::cout << "waited" << std::endl;
+		//std::cout << "waiting" << std::endl;
+		//conditiconditionVariable.wait(lock);
+		//std::cout << "waited" << std::endl;
 	}
 }
 
@@ -68,6 +70,7 @@ void err(std::string lineInformation)
 
 bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 {
+	std::unique_lock<std::mutex> lk{mutex};
 	try
 	{
 		std::cout << "gonna render" << std::endl;
@@ -77,15 +80,18 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 		glDraw();
 
 		glFinish();
-		std::cout << "gonna notify" << std::endl;
-		conditionVariable.notify_one();
-		std::cout << "did notify" << std::endl;
+		//std::cout << "gonna notify" << std::endl;
+		//conditionVariable.notify_one();
+		//std::cout << "did notify" << std::endl;
+		std::cout << "did render" << std::endl;
+
+		return true;
 	}
 	catch (const Gdk::GLError &gle)
 	{
 		std::cerr << "An error occurred in the render callback of the GLArea" << std::endl;
 		std::cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << std::endl;
-		conditionVariable.notify_one();
+		//conditionVariable.notify_one();
 		return false;
 	}
 }
