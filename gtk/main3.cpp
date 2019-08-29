@@ -3,8 +3,8 @@
 #include "ThreadSafeDeque.h"
 #include "SLog.h"
 #include <sstream>
-#include <cxxopts.hpp>
-cxxopts::Options options("Orwell", "Orwell GTK laboratory");
+//#include <cxxopts.hpp>
+//cxxopts::Options options("Orwell", "Orwell GTK laboratory");
 SLOG_CATEGORY("main");
 
 int main()
