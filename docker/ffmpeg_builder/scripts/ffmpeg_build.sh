@@ -109,7 +109,7 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
   if [ "$TYPE" == android ]; then
     echo "Configuring $TYPE of arch $ARCH..."
     ./configure \
-    --prefix=${BUILD_DIR}/android/${ARCH} \ #todo: change ARCH to FFMPEG_ARCH_FLAG?
+    --prefix=${BUILD_DIR}/android/${ARCH} \
     --disable-doc \
     --enable-cross-compile \
     --cross-prefix=${TOOLCHAIN_PATH}/bin/${CROSS_PREFIX} \
@@ -211,7 +211,6 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
         --arch=${FFMPEG_ARCH_FLAG} \
         --extra-cflags="-O3 -fPIC $EXTRA_CFLAGS" \
         --enable-shared \
-        --disable-static \
         --disable-debug \
         --disable-runtime-cpudetect \
         --disable-programs \
@@ -226,8 +225,8 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
         --disable-postproc 
         ${EXTRA_CONFIGURE_FLAGS}
         make clean
-          make -j$(nproc)
-          make install
+        make -j$(nproc)
+        make install
 	  fi
 
   else
@@ -255,11 +254,14 @@ function installLibs() {
 #...
 #But ffmpeg compiles into ${BUILD_DIR}/${TYPE}/${ARCH}/lib
 function copyToOutterDirectory() {
+ 
   ARCH=$1
   ANDROID_API=$2
   TYPE=$3
-  cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.so ${BUILD_DIR}/${TYPE}/${ARCH}
-  cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.a ${BUILD_DIR}/${TYPE}/${ARCH}
+   if [ "$TYPE" == desktop ]; then
+    cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.so ${BUILD_DIR}/${TYPE}/${ARCH}
+    cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.a ${BUILD_DIR}/${TYPE}/${ARCH}
+  fi
 }
 
 function build() {
@@ -296,8 +298,7 @@ function installHeaders() {
 #build arm64-v8a 21 android
 #build x86 16 android
 #build x86_64 21 android
-#build x86_64 _ desktop
-build arm64-v8a _ desktop #jetson nano and raspberry pi 4
-#build aarch64 _ desktop #jetson nano and raspberry pi 4
+build x86_64 _ desktop
+#build arm64-v8a _ desktop #jetson nano and raspberry pi 4
 
 installHeaders

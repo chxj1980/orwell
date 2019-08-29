@@ -65,6 +65,7 @@ bool Program::link()
 		std::vector<char> error_message(info_log_length);
 		glGetShaderInfoLog(this->id, info_log_length, nullptr, error_message.data());
 		std::cout << "program info log: '" << error_message.data() << "'" << std::endl;
+		abort();
 	}
 
 	return this->linked;
