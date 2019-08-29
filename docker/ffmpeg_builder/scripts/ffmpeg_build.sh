@@ -92,7 +92,7 @@ function assemble() {
   if [ "$TYPE" == android ]; then
     echo "Configuring $TYPE of arch $ARCH..."
     ./configure \
-    --prefix=${BUILD_DIR}/android/${ARCH} \
+    --prefix=${BUILD_DIR}/android/${ARCH} \ #todo: change ARCH to FFMPEG_ARCH_FLAG?
     --disable-doc \
     --enable-cross-compile \
     --cross-prefix=${TOOLCHAIN_PATH}/bin/${CROSS_PREFIX} \
@@ -142,46 +142,80 @@ function assemble() {
   #    --enable-cuvid 
 
   elif [ "$TYPE" == desktop ]; then
-     #https://gist.github.com/Brainiarc7/4f831867f8e55d35cbcb527e15f9f116
-     #TODO: add intel media sink
-     #TODO: make x_86 and x_86_64 versions of this
-     #TODO: enable vaapi support!
-     echo "Configuring $TYPE of arch $ARCH..."
-     PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:/opt/intel/mediasdk/lib/pkgconfig"
-     
-     ./configure \
-      --prefix=${BUILD_DIR}/desktop/${ARCH} \
-      --extra-cflags="-I$HOME/ffmpeg_build/include" \
-      --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
-      --enable-shared \
-      #--extra-cflags="-I/opt/intel/mediasdk/include" \
-      #--extra-ldflags="-L/opt/intel/mediasdk/lib" \
-      #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
-      --arch=${ARCH} \ #command does not exist
-      #--enable-libmfx \ #command does not exist
-      --enable-vaapi \
-      --disable-vaapi \ #command does not exist
-      --enable-opencl \
-      --disable-debug \
-      --enable-nvenc \
-      --enable-cuda \
-      --enable-cuvid \
-      #--enable-libvorbis \
-      --enable-libvpx \
-      --enable-libdrm \
-      --enable-gpl \
-      --enable-runtime-cpudetect \
-      --enable-libfdk-aac \
-      --enable-libx264 \
-      --enable-libx265 \
-      --enable-openssl \
-      --enable-pic \
-      --extra-libs="-lpthread -libm -libc -lz -ldl" \
-      --enable-nonfree 
-      PATH="$HOME/bin:$PATH" make -j$(nproc) -n
-      make -j$(nproc) install 
-      make -j$(nproc) distclean 
-      hash -r
+     if [ "$ARCH" == x86 ] || [ "$ARCH" == x86_64 ]; then 
+      #https://gist.github.com/Brainiarc7/4f831867f8e55d35cbcb527e15f9f116
+      #TODO: add intel media sink
+      #TODO: make x_86 and x_86_64 versions of this
+      #TODO: enable vaapi support!
+      echo "Configuring $TYPE of arch $ARCH..."
+      PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:/opt/intel/mediasdk/lib/pkgconfig"
+      
+      ./configure \
+        --prefix=${BUILD_DIR}/desktop/${FFMPEG_ARCH_FLAG} \
+        --extra-cflags="-I$HOME/ffmpeg_build/include" \
+        --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+        --enable-shared \
+        #--extra-cflags="-I/opt/intel/mediasdk/include" \
+        #--extra-ldflags="-L/opt/intel/mediasdk/lib" \
+        #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
+        --arch=${ARCH} \ #command does not exist
+        #--enable-libmfx \ #command does not exist
+        --enable-vaapi \
+        --disable-vaapi \ #command does not exist
+        --enable-opencl \
+        --disable-debug \
+        --enable-nvenc \
+        --enable-cuda \
+        --enable-cuvid \
+        #--enable-libvorbis \
+        --enable-libvpx \
+        --enable-libdrm \
+        --enable-gpl \
+        --enable-runtime-cpudetect \
+        --enable-libfdk-aac \
+        --enable-libx264 \
+        --enable-libx265 \
+        --enable-openssl \
+        --enable-pic \
+        --extra-libs="-lpthread -libm -libc -lz -ldl" \
+        --enable-nonfree 
+        PATH="$HOME/bin:$PATH" make -j$(nproc) -n
+        make -j$(nproc) install 
+        make -j$(nproc) distclean 
+        hash -r
+      elif [ "$ARCH" == arm64-v8a ] || [ "$ARCH" == armeabi-v7a ]; then
+        echo "Configuring $TYPE of arch $ARCH, specifically ${FFMPEG_ARCH_FLAG}..."
+		./configure \
+		--prefix=${BUILD_DIR}/desktop/${FFMPEG_ARCH_FLAG} \
+		--disable-doc \
+		--enable-cross-compile \
+		#--cross-prefix=${TOOLCHAIN_PATH}/bin/${CROSS_PREFIX} \
+		--target-os=linux \
+		#--cc=${CC} \
+		--arch=${FFMPEG_ARCH_FLAG} \
+		--extra-cflags="-O3 -fPIC $EXTRA_CFLAGS" \
+		#--sysroot=${SYSROOT} \
+		--enable-shared \
+		--disable-static \
+		--disable-debug \
+		--disable-runtime-cpudetect \
+		--disable-programs \
+		--disable-muxers \
+		--disable-encoders \
+		--disable-decoders \
+		${DECODERS_TO_ENABLE} \
+		--disable-bsfs \
+		--disable-pthreads \
+		--disable-avdevice \
+		--disable-network \
+		--disable-postproc \
+		#--disable-swresample \
+		#--disable-avfilter \
+		${EXTRA_CONFIGURE_FLAGS}
+		make clean
+    	make -j$(nproc)
+   	 	make install
+	  fi
 
   else
       echo target $TYPE not supported
@@ -245,11 +279,12 @@ function installHeaders() {
 
 #ensureSources
 
-build armeabi-v7a 16 android
-build arm64-v8a 21 android
-build x86 16 android
-build x86_64 21 android
-build x86_64 _ desktop
+#build armeabi-v7a 16 android
+#build arm64-v8a 21 android
+#build x86 16 android
+#build x86_64 21 android
+#build x86_64 _ desktop
 build arm64-v8a _ desktop #jetson nano and raspberry pi 4
+#build aarch64 _ desktop #jetson nano and raspberry pi 4
 
 installHeaders
