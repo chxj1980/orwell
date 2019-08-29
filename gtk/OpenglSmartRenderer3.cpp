@@ -1,5 +1,15 @@
 #include "OpenglSmartRenderer3.h"
 
+const std::string vertexShaderSource =
+#include "video.vert"
+;
+const std::string fragmentShaderSourcePlanar =
+#include "planar.frag"
+;
+const std::string fragmentShaderSourcePacked =
+#include "packed.frag"
+;
+
 void OpenglSmartRenderer3::init()
 {
 }
@@ -41,8 +51,8 @@ void OpenglSmartRenderer3::run()
 		    TODO: verify if this indeed happens
 		*/
 		std::unique_lock<std::mutex> lk{mutex};
-        this->frame = std::move(frame);
-        lk.unlock();
+		this->frame = std::move(frame);
+		lk.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
 		i++;
@@ -178,18 +188,28 @@ void OpenglSmartRenderer3::glDraw()
 			//glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 			program = std::make_unique<Program>();
-			program->attach_shader(Shader(ShaderType::Vertex, "video.vert"));
+			Shader vertexShader(ShaderType::Vertex);
+			vertexShader.load_from_string(vertexShaderSource);
+			//) Shader(ShaderType::Vertex, "video.vert")
+			program->attach_shader(vertexShader);
 			/*
 				TODO: be careful if renderers will be reused for other video formats. 
 				I think it shouldn't, but if it's done, make everything be redone, including
 				planar vs packed shader options. Maybe create a reset method?
 			*/
 			if (pixelFormat->isPlanar)
-				program->attach_shader(Shader(ShaderType::Fragment, "planar.frag"));
-			//program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
+			{
+				Shader fragmentShader(ShaderType::Fragment);
+				fragmentShader.load_from_string(fragmentShaderSourcePlanar);
+				program->attach_shader(fragmentShader);
+				//program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
+			}
 			else
-				program->attach_shader(Shader(ShaderType::Fragment, "packed.frag"));
-
+			{
+				Shader fragmentShader(ShaderType::Fragment);
+				fragmentShader.load_from_string(fragmentShaderSourcePacked);
+				program->attach_shader(fragmentShader);
+			}
 			program->link();
 
 			vextexInLocation = glGetAttribLocation(program->get_id(), "aPos");
@@ -294,7 +314,7 @@ void OpenglSmartRenderer3::glDraw()
 					There are height[j] lines for the current plane j, and linesize[j] is the stride
 					for plane j. 
 				*/
-				for (int i = 0; i <= height[j]-1; i++)
+				for (int i = 0; i <= height[j] - 1; i++)
 				{
 					GLintptr offset = i * linesize[j];
 					glBufferSubData(GL_PIXEL_UNPACK_BUFFER, offset, width[j], frame.buffer(j) + offset);

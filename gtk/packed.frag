@@ -1,3 +1,4 @@
+R"(
 #version 130
 
 #ifdef GL_ES
@@ -122,3 +123,4 @@ void main() {
 //    gl_FragColor.a = 1.0;
 
 }
+)"
