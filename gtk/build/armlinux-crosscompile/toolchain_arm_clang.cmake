@@ -1,6 +1,6 @@
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR arm)
-#set(CMAKE_C_LINK_EXECUTABLE /usr/bin/llvm-link-3.9)
+set(CMAKE_C_LINK_EXECUTABLE /usr/bin/lld)
 
 set(CLANG_TARGET_TRIPLE arm-linux-gnueabihf)
 set(GCC_ARM_TOOLCHAIN_PREFIX ${CLANG_CLANG_TARGET_TRIPLE})
