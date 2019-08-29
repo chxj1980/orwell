@@ -164,7 +164,7 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
       #TODO: add intel media sink
       #TODO: make x_86 and x_86_64 versions of this
       #TODO: enable vaapi support!
-      echo "Configuring $TYPE of arch $ARCH..."
+      echo "Configuring $TYPE of arch $ARCH (or ${FFMPEG_ARCH_FLAG})..."
       PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:/opt/intel/mediasdk/lib/pkgconfig"
       
       ./configure \
@@ -196,7 +196,9 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
         --enable-pic \
         --extra-libs="-lpthread -libm -libc -lz -ldl" \
         --enable-nonfree 
-        PATH="$HOME/bin:$PATH" make -j$(nproc) -n
+        PATH="$HOME/bin:$PATH" 
+        make clean
+        make -j$(nproc)
         make -j$(nproc) install 
         make -j$(nproc) distclean 
         hash -r
@@ -258,7 +260,7 @@ function copyToOutterDirectory() {
   ARCH=$1
   ANDROID_API=$2
   TYPE=$3
-   if [ "$TYPE" == desktop ]; then
+   if [ "$TYPE" == android ]; then
     cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.so ${BUILD_DIR}/${TYPE}/${ARCH}
     cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.a ${BUILD_DIR}/${TYPE}/${ARCH}
   fi

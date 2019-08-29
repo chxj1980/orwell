@@ -10,7 +10,7 @@
 #include <mutex>
 #include <condition_variable>
 
-class OpenglSmartRenderer3 : public OpenGLArea2, public VideoReceiver
+class OpenglSmartRenderer3 : public OpenGLArea2//, public VideoReceiver
 {
 public:
 	unsigned char *buffer[3] = {0};
@@ -20,7 +20,7 @@ public:
 		//Singleton::instance()->getStream("cam1").mediaStream->decoder->setVideoReceiver(this);
 	}
 	void init();
-	int receiveVideo(DecodedFrame& frame);
+	//int receiveVideo(DecodedFrame& frame);
 	bool render(const Glib::RefPtr<Gdk::GLContext> &context);
 	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo)
 	{

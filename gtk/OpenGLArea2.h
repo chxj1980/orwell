@@ -22,7 +22,7 @@ public:
 
     //void realize();
     //void unrealize();
-    virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context){};
+    virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context){return true;};
     //void draw_triangle();
 };
 #endif //OPENGLAREA_H

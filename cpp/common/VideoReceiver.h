@@ -4,7 +4,7 @@
 class VideoReceiver
 {
     public:
-        virtual int receiveVideo(DecodedFrame& frame) = 0;
+        //virtual int receiveVideo(DecodedFrame& frame) = 0;
 };
 
 #endif  //VideoReceiver_H

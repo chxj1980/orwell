@@ -15,6 +15,12 @@ extern "C"
 class DecodedFrame
 {
 public:
+    DecodedFrame() {}
+    DecodedFrame(const DecodedFrame &decodedFrame) = delete;
+    DecodedFrame &operator=(const DecodedFrame &) = delete;
+    DecodedFrame(DecodedFrame &&) = default;
+    DecodedFrame &operator=(DecodedFrame &&) = default;
+    //DecodedFrame &operator=(DecodedFrame &&) = delete;
     enum
     {
         FFMPEG,
@@ -28,32 +34,61 @@ public:
     */
     std::unordered_set<std::string> consumedBy;
     std::unique_ptr<AVFrame, AVFrameDeleter> avFrame;
-    int width() {
-        if (decodedFrom==FFMPEG) {
+    int width()
+    {
+        if (decodedFrom == FFMPEG)
+        {
             return avFrame->width;
         }
+        else
+        {
+            return 0;
+        }
     }
-    int height() {
-        if (decodedFrom==FFMPEG) {
+    int height()
+    {
+        if (decodedFrom == FFMPEG)
+        {
             return avFrame->height;
         }
+        else
+        {
+            return 0;
+        }
     }
-    int format() {
-        if (decodedFrom==FFMPEG) {
+    int format()
+    {
+        if (decodedFrom == FFMPEG)
+        {
             return avFrame->format;
         }
+        else
+        {
+            return 0;
+        }
     }
-    int linesize(int i) {
-        if (decodedFrom==FFMPEG) {
+    int linesize(int i)
+    {
+        if (decodedFrom == FFMPEG)
+        {
             return avFrame->linesize[i];
         }
-    }
-    uint8_t* buffer(int i) {
-        if (decodedFrom==FFMPEG) {
-            return avFrame->data[i];
+        else
+        {
+            return 0;
         }
     }
-    
+    uint8_t *buffer(int i)
+    {
+        if (decodedFrom == FFMPEG)
+        {
+            return avFrame->data[i];
+        }
+        else
+        {
+            return NULL;
+        }
+    }
 };
 
 #endif // Frame_h

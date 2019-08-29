@@ -69,7 +69,8 @@
         "hash_set": "cpp",
         "set": "cpp",
         "regex": "cpp",
-        "*.vert": "cpp"
+        "*.vert": "cpp",
+        "random": "cpp"
     },
     "search.exclude": {
         "**/node_modules": false

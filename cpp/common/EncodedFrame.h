@@ -11,6 +11,11 @@
 class EncodedFrame
 {
 public:
+    EncodedFrame(const EncodedFrame &decodedFrame) = delete;
+    EncodedFrame &operator=(const EncodedFrame &) = delete;
+    EncodedFrame(EncodedFrame &&) = default;
+    EncodedFrame &operator=(EncodedFrame &&) = default;
+    //TODO: take this off
     EncodedFrame() : frameBuffer(new uint8_t[bufferSize])
     {
     }
