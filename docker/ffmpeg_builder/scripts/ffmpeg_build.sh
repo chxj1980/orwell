@@ -60,13 +60,21 @@ function assemble() {
   case $ARCH in
   	armeabi-v7a)
       FFMPEG_ARCH_FLAG=arm
-      CROSS_PREFIX=arm-linux-androideabi-
+	  if [ "$TYPE" == android ]; then
+      	CROSS_PREFIX=arm-linux-androideabi-
+	  elif [ "$TYPE" == desktop ]; then
+	    CROSS_PREFIX=arm-linux-gnu-
+	  fi
       CC_PREFIX=armv7a
       CC_ANDROID_POSTFIX=eabi
   		;;
   	arm64-v8a)
       FFMPEG_ARCH_FLAG=aarch64
-      CROSS_PREFIX=aarch64-linux-android-
+	  if [ "$TYPE" == android ]; then
+      	CROSS_PREFIX=aarch64-linux-android-
+	  elif [ "$TYPE" == desktop ]; then
+	  	CROSS_PREFIX=aarch64-linux-gnu-
+	  fi
       CC_PREFIX=aarch64
   		;;
     x86)
@@ -84,7 +92,16 @@ function assemble() {
   		;;
   esac
 
-  CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LEVEL}-clang
+  #if [ "$TYPE" == android ]; then
+CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LEVEL}-clang
+ # elif [ "$TYPE" == desktop ]; then 
+ #   if [ "$FFMPEG_ARCH_FLAG" == arm ]; then
+#		CC=arm-linux-gnueabi-gcc
+#  	elif [ "$FFMPEG_ARCH_FLAG" == aarch64 ]; then
+#		CC=aarch64-linux-gnueabi-gcc
+#	fi
+#  fi
+
 
   DECODERS_TO_ENABLE=
   while IFS= read -r line; do DECODERS_TO_ENABLE="${DECODERS_TO_ENABLE} --enable-decoder=$line"; done < ${BASE_DIR}/video_decoders_list.txt
@@ -185,36 +202,32 @@ function assemble() {
         hash -r
       elif [ "$ARCH" == arm64-v8a ] || [ "$ARCH" == armeabi-v7a ]; then
         echo "Configuring $TYPE of arch $ARCH, specifically ${FFMPEG_ARCH_FLAG}..."
-		./configure \
-		--prefix=${BUILD_DIR}/desktop/${FFMPEG_ARCH_FLAG} \
-		--disable-doc \
-		--enable-cross-compile \
-		#--cross-prefix=${TOOLCHAIN_PATH}/bin/${CROSS_PREFIX} \
-		--target-os=linux \
-		#--cc=${CC} \
-		--arch=${FFMPEG_ARCH_FLAG} \
-		--extra-cflags="-O3 -fPIC $EXTRA_CFLAGS" \
-		#--sysroot=${SYSROOT} \
-		--enable-shared \
-		--disable-static \
-		--disable-debug \
-		--disable-runtime-cpudetect \
-		--disable-programs \
-		--disable-muxers \
-		--disable-encoders \
-		--disable-decoders \
-		${DECODERS_TO_ENABLE} \
-		--disable-bsfs \
-		--disable-pthreads \
-		--disable-avdevice \
-		--disable-network \
-		--disable-postproc \
-		#--disable-swresample \
-		#--disable-avfilter \
-		${EXTRA_CONFIGURE_FLAGS}
-		make clean
-    	make -j$(nproc)
-   	 	make install
+        ./configure \
+        --prefix=${BUILD_DIR}/desktop/${FFMPEG_ARCH_FLAG} \
+        --disable-doc \
+        --enable-cross-compile \
+        --cross-prefix=${CROSS_PREFIX} \
+        --target-os=linux \
+        --arch=${FFMPEG_ARCH_FLAG} \
+        --extra-cflags="-O3 -fPIC $EXTRA_CFLAGS" \
+        --enable-shared \
+        --disable-static \
+        --disable-debug \
+        --disable-runtime-cpudetect \
+        --disable-programs \
+        --disable-muxers \
+        --disable-encoders \
+        --disable-decoders \
+        ${DECODERS_TO_ENABLE} \
+        --disable-bsfs \
+        --disable-pthreads \
+        --disable-avdevice \
+        --disable-network \
+        --disable-postproc 
+        ${EXTRA_CONFIGURE_FLAGS}
+        make clean
+          make -j$(nproc)
+          make install
 	  fi
 
   else
