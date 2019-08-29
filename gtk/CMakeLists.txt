@@ -21,7 +21,7 @@ find_library(LIB_VDPAU vdpau) #sudo apt install libvdpau-dev
 find_library(LIB_VA va)
 find_library(LIB_VA_DRM va-drm)
 find_library(LIB_VA_X11 va-x11)
-endif
+endif()
 
 #sudo apt install -y libgtkmm-3.0-dev
 find_package(PkgConfig)
