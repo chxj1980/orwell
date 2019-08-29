@@ -42,6 +42,8 @@ set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
 set(FFMPEG_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/${CMAKE_SYSTEM_PROCESSOR}/lib)
 include_directories(${FFMPEG_SRC_DIR}/build/desktop/x86_64/include)
 
+message(STATUS "FFMPEG_SRC_DIR: ${FFMPEG_SRC_DIR}")
+
 add_library(AVUTIL_LIB STATIC IMPORTED)
 set_target_properties(AVUTIL_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libavutil.a)
 add_library(AVCODEC_LIB STATIC IMPORTED)
