@@ -25,8 +25,8 @@ ANDROID_NDK_HOME=$NDK
 #rm -rf ${BUILD_DIR}
 #rm -rf ${STATS_DIR}
 #rm -rf ${OUTPUT_DIR}
-#mkdir -p ${STATS_DIR}
-#mkdir -p ${OUTPUT_DIR}
+mkdir -p ${STATS_DIR}
+mkdir -p ${OUTPUT_DIR}
 
 # Test if sources of the FFmpeg exist. If not - download them
 function ensureSources() {
@@ -175,10 +175,10 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
         #--extra-cflags="-I/opt/intel/mediasdk/include" \
         #--extra-ldflags="-L/opt/intel/mediasdk/lib" \
         #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
-        --arch=${ARCH} \ #command does not exist
+        --arch=${ARCH} \
         #--enable-libmfx \ #command does not exist
         --enable-vaapi \
-        --disable-vaapi \ #command does not exist
+        --disable-vaapi \
         --enable-opencl \
         --disable-debug \
         --enable-nvenc \
@@ -256,7 +256,6 @@ function installLibs() {
 #...
 #But ffmpeg compiles into ${BUILD_DIR}/${TYPE}/${ARCH}/lib
 function copyToOutterDirectory() {
- 
   ARCH=$1
   ANDROID_API=$2
   TYPE=$3

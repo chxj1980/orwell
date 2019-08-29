@@ -36,9 +36,8 @@ include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
 include_directories(../deps/cxxopts/include)
 
-file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp PixelFormats.cpp "../cpp/common/*")
+file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*")
 
-set(FFMPEG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg)
 set(FFMPEG_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/${CMAKE_SYSTEM_PROCESSOR}/lib)
 set(FFMPEG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/${CMAKE_SYSTEM_PROCESSOR}/include)
 include_directories(${FFMPEG_INCLUDE_DIR})
