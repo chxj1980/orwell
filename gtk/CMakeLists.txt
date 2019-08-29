@@ -16,7 +16,7 @@ find_library(X11_LIBRARY X11)
 find_library(ZLIB_LIBRARY z)
 find_library(LIBDL_LIBRARY dl)
 #These driver libraries are only available for x86 or x86_64, arm libs are not compiled with them
-if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "x86")
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_SYSTEM_PROCESSOR STREQUAL x86)
 find_library(LIB_VDPAU vdpau) #sudo apt install libvdpau-dev
 find_library(LIB_VA va)
 find_library(LIB_VA_DRM va-drm)
