@@ -211,6 +211,7 @@ COPY deps/ffmpeg-4.1.4.tar.bz2 ffmpeg-4.1.4.tar.bz2
 RUN tar jxf ffmpeg-4.1.4.tar.bz2 \
     && rm ffmpeg-4.1.4.tar.bz2 \
     && mv ffmpeg-4.1.4 ffmpeg
+    
 RUN apt update && apt install -y \
     gcc make gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi\
     gcc-arm-linux-gnueabihf gcc-aarch64-linux-gnu

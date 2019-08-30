@@ -14,7 +14,10 @@ find_library(GLU_LIBRARY GLU)
 find_library(GL_LIBRARY GL)
 find_library(X11_LIBRARY X11)
 find_library(ZLIB_LIBRARY z)
+find_library(MLIB_LIBRARY m)
 find_library(LIBDL_LIBRARY dl)
+find_library(LIBDRM_LIBRARY drm)
+
 #These driver libraries are only available for x86 or x86_64, arm libs are not compiled with them
 if (CMAKE_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_SYSTEM_PROCESSOR STREQUAL x86)
 find_library(LIB_VDPAU vdpau) #sudo apt install libvdpau-dev
@@ -44,6 +47,10 @@ include_directories(${FFMPEG_INCLUDE_DIR})
 
 message(STATUS "FFMPEG_LIB_DIR: ${FFMPEG_LIB_DIR}")
 
+add_library(AVDEVICE_LIB STATIC IMPORTED)
+set_target_properties(AVDEVICE_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libavdevice.a)
+add_library(AVFORMAT_LIB STATIC IMPORTED)
+set_target_properties(AVFORMAT_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libavformat.a)
 add_library(AVUTIL_LIB STATIC IMPORTED)
 set_target_properties(AVUTIL_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_DIR}/libavutil.a)
 add_library(AVCODEC_LIB STATIC IMPORTED)
@@ -55,10 +62,12 @@ set_target_properties(SWRESAMPLE_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_D
 
 add_executable(orwell ${ORWELL_SOURCES})
 
-target_link_libraries(orwell PRIVATE 
+
+target_link_libraries( orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11}
-	myRtspClient pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
+	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
+#${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIBDRM_LIBRARY} 
 
 #LAB is for testing things
 file(GLOB LAB_SOURCES main3.cpp ../cpp/common/SLog.cpp)

@@ -60,21 +60,21 @@ function assemble() {
   case $ARCH in
   	armeabi-v7a)
       FFMPEG_ARCH_FLAG=arm
-	  if [ "$TYPE" == android ]; then
-      	CROSS_PREFIX=arm-linux-androideabi-
-	  elif [ "$TYPE" == desktop ]; then
-	    CROSS_PREFIX=arm-linux-gnu-
-	  fi
+      if [ "$TYPE" == android ]; then
+          CROSS_PREFIX=arm-linux-androideabi-
+      elif [ "$TYPE" == desktop ]; then
+        CROSS_PREFIX=arm-linux-gnu-
+      fi
       CC_PREFIX=armv7a
       CC_ANDROID_POSTFIX=eabi
   		;;
   	arm64-v8a)
       FFMPEG_ARCH_FLAG=aarch64
-	  if [ "$TYPE" == android ]; then
-      	CROSS_PREFIX=aarch64-linux-android-
-	  elif [ "$TYPE" == desktop ]; then
-	  	CROSS_PREFIX=aarch64-linux-gnu-
-	  fi
+      if [ "$TYPE" == android ]; then
+          CROSS_PREFIX=aarch64-linux-android-
+      elif [ "$TYPE" == desktop ]; then
+        CROSS_PREFIX=aarch64-linux-gnu-
+      fi
       CC_PREFIX=aarch64
   		;;
     x86)
@@ -145,18 +145,6 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
     ${TOOLCHAIN_PATH}/bin/${CROSS_PREFIX}readelf --dynamic ${BUILD_DIR}/${ARCH}/lib/*.so | grep 'TEXTREL\|File' >> ${STATS_DIR}/text-relocations.txt
 
     cd ${BASE_DIR}
-  #elif [ "$TYPE" == pc ]; then
-  #    echo "Configuring $TYPE of arch $ARCH..."
-  #    ./configure \
-  #    --prefix=${BUILD_DIR}/${ARCH} \
-  #    --enable-nonfree \
-  #    --enable-nvenc \
-  #    --enable-libx264 \
-  #    --enable-shared \
-  #    --disable-static \
-  #    --enable-gpl \
-  #    --enable-cuda \
-  #    --enable-cuvid 
 
   elif [ "$TYPE" == desktop ]; then
      if [ "$ARCH" == x86 ] || [ "$ARCH" == x86_64 ]; then 
@@ -166,43 +154,46 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
       #TODO: enable vaapi support!
       echo "Configuring $TYPE of arch $ARCH (or ${FFMPEG_ARCH_FLAG})..."
       PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:/opt/intel/mediasdk/lib/pkgconfig"
-      
+        #--extra-cflags="-I/opt/intel/mediasdk/include" \
+        #--extra-ldflags="-L/opt/intel/mediasdk/lib" \
+        #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
+        #--enable-libx265 \
+        #--enable-libfdk-aac \
+        #--enable-libx264 \
+        #--enable-libdrm \
+        #--enable-libvpx \
+        #--enable-opencl \
+        #--extra-libs="-lpthread -lm -lz -ldl" \
+
       ./configure \
         --prefix=${BUILD_DIR}/desktop/${FFMPEG_ARCH_FLAG} \
         --extra-cflags="-I$HOME/ffmpeg_build/include" \
         --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
-        --enable-shared \
-        #--extra-cflags="-I/opt/intel/mediasdk/include" \
-        #--extra-ldflags="-L/opt/intel/mediasdk/lib" \
-        #--extra-ldflags="-L/opt/intel/mediasdk/plugins" \
         --arch=${ARCH} \
-        #--enable-libmfx \ #command does not exist
+        --enable-static \
         --enable-vaapi \
         --disable-vaapi \
-        --enable-opencl \
         --disable-debug \
         --enable-nvenc \
         --enable-cuda \
         --enable-cuvid \
-        #--enable-libvorbis \
-        --enable-libvpx \
-        --enable-libdrm \
         --enable-gpl \
         --enable-runtime-cpudetect \
-        --enable-libfdk-aac \
-        --enable-libx264 \
-        --enable-libx265 \
         --enable-openssl \
         --enable-pic \
-        --extra-libs="-lpthread -libm -libc -lz -ldl" \
-        --enable-nonfree 
-        PATH="$HOME/bin:$PATH" 
-        make clean
-        make -j$(nproc)
-        make -j$(nproc) install 
-        make -j$(nproc) distclean 
-        hash -r
-      elif [ "$ARCH" == arm64-v8a ] || [ "$ARCH" == armeabi-v7a ]; then
+        --disable-shared \
+        --extra-libs="-lpthread -lm -lz -ldl" \
+        --enable-nonfree \
+        --pkg-config-flags="--static"
+
+      PATH="$HOME/bin:$PATH" 
+      make clean
+      make -j$(nproc)
+      make -j$(nproc) install 
+      make -j$(nproc) distclean 
+      hash -r
+
+    elif [ "$ARCH" == arm64-v8a ] || [ "$ARCH" == armeabi-v7a ]; then
         echo "Configuring $TYPE of arch $ARCH, specifically ${FFMPEG_ARCH_FLAG}..."
         ./configure \
         --prefix=${BUILD_DIR}/desktop/${FFMPEG_ARCH_FLAG} \
@@ -233,9 +224,7 @@ CC=${TOOLCHAIN_PATH}/bin/${CC_PREFIX}-linux-android${CC_ANDROID_POSTFIX}${API_LE
 
   else
       echo target $TYPE not supported
-  fi
-
-  
+  fi  
 }
 
 # Placing build *.so files into the /bin directory
@@ -259,7 +248,7 @@ function copyToOutterDirectory() {
   ARCH=$1
   ANDROID_API=$2
   TYPE=$3
-   if [ "$TYPE" == android ]; then
+  if [ "$TYPE" == android ]; then
     cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.so ${BUILD_DIR}/${TYPE}/${ARCH}
     cp ${BUILD_DIR}/${TYPE}/${ARCH}/lib/*.a ${BUILD_DIR}/${TYPE}/${ARCH}
   fi
@@ -302,4 +291,4 @@ function installHeaders() {
 build x86_64 _ desktop
 #build arm64-v8a _ desktop #jetson nano and raspberry pi 4
 
-installHeaders
+#installHeaders

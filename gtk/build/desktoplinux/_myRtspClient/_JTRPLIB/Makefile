@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lz/orwell/gtk
+CMAKE_SOURCE_DIR = /home/orwell/gtk
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lz/orwell/gtk/build/desktoplinux
+CMAKE_BINARY_DIR = /home/orwell/gtk/build/desktoplinux
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,14 +126,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/lz/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/gtk/build/desktoplinux/CMakeFiles /home/lz/orwell/gtk/build/desktoplinux/_myRtspClient/_JTRPLIB/CMakeFiles/progress.marks
-	cd /home/lz/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/_JTRPLIB/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lz/orwell/gtk/build/desktoplinux/CMakeFiles 0
+	cd /home/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -E cmake_progress_start /home/orwell/gtk/build/desktoplinux/CMakeFiles /home/orwell/gtk/build/desktoplinux/_myRtspClient/_JTRPLIB/CMakeFiles/progress.marks
+	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/_JTRPLIB/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/orwell/gtk/build/desktoplinux/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/lz/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/_JTRPLIB/clean
+	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/_JTRPLIB/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,17 +143,17 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/lz/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/_JTRPLIB/preinstall
+	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/_JTRPLIB/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/lz/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/_JTRPLIB/preinstall
+	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/_JTRPLIB/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/lz/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Help Target
@@ -179,6 +179,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/lz/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
