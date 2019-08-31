@@ -10,10 +10,8 @@
                 "/home/${USER}/Android/Sdk/ndk/20.0.5594570/sysroot/usr/include"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64"
+            "cppStandard": "c++17"
         }
     ],
     "version": 4

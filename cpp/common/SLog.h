@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include <string>
 #include "Stoppable.h"
+#include <stdexcept>
 
 #if defined(ANDROID)
 #include <android/log.h>
@@ -100,7 +101,8 @@ enum Level
 {
     WARN,
     INFO,
-    ERROR
+    ERROR,
+    CRITICAL_ERROR
 };
 /*
     Hash calculator for Category class. Used by std::unordered_set
@@ -177,7 +179,7 @@ public:
                     s << "warn: ";
                 else if (message.level == INFO)
                     s << "info: ";
-                else if (message.level == ERROR)
+                else if (message.level == ERROR || message.level == CRITICAL_ERROR)
                     s << "error: ";
                 s << message.stringstream.str();
 
@@ -189,6 +191,9 @@ public:
                 #else
                     std::cout << s.str() << std::flush;
                 #endif //ANDROID
+                //TODO: enhance this 
+                if (message.level == CRITICAL_ERROR)
+                    throw std::runtime_error(s.str()); 
             }
         }
     }
