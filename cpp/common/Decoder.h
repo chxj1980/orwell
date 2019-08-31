@@ -15,7 +15,10 @@ public:
 	enum Codec
 	{
 		H264,
-		H265
+		H265,
+		MPEG2,
+		MPEG4,
+		VP9
 	} codec;
 	/*
 		Thread loop that continuously pushes data from encodedFramesFifo and decoded it

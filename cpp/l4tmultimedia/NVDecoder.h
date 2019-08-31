@@ -41,18 +41,22 @@ public:
 		NALU,
 		CHUNK
 	};
-	NVDecoder(Format format);
+	NVDecoder(Format format, Codec codec);
 	/* 
 		
 	*/
-	virtual int decodeFrame(EncodedFrame &encodedFrame) = 0;
-	virtual int decodeFrame(EncodedFrame &encodedFrame, DecodedFrame &decodedFrame) = 0;
+	int decodeFrame(EncodedFrame &encodedFrame) = 0;
+	int decodeFrame(EncodedFrame &encodedFrame, DecodedFrame &decodedFrame) = 0;
+	//void run();
+	void planeQueuer();
 
 protected:
 	//Creates our decoder in blocking mode
 	std::unique_ptr<NvVideoDecoder> nvVideoDecoder = std::make_unique<NvVideoDecoder>(NvVideoDecoder::createVideoDecoder("dec0"));
 	std::unique_ptr<NvApplicationProfiler> nvApplicationProfiler = std::make_unique<NvApplicationProfiler>(NvApplicationProfiler::getProfilerInstance());
 	Format format;
+	Codec codec;
+	int outputPlaneMemType = V4L2_MEMORY_USERPTR;
 };
 
 #endif // NVDecoder_H
