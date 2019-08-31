@@ -5,7 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/deps/ffmpeg",
-                "/home/lz/Android/Sdk/ndk/20.0.5594570/sysroot/usr/include"
+                "${workspaceFolder}/cpp/common",
+                "${workspaceFolder}/deps/tegra_multimedia_api/include",
+                "/home/${USER}/Android/Sdk/ndk/20.0.5594570/sysroot/usr/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

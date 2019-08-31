@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/orwell/gtk
+CMAKE_SOURCE_DIR = /home/dev/orwell/gtk
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/orwell/gtk/build/desktoplinux
+CMAKE_BINARY_DIR = /home/dev/orwell/gtk/build/desktoplinux
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,14 +126,14 @@ list_install_components/fast: list_install_components
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -E cmake_progress_start /home/orwell/gtk/build/desktoplinux/CMakeFiles /home/orwell/gtk/build/desktoplinux/_myRtspClient/CMakeFiles/progress.marks
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/orwell/gtk/build/desktoplinux/CMakeFiles 0
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -E cmake_progress_start /home/dev/orwell/gtk/build/desktoplinux/CMakeFiles /home/dev/orwell/gtk/build/desktoplinux/_myRtspClient/CMakeFiles/progress.marks
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dev/orwell/gtk/build/desktoplinux/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/clean
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/preinstall
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/preinstall
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 _myRtspClient/CMakeFiles/myRtspClient-static.dir/rule:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/CMakeFiles/myRtspClient-static.dir/rule
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/CMakeFiles/myRtspClient-static.dir/rule
 .PHONY : _myRtspClient/CMakeFiles/myRtspClient-static.dir/rule
 
 # Convenience name for target.
@@ -168,12 +168,12 @@ myRtspClient-static: _myRtspClient/CMakeFiles/myRtspClient-static.dir/rule
 
 # fast build rule for target.
 myRtspClient-static/fast:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/build
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/build
 .PHONY : myRtspClient-static/fast
 
 # Convenience name for target.
 _myRtspClient/CMakeFiles/myRtspClient.dir/rule:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/CMakeFiles/myRtspClient.dir/rule
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f CMakeFiles/Makefile2 _myRtspClient/CMakeFiles/myRtspClient.dir/rule
 .PHONY : _myRtspClient/CMakeFiles/myRtspClient.dir/rule
 
 # Convenience name for target.
@@ -183,7 +183,7 @@ myRtspClient: _myRtspClient/CMakeFiles/myRtspClient.dir/rule
 
 # fast build rule for target.
 myRtspClient/fast:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/build
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/build
 .PHONY : myRtspClient/fast
 
 myRtspClient/MediaSession.o: myRtspClient/MediaSession.cpp.o
@@ -192,8 +192,8 @@ myRtspClient/MediaSession.o: myRtspClient/MediaSession.cpp.o
 
 # target to build an object file
 myRtspClient/MediaSession.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/MediaSession.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/MediaSession.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/MediaSession.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/MediaSession.cpp.o
 .PHONY : myRtspClient/MediaSession.cpp.o
 
 myRtspClient/MediaSession.i: myRtspClient/MediaSession.cpp.i
@@ -202,8 +202,8 @@ myRtspClient/MediaSession.i: myRtspClient/MediaSession.cpp.i
 
 # target to preprocess a source file
 myRtspClient/MediaSession.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/MediaSession.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/MediaSession.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/MediaSession.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/MediaSession.cpp.i
 .PHONY : myRtspClient/MediaSession.cpp.i
 
 myRtspClient/MediaSession.s: myRtspClient/MediaSession.cpp.s
@@ -212,8 +212,8 @@ myRtspClient/MediaSession.s: myRtspClient/MediaSession.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/MediaSession.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/MediaSession.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/MediaSession.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/MediaSession.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/MediaSession.cpp.s
 .PHONY : myRtspClient/MediaSession.cpp.s
 
 myRtspClient/frame_type_base.o: myRtspClient/frame_type_base.cpp.o
@@ -222,8 +222,8 @@ myRtspClient/frame_type_base.o: myRtspClient/frame_type_base.cpp.o
 
 # target to build an object file
 myRtspClient/frame_type_base.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/frame_type_base.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/frame_type_base.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/frame_type_base.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/frame_type_base.cpp.o
 .PHONY : myRtspClient/frame_type_base.cpp.o
 
 myRtspClient/frame_type_base.i: myRtspClient/frame_type_base.cpp.i
@@ -232,8 +232,8 @@ myRtspClient/frame_type_base.i: myRtspClient/frame_type_base.cpp.i
 
 # target to preprocess a source file
 myRtspClient/frame_type_base.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/frame_type_base.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/frame_type_base.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/frame_type_base.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/frame_type_base.cpp.i
 .PHONY : myRtspClient/frame_type_base.cpp.i
 
 myRtspClient/frame_type_base.s: myRtspClient/frame_type_base.cpp.s
@@ -242,8 +242,8 @@ myRtspClient/frame_type_base.s: myRtspClient/frame_type_base.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/frame_type_base.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/frame_type_base.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/frame_type_base.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/frame_type_base.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/frame_type_base.cpp.s
 .PHONY : myRtspClient/frame_type_base.cpp.s
 
 myRtspClient/mpeg4_types.o: myRtspClient/mpeg4_types.cpp.o
@@ -252,8 +252,8 @@ myRtspClient/mpeg4_types.o: myRtspClient/mpeg4_types.cpp.o
 
 # target to build an object file
 myRtspClient/mpeg4_types.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg4_types.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg4_types.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg4_types.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg4_types.cpp.o
 .PHONY : myRtspClient/mpeg4_types.cpp.o
 
 myRtspClient/mpeg4_types.i: myRtspClient/mpeg4_types.cpp.i
@@ -262,8 +262,8 @@ myRtspClient/mpeg4_types.i: myRtspClient/mpeg4_types.cpp.i
 
 # target to preprocess a source file
 myRtspClient/mpeg4_types.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg4_types.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg4_types.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg4_types.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg4_types.cpp.i
 .PHONY : myRtspClient/mpeg4_types.cpp.i
 
 myRtspClient/mpeg4_types.s: myRtspClient/mpeg4_types.cpp.s
@@ -272,8 +272,8 @@ myRtspClient/mpeg4_types.s: myRtspClient/mpeg4_types.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/mpeg4_types.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg4_types.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg4_types.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg4_types.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg4_types.cpp.s
 .PHONY : myRtspClient/mpeg4_types.cpp.s
 
 myRtspClient/mpeg_types.o: myRtspClient/mpeg_types.cpp.o
@@ -282,8 +282,8 @@ myRtspClient/mpeg_types.o: myRtspClient/mpeg_types.cpp.o
 
 # target to build an object file
 myRtspClient/mpeg_types.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg_types.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg_types.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg_types.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg_types.cpp.o
 .PHONY : myRtspClient/mpeg_types.cpp.o
 
 myRtspClient/mpeg_types.i: myRtspClient/mpeg_types.cpp.i
@@ -292,8 +292,8 @@ myRtspClient/mpeg_types.i: myRtspClient/mpeg_types.cpp.i
 
 # target to preprocess a source file
 myRtspClient/mpeg_types.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg_types.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg_types.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg_types.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg_types.cpp.i
 .PHONY : myRtspClient/mpeg_types.cpp.i
 
 myRtspClient/mpeg_types.s: myRtspClient/mpeg_types.cpp.s
@@ -302,8 +302,8 @@ myRtspClient/mpeg_types.s: myRtspClient/mpeg_types.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/mpeg_types.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg_types.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg_types.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/mpeg_types.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/mpeg_types.cpp.s
 .PHONY : myRtspClient/mpeg_types.cpp.s
 
 myRtspClient/myRegex.o: myRtspClient/myRegex.cpp.o
@@ -312,8 +312,8 @@ myRtspClient/myRegex.o: myRtspClient/myRegex.cpp.o
 
 # target to build an object file
 myRtspClient/myRegex.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRegex.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRegex.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRegex.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRegex.cpp.o
 .PHONY : myRtspClient/myRegex.cpp.o
 
 myRtspClient/myRegex.i: myRtspClient/myRegex.cpp.i
@@ -322,8 +322,8 @@ myRtspClient/myRegex.i: myRtspClient/myRegex.cpp.i
 
 # target to preprocess a source file
 myRtspClient/myRegex.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRegex.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRegex.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRegex.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRegex.cpp.i
 .PHONY : myRtspClient/myRegex.cpp.i
 
 myRtspClient/myRegex.s: myRtspClient/myRegex.cpp.s
@@ -332,8 +332,8 @@ myRtspClient/myRegex.s: myRtspClient/myRegex.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/myRegex.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRegex.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRegex.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRegex.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRegex.cpp.s
 .PHONY : myRtspClient/myRegex.cpp.s
 
 myRtspClient/myRtpTcpSession.o: myRtspClient/myRtpTcpSession.cpp.o
@@ -342,8 +342,8 @@ myRtspClient/myRtpTcpSession.o: myRtspClient/myRtpTcpSession.cpp.o
 
 # target to build an object file
 myRtspClient/myRtpTcpSession.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpTcpSession.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpTcpSession.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpTcpSession.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpTcpSession.cpp.o
 .PHONY : myRtspClient/myRtpTcpSession.cpp.o
 
 myRtspClient/myRtpTcpSession.i: myRtspClient/myRtpTcpSession.cpp.i
@@ -352,8 +352,8 @@ myRtspClient/myRtpTcpSession.i: myRtspClient/myRtpTcpSession.cpp.i
 
 # target to preprocess a source file
 myRtspClient/myRtpTcpSession.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpTcpSession.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpTcpSession.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpTcpSession.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpTcpSession.cpp.i
 .PHONY : myRtspClient/myRtpTcpSession.cpp.i
 
 myRtspClient/myRtpTcpSession.s: myRtspClient/myRtpTcpSession.cpp.s
@@ -362,8 +362,8 @@ myRtspClient/myRtpTcpSession.s: myRtspClient/myRtpTcpSession.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/myRtpTcpSession.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpTcpSession.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpTcpSession.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpTcpSession.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpTcpSession.cpp.s
 .PHONY : myRtspClient/myRtpTcpSession.cpp.s
 
 myRtspClient/myRtpUdpSession.o: myRtspClient/myRtpUdpSession.cpp.o
@@ -372,8 +372,8 @@ myRtspClient/myRtpUdpSession.o: myRtspClient/myRtpUdpSession.cpp.o
 
 # target to build an object file
 myRtspClient/myRtpUdpSession.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpUdpSession.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpUdpSession.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpUdpSession.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpUdpSession.cpp.o
 .PHONY : myRtspClient/myRtpUdpSession.cpp.o
 
 myRtspClient/myRtpUdpSession.i: myRtspClient/myRtpUdpSession.cpp.i
@@ -382,8 +382,8 @@ myRtspClient/myRtpUdpSession.i: myRtspClient/myRtpUdpSession.cpp.i
 
 # target to preprocess a source file
 myRtspClient/myRtpUdpSession.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpUdpSession.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpUdpSession.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpUdpSession.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpUdpSession.cpp.i
 .PHONY : myRtspClient/myRtpUdpSession.cpp.i
 
 myRtspClient/myRtpUdpSession.s: myRtspClient/myRtpUdpSession.cpp.s
@@ -392,8 +392,8 @@ myRtspClient/myRtpUdpSession.s: myRtspClient/myRtpUdpSession.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/myRtpUdpSession.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpUdpSession.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpUdpSession.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myRtpUdpSession.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myRtpUdpSession.cpp.s
 .PHONY : myRtspClient/myRtpUdpSession.cpp.s
 
 myRtspClient/myTCPTransmitter.o: myRtspClient/myTCPTransmitter.cpp.o
@@ -402,8 +402,8 @@ myRtspClient/myTCPTransmitter.o: myRtspClient/myTCPTransmitter.cpp.o
 
 # target to build an object file
 myRtspClient/myTCPTransmitter.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myTCPTransmitter.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myTCPTransmitter.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myTCPTransmitter.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myTCPTransmitter.cpp.o
 .PHONY : myRtspClient/myTCPTransmitter.cpp.o
 
 myRtspClient/myTCPTransmitter.i: myRtspClient/myTCPTransmitter.cpp.i
@@ -412,8 +412,8 @@ myRtspClient/myTCPTransmitter.i: myRtspClient/myTCPTransmitter.cpp.i
 
 # target to preprocess a source file
 myRtspClient/myTCPTransmitter.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myTCPTransmitter.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myTCPTransmitter.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myTCPTransmitter.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myTCPTransmitter.cpp.i
 .PHONY : myRtspClient/myTCPTransmitter.cpp.i
 
 myRtspClient/myTCPTransmitter.s: myRtspClient/myTCPTransmitter.cpp.s
@@ -422,8 +422,8 @@ myRtspClient/myTCPTransmitter.s: myRtspClient/myTCPTransmitter.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/myTCPTransmitter.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myTCPTransmitter.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myTCPTransmitter.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/myTCPTransmitter.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/myTCPTransmitter.cpp.s
 .PHONY : myRtspClient/myTCPTransmitter.cpp.s
 
 myRtspClient/nalu_types.o: myRtspClient/nalu_types.cpp.o
@@ -432,8 +432,8 @@ myRtspClient/nalu_types.o: myRtspClient/nalu_types.cpp.o
 
 # target to build an object file
 myRtspClient/nalu_types.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types.cpp.o
 .PHONY : myRtspClient/nalu_types.cpp.o
 
 myRtspClient/nalu_types.i: myRtspClient/nalu_types.cpp.i
@@ -442,8 +442,8 @@ myRtspClient/nalu_types.i: myRtspClient/nalu_types.cpp.i
 
 # target to preprocess a source file
 myRtspClient/nalu_types.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types.cpp.i
 .PHONY : myRtspClient/nalu_types.cpp.i
 
 myRtspClient/nalu_types.s: myRtspClient/nalu_types.cpp.s
@@ -452,8 +452,8 @@ myRtspClient/nalu_types.s: myRtspClient/nalu_types.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/nalu_types.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types.cpp.s
 .PHONY : myRtspClient/nalu_types.cpp.s
 
 myRtspClient/nalu_types_h264.o: myRtspClient/nalu_types_h264.cpp.o
@@ -462,8 +462,8 @@ myRtspClient/nalu_types_h264.o: myRtspClient/nalu_types_h264.cpp.o
 
 # target to build an object file
 myRtspClient/nalu_types_h264.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h264.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h264.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h264.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h264.cpp.o
 .PHONY : myRtspClient/nalu_types_h264.cpp.o
 
 myRtspClient/nalu_types_h264.i: myRtspClient/nalu_types_h264.cpp.i
@@ -472,8 +472,8 @@ myRtspClient/nalu_types_h264.i: myRtspClient/nalu_types_h264.cpp.i
 
 # target to preprocess a source file
 myRtspClient/nalu_types_h264.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h264.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h264.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h264.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h264.cpp.i
 .PHONY : myRtspClient/nalu_types_h264.cpp.i
 
 myRtspClient/nalu_types_h264.s: myRtspClient/nalu_types_h264.cpp.s
@@ -482,8 +482,8 @@ myRtspClient/nalu_types_h264.s: myRtspClient/nalu_types_h264.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/nalu_types_h264.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h264.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h264.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h264.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h264.cpp.s
 .PHONY : myRtspClient/nalu_types_h264.cpp.s
 
 myRtspClient/nalu_types_h265.o: myRtspClient/nalu_types_h265.cpp.o
@@ -492,8 +492,8 @@ myRtspClient/nalu_types_h265.o: myRtspClient/nalu_types_h265.cpp.o
 
 # target to build an object file
 myRtspClient/nalu_types_h265.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h265.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h265.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h265.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h265.cpp.o
 .PHONY : myRtspClient/nalu_types_h265.cpp.o
 
 myRtspClient/nalu_types_h265.i: myRtspClient/nalu_types_h265.cpp.i
@@ -502,8 +502,8 @@ myRtspClient/nalu_types_h265.i: myRtspClient/nalu_types_h265.cpp.i
 
 # target to preprocess a source file
 myRtspClient/nalu_types_h265.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h265.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h265.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h265.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h265.cpp.i
 .PHONY : myRtspClient/nalu_types_h265.cpp.i
 
 myRtspClient/nalu_types_h265.s: myRtspClient/nalu_types_h265.cpp.s
@@ -512,8 +512,8 @@ myRtspClient/nalu_types_h265.s: myRtspClient/nalu_types_h265.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/nalu_types_h265.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h265.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h265.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/nalu_types_h265.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/nalu_types_h265.cpp.s
 .PHONY : myRtspClient/nalu_types_h265.cpp.s
 
 myRtspClient/pcmu_types.o: myRtspClient/pcmu_types.cpp.o
@@ -522,8 +522,8 @@ myRtspClient/pcmu_types.o: myRtspClient/pcmu_types.cpp.o
 
 # target to build an object file
 myRtspClient/pcmu_types.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/pcmu_types.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/pcmu_types.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/pcmu_types.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/pcmu_types.cpp.o
 .PHONY : myRtspClient/pcmu_types.cpp.o
 
 myRtspClient/pcmu_types.i: myRtspClient/pcmu_types.cpp.i
@@ -532,8 +532,8 @@ myRtspClient/pcmu_types.i: myRtspClient/pcmu_types.cpp.i
 
 # target to preprocess a source file
 myRtspClient/pcmu_types.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/pcmu_types.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/pcmu_types.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/pcmu_types.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/pcmu_types.cpp.i
 .PHONY : myRtspClient/pcmu_types.cpp.i
 
 myRtspClient/pcmu_types.s: myRtspClient/pcmu_types.cpp.s
@@ -542,8 +542,8 @@ myRtspClient/pcmu_types.s: myRtspClient/pcmu_types.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/pcmu_types.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/pcmu_types.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/pcmu_types.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/pcmu_types.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/pcmu_types.cpp.s
 .PHONY : myRtspClient/pcmu_types.cpp.s
 
 myRtspClient/rtspClient.o: myRtspClient/rtspClient.cpp.o
@@ -552,8 +552,8 @@ myRtspClient/rtspClient.o: myRtspClient/rtspClient.cpp.o
 
 # target to build an object file
 myRtspClient/rtspClient.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/rtspClient.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/rtspClient.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/rtspClient.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/rtspClient.cpp.o
 .PHONY : myRtspClient/rtspClient.cpp.o
 
 myRtspClient/rtspClient.i: myRtspClient/rtspClient.cpp.i
@@ -562,8 +562,8 @@ myRtspClient/rtspClient.i: myRtspClient/rtspClient.cpp.i
 
 # target to preprocess a source file
 myRtspClient/rtspClient.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/rtspClient.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/rtspClient.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/rtspClient.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/rtspClient.cpp.i
 .PHONY : myRtspClient/rtspClient.cpp.i
 
 myRtspClient/rtspClient.s: myRtspClient/rtspClient.cpp.s
@@ -572,8 +572,8 @@ myRtspClient/rtspClient.s: myRtspClient/rtspClient.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/rtspClient.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/rtspClient.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/rtspClient.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/rtspClient.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/rtspClient.cpp.s
 .PHONY : myRtspClient/rtspClient.cpp.s
 
 myRtspClient/sdp_data.o: myRtspClient/sdp_data.cpp.o
@@ -582,8 +582,8 @@ myRtspClient/sdp_data.o: myRtspClient/sdp_data.cpp.o
 
 # target to build an object file
 myRtspClient/sdp_data.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/sdp_data.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/sdp_data.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/sdp_data.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/sdp_data.cpp.o
 .PHONY : myRtspClient/sdp_data.cpp.o
 
 myRtspClient/sdp_data.i: myRtspClient/sdp_data.cpp.i
@@ -592,8 +592,8 @@ myRtspClient/sdp_data.i: myRtspClient/sdp_data.cpp.i
 
 # target to preprocess a source file
 myRtspClient/sdp_data.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/sdp_data.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/sdp_data.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/sdp_data.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/sdp_data.cpp.i
 .PHONY : myRtspClient/sdp_data.cpp.i
 
 myRtspClient/sdp_data.s: myRtspClient/sdp_data.cpp.s
@@ -602,8 +602,8 @@ myRtspClient/sdp_data.s: myRtspClient/sdp_data.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/sdp_data.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/sdp_data.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/sdp_data.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/sdp_data.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/sdp_data.cpp.s
 .PHONY : myRtspClient/sdp_data.cpp.s
 
 myRtspClient/utils.o: myRtspClient/utils.cpp.o
@@ -612,8 +612,8 @@ myRtspClient/utils.o: myRtspClient/utils.cpp.o
 
 # target to build an object file
 myRtspClient/utils.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/utils.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/utils.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/utils.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/utils.cpp.o
 .PHONY : myRtspClient/utils.cpp.o
 
 myRtspClient/utils.i: myRtspClient/utils.cpp.i
@@ -622,8 +622,8 @@ myRtspClient/utils.i: myRtspClient/utils.cpp.i
 
 # target to preprocess a source file
 myRtspClient/utils.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/utils.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/utils.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/utils.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/utils.cpp.i
 .PHONY : myRtspClient/utils.cpp.i
 
 myRtspClient/utils.s: myRtspClient/utils.cpp.s
@@ -632,8 +632,8 @@ myRtspClient/utils.s: myRtspClient/utils.cpp.s
 
 # target to generate assembly for a file
 myRtspClient/utils.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/utils.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/utils.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/myRtspClient/utils.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/myRtspClient/utils.cpp.s
 .PHONY : myRtspClient/utils.cpp.s
 
 third_party/Base64_live555/Base64.o: third_party/Base64_live555/Base64.cpp.o
@@ -642,8 +642,8 @@ third_party/Base64_live555/Base64.o: third_party/Base64_live555/Base64.cpp.o
 
 # target to build an object file
 third_party/Base64_live555/Base64.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/Base64.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/Base64.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/Base64.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/Base64.cpp.o
 .PHONY : third_party/Base64_live555/Base64.cpp.o
 
 third_party/Base64_live555/Base64.i: third_party/Base64_live555/Base64.cpp.i
@@ -652,8 +652,8 @@ third_party/Base64_live555/Base64.i: third_party/Base64_live555/Base64.cpp.i
 
 # target to preprocess a source file
 third_party/Base64_live555/Base64.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/Base64.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/Base64.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/Base64.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/Base64.cpp.i
 .PHONY : third_party/Base64_live555/Base64.cpp.i
 
 third_party/Base64_live555/Base64.s: third_party/Base64_live555/Base64.cpp.s
@@ -662,8 +662,8 @@ third_party/Base64_live555/Base64.s: third_party/Base64_live555/Base64.cpp.s
 
 # target to generate assembly for a file
 third_party/Base64_live555/Base64.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/Base64.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/Base64.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/Base64.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/Base64.cpp.s
 .PHONY : third_party/Base64_live555/Base64.cpp.s
 
 third_party/Base64_live555/strDup.o: third_party/Base64_live555/strDup.cpp.o
@@ -672,8 +672,8 @@ third_party/Base64_live555/strDup.o: third_party/Base64_live555/strDup.cpp.o
 
 # target to build an object file
 third_party/Base64_live555/strDup.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/strDup.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/strDup.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/strDup.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/strDup.cpp.o
 .PHONY : third_party/Base64_live555/strDup.cpp.o
 
 third_party/Base64_live555/strDup.i: third_party/Base64_live555/strDup.cpp.i
@@ -682,8 +682,8 @@ third_party/Base64_live555/strDup.i: third_party/Base64_live555/strDup.cpp.i
 
 # target to preprocess a source file
 third_party/Base64_live555/strDup.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/strDup.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/strDup.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/strDup.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/strDup.cpp.i
 .PHONY : third_party/Base64_live555/strDup.cpp.i
 
 third_party/Base64_live555/strDup.s: third_party/Base64_live555/strDup.cpp.s
@@ -692,8 +692,8 @@ third_party/Base64_live555/strDup.s: third_party/Base64_live555/strDup.cpp.s
 
 # target to generate assembly for a file
 third_party/Base64_live555/strDup.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/strDup.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/strDup.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/Base64_live555/strDup.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/Base64_live555/strDup.cpp.s
 .PHONY : third_party/Base64_live555/strDup.cpp.s
 
 third_party/md5/md5.o: third_party/md5/md5.cpp.o
@@ -702,8 +702,8 @@ third_party/md5/md5.o: third_party/md5/md5.cpp.o
 
 # target to build an object file
 third_party/md5/md5.cpp.o:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/md5/md5.cpp.o
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/md5/md5.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/md5/md5.cpp.o
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/md5/md5.cpp.o
 .PHONY : third_party/md5/md5.cpp.o
 
 third_party/md5/md5.i: third_party/md5/md5.cpp.i
@@ -712,8 +712,8 @@ third_party/md5/md5.i: third_party/md5/md5.cpp.i
 
 # target to preprocess a source file
 third_party/md5/md5.cpp.i:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/md5/md5.cpp.i
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/md5/md5.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/md5/md5.cpp.i
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/md5/md5.cpp.i
 .PHONY : third_party/md5/md5.cpp.i
 
 third_party/md5/md5.s: third_party/md5/md5.cpp.s
@@ -722,8 +722,8 @@ third_party/md5/md5.s: third_party/md5/md5.cpp.s
 
 # target to generate assembly for a file
 third_party/md5/md5.cpp.s:
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/md5/md5.cpp.s
-	cd /home/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/md5/md5.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient-static.dir/build.make _myRtspClient/CMakeFiles/myRtspClient-static.dir/third_party/md5/md5.cpp.s
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(MAKE) -f _myRtspClient/CMakeFiles/myRtspClient.dir/build.make _myRtspClient/CMakeFiles/myRtspClient.dir/third_party/md5/md5.cpp.s
 .PHONY : third_party/md5/md5.cpp.s
 
 # Help Target
@@ -805,6 +805,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/dev/orwell/gtk/build/desktoplinux && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

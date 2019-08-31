@@ -45,8 +45,6 @@ int FfmpegSoftwareDecoder::decodeFrame(EncodedFrame& encodedFrame)
 
 int FfmpegSoftwareDecoder::decodeFrame(EncodedFrame& encodedFrame, DecodedFrame &decodedFrame)
 {
-	std::cout << "48" << std::endl;
-
 	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET);
 	if (encodedFrame.frameSize <= 0)

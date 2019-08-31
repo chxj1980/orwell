@@ -284,11 +284,11 @@ function installHeaders() {
 
 #ensureSources
 
-#build armeabi-v7a 16 android
-#build arm64-v8a 21 android
-#build x86 16 android
-#build x86_64 21 android
+build armeabi-v7a 16 android
+build arm64-v8a 21 android
+build x86 16 android
+build x86_64 21 android
 build x86_64 _ desktop
-#build arm64-v8a _ desktop #jetson nano and raspberry pi 4
+build arm64-v8a _ desktop #jetson nano and raspberry pi 4
 
 #installHeaders

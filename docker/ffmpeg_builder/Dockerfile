@@ -211,20 +211,9 @@ COPY deps/ffmpeg-4.1.4.tar.bz2 ffmpeg-4.1.4.tar.bz2
 RUN tar jxf ffmpeg-4.1.4.tar.bz2 \
     && rm ffmpeg-4.1.4.tar.bz2 \
     && mv ffmpeg-4.1.4 ffmpeg
-    
-RUN apt update && apt install -y \
-    gcc make gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi\
-    gcc-arm-linux-gnueabihf gcc-aarch64-linux-gnu
 
-#ADD docker/ffmpeg_builder/scripts/build_all.sh /home/build_all.sh
 ADD docker/ffmpeg_builder/scripts/video_decoders_list.txt /home/video_decoders_list.txt
 ADD docker/ffmpeg_builder/scripts/ffmpeg_build.sh /home/ffmpeg_build.sh
-#ADD docker/ffmpeg_builder/scripts/load_variables.sh /home/load_variables.sh
-#ADD docker/ffmpeg_builder/scripts/load_variables2.sh /home/load_variables2.sh
-#ADD docker/ffmpeg_builder/scripts/build_android_arm64.sh /home/build_android_arm64.sh 
-#ADD docker/ffmpeg_builder/scripts/build_android_armhf32.sh /home/build_android_armhf32.sh 
-#ADD docker/ffmpeg_builder/scripts/build_android_x86_64.sh /home/build_android_x86_64.sh 
-#ADD docker/ffmpeg_builder/scripts/build_windows.sh /home/build_windows.sh 
 
 WORKDIR /home/
 

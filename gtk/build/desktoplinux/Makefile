@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/orwell/gtk
+CMAKE_SOURCE_DIR = /home/dev/orwell/gtk
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/orwell/gtk/build/desktoplinux
+CMAKE_BINARY_DIR = /home/dev/orwell/gtk/build/desktoplinux
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ install/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/orwell/gtk/build/desktoplinux/CMakeFiles /home/orwell/gtk/build/desktoplinux/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dev/orwell/gtk/build/desktoplinux/CMakeFiles /home/dev/orwell/gtk/build/desktoplinux/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/orwell/gtk/build/desktoplinux/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dev/orwell/gtk/build/desktoplinux/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -342,251 +342,251 @@ Shader.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Shader.cpp.s
 .PHONY : Shader.cpp.s
 
-home/orwell/cpp/common/FfmpegHardwareDecoder.o: home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
+home/dev/orwell/cpp/common/FfmpegHardwareDecoder.o: home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
 
-.PHONY : home/orwell/cpp/common/FfmpegHardwareDecoder.o
-
-# target to build an object file
-home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
-.PHONY : home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
-
-home/orwell/cpp/common/FfmpegHardwareDecoder.i: home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
-
-.PHONY : home/orwell/cpp/common/FfmpegHardwareDecoder.i
-
-# target to preprocess a source file
-home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
-.PHONY : home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
-
-home/orwell/cpp/common/FfmpegHardwareDecoder.s: home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
-
-.PHONY : home/orwell/cpp/common/FfmpegHardwareDecoder.s
-
-# target to generate assembly for a file
-home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
-.PHONY : home/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
-
-home/orwell/cpp/common/FfmpegSoftwareDecoder.o: home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
-
-.PHONY : home/orwell/cpp/common/FfmpegSoftwareDecoder.o
+.PHONY : home/dev/orwell/cpp/common/FfmpegHardwareDecoder.o
 
 # target to build an object file
-home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
-.PHONY : home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
+home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
+.PHONY : home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
 
-home/orwell/cpp/common/FfmpegSoftwareDecoder.i: home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+home/dev/orwell/cpp/common/FfmpegHardwareDecoder.i: home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
 
-.PHONY : home/orwell/cpp/common/FfmpegSoftwareDecoder.i
+.PHONY : home/dev/orwell/cpp/common/FfmpegHardwareDecoder.i
 
 # target to preprocess a source file
-home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
-.PHONY : home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
+.PHONY : home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.i
 
-home/orwell/cpp/common/FfmpegSoftwareDecoder.s: home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+home/dev/orwell/cpp/common/FfmpegHardwareDecoder.s: home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
 
-.PHONY : home/orwell/cpp/common/FfmpegSoftwareDecoder.s
+.PHONY : home/dev/orwell/cpp/common/FfmpegHardwareDecoder.s
 
 # target to generate assembly for a file
-home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
-.PHONY : home/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
+.PHONY : home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.s
 
-home/orwell/cpp/common/MyRTSPClient.o: home/orwell/cpp/common/MyRTSPClient.cpp.o
+home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.o: home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
 
-.PHONY : home/orwell/cpp/common/MyRTSPClient.o
+.PHONY : home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.o
 
 # target to build an object file
-home/orwell/cpp/common/MyRTSPClient.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/MyRTSPClient.cpp.o
-.PHONY : home/orwell/cpp/common/MyRTSPClient.cpp.o
+home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
+.PHONY : home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.o
 
-home/orwell/cpp/common/MyRTSPClient.i: home/orwell/cpp/common/MyRTSPClient.cpp.i
+home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.i: home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
 
-.PHONY : home/orwell/cpp/common/MyRTSPClient.i
+.PHONY : home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.i
 
 # target to preprocess a source file
-home/orwell/cpp/common/MyRTSPClient.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/MyRTSPClient.cpp.i
-.PHONY : home/orwell/cpp/common/MyRTSPClient.cpp.i
+home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
+.PHONY : home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.i
 
-home/orwell/cpp/common/MyRTSPClient.s: home/orwell/cpp/common/MyRTSPClient.cpp.s
+home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.s: home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
 
-.PHONY : home/orwell/cpp/common/MyRTSPClient.s
+.PHONY : home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.s
 
 # target to generate assembly for a file
-home/orwell/cpp/common/MyRTSPClient.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/MyRTSPClient.cpp.s
-.PHONY : home/orwell/cpp/common/MyRTSPClient.cpp.s
+home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
+.PHONY : home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
 
-home/orwell/cpp/common/Orwell.o: home/orwell/cpp/common/Orwell.cpp.o
+home/dev/orwell/cpp/common/MyRTSPClient.o: home/dev/orwell/cpp/common/MyRTSPClient.cpp.o
 
-.PHONY : home/orwell/cpp/common/Orwell.o
+.PHONY : home/dev/orwell/cpp/common/MyRTSPClient.o
 
 # target to build an object file
-home/orwell/cpp/common/Orwell.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/Orwell.cpp.o
-.PHONY : home/orwell/cpp/common/Orwell.cpp.o
+home/dev/orwell/cpp/common/MyRTSPClient.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/MyRTSPClient.cpp.o
+.PHONY : home/dev/orwell/cpp/common/MyRTSPClient.cpp.o
 
-home/orwell/cpp/common/Orwell.i: home/orwell/cpp/common/Orwell.cpp.i
+home/dev/orwell/cpp/common/MyRTSPClient.i: home/dev/orwell/cpp/common/MyRTSPClient.cpp.i
 
-.PHONY : home/orwell/cpp/common/Orwell.i
+.PHONY : home/dev/orwell/cpp/common/MyRTSPClient.i
 
 # target to preprocess a source file
-home/orwell/cpp/common/Orwell.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/Orwell.cpp.i
-.PHONY : home/orwell/cpp/common/Orwell.cpp.i
+home/dev/orwell/cpp/common/MyRTSPClient.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/MyRTSPClient.cpp.i
+.PHONY : home/dev/orwell/cpp/common/MyRTSPClient.cpp.i
 
-home/orwell/cpp/common/Orwell.s: home/orwell/cpp/common/Orwell.cpp.s
+home/dev/orwell/cpp/common/MyRTSPClient.s: home/dev/orwell/cpp/common/MyRTSPClient.cpp.s
 
-.PHONY : home/orwell/cpp/common/Orwell.s
+.PHONY : home/dev/orwell/cpp/common/MyRTSPClient.s
 
 # target to generate assembly for a file
-home/orwell/cpp/common/Orwell.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/Orwell.cpp.s
-.PHONY : home/orwell/cpp/common/Orwell.cpp.s
+home/dev/orwell/cpp/common/MyRTSPClient.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/MyRTSPClient.cpp.s
+.PHONY : home/dev/orwell/cpp/common/MyRTSPClient.cpp.s
 
-home/orwell/cpp/common/PixelFormats.o: home/orwell/cpp/common/PixelFormats.cpp.o
+home/dev/orwell/cpp/common/Orwell.o: home/dev/orwell/cpp/common/Orwell.cpp.o
 
-.PHONY : home/orwell/cpp/common/PixelFormats.o
+.PHONY : home/dev/orwell/cpp/common/Orwell.o
 
 # target to build an object file
-home/orwell/cpp/common/PixelFormats.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/PixelFormats.cpp.o
-.PHONY : home/orwell/cpp/common/PixelFormats.cpp.o
+home/dev/orwell/cpp/common/Orwell.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Orwell.cpp.o
+.PHONY : home/dev/orwell/cpp/common/Orwell.cpp.o
 
-home/orwell/cpp/common/PixelFormats.i: home/orwell/cpp/common/PixelFormats.cpp.i
+home/dev/orwell/cpp/common/Orwell.i: home/dev/orwell/cpp/common/Orwell.cpp.i
 
-.PHONY : home/orwell/cpp/common/PixelFormats.i
+.PHONY : home/dev/orwell/cpp/common/Orwell.i
 
 # target to preprocess a source file
-home/orwell/cpp/common/PixelFormats.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/PixelFormats.cpp.i
-.PHONY : home/orwell/cpp/common/PixelFormats.cpp.i
+home/dev/orwell/cpp/common/Orwell.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Orwell.cpp.i
+.PHONY : home/dev/orwell/cpp/common/Orwell.cpp.i
 
-home/orwell/cpp/common/PixelFormats.s: home/orwell/cpp/common/PixelFormats.cpp.s
+home/dev/orwell/cpp/common/Orwell.s: home/dev/orwell/cpp/common/Orwell.cpp.s
 
-.PHONY : home/orwell/cpp/common/PixelFormats.s
+.PHONY : home/dev/orwell/cpp/common/Orwell.s
 
 # target to generate assembly for a file
-home/orwell/cpp/common/PixelFormats.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/PixelFormats.cpp.s
-.PHONY : home/orwell/cpp/common/PixelFormats.cpp.s
+home/dev/orwell/cpp/common/Orwell.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Orwell.cpp.s
+.PHONY : home/dev/orwell/cpp/common/Orwell.cpp.s
 
-home/orwell/cpp/common/SLog.o: home/orwell/cpp/common/SLog.cpp.o
+home/dev/orwell/cpp/common/PixelFormats.o: home/dev/orwell/cpp/common/PixelFormats.cpp.o
 
-.PHONY : home/orwell/cpp/common/SLog.o
+.PHONY : home/dev/orwell/cpp/common/PixelFormats.o
 
 # target to build an object file
-home/orwell/cpp/common/SLog.cpp.o:
-	$(MAKE) -f CMakeFiles/lab.dir/build.make CMakeFiles/lab.dir/home/orwell/cpp/common/SLog.cpp.o
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/SLog.cpp.o
-.PHONY : home/orwell/cpp/common/SLog.cpp.o
+home/dev/orwell/cpp/common/PixelFormats.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/PixelFormats.cpp.o
+.PHONY : home/dev/orwell/cpp/common/PixelFormats.cpp.o
 
-home/orwell/cpp/common/SLog.i: home/orwell/cpp/common/SLog.cpp.i
+home/dev/orwell/cpp/common/PixelFormats.i: home/dev/orwell/cpp/common/PixelFormats.cpp.i
 
-.PHONY : home/orwell/cpp/common/SLog.i
+.PHONY : home/dev/orwell/cpp/common/PixelFormats.i
 
 # target to preprocess a source file
-home/orwell/cpp/common/SLog.cpp.i:
-	$(MAKE) -f CMakeFiles/lab.dir/build.make CMakeFiles/lab.dir/home/orwell/cpp/common/SLog.cpp.i
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/SLog.cpp.i
-.PHONY : home/orwell/cpp/common/SLog.cpp.i
+home/dev/orwell/cpp/common/PixelFormats.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/PixelFormats.cpp.i
+.PHONY : home/dev/orwell/cpp/common/PixelFormats.cpp.i
 
-home/orwell/cpp/common/SLog.s: home/orwell/cpp/common/SLog.cpp.s
+home/dev/orwell/cpp/common/PixelFormats.s: home/dev/orwell/cpp/common/PixelFormats.cpp.s
 
-.PHONY : home/orwell/cpp/common/SLog.s
+.PHONY : home/dev/orwell/cpp/common/PixelFormats.s
 
 # target to generate assembly for a file
-home/orwell/cpp/common/SLog.cpp.s:
-	$(MAKE) -f CMakeFiles/lab.dir/build.make CMakeFiles/lab.dir/home/orwell/cpp/common/SLog.cpp.s
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/SLog.cpp.s
-.PHONY : home/orwell/cpp/common/SLog.cpp.s
+home/dev/orwell/cpp/common/PixelFormats.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/PixelFormats.cpp.s
+.PHONY : home/dev/orwell/cpp/common/PixelFormats.cpp.s
 
-home/orwell/cpp/common/Singleton.o: home/orwell/cpp/common/Singleton.cpp.o
+home/dev/orwell/cpp/common/SLog.o: home/dev/orwell/cpp/common/SLog.cpp.o
 
-.PHONY : home/orwell/cpp/common/Singleton.o
+.PHONY : home/dev/orwell/cpp/common/SLog.o
 
 # target to build an object file
-home/orwell/cpp/common/Singleton.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/Singleton.cpp.o
-.PHONY : home/orwell/cpp/common/Singleton.cpp.o
+home/dev/orwell/cpp/common/SLog.cpp.o:
+	$(MAKE) -f CMakeFiles/lab.dir/build.make CMakeFiles/lab.dir/home/dev/orwell/cpp/common/SLog.cpp.o
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/SLog.cpp.o
+.PHONY : home/dev/orwell/cpp/common/SLog.cpp.o
 
-home/orwell/cpp/common/Singleton.i: home/orwell/cpp/common/Singleton.cpp.i
+home/dev/orwell/cpp/common/SLog.i: home/dev/orwell/cpp/common/SLog.cpp.i
 
-.PHONY : home/orwell/cpp/common/Singleton.i
+.PHONY : home/dev/orwell/cpp/common/SLog.i
 
 # target to preprocess a source file
-home/orwell/cpp/common/Singleton.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/Singleton.cpp.i
-.PHONY : home/orwell/cpp/common/Singleton.cpp.i
+home/dev/orwell/cpp/common/SLog.cpp.i:
+	$(MAKE) -f CMakeFiles/lab.dir/build.make CMakeFiles/lab.dir/home/dev/orwell/cpp/common/SLog.cpp.i
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/SLog.cpp.i
+.PHONY : home/dev/orwell/cpp/common/SLog.cpp.i
 
-home/orwell/cpp/common/Singleton.s: home/orwell/cpp/common/Singleton.cpp.s
+home/dev/orwell/cpp/common/SLog.s: home/dev/orwell/cpp/common/SLog.cpp.s
 
-.PHONY : home/orwell/cpp/common/Singleton.s
+.PHONY : home/dev/orwell/cpp/common/SLog.s
 
 # target to generate assembly for a file
-home/orwell/cpp/common/Singleton.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/Singleton.cpp.s
-.PHONY : home/orwell/cpp/common/Singleton.cpp.s
+home/dev/orwell/cpp/common/SLog.cpp.s:
+	$(MAKE) -f CMakeFiles/lab.dir/build.make CMakeFiles/lab.dir/home/dev/orwell/cpp/common/SLog.cpp.s
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/SLog.cpp.s
+.PHONY : home/dev/orwell/cpp/common/SLog.cpp.s
 
-home/orwell/cpp/common/VideoReceiver.o: home/orwell/cpp/common/VideoReceiver.cpp.o
+home/dev/orwell/cpp/common/Singleton.o: home/dev/orwell/cpp/common/Singleton.cpp.o
 
-.PHONY : home/orwell/cpp/common/VideoReceiver.o
+.PHONY : home/dev/orwell/cpp/common/Singleton.o
 
 # target to build an object file
-home/orwell/cpp/common/VideoReceiver.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/VideoReceiver.cpp.o
-.PHONY : home/orwell/cpp/common/VideoReceiver.cpp.o
+home/dev/orwell/cpp/common/Singleton.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Singleton.cpp.o
+.PHONY : home/dev/orwell/cpp/common/Singleton.cpp.o
 
-home/orwell/cpp/common/VideoReceiver.i: home/orwell/cpp/common/VideoReceiver.cpp.i
+home/dev/orwell/cpp/common/Singleton.i: home/dev/orwell/cpp/common/Singleton.cpp.i
 
-.PHONY : home/orwell/cpp/common/VideoReceiver.i
+.PHONY : home/dev/orwell/cpp/common/Singleton.i
 
 # target to preprocess a source file
-home/orwell/cpp/common/VideoReceiver.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/VideoReceiver.cpp.i
-.PHONY : home/orwell/cpp/common/VideoReceiver.cpp.i
+home/dev/orwell/cpp/common/Singleton.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Singleton.cpp.i
+.PHONY : home/dev/orwell/cpp/common/Singleton.cpp.i
 
-home/orwell/cpp/common/VideoReceiver.s: home/orwell/cpp/common/VideoReceiver.cpp.s
+home/dev/orwell/cpp/common/Singleton.s: home/dev/orwell/cpp/common/Singleton.cpp.s
 
-.PHONY : home/orwell/cpp/common/VideoReceiver.s
+.PHONY : home/dev/orwell/cpp/common/Singleton.s
 
 # target to generate assembly for a file
-home/orwell/cpp/common/VideoReceiver.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/VideoReceiver.cpp.s
-.PHONY : home/orwell/cpp/common/VideoReceiver.cpp.s
+home/dev/orwell/cpp/common/Singleton.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Singleton.cpp.s
+.PHONY : home/dev/orwell/cpp/common/Singleton.cpp.s
 
-home/orwell/cpp/common/VideoRecorder.o: home/orwell/cpp/common/VideoRecorder.cpp.o
+home/dev/orwell/cpp/common/VideoReceiver.o: home/dev/orwell/cpp/common/VideoReceiver.cpp.o
 
-.PHONY : home/orwell/cpp/common/VideoRecorder.o
+.PHONY : home/dev/orwell/cpp/common/VideoReceiver.o
 
 # target to build an object file
-home/orwell/cpp/common/VideoRecorder.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/VideoRecorder.cpp.o
-.PHONY : home/orwell/cpp/common/VideoRecorder.cpp.o
+home/dev/orwell/cpp/common/VideoReceiver.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/VideoReceiver.cpp.o
+.PHONY : home/dev/orwell/cpp/common/VideoReceiver.cpp.o
 
-home/orwell/cpp/common/VideoRecorder.i: home/orwell/cpp/common/VideoRecorder.cpp.i
+home/dev/orwell/cpp/common/VideoReceiver.i: home/dev/orwell/cpp/common/VideoReceiver.cpp.i
 
-.PHONY : home/orwell/cpp/common/VideoRecorder.i
+.PHONY : home/dev/orwell/cpp/common/VideoReceiver.i
 
 # target to preprocess a source file
-home/orwell/cpp/common/VideoRecorder.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/VideoRecorder.cpp.i
-.PHONY : home/orwell/cpp/common/VideoRecorder.cpp.i
+home/dev/orwell/cpp/common/VideoReceiver.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/VideoReceiver.cpp.i
+.PHONY : home/dev/orwell/cpp/common/VideoReceiver.cpp.i
 
-home/orwell/cpp/common/VideoRecorder.s: home/orwell/cpp/common/VideoRecorder.cpp.s
+home/dev/orwell/cpp/common/VideoReceiver.s: home/dev/orwell/cpp/common/VideoReceiver.cpp.s
 
-.PHONY : home/orwell/cpp/common/VideoRecorder.s
+.PHONY : home/dev/orwell/cpp/common/VideoReceiver.s
 
 # target to generate assembly for a file
-home/orwell/cpp/common/VideoRecorder.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/orwell/cpp/common/VideoRecorder.cpp.s
-.PHONY : home/orwell/cpp/common/VideoRecorder.cpp.s
+home/dev/orwell/cpp/common/VideoReceiver.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/VideoReceiver.cpp.s
+.PHONY : home/dev/orwell/cpp/common/VideoReceiver.cpp.s
+
+home/dev/orwell/cpp/common/VideoRecorder.o: home/dev/orwell/cpp/common/VideoRecorder.cpp.o
+
+.PHONY : home/dev/orwell/cpp/common/VideoRecorder.o
+
+# target to build an object file
+home/dev/orwell/cpp/common/VideoRecorder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/VideoRecorder.cpp.o
+.PHONY : home/dev/orwell/cpp/common/VideoRecorder.cpp.o
+
+home/dev/orwell/cpp/common/VideoRecorder.i: home/dev/orwell/cpp/common/VideoRecorder.cpp.i
+
+.PHONY : home/dev/orwell/cpp/common/VideoRecorder.i
+
+# target to preprocess a source file
+home/dev/orwell/cpp/common/VideoRecorder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/VideoRecorder.cpp.i
+.PHONY : home/dev/orwell/cpp/common/VideoRecorder.cpp.i
+
+home/dev/orwell/cpp/common/VideoRecorder.s: home/dev/orwell/cpp/common/VideoRecorder.cpp.s
+
+.PHONY : home/dev/orwell/cpp/common/VideoRecorder.s
+
+# target to generate assembly for a file
+home/dev/orwell/cpp/common/VideoRecorder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/VideoRecorder.cpp.s
+.PHONY : home/dev/orwell/cpp/common/VideoRecorder.cpp.s
 
 main.o: main.cpp.o
 
@@ -672,33 +672,33 @@ help:
 	@echo "... Shader.o"
 	@echo "... Shader.i"
 	@echo "... Shader.s"
-	@echo "... home/orwell/cpp/common/FfmpegHardwareDecoder.o"
-	@echo "... home/orwell/cpp/common/FfmpegHardwareDecoder.i"
-	@echo "... home/orwell/cpp/common/FfmpegHardwareDecoder.s"
-	@echo "... home/orwell/cpp/common/FfmpegSoftwareDecoder.o"
-	@echo "... home/orwell/cpp/common/FfmpegSoftwareDecoder.i"
-	@echo "... home/orwell/cpp/common/FfmpegSoftwareDecoder.s"
-	@echo "... home/orwell/cpp/common/MyRTSPClient.o"
-	@echo "... home/orwell/cpp/common/MyRTSPClient.i"
-	@echo "... home/orwell/cpp/common/MyRTSPClient.s"
-	@echo "... home/orwell/cpp/common/Orwell.o"
-	@echo "... home/orwell/cpp/common/Orwell.i"
-	@echo "... home/orwell/cpp/common/Orwell.s"
-	@echo "... home/orwell/cpp/common/PixelFormats.o"
-	@echo "... home/orwell/cpp/common/PixelFormats.i"
-	@echo "... home/orwell/cpp/common/PixelFormats.s"
-	@echo "... home/orwell/cpp/common/SLog.o"
-	@echo "... home/orwell/cpp/common/SLog.i"
-	@echo "... home/orwell/cpp/common/SLog.s"
-	@echo "... home/orwell/cpp/common/Singleton.o"
-	@echo "... home/orwell/cpp/common/Singleton.i"
-	@echo "... home/orwell/cpp/common/Singleton.s"
-	@echo "... home/orwell/cpp/common/VideoReceiver.o"
-	@echo "... home/orwell/cpp/common/VideoReceiver.i"
-	@echo "... home/orwell/cpp/common/VideoReceiver.s"
-	@echo "... home/orwell/cpp/common/VideoRecorder.o"
-	@echo "... home/orwell/cpp/common/VideoRecorder.i"
-	@echo "... home/orwell/cpp/common/VideoRecorder.s"
+	@echo "... home/dev/orwell/cpp/common/FfmpegHardwareDecoder.o"
+	@echo "... home/dev/orwell/cpp/common/FfmpegHardwareDecoder.i"
+	@echo "... home/dev/orwell/cpp/common/FfmpegHardwareDecoder.s"
+	@echo "... home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.o"
+	@echo "... home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.i"
+	@echo "... home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.s"
+	@echo "... home/dev/orwell/cpp/common/MyRTSPClient.o"
+	@echo "... home/dev/orwell/cpp/common/MyRTSPClient.i"
+	@echo "... home/dev/orwell/cpp/common/MyRTSPClient.s"
+	@echo "... home/dev/orwell/cpp/common/Orwell.o"
+	@echo "... home/dev/orwell/cpp/common/Orwell.i"
+	@echo "... home/dev/orwell/cpp/common/Orwell.s"
+	@echo "... home/dev/orwell/cpp/common/PixelFormats.o"
+	@echo "... home/dev/orwell/cpp/common/PixelFormats.i"
+	@echo "... home/dev/orwell/cpp/common/PixelFormats.s"
+	@echo "... home/dev/orwell/cpp/common/SLog.o"
+	@echo "... home/dev/orwell/cpp/common/SLog.i"
+	@echo "... home/dev/orwell/cpp/common/SLog.s"
+	@echo "... home/dev/orwell/cpp/common/Singleton.o"
+	@echo "... home/dev/orwell/cpp/common/Singleton.i"
+	@echo "... home/dev/orwell/cpp/common/Singleton.s"
+	@echo "... home/dev/orwell/cpp/common/VideoReceiver.o"
+	@echo "... home/dev/orwell/cpp/common/VideoReceiver.i"
+	@echo "... home/dev/orwell/cpp/common/VideoReceiver.s"
+	@echo "... home/dev/orwell/cpp/common/VideoRecorder.o"
+	@echo "... home/dev/orwell/cpp/common/VideoRecorder.i"
+	@echo "... home/dev/orwell/cpp/common/VideoRecorder.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
