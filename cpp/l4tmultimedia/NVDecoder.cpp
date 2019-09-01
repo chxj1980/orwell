@@ -192,7 +192,6 @@ static bool transferNalu(EncodedPacket &encodedPacket, uint8_t *currentEncodedPa
         Pointer that traverses the bufferPlane (pointed by planeBufferPtr) in
         order to find NALUs
     */
-    uint8_t *currentEncodedPacketPtr;
     uint8_t *writtenBufferPtr = planeBufferPtr;
     bool nalu_found = false;
 
@@ -205,8 +204,12 @@ static bool transferNalu(EncodedPacket &encodedPacket, uint8_t *currentEncodedPa
 
     /*
         We're gonna find the first NALU in the packet
+        If currentEncodedPacketPtr is not setted, it means we should start at the beggining
+        of the encodedPacket. Otherwise, we're continuing the work of the previous transferNalu
+        call, in which it found a NALU in the middle of the encodedPacket and returned true
     */
-    currentEncodedPacketPtr = planeBufferPtr;
+    if (!currentEncodedPacketPtr)
+        currentEncodedPacketPtr = planeBufferPtr;
     while ((currentEncodedPacketPtr - planeBufferPtr) < (packetSize - 3))
     {
         nalu_found = IS_NAL_UNIT_START(currentEncodedPacketPtr) || IS_NAL_UNIT_START1(currentEncodedPacketPtr);
@@ -215,7 +218,7 @@ static bool transferNalu(EncodedPacket &encodedPacket, uint8_t *currentEncodedPa
         currentEncodedPacketPtr++;
     }
 
-    // Reached end of buffer but could not find NAL unit
+    // Reached end of planeBuffer but could not find NAL unit
     if (!nalu_found)
     {
         /*
