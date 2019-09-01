@@ -53,10 +53,10 @@ public:
 	int decodeFrame(EncodedUnit &encodedUnit, DecodedFrame &decodedFrame) = 0;
 	//void run();
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
-	void read();
+	void run();
 
 protected:
-	void read_decoder_input_nalu(NvBuffer *buffer, uint8_t *parse_buffer, std::streamsize parse_buffer_size);
+	//void read_decoder_input_nalu(NvBuffer *nvBuffer, EncodedUnits& encodedUnits);
 	//Creates our decoder in blocking mode
 	std::unique_ptr<NvVideoDecoder> nvVideoDecoder = std::make_unique<NvVideoDecoder>(NvVideoDecoder::createVideoDecoder("dec0"));
 	std::unique_ptr<NvApplicationProfiler> nvApplicationProfiler = std::make_unique<NvApplicationProfiler>(NvApplicationProfiler::getProfilerInstance());

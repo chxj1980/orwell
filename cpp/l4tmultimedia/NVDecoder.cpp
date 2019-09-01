@@ -1,6 +1,9 @@
 #include "NVDecoder.h"
 #include "SLog.h"
+#include "EncodedUnits.h"
+
 SLOG_CATEGORY("NVDecoder");
+
 #define TEST_ERROR(condition, message, errorCode)             \
     if (condition)                                            \
     {                                                         \
@@ -46,8 +49,8 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
 
     ret = nvVideoDecoder->subscribeEvent(V4L2_EVENT_RESOLUTION_CHANGE, 0, 0);
     TEST_ERROR(ret < 0, "Could not subscribe to V4L2_EVENT_RESOLUTION_CHANGE", ret)
-
-    ret = nvVideoDecoder->setOutputPlaneFormat(0, CHUNK_SIZE);
+    //1 = NV12, 2 = I420
+    ret = nvVideoDecoder->setOutputPlaneFormat(1, CHUNK_SIZE);
     TEST_ERROR(ret < 0, "Could not set output plane format", ret)
 
     if (format == NALU)
@@ -70,56 +73,110 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
     ret = nvVideoDecoder->output_plane.setStreamStatus(true);
     TEST_ERROR(ret < 0, "Error in output plane stream on", ret);
 }
-void NVDecoder::read()
+
+void NVDecoder::run()
 {
-    struct v4l2_buffer v4l2_buf;
-    struct v4l2_plane planes[MAX_PLANES];
-    uint8_t *nalu_parse_buffer = NULL;
-    NvBuffer *buffer;
-
-    if (format == NALU)
+    //while (!eos && !ctx.got_error && !ctx.dec->isInError() &&
+    //       i < nvVideoDecoder->output_plane.getNumBuffers())
+    int i = 0;
+    int ret = 0;
+    bool eos = false;
+    /*
+        We're gonna receive lots of EncodedUnit instances in the while loop below
+        and extract its NALUs. Of course a NALU can end in the middle of an EncodedUnit,
+        so currentEncodedUnit saves this EncodedUnit for work to continue in the offset
+        currentEncodedUnitOffset.
+    */
+    EncodedUnit currentEncodedUnit;
+    std::streamsize currentEncodedUnitOffset = 0;
+    /*
+        In this first loop we fill all the buffers, taking care to
+        see if we reached EOS (in case of CHUNK format). After
+        all the buffers have been setted, we start another while
+        loop that blocks until a buffer can be dequeue
+    */
+    //TODO: what happens if shouldContinue() is setted to FALSE in the middle of the while?
+    //How should I destroy things?
+    while (i < nvVideoDecoder->output_plane.getNumBuffers() && shouldContinue())
     {
-        nalu_parse_buffer = new uint8_t[CHUNK_SIZE];
-    }
+        TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in first while loop", 0)
+        /*
+            This is a type of configuration file that tells how the buffer should be queued
+        */
+        struct v4l2_buffer v4l2_buf;
+        struct v4l2_plane planes[MAX_PLANES];
+        NvBuffer *buffer;
 
-    memset(&v4l2_buf, 0, sizeof(v4l2_buf));
-    memset(planes, 0, sizeof(planes));
+        memset(&v4l2_buf, 0, sizeof(v4l2_buf));
+        memset(planes, 0, sizeof(planes));
+        /*
+            The buffer to where a single NALU is written. 
+            As I understood, each buffer should contain a single NALU and 
+            then be queued
+        */
+        buffer = nvVideoDecoder->output_plane.getNthBuffer(i);
+        if ((codec == H264) ||
+            (codec == H265) ||
+            (codec == MPEG2) ||
+            (codec == MPEG4))
+        {
+            if (format == NALU)
+            {
+                while (shouldContinue())
+                {
+                    transferNalu(buffer, encodedUnits);
+                }
+            }
+            else
+            {
+                //read_decoder_input_chunk(ctx.in_file[current_file], buffer);
+            }
+        }
+        /*
+        if (codec == VP9)
+        {
+            ret = read_vp9_decoder_input_chunk(&ctx, buffer);
+            if (ret != 0)
+                cerr << "Couldn't read VP9 chunk" << endl;
+        }
+        if (codec == V4L2_PIX_FMT_VP8)
+        {
+            ret = read_vp8_decoder_input_chunk(&ctx, buffer);
+            if (ret != 0)
+                cerr << "Couldn't read VP8 chunk" << endl;
+        }
+        */
+        v4l2_buf.index = i;
+        v4l2_buf.m.planes = planes;
+        v4l2_buf.m.planes[0].bytesused = buffer->planes[0].bytesused;
 
-    buffer = nvVideoDecoder->output_plane.getNthBuffer(0);
-    if ((codec == H264) ||
-        (codec == H265) ||
-        (codec == MPEG2) ||
-        (codec == MPEG4))
-    {
-        if (format == NALU)
+        /*
+            It is necessary to queue an empty buffer to signal EOS to the decoder
+            i.e. set v4l2_buf.m.planes[0].bytesused = 0 and queue the buffer. That means
+            that if v4l2_buf.m.planes[0].bytesused = 0 from the previous calls, we reached 
+            EOS and the decoder will know about it because we'll queue this v4l2_buf to it.
+        */
+        ret = nvVideoDecoder->output_plane.qBuffer(v4l2_buf, NULL);
+        TEST_ERROR(ret < 0, "Error queueing buffer at output plane in the first while loop of run", ret)
+        if (v4l2_buf.m.planes[0].bytesused == 0)
         {
-            read_decoder_input_nalu(buffer, nalu_parse_buffer, CHUNK_SIZE);
+            LOG << "End of stream";
+            eos = true;
+            break;
         }
-        else
-        {
-            //read_decoder_input_chunk(ctx.in_file[current_file], buffer);
-        }
+        i++;
     }
     /*
-    if (codec == VP9)
-    {
-        ret = read_vp9_decoder_input_chunk(&ctx, buffer);
-        if (ret != 0)
-            cerr << "Couldn't read VP9 chunk" << endl;
-    }
-    if (codec == V4L2_PIX_FMT_VP8)
-    {
-        ret = read_vp8_decoder_input_chunk(&ctx, buffer);
-        if (ret != 0)
-            cerr << "Couldn't read VP8 chunk" << endl;
-    }
+        Our while loop ended, which means all output buffers have been filled.
+        Now we need to create a new while loop that blocks until we can deque a
+        new buffer to fill with data and queue again.
     */
 }
 
-void NVDecoder::read_decoder_input_nalu(NvBuffer *buffer, uint8_t *parse_buffer, std::streamsize parse_buffer_size)
+static void transferNalu(NvBuffer *nvBuffer, EncodedUnits &encodedUnits)
 {
     // Length is the size of the buffer in bytes
-    char *buffer_ptr = (char *)buffer->planes[0].data;
+    char *nvBufferPlane = (char *)nvBuffer->planes[0].data;
     int h265_nal_unit_type;
     char *stream_ptr;
     bool nalu_found = false;
@@ -158,9 +215,9 @@ void NVDecoder::read_decoder_input_nalu(NvBuffer *buffer, uint8_t *parse_buffer,
         return -1;
     }
 
-    memcpy(buffer_ptr, stream_ptr, 4);
-    buffer_ptr += 4;
-    buffer->planes[0].bytesused = 4;
+    memcpy(nvBufferPlane, stream_ptr, 4);
+    nvBufferPlane += 4;
+    nvBuffer->planes[0].bytesused = 4;
     stream_ptr += 4;
     /*
     if (ctx->copy_timestamp)
@@ -190,7 +247,7 @@ void NVDecoder::read_decoder_input_nalu(NvBuffer *buffer, uint8_t *parse_buffer,
         if (IS_NAL_UNIT_START(stream_ptr) || IS_NAL_UNIT_START1(stream_ptr))
         {
             std::streamsize seekto = stream_initial_pos +
-                                (stream_ptr - parse_buffer);
+                                     (stream_ptr - parse_buffer);
             if (stream->eof())
             {
                 stream->clear();
@@ -198,10 +255,10 @@ void NVDecoder::read_decoder_input_nalu(NvBuffer *buffer, uint8_t *parse_buffer,
             stream->seekg(seekto, stream->beg);
             return 0;
         }
-        *buffer_ptr = *stream_ptr;
-        buffer_ptr++;
+        *nvBufferPlane = *stream_ptr;
+        nvBufferPlane++;
         stream_ptr++;
-        buffer->planes[0].bytesused++;
+        nvBuffer->planes[0].bytesused++;
     }
 
     // Reached end of buffer but could not find NAL unit
