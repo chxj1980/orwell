@@ -187,13 +187,13 @@ int MyRTSPClient::receivePacket()
 	*/
 	/* Get SPS, PPS, VPS manually end */
 	unsigned int a = 0;
-
+	size_t bufferSize = 408304;
 	while (true)
 	{
-		EncodedPacket frame(408304);
+		EncodedPacket frame(bufferSize);
 		a++;
 
-		if (!myRtspClient.GetMediaData("video", frame.frameBuffer.get(), &frame.frameSize, frame.bufferSize))
+		if (!myRtspClient.GetMediaData("video", frame.frameBuffer.get(), &frame.frameSize, bufferSize))
 		{
 			if (ByeFromServerFlag2)
 			{
