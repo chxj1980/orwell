@@ -1,5 +1,5 @@
-#ifndef EncodedUnit_H
-#define EncodedUnit_H
+#ifndef EncodedPacket_H
+#define EncodedPacket_H
 #include <iostream>
 #include <stdio.h>
 #include <sys/types.h>
@@ -8,20 +8,20 @@
 #include <fcntl.h>
 #include <memory>
 
-class EncodedUnit
+class EncodedPacket
 {
 public:
-    EncodedUnit(const EncodedUnit &decodedFrame) = delete;
-    EncodedUnit &operator=(const EncodedUnit &) = delete;
-    EncodedUnit(EncodedUnit &&) = default;
-    EncodedUnit &operator=(EncodedUnit &&) = default;
+    EncodedPacket(const EncodedPacket &decodedFrame) = delete;
+    EncodedPacket &operator=(const EncodedPacket &) = delete;
+    EncodedPacket(EncodedPacket &&) = default;
+    EncodedPacket &operator=(EncodedPacket &&) = default;
     /*
         Empty constructor is just for when we do things like this:
-        EncodedUnit encodedUnit = std::move(otherEncodedUnit);
+        EncodedPacket encodedPacket = std::move(otherEncodedPacket);
         No need to allocate data if it's just being used as temporary object 
     */
-    EncodedUnit(){}
-    EncodedUnit(size_t bufferSize) : frameSize(bufferSize),
+    EncodedPacket(){}
+    EncodedPacket(size_t bufferSize) : frameSize(bufferSize),
                                     frameBuffer(new uint8_t[bufferSize])
     {
     }
@@ -29,4 +29,4 @@ public:
     size_t frameSize = 0;
     std::unique_ptr<uint8_t> frameBuffer;
 };
-#endif //EncodedUnit_H
+#endif //EncodedPacket_H

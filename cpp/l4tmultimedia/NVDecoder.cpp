@@ -1,6 +1,6 @@
 #include "NVDecoder.h"
 #include "SLog.h"
-#include "EncodedUnits.h"
+#include "EncodedPackets.h"
 
 SLOG_CATEGORY("NVDecoder");
 
@@ -16,26 +16,26 @@ SLOG_CATEGORY("NVDecoder");
 /*
 void NVDecoder::run()
 	{
-		if (!encodedUnitsFifo)
+		if (!encodedPacketsFifo)
 		{
-			std::cerr << "NVDecoder.cpp: no encodedUnitsFifo setted, nowhere to pull data from" << std::endl;
+			std::cerr << "NVDecoder.cpp: no encodedPacketsFifo setted, nowhere to pull data from" << std::endl;
 			return;
 		}
 		while (shouldContinue())
 		{
 			
-				Pops an encoded frame from encodedUnitsFifo. If there are none, it blocks, so
+				Pops an encoded frame from encodedPacketsFifo. If there are none, it blocks, so
 				no CPU time is wasted.
 			
 			//TODO: certify that the operation below is MOVING the frame to here, not copying it
-			EncodedUnit encodedUnit = std::move(encodedUnitsFifo->pop_front());
+			EncodedPacket encodedPacket = std::move(encodedPacketsFifo->pop_front());
 			/
 				Since the frame is gone from the fifo, it only exists here. 
 				decodeFrame() access its pointers and is blocking. When decodeFrame 
-				finishes, `encodedUnit` is gone and its contents are automatically deleted.
+				finishes, `encodedPacket` is gone and its contents are automatically deleted.
 				DecodedFrame is sent to the decodedFramesFifo
 			
-			decodeFrame(encodedUnit);
+			decodeFrame(encodedPacket);
 		}
 	}
 */
@@ -82,13 +82,13 @@ void NVDecoder::run()
     int ret = 0;
     bool eos = false;
     /*
-        We're gonna receive lots of EncodedUnit instances in the while loop below
-        and extract its NALUs. Of course a NALU can end in the middle of an EncodedUnit,
-        so currentEncodedUnit saves this EncodedUnit for work to continue in the offset
-        currentEncodedUnitOffset.
+        We're gonna receive lots of EncodedPacket instances in the while loop below
+        and extract its NALUs. Of course a NALU can end in the middle of an EncodedPacket,
+        so currentEncodedPacket saves this EncodedPacket for work to continue in the offset
+        currentEncodedPacketOffset.
     */
-    EncodedUnit currentEncodedUnit;
-    std::streamsize currentEncodedUnitOffset = 0;
+    EncodedPacket currentEncodedPacket;
+    uint32_t currentEncodedPacketOffset = 0;
     /*
         In this first loop we fill all the buffers, taking care to
         see if we reached EOS (in case of CHUNK format). After
@@ -103,28 +103,40 @@ void NVDecoder::run()
         /*
             This is a type of configuration file that tells how the buffer should be queued
         */
-        struct v4l2_buffer v4l2_buf;
+        struct v4l2_buffer v4l2Buffer;
         struct v4l2_plane planes[MAX_PLANES];
-        NvBuffer *buffer;
+        NvBuffer *nvBuffer;
 
-        memset(&v4l2_buf, 0, sizeof(v4l2_buf));
+        memset(&v4l2Buffer, 0, sizeof(v4l2Buffer));
         memset(planes, 0, sizeof(planes));
         /*
             The buffer to where a single NALU is written. 
             As I understood, each buffer should contain a single NALU and 
-            then be queued
+            then be queued.
+            I guess NvBuffer is for decoded planes too, so that's why it supports
+            lots of planes. But our data is encoded (has no planes) so we only use 
+            the 0th plane
         */
-        buffer = nvVideoDecoder->output_plane.getNthBuffer(i);
+        nvBuffer = nvVideoDecoder->output_plane.getNthBuffer(i);
+        uint8_t* bufferPlane = static_cast<uint8_t*>(nvBuffer->planes[0].data);
         if ((codec == H264) ||
             (codec == H265) ||
             (codec == MPEG2) ||
             (codec == MPEG4))
         {
+            uint32_t bytesWritten;
             if (format == NALU)
             {
-                while (shouldContinue())
+                /*
+                    Of course we're going to fill `bufferPlane` with an entire NALU.
+                    transferNalu returns true if an entire NALU couldn't be found
+                    inside `currentEncodedPacket`, so we need to query another unit from
+                    our FIFO to continue writing our NALU to `bufferPlane`
+                */
+                while (transferNalu(currentEncodedPacket, currentEncodedPacketOffset, bufferPlane, bytesWritten))
                 {
-                    transferNalu(buffer, encodedUnits);
+                    nvBuffer->planes[0].bytesused = bytesWritten;
+                    currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
                 }
             }
             else
@@ -146,9 +158,9 @@ void NVDecoder::run()
                 cerr << "Couldn't read VP8 chunk" << endl;
         }
         */
-        v4l2_buf.index = i;
-        v4l2_buf.m.planes = planes;
-        v4l2_buf.m.planes[0].bytesused = buffer->planes[0].bytesused;
+        v4l2Buffer.index = i;
+        v4l2Buffer.m.planes = planes;
+        v4l2Buffer.m.planes[0].bytesused = nvBuffer->planes[0].bytesused;
 
         /*
             It is necessary to queue an empty buffer to signal EOS to the decoder
@@ -156,9 +168,9 @@ void NVDecoder::run()
             that if v4l2_buf.m.planes[0].bytesused = 0 from the previous calls, we reached 
             EOS and the decoder will know about it because we'll queue this v4l2_buf to it.
         */
-        ret = nvVideoDecoder->output_plane.qBuffer(v4l2_buf, NULL);
+        ret = nvVideoDecoder->output_plane.qBuffer(v4l2Buffer, NULL);
         TEST_ERROR(ret < 0, "Error queueing buffer at output plane in the first while loop of run", ret)
-        if (v4l2_buf.m.planes[0].bytesused == 0)
+        if (v4l2Buffer.m.planes[0].bytesused == 0)
         {
             LOG << "End of stream";
             eos = true;
@@ -173,66 +185,62 @@ void NVDecoder::run()
     */
 }
 
-static void transferNalu(NvBuffer *nvBuffer, EncodedUnits &encodedUnits)
+static bool transferNalu(EncodedPacket &encodedPacket, uint32_t currentEncodedPacketOffset, uint8_t* bufferPlane, uint32_t bytesWritten)
 {
-    // Length is the size of the buffer in bytes
-    char *nvBufferPlane = (char *)nvBuffer->planes[0].data;
     int h265_nal_unit_type;
-    char *stream_ptr;
+    uint8_t *packetPtr;
     bool nalu_found = false;
-    //Blocks until a new frame arrives
-    EncodedUnit encodedUnit = std::move(encodedUnitsFifo->pop_front());
 
-    //std::streamsize bytes_read;
-    //std::streamsize stream_initial_pos = stream->tellg();
+    size_t packetSize = encodedPacket.frameSize;
 
-    stream->read(parse_buffer, parse_buffer_size);
-    bytes_read = stream->gcount();
-
-    if (bytes_read == 0)
+    if (packetSize == 0)
     {
-        return buffer->planes[0].bytesused = 0;
+        //Throw?
     }
 
-    // Find the first NAL unit in the buffer
-    stream_ptr = parse_buffer;
-    while ((stream_ptr - parse_buffer) < (bytes_read - 3))
+    /*
+        We're gonna find the first NALU in the packet
+    */
+    packetPtr = bufferPlane;
+    while ((packetPtr - bufferPlane) < (packetSize - 3))
     {
-        nalu_found = IS_NAL_UNIT_START(stream_ptr) ||
-                     IS_NAL_UNIT_START1(stream_ptr);
+        nalu_found = IS_NAL_UNIT_START(packetPtr) ||
+                     IS_NAL_UNIT_START1(packetPtr);
         if (nalu_found)
         {
             break;
         }
-        stream_ptr++;
+        packetPtr++;
     }
 
     // Reached end of buffer but could not find NAL unit
     if (!nalu_found)
     {
-        cerr << "Could not read nal unit from file. EOF or file corrupted"
-             << endl;
-        return -1;
+        /*
+            If no NALU found, return true so it receives another encodedPacket and call
+            transferNalu again to continue the work
+        */
+        return true;
     }
 
-    memcpy(nvBufferPlane, stream_ptr, 4);
-    nvBufferPlane += 4;
-    nvBuffer->planes[0].bytesused = 4;
-    stream_ptr += 4;
+    memcpy(bufferPlane, packetPtr, 4);
+    bufferPlane += 4;
+    bytesWritten += 4;
+    packetPtr += 4;
     /*
     if (ctx->copy_timestamp)
     {
         if (ctx->decoder_pixfmt == V4L2_PIX_FMT_H264)
         {
-            if ((IS_H264_NAL_CODED_SLICE(stream_ptr)) ||
-                (IS_H264_NAL_CODED_SLICE_IDR(stream_ptr)))
+            if ((IS_H264_NAL_CODED_SLICE(packetPtr)) ||
+                (IS_H264_NAL_CODED_SLICE_IDR(packetPtr)))
                 ctx->flag_copyts = true;
             else
                 ctx->flag_copyts = false;
         }
         else if (ctx->decoder_pixfmt == V4L2_PIX_FMT_H265)
         {
-            h265_nal_unit_type = GET_H265_NAL_UNIT_TYPE(stream_ptr);
+            h265_nal_unit_type = GET_H265_NAL_UNIT_TYPE(packetPtr);
             if ((h265_nal_unit_type >= HEVC_NUT_TRAIL_N && h265_nal_unit_type <= HEVC_NUT_RASL_R) ||
                 (h265_nal_unit_type >= HEVC_NUT_BLA_W_LP && h265_nal_unit_type <= HEVC_NUT_CRA_NUT))
                 ctx->flag_copyts = true;
@@ -241,13 +249,17 @@ static void transferNalu(NvBuffer *nvBuffer, EncodedUnits &encodedUnits)
         }
     }
     */
-    // Copy bytes till the next NAL unit is found
-    while ((stream_ptr - parse_buffer) < (bytes_read - 3))
+    /*
+        Copy bytes until the next NALU is found. Of course, since
+        NALUs aren't aware of its size, the only way to know that
+        a NALU ended is to find a new NALU
+    */
+    while ((packetPtr - packetPtr) < (packetSize - 3))
     {
-        if (IS_NAL_UNIT_START(stream_ptr) || IS_NAL_UNIT_START1(stream_ptr))
+        if (IS_NAL_UNIT_START(packetPtr) || IS_NAL_UNIT_START1(packetPtr))
         {
             std::streamsize seekto = stream_initial_pos +
-                                     (stream_ptr - parse_buffer);
+                                     (packetPtr - parse_buffer);
             if (stream->eof())
             {
                 stream->clear();
@@ -255,10 +267,11 @@ static void transferNalu(NvBuffer *nvBuffer, EncodedUnits &encodedUnits)
             stream->seekg(seekto, stream->beg);
             return 0;
         }
-        *nvBufferPlane = *stream_ptr;
-        nvBufferPlane++;
-        stream_ptr++;
-        nvBuffer->planes[0].bytesused++;
+        *bufferPlane = *packetPtr;
+        bufferPlane++;
+        packetPtr++;
+        bytesWritten ++;
+        currentEncodedPacketOffset = packetPtr;
     }
 
     // Reached end of buffer but could not find NAL unit

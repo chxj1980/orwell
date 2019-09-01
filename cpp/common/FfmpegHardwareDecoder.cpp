@@ -128,10 +128,10 @@ FfmpegHardwareDecoder::FfmpegHardwareDecoder(Codec codec, Device device, std::st
 
 };
 
-int FfmpegHardwareDecoder::hardwareDecode(EncodedUnit& encodedUnit)
+int FfmpegHardwareDecoder::hardwareDecode(EncodedPacket& encodedPacket)
 {
-    avPacket.get()->size = encodedUnit.frameSize;
-    avPacket.get()->data = encodedUnit.frameBuffer.get();
+    avPacket.get()->size = encodedPacket.frameSize;
+    avPacket.get()->data = encodedPacket.frameBuffer.get();
     int ret = avcodec_send_packet(avCodecContext.get(), avPacket.get());
     if (ret < 0)
     {
@@ -163,12 +163,12 @@ int FfmpegHardwareDecoder::hardwareDecode(EncodedUnit& encodedUnit)
     return true;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(EncodedUnit& encodedUnit)
+int FfmpegHardwareDecoder::decodeFrame(EncodedPacket& encodedPacket)
 {
     DecodedFrame frame;
     frame.decodedFrom = DecodedFrame::FFMPEG;
     //Decodes video into `frame`.
-    int r = decodeFrame(encodedUnit, frame);
+    int r = decodeFrame(encodedPacket, frame);
     if (!decodedFramesFifo)
     {
         std::cerr << "No decodedFramesFifo setted in FfmpegHardwareDecoder" << std::endl;
@@ -179,9 +179,9 @@ int FfmpegHardwareDecoder::decodeFrame(EncodedUnit& encodedUnit)
     return r;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(EncodedUnit& encodedUnit, DecodedFrame &decodedFrame)
+int FfmpegHardwareDecoder::decodeFrame(EncodedPacket& encodedPacket, DecodedFrame &decodedFrame)
 {
-    bool r = hardwareDecode(encodedUnit);
+    bool r = hardwareDecode(encodedPacket);
 
     if (r != 0)
         return -1;

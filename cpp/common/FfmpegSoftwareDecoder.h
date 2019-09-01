@@ -5,8 +5,8 @@
 class FfmpegSoftwareDecoder: public FfmpegDecoder {
     public:
         FfmpegSoftwareDecoder(Codec codec);
-        int decodeFrame(EncodedUnit& encodedUnit);
-        int decodeFrame(EncodedUnit& encodedUnit, DecodedFrame& decodedFrame);
+        int decodeFrame(EncodedPacket& encodedPacket);
+        int decodeFrame(EncodedPacket& encodedPacket, DecodedFrame& decodedFrame);
     private:
     	
 };

@@ -7,7 +7,7 @@
 #include "NvVideoDecoder.h"
 #include "NvApplicationProfiler.h"
 #include <memory>
-#include "EncodedUnit.h"
+#include "EncodedPacket.h"
 #include "DecodedFrame.h"
 #include "NvUtils.h"
 #include "nvbuf_utils.h"
@@ -49,14 +49,14 @@ public:
 	/* 
 		
 	*/
-	int decodeFrame(EncodedUnit &encodedUnit) = 0;
-	int decodeFrame(EncodedUnit &encodedUnit, DecodedFrame &decodedFrame) = 0;
+	int decodeFrame(EncodedPacket &encodedPacket) = 0;
+	int decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame) = 0;
 	//void run();
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
 	void run();
 
 protected:
-	//void read_decoder_input_nalu(NvBuffer *nvBuffer, EncodedUnits& encodedUnits);
+	//void read_decoder_input_nalu(NvBuffer *nvBuffer, EncodedPackets& encodedPackets);
 	//Creates our decoder in blocking mode
 	std::unique_ptr<NvVideoDecoder> nvVideoDecoder = std::make_unique<NvVideoDecoder>(NvVideoDecoder::createVideoDecoder("dec0"));
 	std::unique_ptr<NvApplicationProfiler> nvApplicationProfiler = std::make_unique<NvApplicationProfiler>(NvApplicationProfiler::getProfilerInstance());

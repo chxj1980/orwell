@@ -6,7 +6,7 @@
 #include "FrameUpdater.h"
 #include "VideoReceiver.h"
 #include "VideoRecorder.h"
-#include "EncodedUnit.h"
+#include "EncodedPacket.h"
 #include "Stoppable.h"
 #include "RTSPClient.h"
 /*

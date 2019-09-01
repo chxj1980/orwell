@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <memory>
-#include "EncodedUnit.h"
+#include "EncodedPacket.h"
 #include "DecodedFrame.h"
 #include "ThreadSafeDeque.h"
 #include "Stoppable.h"
@@ -21,30 +21,30 @@ public:
 		VP9
 	} codec;
 	/*
-		Thread loop that continuously pushes data from encodedUnitsFifo and decoded it
+		Thread loop that continuously pushes data from encodedPacketsFifo and decoded it
 	*/
 	virtual void run()
 	{
-		if (!encodedUnitsFifo)
+		if (!encodedPacketsFifo)
 		{
-			std::cerr << "Decoder.h: no encodedUnitsFifo setted, nowhere to pull data from" << std::endl;
+			std::cerr << "Decoder.h: no encodedPacketsFifo setted, nowhere to pull data from" << std::endl;
 			return;
 		}
 		while (shouldContinue())
 		{
 			/*
-				Pops an encoded frame from encodedUnitsFifo. If there are none, it blocks, so
+				Pops an encoded frame from encodedPacketsFifo. If there are none, it blocks, so
 				no CPU time is wasted.
 			*/
 			//TODO: certify that the operation below is MOVING the frame to here, not copying it
-			EncodedUnit encodedUnit = std::move(encodedUnitsFifo->pop_front());
+			EncodedPacket encodedPacket = std::move(encodedPacketsFifo->pop_front());
 			/* 
 				Since the frame is gone from the fifo, it only exists here. 
 				decodeFrame() access its pointers and is blocking. When decodeFrame 
-				finishes, `encodedUnit` is gone and its contents are automatically deleted.
+				finishes, `encodedPacket` is gone and its contents are automatically deleted.
 				DecodedFrame is sent to the decodedFramesFifo
 			*/
-			decodeFrame(encodedUnit);
+			decodeFrame(encodedPacket);
 		}
 	}
 	/* 
@@ -60,17 +60,17 @@ public:
 		- frameLength contains size of frameBuffer
 		- frame is the pointer to the decoded frame data
 	*/
-	virtual int decodeFrame(EncodedUnit& encodedUnit, DecodedFrame &decodedFrame) = 0;
+	virtual int decodeFrame(EncodedPacket& encodedPacket, DecodedFrame &decodedFrame) = 0;
 	/*
 		Decodes directly to the decodedFramesFifo
 	*/
-	virtual int decodeFrame(EncodedUnit& encodedUnit) = 0;
+	virtual int decodeFrame(EncodedPacket& encodedPacket) = 0;
 	/*
 		Here go all the raw frames, as readed from network or file
 	*/
-	void setEncodedUnitsFifo(std::shared_ptr<ThreadSafeDeque<EncodedUnit>> encodedUnitsFifo)
+	void setEncodedPacketsFifo(std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo)
 	{
-		this->encodedUnitsFifo = encodedUnitsFifo;
+		this->encodedPacketsFifo = encodedPacketsFifo;
 	}
 	/*
 		Here go all the decoded frames
@@ -85,7 +85,7 @@ protected:
 		Here we store a pointer to our FIFOs, which are made of a simple thread-safe 
 		deque implementation called ThreadSafeDeque
 	*/
-	std::shared_ptr<ThreadSafeDeque<EncodedUnit>> encodedUnitsFifo;
+	std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo;
 	std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
 };
 
