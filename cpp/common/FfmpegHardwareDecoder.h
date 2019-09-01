@@ -20,13 +20,13 @@ public:
     FfmpegHardwareDecoder(Codec codec, Device device, std::string hardwareType);
 
     //Decodes to GPU memory but not get it back to CPU memory
-    int hardwareDecode(EncodedFrame& encodedFrame);
+    int hardwareDecode(EncodedUnit& encodedUnit);
     /* 
             Calls hardwareDecode() then gets video from GPU memory to CPU memory and 
             sends to VideoReceiver instance.
         */
-    int decodeFrame(EncodedFrame& encodedFrame);
-    int decodeFrame(EncodedFrame& encodedFrame, DecodedFrame &decodedFrame);
+    int decodeFrame(EncodedUnit& encodedUnit);
+    int decodeFrame(EncodedUnit& encodedUnit, DecodedFrame &decodedFrame);
     //
     AVPixelFormat print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt);
     AVPixelFormat get_format(struct AVCodecContext *s, const AVPixelFormat *fmt);

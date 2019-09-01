@@ -9,10 +9,10 @@ MediaCodecDecoder::MediaCodecDecoder(Codec codec) {
     }
 }
 
-int MediaCodecDecoder::decodeFrame(EncodedFrame &encodedFrame) {
+int MediaCodecDecoder::decodeFrame(EncodedUnit &encodedUnit) {
 
 }
-int MediaCodecDecoder::decodeFrame(EncodedFrame &encodedFrame, DecodedFrame &decodedFrame) {
+int MediaCodecDecoder::decodeFrame(EncodedUnit &encodedUnit, DecodedFrame &decodedFrame) {
     ssize_t bufidx = -1;
     bufidx = AMediaCodec_dequeueInputBuffer(aMediaCodec.get(), 2000);
     if (bufidx >= 0) {
@@ -20,7 +20,7 @@ int MediaCodecDecoder::decodeFrame(EncodedFrame &encodedFrame, DecodedFrame &dec
         auto buf = AMediaCodec_getInputBuffer(aMediaCodec.get(), bufidx, &bufsize);
 
 
-        AMediaCodec_queueInputBuffer(aMediaCodec.get(), bufidx, 0, encodedFrame.frameSize,
+        AMediaCodec_queueInputBuffer(aMediaCodec.get(), bufidx, 0, encodedUnit.frameSize,
                                      presentationTimeUs,
                                      AMEDIACODEC_BUFFER_FLAG_PARTIAL_FRAME);
         //AMediaExtractor_advance(d->ex);

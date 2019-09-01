@@ -4,19 +4,19 @@ Orwell::Orwell(RTSPUrl rtspUrl)
 {
     rtspClient = std::make_shared<MyRTSPClient>(rtspUrl.url);
     //FIFO encoded and decoder
-    encodedFramesFifo = std::make_shared<ThreadSafeDeque<EncodedFrame>>();
+    encodedUnitsFifo = std::make_shared<ThreadSafeDeque<EncodedUnit>>();
     decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
     //Decoders
     //auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
     auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
     //Decoder specific configuration
     decoder = ffmpegSoftwareDecoder;
-    decoder->setEncodedFramesFifo(encodedFramesFifo);
+    decoder->setEncodedUnitsFifo(encodedUnitsFifo);
     decoder->setDecodedFramesFifo(decodedFramesFifo);
     //Important, only start decoderThread after inserting FIFOs like in above
     decoderThread = std::make_shared<std::thread>(&Decoder::run, decoder);
     //RTSP client
-    rtspClient->setEncodedFramesFifo(encodedFramesFifo);
+    rtspClient->setEncodedUnitsFifo(encodedUnitsFifo);
     rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
 }
 

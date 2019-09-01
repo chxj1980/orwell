@@ -190,7 +190,7 @@ int MyRTSPClient::receivePacket()
 
 	while (true)
 	{
-		EncodedFrame frame(408304);
+		EncodedUnit frame(408304);
 		a++;
 
 		if (!myRtspClient.GetMediaData("video", frame.frameBuffer.get(), &frame.frameSize, frame.bufferSize))
@@ -210,13 +210,13 @@ int MyRTSPClient::receivePacket()
 		}
 		else
 		{
-			if (!encodedFramesFifo)
+			if (!encodedUnitsFifo)
 			{
-				std::cerr << "MyRTSPClient: no encodedFramesFifo setted, nowhere to send RTSP data!" << std::endl;
+				std::cerr << "MyRTSPClient: no encodedUnitsFifo setted, nowhere to send RTSP data!" << std::endl;
 			}
 			else
 			{
-				this->encodedFramesFifo->emplace_back(std::move(frame));
+				this->encodedUnitsFifo->emplace_back(std::move(frame));
 			}
 			//decoder->decodeFrame(frameBuffer, size);
 		}

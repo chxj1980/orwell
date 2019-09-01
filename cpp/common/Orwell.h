@@ -42,7 +42,7 @@ public:
 
     std::shared_ptr<RTSPClient> rtspClient;
     std::shared_ptr<std::thread> rtspClientThread;
-    std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
+    std::shared_ptr<ThreadSafeDeque<EncodedUnit>> encodedUnitsFifo;
     std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;
     std::shared_ptr<std::thread> decoderThread;

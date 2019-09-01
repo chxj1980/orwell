@@ -6,7 +6,7 @@
 #include "FrameUpdater.h"
 #include "VideoReceiver.h"
 #include "VideoRecorder.h"
-#include "EncodedFrame.h"
+#include "EncodedUnit.h"
 #include "Stoppable.h"
 /*
 	Generic class to accomodate RTSP clients of any type
@@ -17,9 +17,9 @@ public:
 	std::string uri;
 	RTSPClient(std::string uri) : uri(uri) {}
 
-	void setEncodedFramesFifo(std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo)
+	void setEncodedUnitsFifo(std::shared_ptr<ThreadSafeDeque<EncodedUnit>> encodedUnitsFifo)
 	{
-		this->encodedFramesFifo = encodedFramesFifo;
+		this->encodedUnitsFifo = encodedUnitsFifo;
 	}
 	/*
 		Initiates the client and connects to the URL
@@ -36,6 +36,6 @@ public:
 	virtual int receivePacket() = 0;
 
 protected:
-	std::shared_ptr<ThreadSafeDeque<EncodedFrame>> encodedFramesFifo;
+	std::shared_ptr<ThreadSafeDeque<EncodedUnit>> encodedUnitsFifo;
 };
 #endif // RTSPCLient_H

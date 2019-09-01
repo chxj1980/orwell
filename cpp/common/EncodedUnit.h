@@ -1,5 +1,5 @@
-#ifndef EncodedFrame_H
-#define EncodedFrame_H
+#ifndef EncodedUnit_H
+#define EncodedUnit_H
 #include <iostream>
 #include <stdio.h>
 #include <sys/types.h>
@@ -8,18 +8,18 @@
 #include <fcntl.h>
 #include <memory>
 
-class EncodedFrame
+class EncodedUnit
 {
 public:
-    EncodedFrame(const EncodedFrame &decodedFrame) = delete;
-    EncodedFrame &operator=(const EncodedFrame &) = delete;
-    EncodedFrame(EncodedFrame &&) = default;
-    EncodedFrame &operator=(EncodedFrame &&) = default;
+    EncodedUnit(const EncodedUnit &decodedFrame) = delete;
+    EncodedUnit &operator=(const EncodedUnit &) = delete;
+    EncodedUnit(EncodedUnit &&) = default;
+    EncodedUnit &operator=(EncodedUnit &&) = default;
     //TODO: take this off
-    EncodedFrame() : frameBuffer(new uint8_t[bufferSize])
+    EncodedUnit() : frameBuffer(new uint8_t[bufferSize])
     {
     }
-    EncodedFrame(size_t bufferSize) : bufferSize(bufferSize),
+    EncodedUnit(size_t bufferSize) : bufferSize(bufferSize),
                                       frameBuffer(new uint8_t[bufferSize])
     {
     }
@@ -29,4 +29,4 @@ public:
     size_t frameSize = 0;
     std::unique_ptr<uint8_t> frameBuffer;
 };
-#endif //EncodedFrame_H
+#endif //EncodedUnit_H

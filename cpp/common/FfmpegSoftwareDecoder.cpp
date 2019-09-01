@@ -29,11 +29,11 @@ FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
-int FfmpegSoftwareDecoder::decodeFrame(EncodedFrame& encodedFrame)
+int FfmpegSoftwareDecoder::decodeFrame(EncodedUnit& encodedUnit)
 {
 	DecodedFrame frame;
 	frame.decodedFrom = DecodedFrame::FFMPEG;
-	int r = decodeFrame(encodedFrame, frame);
+	int r = decodeFrame(encodedUnit, frame);
 	if (!decodedFramesFifo)
 	{
 		std::cerr << "No decodedFramesFifo setted in FfmpegSoftwareDecoder" << std::endl;
@@ -43,11 +43,11 @@ int FfmpegSoftwareDecoder::decodeFrame(EncodedFrame& encodedFrame)
 	return r;
 }
 
-int FfmpegSoftwareDecoder::decodeFrame(EncodedFrame& encodedFrame, DecodedFrame &decodedFrame)
+int FfmpegSoftwareDecoder::decodeFrame(EncodedUnit& encodedUnit, DecodedFrame &decodedFrame)
 {
 	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET);
-	if (encodedFrame.frameSize <= 0)
+	if (encodedUnit.frameSize <= 0)
 		return -1;
 
 	int frameFinished = 0;
@@ -56,8 +56,8 @@ int FfmpegSoftwareDecoder::decodeFrame(EncodedFrame& encodedFrame, DecodedFrame 
 	if (!avPacket.get())
 		std::cout << "av packet error" << std::endl;
 
-	avPacket.get()->size = encodedFrame.frameSize;
-	avPacket.get()->data = encodedFrame.frameBuffer.get();
+	avPacket.get()->size = encodedUnit.frameSize;
+	avPacket.get()->data = encodedUnit.frameBuffer.get();
 
 	//https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 
