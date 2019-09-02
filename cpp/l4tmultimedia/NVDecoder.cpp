@@ -87,8 +87,8 @@ void NVDecoder::run()
         so currentEncodedPacket saves this EncodedPacket for work to continue in the offset
         currentEncodedPacketPtr.
     */
-    EncodedPacket currentEncodedPacket;
-    uint8_t *currentEncodedPacketPtr = 0;
+    EncodedPacket currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
+    uint8_t *currentEncodedPacketPtr = currentEncodedPacket.frameBuffer.get();
     /*
         In this first loop we fill all the buffers, taking care to
         see if we reached EOS (in case of CHUNK format). After
@@ -133,7 +133,7 @@ void NVDecoder::run()
                     inside `currentEncodedPacket`, so we need to query another unit from
                     our FIFO to continue writing our NALU to `planeBufferPtr`
                 */
-                while (transferNalu(currentEncodedPacket, currentEncodedPacketPtr, planeBufferPtr, bytesWritten))
+                while (transferNalu(currentEncodedPacketPtr, currentEncodedPacket.frameSize, planeBufferPtr, bytesWritten))
                 {
                     nvBuffer->planes[0].bytesused = bytesWritten;
                     currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
@@ -185,19 +185,17 @@ void NVDecoder::run()
     */
 }
 
-static bool transferNalu(EncodedPacket &encodedPacket, uint8_t *currentEncodedPacketPtr, uint8_t * const planeBufferPtr, uint32_t bytesWritten)
+static bool transferNalu(uint8_t *currentEncodedPacketPtr, size_t currentEncodedPacketSize, uint8_t * const planeBufferPtr, uint32_t& bytesWritten)
 {
     int h265_nal_unit_type;
     /*
         Pointer that traverses the bufferPlane (pointed by planeBufferPtr) in
         order to find NALUs
     */
-    uint8_t *writtenBufferPtr = planeBufferPtr;
+    uint8_t* writtenBufferPtr = planeBufferPtr;
     bool nalu_found = false;
 
-    size_t packetSize = encodedPacket.frameSize;
-
-    if (packetSize == 0)
+    if (currentEncodedPacketSize == 0)
     {
         //Throw?
     }
@@ -210,7 +208,7 @@ static bool transferNalu(EncodedPacket &encodedPacket, uint8_t *currentEncodedPa
     */
     if (!currentEncodedPacketPtr)
         currentEncodedPacketPtr = planeBufferPtr;
-    while ((currentEncodedPacketPtr - planeBufferPtr) < (packetSize - 3))
+    while ((currentEncodedPacketPtr - planeBufferPtr) < (currentEncodedPacketSize - 3))
     {
         nalu_found = IS_NAL_UNIT_START(currentEncodedPacketPtr) || IS_NAL_UNIT_START1(currentEncodedPacketPtr);
         if (nalu_found)
@@ -222,9 +220,12 @@ static bool transferNalu(EncodedPacket &encodedPacket, uint8_t *currentEncodedPa
     if (!nalu_found)
     {
         /*
-            If no NALU found, return true so it receives another encodedPacket and call
-            transferNalu again to continue the work
+            If no NALU found, return true so the caller knows it should call 
+            this function again with a new encodedPacket.
+            Set currentEncodedPacketPtr to null so in the next call of transferNalu, 
+            it knows it should start from the beggining of the encodedPacket.
         */
+        currentEncodedPacketPtr = NULL;
         return true;
     }
 
@@ -255,11 +256,11 @@ static bool transferNalu(EncodedPacket &encodedPacket, uint8_t *currentEncodedPa
     }
     */
     /*
-        Copy bytes until the next NALU is found. Of course, since
+        Copy bytes until the next NALU is found. Since
         NALUs aren't aware of its size, the only way to know that
         a NALU ended is to find a new NALU
     */
-    while ((currentEncodedPacketPtr - planeBufferPtr) < (packetSize - 3))
+    while ((currentEncodedPacketPtr - planeBufferPtr) < (currentEncodedPacketSize - 3))
     {
         if (IS_NAL_UNIT_START(currentEncodedPacketPtr) || IS_NAL_UNIT_START1(currentEncodedPacketPtr))
         {
@@ -277,9 +278,10 @@ static bool transferNalu(EncodedPacket &encodedPacket, uint8_t *currentEncodedPa
         currentEncodedPacketPtr++;
         bytesWritten++;
     }
-
-    // Reached end of buffer but could not find NAL unit
-    cerr << "Could not read nal unit from file. EOF or file corrupted"
-         << endl;
-    return -1;
+    /*
+        If reached end, set currentEncodedPacketPtr to NULL so
+    */
+    if ((currentEncodedPacketPtr - planeBufferPtr) == (currentEncodedPacketSize - 3)) {
+        currentEncodedPacketPtr = NULL;
+    }
 }
