@@ -39,14 +39,29 @@ include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
 include_directories(../deps/cxxopts/include)
 
-if (TARGET STREQUAL JETSON_NANO)
-	message(STATUS "Compiling for jetson nano")
+message(STATUS "------------ TARGET: ${TARGET}")
+
+
+#if ("" STREQUAL JETSON_NANO)
+#	message(STATUS "Compiling for jetson nano")
 	include_directories(../cpp/l4tmultimedia)
-	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*" "../cpp/l4tmultimedia")
-else()
-	message(STATUS "Compiling for generic target")
-	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*")
-endif()
+	#include_directories(/usr/include/aarch64-linux-gnu)
+	#TODO: change to system's folder, but where?
+	include_directories(../deps/tegra_multimedia_api/include)
+	include_directories(../deps/tegra_multimedia_api/include/libjpeg-8b)
+	include_directories(/usr/include/libdrm)
+	find_library(LIB_NVBUF nvbuf_utils PATHS /usr/lib/aarch64-linux-gnu/tegra)
+	find_library(LIB_V4L2 v4l2)
+	find_library(LIB_NVJPEG nvjpeg PATHS /usr/lib/aarch64-linux-gnu/tegra)
+	find_library(LIB_DRM drm PATHS /usr/lib/aarch64-linux-gnu/tegra)
+	find_library(LIB_EGL EGL PATHS /usr/lib/aarch64-linux-gnu/tegra)
+
+	#find_library(LIB_V4L2_VIDEO_CODEC v4l2_nvvideocodec PATHS /usr/lib/aarch64-linux-gnu/tegra)
+	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*.cpp" "../cpp/l4tmultimedia/*.cpp" "../deps/tegra_multimedia_api/samples/common/classes/*.cpp")
+#else()
+#	message(STATUS "Compiling for generic target")
+#	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*")
+#endif()
 
 set(FFMPEG_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/${CMAKE_SYSTEM_PROCESSOR}/lib)
 set(FFMPEG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/${CMAKE_SYSTEM_PROCESSOR}/include)
@@ -71,7 +86,7 @@ add_executable(orwell ${ORWELL_SOURCES})
 
 target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
-	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11}
+	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIB_V4L2} ${LIB_NVJPEG} ${LIB_DRM} ${LIB_EGL} ${LIB_NVBUF}
 	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
 #${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIBDRM_LIBRARY} 
 

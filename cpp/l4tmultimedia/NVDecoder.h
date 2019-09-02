@@ -15,7 +15,6 @@
 
 #define CHUNK_SIZE 4000000
 
-#include <iostream>
 #include <exception>
 #include <sstream>
 struct NVDecoderCreationException : public std::exception
@@ -58,8 +57,9 @@ public:
 protected:
 	//void read_decoder_input_nalu(NvBuffer *nvBuffer, EncodedPackets& encodedPackets);
 	//Creates our decoder in blocking mode
-	std::unique_ptr<NvVideoDecoder> nvVideoDecoder = std::make_unique<NvVideoDecoder>(NvVideoDecoder::createVideoDecoder("dec0"));
-	std::unique_ptr<NvApplicationProfiler> nvApplicationProfiler = std::make_unique<NvApplicationProfiler>(NvApplicationProfiler::getProfilerInstance());
+	//SHOULD DESTROY???
+	NvVideoDecoder* nvVideoDecoder = NvVideoDecoder::createVideoDecoder("dec0");
+	NvApplicationProfiler& nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
 	Format format;
 	Codec codec;
 	int outputPlaneMemType = V4L2_MEMORY_USERPTR;
