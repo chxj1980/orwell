@@ -48,7 +48,8 @@ public:
 	*/
 	int decodeFrame(EncodedPacket &encodedPacket);
 	int decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame);
-
+	void prepareDecoder();
+	void captureLoop();
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
 	void run();
 
@@ -58,12 +59,14 @@ protected:
 	//SHOULD DESTROY???
 	//std::unique_ptr<NvVideoDecoder> nvVideoDecoder = std::make_unique<nvVideoDecoder>(NvVideoDecoder::createVideoDecoder("dec0"));
 	NvVideoDecoder* nvVideoDecoder = NvVideoDecoder::createVideoDecoder("dec0");
-	static NvApplicationProfiler& nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
+	//static NvApplicationProfiler& nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
 	Format format;
 	Codec codec;
 	enum v4l2_memory outputPlaneMemType = V4L2_MEMORY_USERPTR;
-	enum v4l2_memory outputPlaneMemType = V4L2_MEMORY_DMABUF;
-
+	enum v4l2_memory capturePlaneMemType = V4L2_MEMORY_DMABUF;
+	int numberCaptureBuffers;
+	uint32_t height;
+    uint32_t width;
 };
 
 #endif // NVDecoder_H

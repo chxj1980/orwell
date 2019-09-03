@@ -1,6 +1,8 @@
 #include "NVDecoder.h"
 #include "SLog.h"
 #include "NaluUtils.h"
+#include <nvbuf_utils.h>
+
 
 SLOG_CATEGORY("NVDecoder");
 
@@ -22,7 +24,7 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
     int ret;
     TEST_ERROR(!nvVideoDecoder, "Could not create decoder", 0)
 
-    nvApplicationProfiler.start(NvApplicationProfiler::DefaultSamplingInterval);
+    //nvApplicationProfiler.start(NvApplicationProfiler::DefaultSamplingInterval);
     nvVideoDecoder->enableProfiling();
 
     ret = nvVideoDecoder->subscribeEvent(V4L2_EVENT_RESOLUTION_CHANGE, 0, 0);
@@ -79,8 +81,6 @@ void NVDecoder::prepareDecoder()
                "Error: Could not get crop from decoder capture plane", ret);
 
     LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height;
-    ctx->display_height = crop.c.height;
-    ctx->display_width = crop.c.width;
 
     // Resolution got from the decoder
     window_width = crop.c.width;
@@ -88,9 +88,9 @@ void NVDecoder::prepareDecoder()
 
     // deinitPlane unmaps the buffers and calls REQBUFS with count 0
     nvVideoDecoder->capture_plane.deinitPlane();
-    if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+    if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
     {
-        for (int index = 0; index < ctx->numCapBuffers; index++)
+        for (int index = 0; index < numberCaptureBuffers; index++)
         {
             if (ctx->dmabuff_fd[index] != 0)
             {
@@ -107,8 +107,8 @@ void NVDecoder::prepareDecoder()
                                                 format.fmt.pix_mp.height);
     TEST_ERROR(ret < 0, "Error in setting decoder capture plane format", ret);
 
-    ctx->video_height = format.fmt.pix_mp.height;
-    ctx->video_width = format.fmt.pix_mp.width;
+    height = format.fmt.pix_mp.height;
+    width = format.fmt.pix_mp.width;
     // Get the minimum buffers which have to be requested on the capture plane
     ret = nvVideoDecoder->getMinimumCapturePlaneBuffers(min_dec_capture_buffers);
     TEST_ERROR(ret < 0,
@@ -116,15 +116,14 @@ void NVDecoder::prepareDecoder()
                ret);
 
     // Request (min + 5) buffers, export and map buffers
-    if (ctx->capture_plane_mem_type == V4L2_MEMORY_MMAP)
+    if (capturePlaneMemType == V4L2_MEMORY_MMAP)
     {
-        ret =
-            nvVideoDecoder->capture_plane.setupPlane(V4L2_MEMORY_MMAP,
+        ret = nvVideoDecoder->capture_plane.setupPlane(V4L2_MEMORY_MMAP,
                                                      min_dec_capture_buffers + 5, false,
                                                      false);
         TEST_ERROR(ret < 0, "Error in decoder capture plane setup", ret);
     }
-    else if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+    else if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
     {
         switch (format.fmt.pix_mp.colorspace)
         {
@@ -172,8 +171,8 @@ void NVDecoder::prepareDecoder()
             }
             break;
         }
-        ctx->numCapBuffers = min_dec_capture_buffers + 5;
-        for (int index = 0; index < ctx->numCapBuffers; index++)
+        numberCaptureBuffers = min_dec_capture_buffers + 5;
+        for (int index = 0; index < numberCaptureBuffers; index++)
         {
             cParams.width = crop.c.width;
             cParams.height = crop.c.height;
@@ -183,7 +182,7 @@ void NVDecoder::prepareDecoder()
             ret = NvBufferCreateEx(&ctx->dmabuff_fd[index], &cParams);
             TEST_ERROR(ret < 0, "Failed to create buffers", ret);
         }
-        ret = nvVideoDecoder->capture_plane.reqbufs(V4L2_MEMORY_DMABUF, ctx->numCapBuffers);
+        ret = nvVideoDecoder->capture_plane.reqbufs(V4L2_MEMORY_DMABUF, numberCaptureBuffers);
         TEST_ERROR(ret, "Error in request buffers on capture plane", ret);
     }
 
@@ -203,8 +202,8 @@ void NVDecoder::prepareDecoder()
         v4l2_buf.index = i;
         v4l2_buf.m.planes = planes;
         v4l2_buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-        v4l2_buf.memory = ctx->capture_plane_mem_type;
-        if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+        v4l2_buf.memory = capturePlaneMemType;
+        if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
             v4l2_buf.m.planes[0].m.fd = ctx->dmabuff_fd[i];
         ret = nvVideoDecoder->capture_plane.qBuffer(v4l2_buf, NULL);
         TEST_ERROR(ret < 0, "Error Qing buffer at output plane", ret);
@@ -212,7 +211,7 @@ void NVDecoder::prepareDecoder()
     LOG << "Query and set capture successful";
 }
 
-void captureLoop()
+void NVDecoder::captureLoop()
 {
     struct v4l2_event ev;
     int ret;
@@ -304,16 +303,15 @@ void captureLoop()
                      << v4l2_buf.timestamp.tv_sec << "s" << v4l2_buf.timestamp.tv_usec << "us]";
             }
             */
-            if (!ctx->disable_rendering && ctx->stats)
-            {
-                // EglRenderer requires the fd of the 0th plane to render the buffer
-                if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
-                    dec_buffer->planes[0].fd = ctx->dmabuff_fd[v4l2_buf.index];
-                ctx->renderer->render(dec_buffer->planes[0].fd);
-            }
+            //RENDER HERE!
+            // EglRenderer requires the fd of the 0th plane to render the buffer
+            if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
+                dec_buffer->planes[0].fd = ctx->dmabuff_fd[v4l2_buf.index];
+            ctx->renderer->render(dec_buffer->planes[0].fd);
+            
 
             // Queue the buffer back once it has been used.
-            if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+            if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
                 v4l2_buf.m.planes[0].m.fd = ctx->dmabuff_fd[v4l2_buf.index];
             if (nvVideoDecoder->capture_plane.qBuffer(v4l2_buf, NULL) < 0)
             {
