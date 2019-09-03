@@ -6,6 +6,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/deps/ffmpeg",
                 "${workspaceFolder}/cpp/common",
+                "${workspaceFolder}/cpp/l4tmultimedia",
+                "${workspaceFolder}/gtk",
                 "${workspaceFolder}/deps/tegra_multimedia_api/include",
                 "/home/${USER}/Android/Sdk/ndk/20.0.5594570/sysroot/usr/include"
             ],

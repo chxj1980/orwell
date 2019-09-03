@@ -23,30 +23,7 @@ public:
 	/*
 		Thread loop that continuously pushes data from encodedPacketsFifo and decoded it
 	*/
-	virtual void run()
-	{
-		if (!encodedPacketsFifo)
-		{
-			std::cerr << "Decoder.h: no encodedPacketsFifo setted, nowhere to pull data from" << std::endl;
-			return;
-		}
-		while (shouldContinue())
-		{
-			/*
-				Pops an encoded frame from encodedPacketsFifo. If there are none, it blocks, so
-				no CPU time is wasted.
-			*/
-			//TODO: certify that the operation below is MOVING the frame to here, not copying it
-			EncodedPacket encodedPacket = std::move(encodedPacketsFifo->pop_front());
-			/* 
-				Since the frame is gone from the fifo, it only exists here. 
-				decodeFrame() access its pointers and is blocking. When decodeFrame 
-				finishes, `encodedPacket` is gone and its contents are automatically deleted.
-				DecodedFrame is sent to the decodedFramesFifo
-			*/
-			decodeFrame(encodedPacket);
-		}
-	}
+	virtual void run();
 	/* 
 		Decodes to CPU memory. 
 		If invoked in a FfmpegSoftwareDecoder instance, it'll simply do

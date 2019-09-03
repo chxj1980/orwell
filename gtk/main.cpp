@@ -21,10 +21,11 @@
 #include "OpenglSmartRenderer3.h"
 #include "SimpleRenderer.h"
 #include "Orwell.h"
-
+#include "SLog.h"
 int main(int argc, char **argv)
 {
 	//Gtk::Main kit;
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NaluUtils");
 	auto app = Gtk::Application::create(argc, argv, "");
 	std::cout << "supported hardware: " << std::endl;
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())

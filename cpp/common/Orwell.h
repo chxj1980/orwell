@@ -8,6 +8,7 @@
 #include "MyRTSPClient.h"
 #include "FfmpegHardwareDecoder.h"
 #include "FfmpegSoftwareDecoder.h"
+#include "NVDecoder.h"
 #include "VideoReceiver.h"
 #include <string>
 #include <iostream>

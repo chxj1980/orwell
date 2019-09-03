@@ -31,7 +31,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     {
         //Throw?
     }
-
+    //printf("currentEncodedPacketSearchPtr: %p\n", (void*)currentEncodedPacketSearchPtr);
     /*
         We're gonna find the first NALU in the packet
         If currentEncodedPacketSearchPtr is not setted, it means we should start at the beggining
@@ -40,7 +40,17 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     */
     if (!currentEncodedPacketSearchPtr)
         currentEncodedPacketSearchPtr = currentEncodedPacketBegginingPtr;
-    while ((currentEncodedPacketSearchPtr - planeBufferPtr) < (currentEncodedPacketSize - 3))
+    /*
+    printf("currentEncodedPacketBegginingPtr: %p\n", (void*)currentEncodedPacketBegginingPtr);
+    printf("currentEncodedPacketSearchPtr: %p\n", (void*)currentEncodedPacketSearchPtr);
+    printf("planeBufferPtr: %p\n", (void*)planeBufferPtr);
+    printf("currentEncodedPacketSize: %p\n", (void*)currentEncodedPacketSize);
+
+    std::cout << "r: " << (currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) << " r: " << (currentEncodedPacketSize - 3) << std::endl;
+    abort();
+
+    */
+    while ((currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) < (currentEncodedPacketSize - 3))
     {
         nalu_found = IS_NAL_UNIT_START(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_START1(currentEncodedPacketSearchPtr);
         if (nalu_found)
@@ -65,7 +75,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
         Copies the first 4 bytes, which form the NALU header. If the header is in 3 byte form
         it doesn't matter, we just copied another extra byte
     */
-    LOG << "found NALU at " << *currentEncodedPacketSearchPtr << " gonna copy it now";
+    //LOG << "found NALU at " << (void*)currentEncodedPacketSearchPtr << " gonna copy it now";
     std::memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, 4);
     planeBufferPtr += 4;
     currentEncodedPacketSearchPtr += 4;
@@ -97,12 +107,12 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
         NALUs aren't aware of its size, the only way to know that
         a NALU ended is to find a new NALU
     */
-    while ((currentEncodedPacketSearchPtr - planeBufferPtr) < (currentEncodedPacketSize - 3))
+    while ((currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) < (currentEncodedPacketSize - 3))
     {
         if (IS_NAL_UNIT_START(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_START1(currentEncodedPacketSearchPtr))
         {
             //nalu_end_found = true;
-            LOG << "found NALU end at " << currentEncodedPacketSearchPtr << ", returning...";
+            LOG << "-------------------- found NALU end at " << (void*)currentEncodedPacketSearchPtr << ", returning...";
             return false;
         }
         *planeBufferPtr = *currentEncodedPacketSearchPtr;

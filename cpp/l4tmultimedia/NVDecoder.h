@@ -9,8 +9,6 @@
 #include <memory>
 #include "EncodedPacket.h"
 #include "DecodedFrame.h"
-#include "NvUtils.h"
-#include "nvbuf_utils.h"
 #include <linux/videodev2.h>
 
 #define CHUNK_SIZE 4000000
@@ -48,9 +46,9 @@ public:
 	/* 
 		
 	*/
-	int decodeFrame(EncodedPacket &encodedPacket) = 0;
-	int decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame) = 0;
-	//void run();
+	int decodeFrame(EncodedPacket &encodedPacket);
+	int decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame);
+
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
 	void run();
 

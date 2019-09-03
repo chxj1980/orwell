@@ -70,7 +70,7 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 	std::unique_lock<std::mutex> lk{mutex};
 	try
 	{
-		std::cout << "gonna render" << std::endl;
+		//std::cout << "gonna render" << std::endl;
 
 		glArea.throw_if_error();
 
@@ -80,7 +80,7 @@ bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 		//std::cout << "gonna notify" << std::endl;
 		//conditionVariable.notify_one();
 		//std::cout << "did notify" << std::endl;
-		std::cout << "did render" << std::endl;
+		//std::cout << "did render" << std::endl;
 
 		return true;
 	}

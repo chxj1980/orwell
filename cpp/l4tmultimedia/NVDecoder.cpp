@@ -1,6 +1,5 @@
 #include "NVDecoder.h"
 #include "SLog.h"
-#include "EncodedPackets.h"
 #include "NaluUtils.h"
 
 SLOG_CATEGORY("NVDecoder");
@@ -10,6 +9,13 @@ SLOG_CATEGORY("NVDecoder");
     {                                                         \
         throw NVDecoderCreationException(message, errorCode); \
     }
+
+int NVDecoder::decodeFrame(EncodedPacket &encodedPacket)
+{
+}
+int NVDecoder::decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame)
+{
+}
 
 NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
 {
@@ -21,8 +27,12 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
 
     ret = nvVideoDecoder->subscribeEvent(V4L2_EVENT_RESOLUTION_CHANGE, 0, 0);
     TEST_ERROR(ret < 0, "Could not subscribe to V4L2_EVENT_RESOLUTION_CHANGE", ret)
-    //1 = NV12, 2 = I420
-    ret = nvVideoDecoder->setOutputPlaneFormat(1, CHUNK_SIZE);
+    //1 = NV12, 2 = I420 TODO:?????
+    if (codec==H264)
+        ret = nvVideoDecoder->setOutputPlaneFormat(V4L2_PIX_FMT_H264, CHUNK_SIZE);
+    else if (codec==H265)
+        ret = nvVideoDecoder->setOutputPlaneFormat(V4L2_PIX_FMT_H265, CHUNK_SIZE);
+
     TEST_ERROR(ret < 0, "Could not set output plane format", ret)
 
     if (format == NALU)
@@ -74,9 +84,11 @@ void NVDecoder::run()
     while (shouldContinue())
     {
         TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in while loop", 0)
-        LOG << "Gonna grab currentEncodedPacket";
 
+        LOG << "-------------Gonna grab currentEncodedPacket";
         currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
+        LOG << "Grabbed currentEncodedPacket";
+
         /*
             This is a type of configuration file that tells how the buffer should be queued
         */
