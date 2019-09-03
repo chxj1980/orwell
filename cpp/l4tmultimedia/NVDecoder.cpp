@@ -28,9 +28,9 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
     ret = nvVideoDecoder->subscribeEvent(V4L2_EVENT_RESOLUTION_CHANGE, 0, 0);
     TEST_ERROR(ret < 0, "Could not subscribe to V4L2_EVENT_RESOLUTION_CHANGE", ret)
     //1 = NV12, 2 = I420 TODO:?????
-    if (codec==H264)
+    if (codec == H264)
         ret = nvVideoDecoder->setOutputPlaneFormat(V4L2_PIX_FMT_H264, CHUNK_SIZE);
-    else if (codec==H265)
+    else if (codec == H265)
         ret = nvVideoDecoder->setOutputPlaneFormat(V4L2_PIX_FMT_H265, CHUNK_SIZE);
 
     TEST_ERROR(ret < 0, "Could not set output plane format", ret)
@@ -56,7 +56,8 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
     TEST_ERROR(ret < 0, "Error in output plane stream on", ret);
 }
 
-void NVDecoder::prepareDecoder() {
+void NVDecoder::prepareDecoder()
+{
     struct v4l2_format format;
     struct v4l2_crop crop;
     int32_t min_dec_capture_buffers;
@@ -77,24 +78,23 @@ void NVDecoder::prepareDecoder() {
     TEST_ERROR(ret < 0,
                "Error: Could not get crop from decoder capture plane", ret);
 
-    LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height
-       ;
+    LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height;
     ctx->display_height = crop.c.height;
     ctx->display_width = crop.c.width;
 
     // Resolution got from the decoder
     window_width = crop.c.width;
     window_height = crop.c.height;
-    
+
     // deinitPlane unmaps the buffers and calls REQBUFS with count 0
     nvVideoDecoder->capture_plane.deinitPlane();
-    if(ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+    if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
     {
-        for(int index = 0 ; index < ctx->numCapBuffers ; index++)
+        for (int index = 0; index < ctx->numCapBuffers; index++)
         {
-            if(ctx->dmabuff_fd[index] != 0)
+            if (ctx->dmabuff_fd[index] != 0)
             {
-                ret = NvBufferDestroy (ctx->dmabuff_fd[index]);
+                ret = NvBufferDestroy(ctx->dmabuff_fd[index]);
                 TEST_ERROR(ret < 0, "Failed to Destroy NvBuffer", ret);
             }
         }
@@ -103,8 +103,8 @@ void NVDecoder::prepareDecoder() {
     // Not necessary to call VIDIOC_S_FMT on decoder capture plane.
     // But decoder setCapturePlaneFormat function updates the class variables
     ret = nvVideoDecoder->setCapturePlaneFormat(format.fmt.pix_mp.pixelformat,
-                                     format.fmt.pix_mp.width,
-                                     format.fmt.pix_mp.height);
+                                                format.fmt.pix_mp.width,
+                                                format.fmt.pix_mp.height);
     TEST_ERROR(ret < 0, "Error in setting decoder capture plane format", ret);
 
     ctx->video_height = format.fmt.pix_mp.height;
@@ -116,61 +116,61 @@ void NVDecoder::prepareDecoder() {
                ret);
 
     // Request (min + 5) buffers, export and map buffers
-    if(ctx->capture_plane_mem_type == V4L2_MEMORY_MMAP)
+    if (ctx->capture_plane_mem_type == V4L2_MEMORY_MMAP)
     {
         ret =
             nvVideoDecoder->capture_plane.setupPlane(V4L2_MEMORY_MMAP,
-                                           min_dec_capture_buffers + 5, false,
-                                           false);
+                                                     min_dec_capture_buffers + 5, false,
+                                                     false);
         TEST_ERROR(ret < 0, "Error in decoder capture plane setup", ret);
     }
-    else if(ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+    else if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
     {
-        switch(format.fmt.pix_mp.colorspace)
+        switch (format.fmt.pix_mp.colorspace)
         {
-            case V4L2_COLORSPACE_SMPTE170M:
-                if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
-                {
-                    LOG << "Decoder colorspace ITU-R BT.601 with standard range luma (16-235)";
-                    cParams.colorFormat = NvBufferColorFormat_NV12;
-                }
-                else
-                {
-                    LOG << "Decoder colorspace ITU-R BT.601 with extended range luma (0-255)";
-                    cParams.colorFormat = NvBufferColorFormat_NV12_ER;
-                }
-                break;
-            case V4L2_COLORSPACE_REC709:
-                if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
-                {
-                    LOG << "Decoder colorspace ITU-R BT.709 with standard range luma (16-235)";
-                    cParams.colorFormat = NvBufferColorFormat_NV12_709;
-                }
-                else
-                {
-                    LOG << "Decoder colorspace ITU-R BT.709 with extended range luma (0-255)";
-                    cParams.colorFormat = NvBufferColorFormat_NV12_709_ER;
-                }
-                break;
-            case V4L2_COLORSPACE_BT2020:
-                {
-                    LOG << "Decoder colorspace ITU-R BT.2020";
-                    cParams.colorFormat = NvBufferColorFormat_NV12_2020;
-                }
-                break;
-            default:
-                LOG << "supported colorspace details not available, use default";
-                if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
-                {
-                    LOG << "Decoder colorspace ITU-R BT.601 with standard range luma (16-235)";
-                    cParams.colorFormat = NvBufferColorFormat_NV12;
-                }
-                else
-                {
-                    LOG << "Decoder colorspace ITU-R BT.601 with extended range luma (0-255)";
-                    cParams.colorFormat = NvBufferColorFormat_NV12_ER;
-                }
-                break;
+        case V4L2_COLORSPACE_SMPTE170M:
+            if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
+            {
+                LOG << "Decoder colorspace ITU-R BT.601 with standard range luma (16-235)";
+                cParams.colorFormat = NvBufferColorFormat_NV12;
+            }
+            else
+            {
+                LOG << "Decoder colorspace ITU-R BT.601 with extended range luma (0-255)";
+                cParams.colorFormat = NvBufferColorFormat_NV12_ER;
+            }
+            break;
+        case V4L2_COLORSPACE_REC709:
+            if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
+            {
+                LOG << "Decoder colorspace ITU-R BT.709 with standard range luma (16-235)";
+                cParams.colorFormat = NvBufferColorFormat_NV12_709;
+            }
+            else
+            {
+                LOG << "Decoder colorspace ITU-R BT.709 with extended range luma (0-255)";
+                cParams.colorFormat = NvBufferColorFormat_NV12_709_ER;
+            }
+            break;
+        case V4L2_COLORSPACE_BT2020:
+        {
+            LOG << "Decoder colorspace ITU-R BT.2020";
+            cParams.colorFormat = NvBufferColorFormat_NV12_2020;
+        }
+        break;
+        default:
+            LOG << "supported colorspace details not available, use default";
+            if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
+            {
+                LOG << "Decoder colorspace ITU-R BT.601 with standard range luma (16-235)";
+                cParams.colorFormat = NvBufferColorFormat_NV12;
+            }
+            else
+            {
+                LOG << "Decoder colorspace ITU-R BT.601 with extended range luma (0-255)";
+                cParams.colorFormat = NvBufferColorFormat_NV12_ER;
+            }
+            break;
         }
         ctx->numCapBuffers = min_dec_capture_buffers + 5;
         for (int index = 0; index < ctx->numCapBuffers; index++)
@@ -183,8 +183,8 @@ void NVDecoder::prepareDecoder() {
             ret = NvBufferCreateEx(&ctx->dmabuff_fd[index], &cParams);
             TEST_ERROR(ret < 0, "Failed to create buffers", ret);
         }
-        ret = nvVideoDecoder->capture_plane.reqbufs(V4L2_MEMORY_DMABUF,ctx->numCapBuffers);
-            TEST_ERROR(ret, "Error in request buffers on capture plane", ret);
+        ret = nvVideoDecoder->capture_plane.reqbufs(V4L2_MEMORY_DMABUF, ctx->numCapBuffers);
+        TEST_ERROR(ret, "Error in request buffers on capture plane", ret);
     }
 
     // Capture plane STREAMON
@@ -204,12 +204,126 @@ void NVDecoder::prepareDecoder() {
         v4l2_buf.m.planes = planes;
         v4l2_buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
         v4l2_buf.memory = ctx->capture_plane_mem_type;
-        if(ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+        if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
             v4l2_buf.m.planes[0].m.fd = ctx->dmabuff_fd[i];
         ret = nvVideoDecoder->capture_plane.qBuffer(v4l2_buf, NULL);
         TEST_ERROR(ret < 0, "Error Qing buffer at output plane", ret);
     }
     LOG << "Query and set capture successful";
+}
+
+void captureLoop()
+{
+    struct v4l2_event ev;
+    int ret;
+
+    LOG << "Starting decoder capture loop thread";
+    // Need to wait for the first Resolution change event, so that
+    // the decoder knows the stream resolution and can allocate appropriate
+    // buffers when we call REQBUFS
+    do
+    {
+        ret = nvVideoDecoder->dqEvent(ev, 50000);
+        if (ret < 0)
+        {
+            if (errno == EAGAIN)
+            {
+                cerr << "Timed out waiting for first V4L2_EVENT_RESOLUTION_CHANGE";
+            }
+            else
+            {
+                cerr << "Error in dequeueing decoder event";
+            }
+            //abort(ctx);
+            break;
+        }
+    } while ((ev.type != V4L2_EVENT_RESOLUTION_CHANGE));
+
+    // query_and_set_capture acts on the resolution change event
+    //if (!ctx->got_error)
+    //query_and_set_capture(ctx);
+    prepareDecoder();
+
+    // Exit on error or EOS which is signalled in main()
+    while (!nvVideoDecoder->isInError()) // || ctx->got_eos))
+    {
+        NvBuffer *dec_buffer;
+
+        // Check for Resolution change again
+        ret = nvVideoDecoder->dqEvent(ev, false);
+        if (ret == 0)
+        {
+            switch (ev.type)
+            {
+            case V4L2_EVENT_RESOLUTION_CHANGE:
+                prepareDecoder();
+                continue;
+            }
+        }
+
+        while (1)
+        {
+            struct v4l2_buffer v4l2_buf;
+            struct v4l2_plane planes[MAX_PLANES];
+
+            memset(&v4l2_buf, 0, sizeof(v4l2_buf));
+            memset(planes, 0, sizeof(planes));
+            v4l2_buf.m.planes = planes;
+
+            // Dequeue a filled buffer
+            if (nvVideoDecoder->capture_plane.dqBuffer(v4l2_buf, &dec_buffer, NULL, 0))
+            {
+                if (errno == EAGAIN)
+                {
+                    usleep(1000);
+                }
+                else
+                {
+                    //abort(ctx);
+                    cerr << "Error while calling dequeue at capture plane";
+                }
+                break;
+            }
+            /*
+            if (ctx->enable_metadata)
+            {
+                v4l2_ctrl_videodec_outputbuf_metadata dec_metadata;
+
+                ret = nvVideoDecoder->getMetadata(v4l2_buf.index, dec_metadata);
+                if (ret == 0)
+                {
+                    report_metadata(ctx, &dec_metadata);
+                }
+            }
+            */
+            /*
+            if (ctx->copy_timestamp && ctx->input_nalu && ctx->stats)
+            {
+                LOG << "[" << v4l2_buf.index << "]"
+                                                 "dec capture plane dqB timestamp ["
+                     << v4l2_buf.timestamp.tv_sec << "s" << v4l2_buf.timestamp.tv_usec << "us]";
+            }
+            */
+            if (!ctx->disable_rendering && ctx->stats)
+            {
+                // EglRenderer requires the fd of the 0th plane to render the buffer
+                if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+                    dec_buffer->planes[0].fd = ctx->dmabuff_fd[v4l2_buf.index];
+                ctx->renderer->render(dec_buffer->planes[0].fd);
+            }
+
+            // Queue the buffer back once it has been used.
+            if (ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+                v4l2_buf.m.planes[0].m.fd = ctx->dmabuff_fd[v4l2_buf.index];
+            if (nvVideoDecoder->capture_plane.qBuffer(v4l2_buf, NULL) < 0)
+            {
+                //abort(ctx);
+                cerr << "Error while queueing buffer at decoder capture plane"
+                     << endl;
+                break;
+            }
+        }
+    }
 }
 
 void NVDecoder::run()
