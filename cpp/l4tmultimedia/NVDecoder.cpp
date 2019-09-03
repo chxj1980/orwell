@@ -56,6 +56,162 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
     TEST_ERROR(ret < 0, "Error in output plane stream on", ret);
 }
 
+void NVDecoder::prepareDecoder() {
+    struct v4l2_format format;
+    struct v4l2_crop crop;
+    int32_t min_dec_capture_buffers;
+    int ret = 0;
+    uint32_t window_width;
+    uint32_t window_height;
+    NvBufferCreateParams input_params = {0};
+    NvBufferCreateParams cParams = {0};
+
+    // Get capture plane format from the decoder. This may change after
+    // an resolution change event
+    ret = nvVideoDecoder->capture_plane.getFormat(format);
+    TEST_ERROR(ret < 0,
+               "Error: Could not get format from decoder capture plane", ret);
+
+    // Get the display resolution from the decoder
+    ret = nvVideoDecoder->capture_plane.getCrop(crop);
+    TEST_ERROR(ret < 0,
+               "Error: Could not get crop from decoder capture plane", ret);
+
+    LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height
+       ;
+    ctx->display_height = crop.c.height;
+    ctx->display_width = crop.c.width;
+
+    // Resolution got from the decoder
+    window_width = crop.c.width;
+    window_height = crop.c.height;
+    
+    // deinitPlane unmaps the buffers and calls REQBUFS with count 0
+    nvVideoDecoder->capture_plane.deinitPlane();
+    if(ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+    {
+        for(int index = 0 ; index < ctx->numCapBuffers ; index++)
+        {
+            if(ctx->dmabuff_fd[index] != 0)
+            {
+                ret = NvBufferDestroy (ctx->dmabuff_fd[index]);
+                TEST_ERROR(ret < 0, "Failed to Destroy NvBuffer", ret);
+            }
+        }
+    }
+
+    // Not necessary to call VIDIOC_S_FMT on decoder capture plane.
+    // But decoder setCapturePlaneFormat function updates the class variables
+    ret = nvVideoDecoder->setCapturePlaneFormat(format.fmt.pix_mp.pixelformat,
+                                     format.fmt.pix_mp.width,
+                                     format.fmt.pix_mp.height);
+    TEST_ERROR(ret < 0, "Error in setting decoder capture plane format", ret);
+
+    ctx->video_height = format.fmt.pix_mp.height;
+    ctx->video_width = format.fmt.pix_mp.width;
+    // Get the minimum buffers which have to be requested on the capture plane
+    ret = nvVideoDecoder->getMinimumCapturePlaneBuffers(min_dec_capture_buffers);
+    TEST_ERROR(ret < 0,
+               "Error while getting value of minimum capture plane buffers",
+               ret);
+
+    // Request (min + 5) buffers, export and map buffers
+    if(ctx->capture_plane_mem_type == V4L2_MEMORY_MMAP)
+    {
+        ret =
+            nvVideoDecoder->capture_plane.setupPlane(V4L2_MEMORY_MMAP,
+                                           min_dec_capture_buffers + 5, false,
+                                           false);
+        TEST_ERROR(ret < 0, "Error in decoder capture plane setup", ret);
+    }
+    else if(ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+    {
+        switch(format.fmt.pix_mp.colorspace)
+        {
+            case V4L2_COLORSPACE_SMPTE170M:
+                if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
+                {
+                    LOG << "Decoder colorspace ITU-R BT.601 with standard range luma (16-235)";
+                    cParams.colorFormat = NvBufferColorFormat_NV12;
+                }
+                else
+                {
+                    LOG << "Decoder colorspace ITU-R BT.601 with extended range luma (0-255)";
+                    cParams.colorFormat = NvBufferColorFormat_NV12_ER;
+                }
+                break;
+            case V4L2_COLORSPACE_REC709:
+                if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
+                {
+                    LOG << "Decoder colorspace ITU-R BT.709 with standard range luma (16-235)";
+                    cParams.colorFormat = NvBufferColorFormat_NV12_709;
+                }
+                else
+                {
+                    LOG << "Decoder colorspace ITU-R BT.709 with extended range luma (0-255)";
+                    cParams.colorFormat = NvBufferColorFormat_NV12_709_ER;
+                }
+                break;
+            case V4L2_COLORSPACE_BT2020:
+                {
+                    LOG << "Decoder colorspace ITU-R BT.2020";
+                    cParams.colorFormat = NvBufferColorFormat_NV12_2020;
+                }
+                break;
+            default:
+                LOG << "supported colorspace details not available, use default";
+                if (format.fmt.pix_mp.quantization == V4L2_QUANTIZATION_DEFAULT)
+                {
+                    LOG << "Decoder colorspace ITU-R BT.601 with standard range luma (16-235)";
+                    cParams.colorFormat = NvBufferColorFormat_NV12;
+                }
+                else
+                {
+                    LOG << "Decoder colorspace ITU-R BT.601 with extended range luma (0-255)";
+                    cParams.colorFormat = NvBufferColorFormat_NV12_ER;
+                }
+                break;
+        }
+        ctx->numCapBuffers = min_dec_capture_buffers + 5;
+        for (int index = 0; index < ctx->numCapBuffers; index++)
+        {
+            cParams.width = crop.c.width;
+            cParams.height = crop.c.height;
+            cParams.layout = NvBufferLayout_BlockLinear;
+            cParams.payloadType = NvBufferPayload_SurfArray;
+            cParams.nvbuf_tag = NvBufferTag_VIDEO_DEC;
+            ret = NvBufferCreateEx(&ctx->dmabuff_fd[index], &cParams);
+            TEST_ERROR(ret < 0, "Failed to create buffers", ret);
+        }
+        ret = nvVideoDecoder->capture_plane.reqbufs(V4L2_MEMORY_DMABUF,ctx->numCapBuffers);
+            TEST_ERROR(ret, "Error in request buffers on capture plane", ret);
+    }
+
+    // Capture plane STREAMON
+    ret = nvVideoDecoder->capture_plane.setStreamStatus(true);
+    TEST_ERROR(ret < 0, "Error in decoder capture plane streamon", ret);
+
+    // Enqueue all the empty capture plane buffers
+    for (uint32_t i = 0; i < nvVideoDecoder->capture_plane.getNumBuffers(); i++)
+    {
+        struct v4l2_buffer v4l2_buf;
+        struct v4l2_plane planes[MAX_PLANES];
+
+        memset(&v4l2_buf, 0, sizeof(v4l2_buf));
+        memset(planes, 0, sizeof(planes));
+
+        v4l2_buf.index = i;
+        v4l2_buf.m.planes = planes;
+        v4l2_buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+        v4l2_buf.memory = ctx->capture_plane_mem_type;
+        if(ctx->capture_plane_mem_type == V4L2_MEMORY_DMABUF)
+            v4l2_buf.m.planes[0].m.fd = ctx->dmabuff_fd[i];
+        ret = nvVideoDecoder->capture_plane.qBuffer(v4l2_buf, NULL);
+        TEST_ERROR(ret < 0, "Error Qing buffer at output plane", ret);
+    }
+    LOG << "Query and set capture successful";
+}
+
 void NVDecoder::run()
 {
     LOG << "NVDecoder::run started";
@@ -152,13 +308,13 @@ void NVDecoder::run()
         {
             ret = read_vp9_decoder_input_chunk(&ctx, buffer);
             if (ret != 0)
-                cerr << "Couldn't read VP9 chunk" << endl;
+                cerr << "Couldn't read VP9 chunk";
         }
         if (codec == V4L2_PIX_FMT_VP8)
         {
             ret = read_vp8_decoder_input_chunk(&ctx, buffer);
             if (ret != 0)
-                cerr << "Couldn't read VP8 chunk" << endl;
+                cerr << "Couldn't read VP8 chunk";
         }
         */
         if (i < nvVideoDecoder->output_plane.getNumBuffers())
