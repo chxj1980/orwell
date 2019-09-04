@@ -2,7 +2,7 @@
 #include "SLog.h"
 #include "NaluUtils.h"
 #include <nvbuf_utils.h>
-
+#include "DecodedFrame.h"
 
 SLOG_CATEGORY("NVDecoder");
 
@@ -72,13 +72,11 @@ void NVDecoder::prepareDecoder()
     // Get capture plane format from the decoder. This may change after
     // an resolution change event
     ret = nvVideoDecoder->capture_plane.getFormat(format);
-    TEST_ERROR(ret < 0,
-               "Error: Could not get format from decoder capture plane", ret);
+    TEST_ERROR(ret < 0, "Error: Could not get format from decoder capture plane", ret);
 
     // Get the display resolution from the decoder
     ret = nvVideoDecoder->capture_plane.getCrop(crop);
-    TEST_ERROR(ret < 0,
-               "Error: Could not get crop from decoder capture plane", ret);
+    TEST_ERROR(ret < 0, "Error: Could not get crop from decoder capture plane", ret);
 
     LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height;
 
@@ -92,9 +90,9 @@ void NVDecoder::prepareDecoder()
     {
         for (int index = 0; index < numberCaptureBuffers; index++)
         {
-            if (ctx->dmabuff_fd[index] != 0)
+            if (dmaBufferFileDescriptor[index] != 0)
             {
-                ret = NvBufferDestroy(ctx->dmabuff_fd[index]);
+                ret = NvBufferDestroy(dmaBufferFileDescriptor[index]);
                 TEST_ERROR(ret < 0, "Failed to Destroy NvBuffer", ret);
             }
         }
@@ -179,7 +177,7 @@ void NVDecoder::prepareDecoder()
             cParams.layout = NvBufferLayout_BlockLinear;
             cParams.payloadType = NvBufferPayload_SurfArray;
             cParams.nvbuf_tag = NvBufferTag_VIDEO_DEC;
-            ret = NvBufferCreateEx(&ctx->dmabuff_fd[index], &cParams);
+            ret = NvBufferCreateEx(&dmaBufferFileDescriptor[index], &cParams);
             TEST_ERROR(ret < 0, "Failed to create buffers", ret);
         }
         ret = nvVideoDecoder->capture_plane.reqbufs(V4L2_MEMORY_DMABUF, numberCaptureBuffers);
@@ -204,7 +202,7 @@ void NVDecoder::prepareDecoder()
         v4l2_buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
         v4l2_buf.memory = capturePlaneMemType;
         if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
-            v4l2_buf.m.planes[0].m.fd = ctx->dmabuff_fd[i];
+            v4l2_buf.m.planes[0].m.fd = dmaBufferFileDescriptor[i];
         ret = nvVideoDecoder->capture_plane.qBuffer(v4l2_buf, NULL);
         TEST_ERROR(ret < 0, "Error Qing buffer at output plane", ret);
     }
@@ -227,11 +225,11 @@ void NVDecoder::captureLoop()
         {
             if (errno == EAGAIN)
             {
-                cerr << "Timed out waiting for first V4L2_EVENT_RESOLUTION_CHANGE";
+                LOG(SLog::ERROR) << "Timed out waiting for first V4L2_EVENT_RESOLUTION_CHANGE";
             }
             else
             {
-                cerr << "Error in dequeueing decoder event";
+                LOG(SLog::ERROR) << "Error in dequeueing decoder event";
             }
             //abort(ctx);
             break;
@@ -246,7 +244,7 @@ void NVDecoder::captureLoop()
     // Exit on error or EOS which is signalled in main()
     while (!nvVideoDecoder->isInError()) // || ctx->got_eos))
     {
-        NvBuffer *dec_buffer;
+        
 
         // Check for Resolution change again
         ret = nvVideoDecoder->dqEvent(ev, false);
@@ -260,17 +258,17 @@ void NVDecoder::captureLoop()
             }
         }
 
-        while (1)
+        while (true)
         {
-            struct v4l2_buffer v4l2_buf;
+            struct v4l2_buffer v4l2Buffer;
             struct v4l2_plane planes[MAX_PLANES];
-
-            memset(&v4l2_buf, 0, sizeof(v4l2_buf));
+            NvBuffer* nvBuffer;// = new NvBuffer;
+            memset(&v4l2Buffer, 0, sizeof(v4l2Buffer));
             memset(planes, 0, sizeof(planes));
-            v4l2_buf.m.planes = planes;
+            v4l2Buffer.m.planes = planes;
 
             // Dequeue a filled buffer
-            if (nvVideoDecoder->capture_plane.dqBuffer(v4l2_buf, &dec_buffer, NULL, 0))
+            if (nvVideoDecoder->capture_plane.dqBuffer(v4l2Buffer, &nvBuffer, NULL, 0))
             {
                 if (errno == EAGAIN)
                 {
@@ -279,7 +277,7 @@ void NVDecoder::captureLoop()
                 else
                 {
                     //abort(ctx);
-                    cerr << "Error while calling dequeue at capture plane";
+                    LOG(SLog::ERROR) << "Error while calling dequeue at capture plane";
                 }
                 break;
             }
@@ -288,7 +286,7 @@ void NVDecoder::captureLoop()
             {
                 v4l2_ctrl_videodec_outputbuf_metadata dec_metadata;
 
-                ret = nvVideoDecoder->getMetadata(v4l2_buf.index, dec_metadata);
+                ret = nvVideoDecoder->getMetadata(v4l2Buffer.index, dec_metadata);
                 if (ret == 0)
                 {
                     report_metadata(ctx, &dec_metadata);
@@ -298,26 +296,30 @@ void NVDecoder::captureLoop()
             /*
             if (ctx->copy_timestamp && ctx->input_nalu && ctx->stats)
             {
-                LOG << "[" << v4l2_buf.index << "]"
+                LOG << "[" << v4l2Buffer.index << "]"
                                                  "dec capture plane dqB timestamp ["
-                     << v4l2_buf.timestamp.tv_sec << "s" << v4l2_buf.timestamp.tv_usec << "us]";
+                     << v4l2Buffer.timestamp.tv_sec << "s" << v4l2Buffer.timestamp.tv_usec << "us]";
             }
             */
             //RENDER HERE!
             // EglRenderer requires the fd of the 0th plane to render the buffer
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
-                dec_buffer->planes[0].fd = ctx->dmabuff_fd[v4l2_buf.index];
-            ctx->renderer->render(dec_buffer->planes[0].fd);
-            
+                nvBuffer->planes[0].fd = dmaBufferFileDescriptor[v4l2Buffer.index];
+
+            DecodedFrame decodedFrame;
+            decodedFrame.queueableBuffer = std::move(std::make_unique<NVDecoderQueueableBuffer>(nvVideoDecoder, v4l2Buffer, nvBuffer));
+            decodedFramesFifo->emplace_back(std::move(decodedFrame));
+
+            //ctx->renderer->render(nvBuffer->planes[0].fd);
 
             // Queue the buffer back once it has been used.
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
-                v4l2_buf.m.planes[0].m.fd = ctx->dmabuff_fd[v4l2_buf.index];
-            if (nvVideoDecoder->capture_plane.qBuffer(v4l2_buf, NULL) < 0)
+                v4l2Buffer.m.planes[0].m.fd = dmaBufferFileDescriptor[v4l2Buffer.index];
+
+            if (nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL) < 0)
             {
                 //abort(ctx);
-                cerr << "Error while queueing buffer at decoder capture plane"
-                     << endl;
+                LOG(SLog::ERROR) << "Error while queueing buffer at decoder capture plane";
                 break;
             }
         }

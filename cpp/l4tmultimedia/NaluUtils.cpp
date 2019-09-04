@@ -19,10 +19,10 @@ SLOG_CATEGORY("NaluUtils");
     uint32_t &bytesWritten: tells the called how many bytes we wrote to planeBufferPtr
 */
 bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
-                         uint8_t *currentEncodedPacketSearchPtr,
-                         size_t currentEncodedPacketSize,
-                         uint8_t *planeBufferPtr,
-                         uint32_t &bytesWritten)
+                  uint8_t *currentEncodedPacketSearchPtr,
+                  size_t currentEncodedPacketSize,
+                  uint8_t *planeBufferPtr,
+                  uint32_t &bytesWritten)
 {
     int h265_nal_unit_type;
     bool nalu_found = false;

@@ -102,7 +102,7 @@ FfmpegHardwareDecoder::FfmpegHardwareDecoder(Codec codec, Device device, std::st
     //This callback selects the right AvPixelFormat for the hardware decoder
     avCodecContext->get_format = get_hw_format;
 
-    AVBufferRef *avBufferRef_ptr;
+    AVBufferRef *avBufferRef_ptr = new AVBufferRef;
     int err = 0;
     err = av_hwdevice_ctx_create(&avBufferRef_ptr, aVHWDeviceType, NULL, NULL, 0);
     /*
