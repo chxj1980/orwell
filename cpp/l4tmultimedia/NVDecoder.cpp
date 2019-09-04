@@ -347,7 +347,7 @@ void NVDecoder::run()
     //Must be null
     uint8_t *currentEncodedPacketSearchPtr = NULL;
     //Must always start with this value
-    NaluSearchState LOOKING_FOR_NALU_START;
+    NaluSearchState naluSearchState = LOOKING_FOR_NALU_START;
     /*
         In this first loop we fill all the buffers, taking care to
         see if we reached EOS (in case of CHUNK format). After
@@ -411,7 +411,8 @@ void NVDecoder::run()
                                     currentEncodedPacketSearchPtr,
                                     currentEncodedPacket.frameSize,
                                     planeBufferPtr,
-                                    bytesWritten))
+                                    bytesWritten,
+                                    naluSearchState))
                 {
                     currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
                 }
