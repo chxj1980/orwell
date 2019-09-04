@@ -342,6 +342,33 @@ Shader.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/Shader.cpp.s
 .PHONY : Shader.cpp.s
 
+home/dev/orwell/cpp/common/Decoder.o: home/dev/orwell/cpp/common/Decoder.cpp.o
+
+.PHONY : home/dev/orwell/cpp/common/Decoder.o
+
+# target to build an object file
+home/dev/orwell/cpp/common/Decoder.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Decoder.cpp.o
+.PHONY : home/dev/orwell/cpp/common/Decoder.cpp.o
+
+home/dev/orwell/cpp/common/Decoder.i: home/dev/orwell/cpp/common/Decoder.cpp.i
+
+.PHONY : home/dev/orwell/cpp/common/Decoder.i
+
+# target to preprocess a source file
+home/dev/orwell/cpp/common/Decoder.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Decoder.cpp.i
+.PHONY : home/dev/orwell/cpp/common/Decoder.cpp.i
+
+home/dev/orwell/cpp/common/Decoder.s: home/dev/orwell/cpp/common/Decoder.cpp.s
+
+.PHONY : home/dev/orwell/cpp/common/Decoder.s
+
+# target to generate assembly for a file
+home/dev/orwell/cpp/common/Decoder.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Decoder.cpp.s
+.PHONY : home/dev/orwell/cpp/common/Decoder.cpp.s
+
 home/dev/orwell/cpp/common/FfmpegHardwareDecoder.o: home/dev/orwell/cpp/common/FfmpegHardwareDecoder.cpp.o
 
 .PHONY : home/dev/orwell/cpp/common/FfmpegHardwareDecoder.o
@@ -672,6 +699,9 @@ help:
 	@echo "... Shader.o"
 	@echo "... Shader.i"
 	@echo "... Shader.s"
+	@echo "... home/dev/orwell/cpp/common/Decoder.o"
+	@echo "... home/dev/orwell/cpp/common/Decoder.i"
+	@echo "... home/dev/orwell/cpp/common/Decoder.s"
 	@echo "... home/dev/orwell/cpp/common/FfmpegHardwareDecoder.o"
 	@echo "... home/dev/orwell/cpp/common/FfmpegHardwareDecoder.i"
 	@echo "... home/dev/orwell/cpp/common/FfmpegHardwareDecoder.s"

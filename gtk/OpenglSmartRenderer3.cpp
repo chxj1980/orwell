@@ -104,10 +104,10 @@ void OpenglSmartRenderer3::glDraw()
 	int alpha;
 	PixelFormat *pixelFormat;
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
-	if (this->firstFrameReceived && frame.width() != 0)
+	if (this->firstFrameReceived && frame.width != 0)
 	{
-		//std::cout << "Received frame with width: " << frame.width() << " and height: " << frame.height() << std::endl;
-		//std::cout << "getting pixelformat for " << (int)frame.format() << std::endl;
+		//std::cout << "Received frame with width: " << frame.width << " and height: " << frame.height << std::endl;
+		//std::cout << "getting pixelformat for " << (int)frame.format << std::endl;
 		std::cout << "begin drawing" << std::endl;
 		//--------------
 		//Width of each plane Y,U,V or R,G,B
@@ -127,7 +127,7 @@ void OpenglSmartRenderer3::glDraw()
 			component, in the case of an YUV frame, or the details about RGB in the
 			case of an RGB frame.
 		*/
-		pixelFormat = PixelFormats::get((int)frame.format());
+		pixelFormat = PixelFormats::get((int)frame.format);
 		for (int i = 0; i <= 2; i++)
 		{
 			/*
@@ -153,9 +153,9 @@ void OpenglSmartRenderer3::glDraw()
 				that come after the stride.
 			*/
 			//TODO: can linesize be <0?
-			linesize[i] = frame.linesize(i);
-			width[i] = frame.width() * widthRatio.numerator / heightRatio.denominator;
-			height[i] = frame.height() * heightRatio.numerator / heightRatio.denominator;
+			linesize[i] = frame.linesize[i];
+			width[i] = frame.width * widthRatio.numerator / heightRatio.denominator;
+			height[i] = frame.height * heightRatio.numerator / heightRatio.denominator;
 			planeSize[i] = linesize[i] * height[i];
 			textureSize[i] = width[i] * height[i];
 			/*
@@ -294,7 +294,7 @@ void OpenglSmartRenderer3::glDraw()
 
 			//glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, TBO);
 
-			if (frame.buffer(j) != NULL) // && linesize[j] != 0)
+			if (frame.buffer[j] != NULL) // && linesize[j] != 0)
 			{
 				/*
 					We're gonna write to our Pixel Buffer Object line by line ignoring the stride.
@@ -304,7 +304,7 @@ void OpenglSmartRenderer3::glDraw()
 				for (int i = 0; i <= height[j] - 1; i++)
 				{
 					GLintptr offset = i * linesize[j];
-					glBufferSubData(GL_PIXEL_UNPACK_BUFFER, offset, width[j], frame.buffer(j) + offset);
+					glBufferSubData(GL_PIXEL_UNPACK_BUFFER, offset, width[j], frame.buffer[j] + offset);
 				}
 				glTexSubImage2D(GL_TEXTURE_2D,
 								0,
@@ -314,7 +314,7 @@ void OpenglSmartRenderer3::glDraw()
 								height[j],
 								pixelFormat->yuvGlFormat[j],
 								pixelFormat->dataType,
-								NULL); //frame.buffer(j)); //NULL);
+								NULL); //frame.buffer[j]); //NULL);
 			}
 			glUniform1i(textureLocation[j], j);
 		}

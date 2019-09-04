@@ -42,10 +42,13 @@ public:
     //DecodedFrame &operator=(DecodedFrame &&) = delete;
     ~DecodedFrame()
     {
-        int ret = reusableBuffer->giveBack();
-        //TODO: make this use SLog
-        if (ret < 0)
-            std::cout << "reusableBuffer on ~DecodedFrame() gone wrong: " << ret << std::endl;
+        if (reusableBuffer)
+        {
+            int ret = reusableBuffer->giveBack();
+            //TODO: make this use SLog
+            if (ret < 0)
+                std::cout << "reusableBuffer on ~DecodedFrame() gone wrong: " << ret << std::endl;
+        }
     }
     enum
     {
@@ -62,68 +65,13 @@ public:
     //std::unordered_set<std::string> consumedBy;
     std::unique_ptr<AVFrame, AVFrameDeleter> avFrame;
     std::unique_ptr<ReusableBuffer> reusableBuffer;
-    int width()
-    {
-        if (decodedFrom == FFMPEG)
-        {
-            return avFrame->width;
-        }
-        else
-        {
-            return width;
-        }
-    }
-    int height()
-    {
-        if (decodedFrom == FFMPEG)
-        {
-            return avFrame->height;
-        }
-        else
-        {
-            return height;
-        }
-    }
-    int format()
-    {
-        if (decodedFrom == FFMPEG)
-        {
-            return avFrame->format;
-        }
-        else
-        {
-            return format;
-        }
-    }
-    int linesize(int i)
-    {
-        if (decodedFrom == FFMPEG)
-        {
-            return avFrame->linesize[i];
-        }
-        else
-        {
-            return linesize;
-        }
-    }
-    //FFmpeg specific
-    uint8_t *buffer(int i)
-    {
-        if (decodedFrom == FFMPEG)
-        {
-            return avFrame->data[i];
-        }
-        else
-        {
-            return NULL;
-        }
-    }
 
 public:
     int width;
     int height;
     int format;
-    int linesize;
+    int linesize[AV_NUM_DATA_POINTERS];
+    uint8_t *buffer[AV_NUM_DATA_POINTERS];
 };
 
 #endif // Frame_h

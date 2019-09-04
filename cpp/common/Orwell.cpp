@@ -8,10 +8,10 @@ Orwell::Orwell(RTSPUrl rtspUrl)
     decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
     //Decoders
     //auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
-    //auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
-    auto nvDecoder = std::make_shared<NVDecoder>(NVDecoder::NALU,Decoder::H264);
+    auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
+    //auto nvDecoder = std::make_shared<NVDecoder>(NVDecoder::NALU,Decoder::H264);
     //Decoder specific configuration
-    decoder = nvDecoder;
+    decoder = ffmpegSoftwareDecoder;
     decoder->setEncodedPacketsFifo(encodedPacketsFifo);
     decoder->setDecodedFramesFifo(decodedFramesFifo);
     //Important, only start decoderThread after inserting FIFOs like in above

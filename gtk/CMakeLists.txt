@@ -39,11 +39,10 @@ include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
 include_directories(../deps/cxxopts/include)
 
-message(STATUS "------------ TARGET: ${TARGET}")
+message(STATUS "------------ COMPILE_TARGET: ${COMPILE_TARGET}")
 
-
-#if ("" STREQUAL JETSON_NANO)
-#	message(STATUS "Compiling for jetson nano")
+if (COMPILE_TARGET STREQUAL "JETSON_NANO")
+	message(STATUS "Compiling for JETSON_NANO")
 	include_directories(../cpp/l4tmultimedia)
 	#include_directories(/usr/include/aarch64-linux-gnu)
 	#TODO: change to system's folder, but where?
@@ -55,13 +54,12 @@ message(STATUS "------------ TARGET: ${TARGET}")
 	find_library(LIB_NVJPEG nvjpeg PATHS /usr/lib/aarch64-linux-gnu/tegra)
 	find_library(LIB_DRM drm PATHS /usr/lib/aarch64-linux-gnu/tegra)
 	find_library(LIB_EGL EGL PATHS /usr/lib/aarch64-linux-gnu/tegra)
-
 	#find_library(LIB_V4L2_VIDEO_CODEC v4l2_nvvideocodec PATHS /usr/lib/aarch64-linux-gnu/tegra)
 	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*.cpp" "../cpp/l4tmultimedia/*.cpp" "../deps/tegra_multimedia_api/samples/common/classes/*.cpp")
-#else()
-#	message(STATUS "Compiling for generic target")
-#	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*")
-#endif()
+else (COMPILE_TARGET STREQUAL "GENERIC_x86_64")
+	message(STATUS "Compiling for generic GENERIC_x86_64")
+	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*")
+endif()
 
 set(FFMPEG_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/${CMAKE_SYSTEM_PROCESSOR}/lib)
 set(FFMPEG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/${CMAKE_SYSTEM_PROCESSOR}/include)
@@ -84,11 +82,18 @@ set_target_properties(SWRESAMPLE_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_D
 
 add_executable(orwell ${ORWELL_SOURCES})
 
-target_link_libraries(orwell PRIVATE 
+if (COMPILE_TARGET STREQUAL "JETSON_NANO")
+	target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIB_V4L2} ${LIB_NVJPEG} ${LIB_DRM} ${LIB_EGL} ${LIB_NVBUF}
 	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
-#${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIBDRM_LIBRARY} 
+else (COMPILE_TARGET STREQUAL "GENERIC_x86_64")
+	target_link_libraries(orwell PRIVATE 
+	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
+	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11}
+	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
+endif()
+	#${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIBDRM_LIBRARY} 
 
 #LAB is for testing things
 file(GLOB LAB_SOURCES main3.cpp ../cpp/common/SLog.cpp)

@@ -74,6 +74,13 @@ int FfmpegSoftwareDecoder::decodeFrame(EncodedPacket& encodedPacket, DecodedFram
 				We just need to move our avFrame to a generic Frame object. 
 				Now caller has a video frame and can render it.
 			*/
+			decodedFrame.width = avFrame->width;
+			decodedFrame.height = avFrame->height;
+			decodedFrame.format = avFrame->format;
+			for (int i=0; i<AV_NUM_DATA_POINTERS; i++) {
+				decodedFrame.linesize[i] = avFrame->linesize[i];
+				decodedFrame.buffer[i] = avFrame->data[i];
+			}
 			decodedFrame.avFrame = std::move(avFrame);
 			return 0;
 		}

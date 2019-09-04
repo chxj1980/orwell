@@ -39,7 +39,8 @@ void NVidiaRenderer::run()
 		*/
 		std::unique_lock<std::mutex> lk{mutex};
 		this->frame = std::move(frame);
-		lk.unlock();
+		
+		//lk.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
 		i++;
