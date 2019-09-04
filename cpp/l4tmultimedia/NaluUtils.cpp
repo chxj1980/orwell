@@ -38,8 +38,11 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
         of the currentEncodedPacket. Otherwise, we're continuing the work of the previous transferNalu
         call, in which it found a NALU in the middle of the currentEncodedPacket and returned true
     */
-    if (!currentEncodedPacketSearchPtr)
+    if (!currentEncodedPacketSearchPtr) {
+        LOG << "currentEncodedPacketSearchPtr null, setting to beggining" << (void*)currentEncodedPacketBegginingPtr;
+
         currentEncodedPacketSearchPtr = currentEncodedPacketBegginingPtr;
+    }
     /*
     printf("currentEncodedPacketBegginingPtr: %p\n", (void*)currentEncodedPacketBegginingPtr);
     printf("currentEncodedPacketSearchPtr: %p\n", (void*)currentEncodedPacketSearchPtr);
@@ -127,7 +130,6 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     LOG << "currentEncodedPacketSearchPtr:" << (void*)currentEncodedPacketSearchPtr;
     LOG << "walked:" << (currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr);
     LOG << "(currentEncodedPacketSize - 3): " << (currentEncodedPacketSize - 3);
-
     currentEncodedPacketSearchPtr = NULL;
     return true;
     /*
