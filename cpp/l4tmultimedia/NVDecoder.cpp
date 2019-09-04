@@ -82,8 +82,6 @@ void NVDecoder::prepareDecoder()
 
     LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height;
 
-
-
     //deinitPlane unmaps the buffers and calls REQBUFS with count 0
     nvVideoDecoder->capture_plane.deinitPlane();
     if (capturePlaneMemType == V4L2_MEMORY_DMABUF)

@@ -1,6 +1,6 @@
 R"(
 #version 330 core
-
+#extension GL_OES_EGL_image_external : require
 #ifdef GL_ES
 // Set default precision to medium
 precision mediump int;
