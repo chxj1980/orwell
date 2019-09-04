@@ -24,7 +24,7 @@ public:
 							v4l2_buffer v4l2Buffer,
 							NvBuffer* nvBuffer) : nvVideoDecoder(nvVideoDecoder),
 												  v4l2Buffer(v4l2Buffer),
-												  nvBuffer(std::make_unique<NvBuffer>(nvBuffer))
+												  nvBuffer{nvBuffer}
 	{
 	}
 	int giveBack()

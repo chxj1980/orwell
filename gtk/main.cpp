@@ -2,6 +2,9 @@
 //#include <gtkmm/box.h>
 //#include <gtkmm/button.h>
 //#include <gtkmm/main.h>
+//These two includes must be the very first thing on the program
+#include <gtkmm.h>
+#include <epoxy/gl.h>
 
 #include "MyRTSPClient.h"
 #include "FfmpegHardwareDecoder.h"
