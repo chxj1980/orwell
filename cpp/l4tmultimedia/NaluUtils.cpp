@@ -21,7 +21,8 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
                   uint8_t *currentEncodedPacketSearchPtr,
                   size_t currentEncodedPacketSize,
                   uint8_t *planeBufferPtr,
-                  uint32_t &bytesWritten)
+                  uint32_t &bytesWritten,
+                  NaluSearchState &naluSearchState)
 {
     int h265_nal_unit_type;
     bool nalu_found = false;
@@ -43,18 +44,22 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
         currentEncodedPacketSearchPtr = currentEncodedPacketBegginingPtr;
 
         /*
-    printf("currentEncodedPacketBegginingPtr: %p\n", (void*)currentEncodedPacketBegginingPtr);
-    printf("currentEncodedPacketSearchPtr: %p\n", (void*)currentEncodedPacketSearchPtr);
-    printf("planeBufferPtr: %p\n", (void*)planeBufferPtr);
-    printf("currentEncodedPacketSize: %p\n", (void*)currentEncodedPacketSize);
+        printf("currentEncodedPacketBegginingPtr: %p\n", (void*)currentEncodedPacketBegginingPtr);
+        printf("currentEncodedPacketSearchPtr: %p\n", (void*)currentEncodedPacketSearchPtr);
+        printf("planeBufferPtr: %p\n", (void*)planeBufferPtr);
+        printf("currentEncodedPacketSize: %p\n", (void*)currentEncodedPacketSize);
 
-    std::cout << "r: " << (currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) << " r: " << (currentEncodedPacketSize - 3) << std::endl;
-    abort();
-
-    */
-        
-    } else {
+        std::cout << "r: " << (currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) << " r: " << (currentEncodedPacketSize - 3) << std::endl;
+        abort();
+        */
+    }
+    else
+    {
         LOG << "continuing the work of finding the NALU end";
+    }
+
+    if (naluSearchState == LOOKING_FOR_NALU_START)
+    {
         while ((currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) < (currentEncodedPacketSize - 3))
         {
             nalu_found = IS_NAL_UNIT_START(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_START1(currentEncodedPacketSearchPtr);
@@ -65,30 +70,30 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
             }
             currentEncodedPacketSearchPtr++;
         }
-    }
-
-    // Reached end of planeBuffer but could not find NAL unit
-    if (!nalu_found)
-    {
-        /*
+        if (!nalu_found)
+        {
+            /*
             If no NALU found, return true so the caller knows it should call 
             this function again with a new encodedPacket.
             Set currentEncodedPacketSearchPtr to null so in the next call of transferNalu, 
             it knows it should start from the beggining of the encodedPacket.
         */
-        LOG << "did not find NALU start, gonna return true to query another packet ";
-        currentEncodedPacketSearchPtr = NULL;
-        return true;
-    }
-    /*
+            LOG << "did not find NALU start, gonna return true to query another packet ";
+            currentEncodedPacketSearchPtr = NULL;
+            naluSearchState = LOOKING_FOR_NALU_END;
+            return true;
+        }
+        /*
         Copies the first 4 bytes, which form the NALU header. If the header is in 3 byte form
         it doesn't matter, we just copied another extra byte
-    */
-    //LOG << "found NALU at " << (void*)currentEncodedPacketSearchPtr << " gonna copy it now";
-    std::memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, 4);
-    planeBufferPtr += 4;
-    currentEncodedPacketSearchPtr += 4;
-    bytesWritten += 4;
+        */
+        //LOG << "found NALU at " << (void*)currentEncodedPacketSearchPtr << " gonna copy it now";
+        std::memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, 4);
+        planeBufferPtr += 4;
+        currentEncodedPacketSearchPtr += 4;
+        bytesWritten += 4;
+    }
+
     /*
     if (ctx->copy_timestamp)
     {
@@ -122,6 +127,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
         {
             //nalu_end_found = true;
             LOG << "Found NALU end at " << (void *)currentEncodedPacketSearchPtr << ", returning...";
+            naluSearchState = LOOKING_FOR_NALU_START;
             return false;
         }
         *planeBufferPtr = *currentEncodedPacketSearchPtr;
@@ -129,12 +135,14 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
         currentEncodedPacketSearchPtr++;
         bytesWritten++;
     }
+    
     //TODO:??
     LOG << "did not find NALU end, gonna return true to query another packet ";
     LOG << "currentEncodedPacketSearchPtr:" << (void *)currentEncodedPacketSearchPtr;
     LOG << "walked:" << (currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr);
     LOG << "(currentEncodedPacketSize - 3): " << (currentEncodedPacketSize - 3);
     currentEncodedPacketSearchPtr = NULL;
+    naluSearchState = LOOKING_FOR_NALU_END;
     return true;
     /*
         If we're here it means we reached the end of the packet (because the second while loop finished)
