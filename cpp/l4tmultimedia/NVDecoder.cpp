@@ -12,6 +12,8 @@ SLOG_CATEGORY("NVDecoder");
         throw NVDecoderCreationException(message, errorCode); \
     }
 
+NvApplicationProfiler& NVDecoder::nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
+
 int NVDecoder::decodeFrame(EncodedPacket &encodedPacket)
 {
 }
@@ -24,12 +26,12 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
     int ret;
     TEST_ERROR(!nvVideoDecoder, "Could not create decoder", 0)
 
-    //nvApplicationProfiler.start(NvApplicationProfiler::DefaultSamplingInterval);
+    nvApplicationProfiler.start(NvApplicationProfiler::DefaultSamplingInterval);
     nvVideoDecoder->enableProfiling();
 
     ret = nvVideoDecoder->subscribeEvent(V4L2_EVENT_RESOLUTION_CHANGE, 0, 0);
     TEST_ERROR(ret < 0, "Could not subscribe to V4L2_EVENT_RESOLUTION_CHANGE", ret)
-    //1 = NV12, 2 = I420 TODO:?????
+    
     if (codec == H264)
         ret = nvVideoDecoder->setOutputPlaneFormat(V4L2_PIX_FMT_H264, CHUNK_SIZE);
     else if (codec == H265)

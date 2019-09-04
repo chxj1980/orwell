@@ -80,9 +80,9 @@ protected:
 	//void read_decoder_input_nalu(NvBuffer *nvBuffer, EncodedPackets& encodedPackets);
 	//Creates our decoder in blocking mode
 	//SHOULD DESTROY???
-	std::shared_ptr<NvVideoDecoder> nvVideoDecoder = std::make_shared<NvVideoDecoder>(NvVideoDecoder::createVideoDecoder("dec0"));
+	std::shared_ptr<NvVideoDecoder> nvVideoDecoder{NvVideoDecoder::createVideoDecoder("dec0")};
 	//NvVideoDecoder* nvVideoDecoder = NvVideoDecoder::createVideoDecoder("dec0");
-	//static NvApplicationProfiler& nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
+	static NvApplicationProfiler& nvApplicationProfiler;// = NvApplicationProfiler::getProfilerInstance();
 	Format format;
 	Codec codec;
 	enum v4l2_memory outputPlaneMemType = V4L2_MEMORY_USERPTR;
