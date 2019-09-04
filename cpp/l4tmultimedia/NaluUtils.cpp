@@ -52,6 +52,9 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     abort();
 
     */
+        
+    } else {
+        LOG << "continuing the work of finding the NALU end";
         while ((currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) < (currentEncodedPacketSize - 3))
         {
             nalu_found = IS_NAL_UNIT_START(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_START1(currentEncodedPacketSearchPtr);
@@ -62,8 +65,6 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
             }
             currentEncodedPacketSearchPtr++;
         }
-    } else {
-        LOG << "continuing the work of finding the NALU end";
     }
 
     // Reached end of planeBuffer but could not find NAL unit
