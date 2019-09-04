@@ -307,11 +307,11 @@ void NVDecoder::captureLoop()
             // EglRenderer requires the fd of the 0th plane to render the buffer
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
                 nvBuffer->planes[0].fd = dmaBufferFileDescriptor[v4l2Buffer.index];
-                
+
             DecodedFrame decodedFrame;
             decodedFrame.decodedFrom == DecodedFrame::NVDECODER;
             decodedFrame.reusableBuffer = std::move(std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder, v4l2Buffer, nvBuffer));
-            decodedFramesFifo->emplace_back(std::move(decodedFrame));
+            //decodedFramesFifo->emplace_back(std::move(decodedFrame));
 
             //ctx->renderer->render(nvBuffer->planes[0].fd);
 
