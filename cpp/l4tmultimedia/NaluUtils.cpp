@@ -125,8 +125,8 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     //TODO:??
     LOG << "did not find NALU end, gonna return true to query another packet ";
     LOG << "currentEncodedPacketSearchPtr:" << (void*)currentEncodedPacketSearchPtr;
-    LOG << "difference:" << (currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr);
-    LOG << "(currentEncodedPacketSize - 3)" << (currentEncodedPacketSize - 3);
+    LOG << "walked:" << (currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr);
+    LOG << "(currentEncodedPacketSize - 3): " << (currentEncodedPacketSize - 3);
 
     currentEncodedPacketSearchPtr = NULL;
     return true;
