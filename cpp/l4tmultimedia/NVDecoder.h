@@ -34,6 +34,7 @@ public:
 		return nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL);
 	}
 
+
 private:
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder;
 	struct v4l2_buffer v4l2Buffer;
@@ -73,7 +74,7 @@ public:
 	*/
 	int decodeFrame(EncodedPacket &encodedPacket);
 	int decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame);
-	void prepareDecoder();
+	void respondToResolutionEvent(v4l2_format& format, v4l2_crop& crop);
 	void captureLoop();
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
 	void run();

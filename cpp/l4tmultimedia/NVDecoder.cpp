@@ -60,10 +60,10 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
     TEST_ERROR(ret < 0, "Error in output plane stream on", ret);
 }
 
-void NVDecoder::prepareDecoder()
+void NVDecoder::respondToResolutionEvent(v4l2_format& format, v4l2_crop& crop)
 {
-    struct v4l2_format format;
-    struct v4l2_crop crop;
+    //struct v4l2_format format;
+    //struct v4l2_crop crop;
     int32_t minimumDecoderCaptureBuffers;
     int ret = 0;
     NvBufferCreateParams input_params = {0};
@@ -115,8 +115,8 @@ void NVDecoder::prepareDecoder()
     if (capturePlaneMemType == V4L2_MEMORY_MMAP)
     {
         ret = nvVideoDecoder->capture_plane.setupPlane(V4L2_MEMORY_MMAP,
-                                                     minimumDecoderCaptureBuffers + 5, false,
-                                                     false);
+                                                       minimumDecoderCaptureBuffers + 5, false,
+                                                       false);
         TEST_ERROR(ret < 0, "Error in decoder capture plane setup", ret);
     }
     else if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
@@ -209,7 +209,9 @@ void NVDecoder::prepareDecoder()
 
 void NVDecoder::captureLoop()
 {
-    struct v4l2_event ev;
+    struct v4l2_format v4l2Format;
+    struct v4l2_crop v4l2Crop;
+    struct v4l2_event v4l2Event;
     int ret;
 
     LOG << "Starting decoder capture loop thread";
@@ -218,7 +220,7 @@ void NVDecoder::captureLoop()
     //buffers when we call REQBUFS
     do
     {
-        ret = nvVideoDecoder->dqEvent(ev, 50000);
+        ret = nvVideoDecoder->dqEvent(v4l2Event, 50000);
         if (ret < 0)
         {
             if (errno == EAGAIN)
@@ -232,12 +234,12 @@ void NVDecoder::captureLoop()
             //abort(ctx);
             break;
         }
-    } while ((ev.type != V4L2_EVENT_RESOLUTION_CHANGE));
+    } while ((v4l2Event.type != V4L2_EVENT_RESOLUTION_CHANGE));
 
     //query_and_set_capture acts on the resolution change event
     //if (!ctx->got_error)
     //query_and_set_capture(ctx);
-    prepareDecoder();
+    respondToResolutionEvent(v4l2Format, v4l2Crop);
 
     //Exit on error or EOS which is signalled in main()
     while (!nvVideoDecoder->isInError()) //|| ctx->got_eos))
@@ -245,13 +247,13 @@ void NVDecoder::captureLoop()
         
 
         //Check for Resolution change again
-        ret = nvVideoDecoder->dqEvent(ev, false);
+        ret = nvVideoDecoder->dqEvent(v4l2Event, false);
         if (ret == 0)
         {
-            switch (ev.type)
+            switch (v4l2Event.type)
             {
             case V4L2_EVENT_RESOLUTION_CHANGE:
-                prepareDecoder();
+                respondToResolutionEvent(v4l2Format, v4l2Crop);
                 continue;
             }
         }
@@ -306,12 +308,19 @@ void NVDecoder::captureLoop()
 
             DecodedFrame decodedFrame;
             decodedFrame.decodedFrom == DecodedFrame::NVDECODER;
+            decodedFrame.width = v4l2Format.fmt.pix_mp.width;
+            decodedFrame.height = v4l2Format.fmt.pix_mp.height;
+            //if (v4l2Format.fmt.pix_mp.pixelformat==0)
+                //decodedFrame.format = AV_PIX;
+            //else 
+                //decodedFrame.format
             decodedFrame.reusableBuffer = std::move(std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder, v4l2Buffer, nvBuffer));
             //decodedFramesFifo->emplace_back(std::move(decodedFrame));
 
             //ctx->renderer->render(nvBuffer->planes[0].fd);
 
             //Queue the buffer back once it has been used.
+            /*
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
                 v4l2Buffer.m.planes[0].m.fd = dmaBufferFileDescriptor[v4l2Buffer.index];
 
@@ -321,6 +330,7 @@ void NVDecoder::captureLoop()
                 LOG(SLog::ERROR) << "Error while queueing buffer at decoder capture plane";
                 break;
             }
+            */
         }
     }
 }

@@ -40,10 +40,11 @@ public:
     DecodedFrame(DecodedFrame &&) = default;
     DecodedFrame &operator=(DecodedFrame &&) = default;
     //DecodedFrame &operator=(DecodedFrame &&) = delete;
-    ~DecodedFrame() {
+    ~DecodedFrame()
+    {
         int ret = reusableBuffer->giveBack();
         //TODO: make this use SLog
-        if (ret<0)
+        if (ret < 0)
             std::cout << "reusableBuffer on ~DecodedFrame() gone wrong: " << ret << std::endl;
     }
     enum
@@ -69,7 +70,7 @@ public:
         }
         else
         {
-            return 0;
+            return width;
         }
     }
     int height()
@@ -80,7 +81,7 @@ public:
         }
         else
         {
-            return 0;
+            return height;
         }
     }
     int format()
@@ -91,7 +92,7 @@ public:
         }
         else
         {
-            return 0;
+            return format;
         }
     }
     int linesize(int i)
@@ -102,7 +103,7 @@ public:
         }
         else
         {
-            return 0;
+            return linesize;
         }
     }
     //FFmpeg specific
@@ -117,6 +118,12 @@ public:
             return NULL;
         }
     }
+
+public:
+    int width;
+    int height;
+    int format;
+    int linesize;
 };
 
 #endif // Frame_h
