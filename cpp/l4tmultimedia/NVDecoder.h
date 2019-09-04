@@ -12,7 +12,9 @@
 #include <linux/videodev2.h>
 #include <nvbuf_utils.h>
 #define CHUNK_SIZE 4000000
+//TODO: why 32??????? Wouldn't the index get out of range????
 #define MAX_BUFFERS 32
+#define MAXIMUM_OUTPUT_PLANES 10
 
 #include <exception>
 #include <sstream>

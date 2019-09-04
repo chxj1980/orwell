@@ -49,11 +49,11 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
         ret = nvVideoDecoder->setFrameInputMode(1);
         TEST_ERROR(ret < 0, "Error in decoder setFrameInputMode for CHUNK", ret)
     }
-    //TODO: what's 10?
+
     if (outputPlaneMemType == V4L2_MEMORY_MMAP)
-        ret = nvVideoDecoder->output_plane.setupPlane(V4L2_MEMORY_MMAP, 10, true, false);
+        ret = nvVideoDecoder->output_plane.setupPlane(V4L2_MEMORY_MMAP, MAXIMUM_OUTPUT_PLANES, true, false);
     else if (outputPlaneMemType == V4L2_MEMORY_USERPTR)
-        ret = nvVideoDecoder->output_plane.setupPlane(V4L2_MEMORY_USERPTR, 10, false, true);
+        ret = nvVideoDecoder->output_plane.setupPlane(V4L2_MEMORY_USERPTR, MAXIMUM_OUTPUT_PLANES, false, true);
     TEST_ERROR(ret < 0, "Error while setting up output plane", ret);
 
     ret = nvVideoDecoder->output_plane.setStreamStatus(true);

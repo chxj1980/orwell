@@ -1,5 +1,5 @@
 R"(
-#version 130
+#version 330 core
 
 #ifdef GL_ES
 // Set default precision to medium
@@ -31,7 +31,7 @@ void main() {
         gl_FragColor.b = 0;
         return;
     }
-    vec4 uyvy = texture2D( tex_y, textureOut);
+    vec4 uyvy = texture( tex_y, textureOut);
 
     float y;
     float u;
@@ -51,8 +51,8 @@ void main() {
         y2 = uyvy[2];
         v = uyvy[3] - 0.5;
     }else if(tex_format == 7){ //UYYVYY
-        u = texture2D( tex_u, textureOut).r - 0.5;
-        v = texture2D( tex_v, textureOut).r - 0.5;
+        u = texture( tex_u, textureOut).r - 0.5;
+        v = texture( tex_v, textureOut).r - 0.5;
         y = uyvy.r - 0.0625;
     }else if(tex_format == 11){ //BGR8
         gl_FragColor.rgb = uyvy.rgb;
