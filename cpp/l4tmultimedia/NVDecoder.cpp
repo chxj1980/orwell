@@ -373,6 +373,8 @@ void NVDecoder::run()
 
         memset(&v4l2Buffer, 0, sizeof(v4l2Buffer));
         memset(planes, 0, sizeof(planes));
+        v4l2Buffer.m.planes = planes;
+
         if (i < nvVideoDecoder->output_plane.getNumBuffers())
         {
             //memset(planes, 0, sizeof(planes));
