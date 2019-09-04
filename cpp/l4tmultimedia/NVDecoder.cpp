@@ -64,29 +64,27 @@ void NVDecoder::prepareDecoder()
 {
     struct v4l2_format format;
     struct v4l2_crop crop;
-    int32_t min_dec_capture_buffers;
+    int32_t minimumDecoderCaptureBuffers;
     int ret = 0;
-    uint32_t window_width;
-    uint32_t window_height;
     NvBufferCreateParams input_params = {0};
     NvBufferCreateParams cParams = {0};
 
-    // Get capture plane format from the decoder. This may change after
-    // an resolution change event
+    /* 
+        Get capture plane format from the decoder. This may change after
+        an resolution change event
+    */
     ret = nvVideoDecoder->capture_plane.getFormat(format);
     TEST_ERROR(ret < 0, "Error: Could not get format from decoder capture plane", ret);
 
-    // Get the display resolution from the decoder
+    //Get the display resolution from the decoder
     ret = nvVideoDecoder->capture_plane.getCrop(crop);
     TEST_ERROR(ret < 0, "Error: Could not get crop from decoder capture plane", ret);
 
     LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height;
 
-    // Resolution got from the decoder
-    window_width = crop.c.width;
-    window_height = crop.c.height;
 
-    // deinitPlane unmaps the buffers and calls REQBUFS with count 0
+
+    //deinitPlane unmaps the buffers and calls REQBUFS with count 0
     nvVideoDecoder->capture_plane.deinitPlane();
     if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
     {
@@ -100,8 +98,8 @@ void NVDecoder::prepareDecoder()
         }
     }
 
-    // Not necessary to call VIDIOC_S_FMT on decoder capture plane.
-    // But decoder setCapturePlaneFormat function updates the class variables
+    //Not necessary to call VIDIOC_S_FMT on decoder capture plane.
+    //But decoder setCapturePlaneFormat function updates the class variables
     ret = nvVideoDecoder->setCapturePlaneFormat(format.fmt.pix_mp.pixelformat,
                                                 format.fmt.pix_mp.width,
                                                 format.fmt.pix_mp.height);
@@ -109,17 +107,17 @@ void NVDecoder::prepareDecoder()
 
     height = format.fmt.pix_mp.height;
     width = format.fmt.pix_mp.width;
-    // Get the minimum buffers which have to be requested on the capture plane
-    ret = nvVideoDecoder->getMinimumCapturePlaneBuffers(min_dec_capture_buffers);
+    //Get the minimum buffers which have to be requested on the capture plane
+    ret = nvVideoDecoder->getMinimumCapturePlaneBuffers(minimumDecoderCaptureBuffers);
     TEST_ERROR(ret < 0,
                "Error while getting value of minimum capture plane buffers",
                ret);
 
-    // Request (min + 5) buffers, export and map buffers
+    //Request (min + 5) buffers, export and map buffers
     if (capturePlaneMemType == V4L2_MEMORY_MMAP)
     {
         ret = nvVideoDecoder->capture_plane.setupPlane(V4L2_MEMORY_MMAP,
-                                                     min_dec_capture_buffers + 5, false,
+                                                     minimumDecoderCaptureBuffers + 5, false,
                                                      false);
         TEST_ERROR(ret < 0, "Error in decoder capture plane setup", ret);
     }
@@ -171,7 +169,7 @@ void NVDecoder::prepareDecoder()
             }
             break;
         }
-        numberCaptureBuffers = min_dec_capture_buffers + 5;
+        numberCaptureBuffers = minimumDecoderCaptureBuffers + 5;
         for (int index = 0; index < numberCaptureBuffers; index++)
         {
             cParams.width = crop.c.width;
@@ -186,11 +184,11 @@ void NVDecoder::prepareDecoder()
         TEST_ERROR(ret, "Error in request buffers on capture plane", ret);
     }
 
-    // Capture plane STREAMON
+    //Capture plane STREAMON
     ret = nvVideoDecoder->capture_plane.setStreamStatus(true);
     TEST_ERROR(ret < 0, "Error in decoder capture plane streamon", ret);
 
-    // Enqueue all the empty capture plane buffers
+    //Enqueue all the empty capture plane buffers
     for (uint32_t i = 0; i < nvVideoDecoder->capture_plane.getNumBuffers(); i++)
     {
         struct v4l2_buffer v4l2_buf;
@@ -217,9 +215,9 @@ void NVDecoder::captureLoop()
     int ret;
 
     LOG << "Starting decoder capture loop thread";
-    // Need to wait for the first Resolution change event, so that
-    // the decoder knows the stream resolution and can allocate appropriate
-    // buffers when we call REQBUFS
+    //Need to wait for the first Resolution change event, so that
+    //the decoder knows the stream resolution and can allocate appropriate
+    //buffers when we call REQBUFS
     do
     {
         ret = nvVideoDecoder->dqEvent(ev, 50000);
@@ -238,17 +236,17 @@ void NVDecoder::captureLoop()
         }
     } while ((ev.type != V4L2_EVENT_RESOLUTION_CHANGE));
 
-    // query_and_set_capture acts on the resolution change event
+    //query_and_set_capture acts on the resolution change event
     //if (!ctx->got_error)
     //query_and_set_capture(ctx);
     prepareDecoder();
 
-    // Exit on error or EOS which is signalled in main()
-    while (!nvVideoDecoder->isInError()) // || ctx->got_eos))
+    //Exit on error or EOS which is signalled in main()
+    while (!nvVideoDecoder->isInError()) //|| ctx->got_eos))
     {
         
 
-        // Check for Resolution change again
+        //Check for Resolution change again
         ret = nvVideoDecoder->dqEvent(ev, false);
         if (ret == 0)
         {
@@ -264,12 +262,12 @@ void NVDecoder::captureLoop()
         {
             struct v4l2_buffer v4l2Buffer;
             struct v4l2_plane planes[MAX_PLANES];
-            NvBuffer* nvBuffer;// = new NvBuffer;
+            NvBuffer* nvBuffer;//= new NvBuffer;
             memset(&v4l2Buffer, 0, sizeof(v4l2Buffer));
             memset(planes, 0, sizeof(planes));
             v4l2Buffer.m.planes = planes;
 
-            // Dequeue a filled buffer
+            //Dequeue a filled buffer
             if (nvVideoDecoder->capture_plane.dqBuffer(v4l2Buffer, &nvBuffer, NULL, 0))
             {
                 if (errno == EAGAIN)
@@ -304,7 +302,7 @@ void NVDecoder::captureLoop()
             }
             */
             //RENDER HERE!
-            // EglRenderer requires the fd of the 0th plane to render the buffer
+            //EglRenderer requires the fd of the 0th plane to render the buffer
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
                 nvBuffer->planes[0].fd = dmaBufferFileDescriptor[v4l2Buffer.index];
 
@@ -315,7 +313,7 @@ void NVDecoder::captureLoop()
 
             //ctx->renderer->render(nvBuffer->planes[0].fd);
 
-            // Queue the buffer back once it has been used.
+            //Queue the buffer back once it has been used.
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
                 v4l2Buffer.m.planes[0].m.fd = dmaBufferFileDescriptor[v4l2Buffer.index];
 
@@ -461,6 +459,5 @@ void NVDecoder::run()
             eos = true;
             break;
         }
-        LOG << i;
     }
 }
