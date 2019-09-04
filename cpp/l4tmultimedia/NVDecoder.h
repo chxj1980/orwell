@@ -22,9 +22,9 @@ class NVDecoderQueueableBuffer : public QueueableBuffer
 public:
 	NVDecoderQueueableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder,
 							 v4l2_buffer v4l2Buffer,
-							 NVBuffer* nvBuffer) : nvVideoDecoder(nvVideoDecoder),
+							 NvBuffer* nvBuffer) : nvVideoDecoder(nvVideoDecoder),
 												   v4l2Buffer(v4l2Buffer),
-												   nvBuffer(std::make_unique<NVBuffer>(nvBuffer))
+												   nvBuffer(std::make_unique<NvBuffer>(nvBuffer))
 	{
 	}
 	int queue()
@@ -35,7 +35,7 @@ public:
 private:
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder;
 	struct v4l2_buffer v4l2Buffer;
-	std::unique_ptr<NVBuffer> nvBuffer;
+	std::unique_ptr<NvBuffer> nvBuffer;
 };
 
 struct NVDecoderCreationException : public std::exception

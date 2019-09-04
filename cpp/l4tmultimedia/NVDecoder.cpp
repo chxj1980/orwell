@@ -1,7 +1,7 @@
 #include "NVDecoder.h"
 #include "SLog.h"
 #include "NaluUtils.h"
-#include <nvbuf_utils.h>
+#include "nvbuf_utils.h"
 #include "DecodedFrame.h"
 
 SLOG_CATEGORY("NVDecoder");
