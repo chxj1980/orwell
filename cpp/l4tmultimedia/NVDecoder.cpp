@@ -458,5 +458,6 @@ void NVDecoder::run()
             eos = true;
             break;
         }
+        LOG << i;
     }
 }
