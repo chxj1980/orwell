@@ -5,7 +5,6 @@
 //TODO: take this log off, this header is supposed to be free of types from outside
 SLOG_CATEGORY("NaluUtils");
 
-
 /*
     transferNalu transfers an entire NALU from currentEncodedPacketSearchPtr to planeBufferPtr.
     If the transaction did not read the entire currentEncodedPacket, it returns true, so the
@@ -38,12 +37,12 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
         of the currentEncodedPacket. Otherwise, we're continuing the work of the previous transferNalu
         call, in which it found a NALU in the middle of the currentEncodedPacket and returned true
     */
-    if (!currentEncodedPacketSearchPtr) {
-        LOG << "currentEncodedPacketSearchPtr null, setting to beggining" << (void*)currentEncodedPacketBegginingPtr;
-
+    if (!currentEncodedPacketSearchPtr)
+    {
+        LOG << "currentEncodedPacketSearchPtr null, setting to beggining" << (void *)currentEncodedPacketBegginingPtr;
         currentEncodedPacketSearchPtr = currentEncodedPacketBegginingPtr;
-    }
-    /*
+
+        /*
     printf("currentEncodedPacketBegginingPtr: %p\n", (void*)currentEncodedPacketBegginingPtr);
     printf("currentEncodedPacketSearchPtr: %p\n", (void*)currentEncodedPacketSearchPtr);
     printf("planeBufferPtr: %p\n", (void*)planeBufferPtr);
@@ -53,14 +52,18 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     abort();
 
     */
-    while ((currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) < (currentEncodedPacketSize - 3))
-    {
-        nalu_found = IS_NAL_UNIT_START(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_START1(currentEncodedPacketSearchPtr);
-        if (nalu_found) {
-            LOG << "Found NALU start at " << (void*)currentEncodedPacketSearchPtr;
-            break;
+        while ((currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr) < (currentEncodedPacketSize - 3))
+        {
+            nalu_found = IS_NAL_UNIT_START(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_START1(currentEncodedPacketSearchPtr);
+            if (nalu_found)
+            {
+                LOG << "Found NALU start at " << (void *)currentEncodedPacketSearchPtr;
+                break;
+            }
+            currentEncodedPacketSearchPtr++;
         }
-        currentEncodedPacketSearchPtr++;
+    } else {
+        LOG << "continuing the work of finding the NALU end";
     }
 
     // Reached end of planeBuffer but could not find NAL unit
@@ -117,7 +120,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
         if (IS_NAL_UNIT_START(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_START1(currentEncodedPacketSearchPtr))
         {
             //nalu_end_found = true;
-            LOG << "Found NALU end at " << (void*)currentEncodedPacketSearchPtr << ", returning...";
+            LOG << "Found NALU end at " << (void *)currentEncodedPacketSearchPtr << ", returning...";
             return false;
         }
         *planeBufferPtr = *currentEncodedPacketSearchPtr;
@@ -127,7 +130,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     }
     //TODO:??
     LOG << "did not find NALU end, gonna return true to query another packet ";
-    LOG << "currentEncodedPacketSearchPtr:" << (void*)currentEncodedPacketSearchPtr;
+    LOG << "currentEncodedPacketSearchPtr:" << (void *)currentEncodedPacketSearchPtr;
     LOG << "walked:" << (currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr);
     LOG << "(currentEncodedPacketSize - 3): " << (currentEncodedPacketSize - 3);
     currentEncodedPacketSearchPtr = NULL;
