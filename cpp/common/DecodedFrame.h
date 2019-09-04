@@ -12,7 +12,7 @@ extern "C"
 }
 #include "FfmpegDeleters.h"
 
-class QueueableBuffer
+class ReusableBuffer
 {
     /*
         Subclass this to add your own custom properties, and 
@@ -28,7 +28,7 @@ public:
         so when DecodedFrame goes out of scope, the buffer is queued 
         back to its decoder.
     */
-    virtual int queue() = 0;
+    virtual int giveBack() = 0;
 };
 
 class DecodedFrame
@@ -41,10 +41,10 @@ public:
     DecodedFrame &operator=(DecodedFrame &&) = default;
     //DecodedFrame &operator=(DecodedFrame &&) = delete;
     ~DecodedFrame() {
-        int ret = queueableBuffer->queue();
+        int ret = reusableBuffer->giveBack();
         //TODO: make this use SLog
         if (ret<0)
-            std::cout << "queueableBuffer on ~DecodedFrame() gone wrong: " << ret << std::endl;
+            std::cout << "reusableBuffer on ~DecodedFrame() gone wrong: " << ret << std::endl;
     }
     enum
     {
@@ -60,7 +60,7 @@ public:
     */
     //std::unordered_set<std::string> consumedBy;
     std::unique_ptr<AVFrame, AVFrameDeleter> avFrame;
-    std::unique_ptr<QueueableBuffer> queueableBuffer;
+    std::unique_ptr<ReusableBuffer> reusableBuffer;
     int width()
     {
         if (decodedFrom == FFMPEG)

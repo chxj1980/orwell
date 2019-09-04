@@ -17,17 +17,17 @@
 #include <exception>
 #include <sstream>
 
-class NVDecoderQueueableBuffer : public QueueableBuffer
+class NVDecoderReusableBuffer : public ReusableBuffer
 {
 public:
-	NVDecoderQueueableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder,
-							 v4l2_buffer v4l2Buffer,
-							 NvBuffer* nvBuffer) : nvVideoDecoder(nvVideoDecoder),
-												   v4l2Buffer(v4l2Buffer),
-												   nvBuffer(std::make_unique<NvBuffer>(nvBuffer))
+	NVDecoderReusableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder,
+							v4l2_buffer v4l2Buffer,
+							NvBuffer* nvBuffer) : nvVideoDecoder(nvVideoDecoder),
+												  v4l2Buffer(v4l2Buffer),
+												  nvBuffer(std::make_unique<NvBuffer>(nvBuffer))
 	{
 	}
-	int queue()
+	int giveBack()
 	{
 		return nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL);
 	}
