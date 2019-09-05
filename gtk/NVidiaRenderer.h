@@ -1,5 +1,5 @@
-#ifndef NvidiaRenderer_H
-#define NvidiaRenderer_H
+#ifndef NVidiaRenderer_H
+#define NVidiaRenderer_H
 #include "OpenGLArea2.h"
 #include "VideoReceiver.h"
 #include "Program.h"
@@ -41,11 +41,10 @@ private:
     int errorCode;
 };
 
-class NvidiaRenderer : public OpenGLArea2 //, public VideoReceiver
+class NVidiaRenderer : public OpenGLArea2
 {
 public:
-    unsigned char *buffer[3] = {0};
-    NvidiaRenderer()
+    NVidiaRenderer()
     {
         eglCreateImageKHR =
             (PFNEGLCREATEIMAGEKHRPROC)eglGetProcAddress("eglCreateImageKHR");
@@ -84,7 +83,6 @@ public:
                    "ERROR getting proc addr of glEGLImageTargetTexture2DOES");
     }
     void init();
-    //int receiveVideo(DecodedFrame& frame);
     void realize();
     bool render(const Glib::RefPtr<Gdk::GLContext> &context);
     void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo)
@@ -144,9 +142,9 @@ private:
     static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES;
     uint32_t texture_id;
     int render_fd;
-    EGLDisplay *egl_display;
-    EGLSurface *egl_surface;
-    EGLContext *egl_context;
+    EGLDisplay eglDisplay;
+    EGLSurface eglSurface;
+    EGLContext eglContext;
     //std::mutex mutex;
     //std::condition_variable conditionVariable;
     //PixelFormats pixelFormats;
@@ -156,4 +154,4 @@ private:
     //GLXContext context;
 };
 
-#endif //NvidiaRenderer_H
+#endif //NVidiaRenderer_H

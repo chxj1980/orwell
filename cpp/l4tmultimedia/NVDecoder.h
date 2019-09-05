@@ -19,6 +19,11 @@
 #include <exception>
 #include <sstream>
 
+/*
+	By inheriting from ReusableBuffer (virtual class), we don't need to put NVIDIA specific code
+	inside DecodedFrame (where ReusableBuffer is defined). We use downcasting
+	to treat ReusableBuffer as NVDecoderReusableBuffer when needed.
+*/
 class NVDecoderReusableBuffer : public ReusableBuffer
 {
 public:
@@ -35,7 +40,7 @@ public:
 	}
 
 
-private:
+public:
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder;
 	struct v4l2_buffer v4l2Buffer;
 	std::unique_ptr<NvBuffer> nvBuffer;
