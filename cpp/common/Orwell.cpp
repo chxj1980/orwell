@@ -30,7 +30,7 @@ Orwell::Orwell(RTSPUrl rtspUrl, std::shared_ptr<Decoder> _decoder)
     decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
     //Decoders
     //Decoder specific configuration
-    decoder = std::make_shared<Decoder>(_decoder);
+    decoder = _decoder;
     decoder->setEncodedPacketsFifo(encodedPacketsFifo);
     decoder->setDecodedFramesFifo(decodedFramesFifo);
     //Important, only start decoderThread after inserting FIFOs like in above
