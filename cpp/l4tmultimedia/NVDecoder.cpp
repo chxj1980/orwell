@@ -12,7 +12,7 @@ SLOG_CATEGORY("NVDecoder");
         throw NVDecoderCreationException(message, errorCode); \
     }
 
-NvApplicationProfiler& NVDecoder::nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
+NvApplicationProfiler &NVDecoder::nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
 
 int NVDecoder::decodeFrame(EncodedPacket &encodedPacket)
 {
@@ -31,7 +31,7 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
 
     ret = nvVideoDecoder->subscribeEvent(V4L2_EVENT_RESOLUTION_CHANGE, 0, 0);
     TEST_ERROR(ret < 0, "Could not subscribe to V4L2_EVENT_RESOLUTION_CHANGE", ret)
-    
+
     if (codec == H264)
         ret = nvVideoDecoder->setOutputPlaneFormat(V4L2_PIX_FMT_H264, CHUNK_SIZE);
     else if (codec == H265)
@@ -60,7 +60,7 @@ NVDecoder::NVDecoder(Format format, Codec codec) : format(format), codec(codec)
     TEST_ERROR(ret < 0, "Error in output plane stream on", ret);
 }
 
-void NVDecoder::respondToResolutionEvent(v4l2_format& format, v4l2_crop& crop)
+void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
 {
     //struct v4l2_format format;
     //struct v4l2_crop crop;
@@ -235,6 +235,7 @@ void NVDecoder::captureLoop()
             break;
         }
     } while ((v4l2Event.type != V4L2_EVENT_RESOLUTION_CHANGE));
+    LOG << "Resolution changed!";
 
     //query_and_set_capture acts on the resolution change event
     //if (!ctx->got_error)
@@ -244,7 +245,7 @@ void NVDecoder::captureLoop()
     //Exit on error or EOS which is signalled in main()
     while (!nvVideoDecoder->isInError()) //|| ctx->got_eos))
     {
-        
+        LOG << "captureLoop first loop";
 
         //Check for Resolution change again
         ret = nvVideoDecoder->dqEvent(v4l2Event, false);
@@ -260,9 +261,11 @@ void NVDecoder::captureLoop()
 
         while (true)
         {
+            LOG << "captureLoop second loop";
+
             struct v4l2_buffer v4l2Buffer;
             struct v4l2_plane planes[MAX_PLANES];
-            NvBuffer* nvBuffer;//= new NvBuffer;
+            NvBuffer *nvBuffer; //= new NvBuffer;
             memset(&v4l2Buffer, 0, sizeof(v4l2Buffer));
             memset(planes, 0, sizeof(planes));
             v4l2Buffer.m.planes = planes;
@@ -311,9 +314,9 @@ void NVDecoder::captureLoop()
             decodedFrame.width = v4l2Format.fmt.pix_mp.width;
             decodedFrame.height = v4l2Format.fmt.pix_mp.height;
             //if (v4l2Format.fmt.pix_mp.pixelformat==0)
-                //decodedFrame.format = AV_PIX;
-            //else 
-                //decodedFrame.format
+            //decodedFrame.format = AV_PIX;
+            //else
+            //decodedFrame.format
             decodedFrame.reusableBuffer = std::move(std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder, v4l2Buffer, nvBuffer));
             //decodedFramesFifo->emplace_back(std::move(decodedFrame));
 
@@ -366,9 +369,7 @@ void NVDecoder::run()
     {
         TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in while loop", 0)
 
-        LOG << "-------------Gonna grab currentEncodedPacket";
         currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
-        LOG << "Grabbed currentEncodedPacket";
 
         /*
             This is a type of configuration file that tells how the buffer should be queued
