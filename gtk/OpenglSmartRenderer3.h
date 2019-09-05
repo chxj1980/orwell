@@ -31,6 +31,8 @@ public:
 	//virtual bool on_draw (const Cairo::RefPtr<Cairo::Context> &);
 	//virtual bool on_configure_event (GdkEventConfigure *event);
 
+	void realize() {}
+
 	void glInit();
 	void glDraw();
 

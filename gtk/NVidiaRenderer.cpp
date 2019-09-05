@@ -1,7 +1,7 @@
 #include "NVidiaRenderer.h"
 #include "SLog.h"
-
-SLOG_DECLARE_CATEGORY("NVidiaRenderer")
+#include "NVDecoder.h"
+SLOG_CATEGORY("NVidiaRenderer")
 
 const std::string vertexShaderSource =
 #include "nvidia.vert"
@@ -16,7 +16,7 @@ const std::string fragmentShaderSource =
 		throw NVidiaRendererException(message, errorCode); \
 	}
 
-void NVidiaRenderer::init()
+void NvidiaRenderer::init()
 {
 }
 
@@ -159,19 +159,19 @@ void NVidiaRenderer::glDraw()
 			program->attach_shader(fragmentShader);
 
 			program->link();
-			pos_location = glGetAttribLocation(program > get_id(), "in_pos");
+			pos_location = glGetAttribLocation(program->get_id(), "in_pos");
 
 			glEnableVertexAttribArray(pos_location);
 			glVertexAttribPointer(pos_location, 2, GL_FLOAT, GL_FALSE, 0, kVertices);
 
-			tc_location = glGetAttribLocation(program > get_id(), "in_tc");
+			tc_location = glGetAttribLocation(program->get_id(), "in_tc");
 
 			glEnableVertexAttribArray(tc_location);
 			glVertexAttribPointer(tc_location, 2, GL_FLOAT, GL_FALSE, 0,
 								  kTextureCoords);
 
 			glActiveTexture(GL_TEXTURE0);
-			glUniform1i(glGetUniformLocation(program > get_id(), "texSampler"), 0);
+			glUniform1i(glGetUniformLocation(program->get_id(), "texSampler"), 0);
 
 			//To be done
 			if (!initiatedFrameBufferObjects)
@@ -249,8 +249,9 @@ void NVidiaRenderer::glDraw()
 		*/
 		eglSwapBuffers(egl_display, egl_surface);
 		TEST_ERROR(eglGetError() != EGL_SUCCESS, "Got Error in eglSwapBuffers ", eglGetError())
+
 		iErr = eglClientWaitSyncKHR(egl_display, egl_sync,
-									   EGL_SYNC_FLUSH_COMMANDS_BIT_KHR, EGL_FOREVER_KHR);
+									EGL_SYNC_FLUSH_COMMANDS_BIT_KHR, EGL_FOREVER_KHR);
 		TEST_ERROR(iErr == EGL_FALSE, "eglClientWaitSyncKHR failed!", 0)
 
 		iErr = eglDestroySyncKHR(egl_display, egl_sync);

@@ -13,6 +13,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <EGL/egl.h>
+#include <EGL/eglext.h>
 #include <GL/gl.h>
 
 #define TEST_ERROR(condition, message)     \
