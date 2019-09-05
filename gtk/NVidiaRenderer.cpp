@@ -73,7 +73,7 @@ void NVidiaRenderer::run()
 		ThreadSafeDeque decodedFramesFifo is a nice object because it will only pop_front when it has data.
 		This way, if decodedFramesFifo is empty, this rendering loop will wait, which is good, no CPU time is wasted.
 	*/
-	std::cout << "NVidiaRenderer run called" << std::endl;
+	LOG << "NVidiaRenderer run called";
 	if (!decodedFramesFifo)
 	{
 		std::cerr << "No decodedFramesFifo setted for this renderer" << std::endl;
@@ -81,12 +81,14 @@ void NVidiaRenderer::run()
 	}
 	int i = 0;
 	//TODO: run every loop?
-	eglMakeCurrent (eglDisplay, eglSurface, eglSurface, eglContext);
+	eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
 	while (true)
 	{
 		//std::unique_lock<std::mutex> lock{mutex};
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
 		DecodedFrame frame = std::move(decodedFramesFifo->pop_front());
+		LOG << "Deqeued frame";
+
 		/* 
 		    Since the frame is gone from the fifo, it only exists here. We move it to the renderer and then we 
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
@@ -222,7 +224,7 @@ void NVidiaRenderer::glDraw()
 
 		EGLSyncKHR egl_sync;
 		int iErr;
-		NVDecoderReusableBuffer* nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer*>(frame.reusableBuffer.get());
+		NVDecoderReusableBuffer *nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer *>(frame.reusableBuffer.get());
 		hEglImage = NvEGLImageFromFd(&eglDisplay, nVDecoderReusableBuffer->nvBuffer->planes[0].fd);
 		TEST_CONDITION(!hEglImage, "Could not get EglImage from fd. Not rendering", 0)
 
