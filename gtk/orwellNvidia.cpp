@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 
 	NVidiaRenderer nVidiaRenderer;
 	nVidiaRenderer.setDecodedFramesFifo(orwell.decodedFramesFifo);
-	auto openglSmartRenderer3Thread = std::make_shared<std::thread>(&OpenglSmartRenderer3::run, &nVidiaRenderer);
+	auto nVidiaRendererThread = std::make_shared<std::thread>(&NVidiaRenderer::run, &nVidiaRenderer);
 	//return app->run();
 	return app->run(nVidiaRenderer);
 }
