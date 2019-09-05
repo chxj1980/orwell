@@ -25,7 +25,7 @@ OpenGLArea2::OpenGLArea2()
     m_VBox.add(glArea);
 
     // Connect gl area signals
-    //glArea.signal_realize().connect(sigc::mem_fun(*this, &OpenGLArea2::realize));
+    glArea.signal_realize().connect(sigc::mem_fun(*this, &OpenGLArea2::realize));
     // Important that the unrealize signal calls our handler to clean up
     // GL resources _before_ the default unrealize handler is called (the "false")
     //glArea.signal_unrealize().connect(sigc::mem_fun(*this, &OpenGLArea2::unrealize), false);

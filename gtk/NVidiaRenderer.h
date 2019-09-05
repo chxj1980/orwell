@@ -10,12 +10,35 @@
 #include <mutex>
 #include <condition_variable>
 #include <stdexcept>
+#include <gtk/gtk.h>
+#include <gdk/gdkx.h>
+#include <EGL/egl.h>
+#include <GL/gl.h>
 
-#define TEST_ERROR(condition, message)             \
-    if (condition)                                            \
-    {                                                         \
+#define TEST_ERROR(condition, message)     \
+    if (condition)                         \
+    {                                      \
         throw std::runtime_error(message); \
     }
+
+struct NVidiaRendererException : public std::exception
+{
+public:
+    NVidiaRendererException(std::string error, int errorCode) : error(error), errorCode(errorCode)
+    {
+    }
+    const char *what() const throw()
+    {
+        if (errorCode)
+            return (error + ": " + std::to_string(errorCode)).c_str();
+        else
+            return error.c_str();
+    }
+
+private:
+    std::string error;
+    int errorCode;
+};
 
 class NvidiaRenderer : public OpenGLArea2 //, public VideoReceiver
 {
@@ -26,41 +49,42 @@ public:
         eglCreateImageKHR =
             (PFNEGLCREATEIMAGEKHRPROC)eglGetProcAddress("eglCreateImageKHR");
         TEST_ERROR(!eglCreateImageKHR,
-                        "ERROR getting proc addr of eglCreateImageKHR");
+                   "ERROR getting proc addr of eglCreateImageKHR");
 
         eglDestroyImageKHR =
             (PFNEGLDESTROYIMAGEKHRPROC)eglGetProcAddress("eglDestroyImageKHR");
         TEST_ERROR(!eglDestroyImageKHR,
-                        "ERROR getting proc addr of eglDestroyImageKHR");
+                   "ERROR getting proc addr of eglDestroyImageKHR");
 
         eglCreateSyncKHR =
             (PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
         TEST_ERROR(!eglCreateSyncKHR,
-                        "ERROR getting proc addr of eglCreateSyncKHR");
+                   "ERROR getting proc addr of eglCreateSyncKHR");
 
         eglDestroySyncKHR =
             (PFNEGLDESTROYSYNCKHRPROC)eglGetProcAddress("eglDestroySyncKHR");
         TEST_ERROR(!eglDestroySyncKHR,
-                        "ERROR getting proc addr of eglDestroySyncKHR");
+                   "ERROR getting proc addr of eglDestroySyncKHR");
 
         eglClientWaitSyncKHR =
             (PFNEGLCLIENTWAITSYNCKHRPROC)eglGetProcAddress("eglClientWaitSyncKHR");
         TEST_ERROR(!eglClientWaitSyncKHR,
-                        "ERROR getting proc addr of eglClientWaitSyncKHR");
+                   "ERROR getting proc addr of eglClientWaitSyncKHR");
 
         eglGetSyncAttribKHR =
             (PFNEGLGETSYNCATTRIBKHRPROC)eglGetProcAddress("eglGetSyncAttribKHR");
         TEST_ERROR(!eglGetSyncAttribKHR,
-                        "ERROR getting proc addr of eglGetSyncAttribKHR");
+                   "ERROR getting proc addr of eglGetSyncAttribKHR");
 
         glEGLImageTargetTexture2DOES =
             (PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)
                 eglGetProcAddress("glEGLImageTargetTexture2DOES");
         TEST_ERROR(!glEGLImageTargetTexture2DOES,
-                        "ERROR getting proc addr of glEGLImageTargetTexture2DOES");
+                   "ERROR getting proc addr of glEGLImageTargetTexture2DOES");
     }
     void init();
     //int receiveVideo(DecodedFrame& frame);
+    void realize();
     bool render(const Glib::RefPtr<Gdk::GLContext> &context);
     void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo)
     {
@@ -117,6 +141,11 @@ private:
     static PFNEGLCLIENTWAITSYNCKHRPROC eglClientWaitSyncKHR;
     static PFNEGLGETSYNCATTRIBKHRPROC eglGetSyncAttribKHR;
     static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES;
+    uint32_t texture_id;
+    int render_fd;
+    EGLDisplay *egl_display;
+    EGLSurface *egl_surface;
+    EGLContext *egl_context;
     //std::mutex mutex;
     //std::condition_variable conditionVariable;
     //PixelFormats pixelFormats;

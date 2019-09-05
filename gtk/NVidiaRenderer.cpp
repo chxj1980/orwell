@@ -10,8 +10,39 @@ const std::string fragmentShaderSource =
 #include "nvidia.frag"
 	;
 
+#define TEST_ERROR(condition, message, errorCode)          \
+	if (condition)                                         \
+	{                                                      \
+		throw NVidiaRendererException(message, errorCode); \
+	}
+
 void NVidiaRenderer::init()
 {
+}
+
+PFNEGLCREATEIMAGEKHRPROC NVidiaRenderer::eglCreateImageKHR;
+PFNEGLDESTROYIMAGEKHRPROC NVidiaRenderer::eglDestroyImageKHR;
+PFNEGLCREATESYNCKHRPROC NVidiaRenderer::eglCreateSyncKHR;
+PFNEGLDESTROYSYNCKHRPROC NVidiaRenderer::eglDestroySyncKHR;
+PFNEGLCLIENTWAITSYNCKHRPROC NVidiaRenderer::eglClientWaitSyncKHR;
+PFNEGLGETSYNCATTRIBKHRPROC NVidiaRenderer::eglGetSyncAttribKHR;
+PFNGLEGLIMAGETARGETTEXTURE2DOESPROC NVidiaRenderer::glEGLImageTargetTexture2DOES;
+
+void NVidiaRenderer::realize()
+{
+	std::cout << "NVidiaRenderer::realize" << std::endl;
+	GtkWidget *widget = static_cast<GtkWidget *>(glArea.gobj());
+	EGLConfig egl_config;
+	EGLint n_config;
+	EGLint attributes[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
+						   EGL_NONE};
+
+	egl_display = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(gtk_widget_get_display(widget)));
+	eglInitialize(egl_display, NULL, NULL);
+	eglChooseConfig(egl_display, attributes, &egl_config, 1, &n_config);
+	eglBindAPI(EGL_OPENGL_API);
+	egl_surface = eglCreateWindowSurface(egl_display, egl_config, gdk_x11_window_get_xid(gtk_widget_get_window(widget)), NULL);
+	egl_context = eglCreateContext(egl_display, egl_config, EGL_NO_CONTEXT, NULL);
 }
 
 void NVidiaRenderer::run()
@@ -39,7 +70,7 @@ void NVidiaRenderer::run()
 		*/
 		std::unique_lock<std::mutex> lk{mutex};
 		this->frame = std::move(frame);
-		
+
 		//lk.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
@@ -109,6 +140,9 @@ void NVidiaRenderer::glDraw()
 		{
 			std::cout << "firstRun of NVidiaRenderer" << std::endl;
 
+			uint32_t pos_location = 0;
+			uint32_t tc_location = 0;
+			glEnable(GL_SCISSOR_TEST);
 			program = std::make_unique<Program>();
 			Shader vertexShader(ShaderType::Vertex);
 			vertexShader.load_from_string(vertexShaderSource);
@@ -125,23 +159,32 @@ void NVidiaRenderer::glDraw()
 			program->attach_shader(fragmentShader);
 
 			program->link();
-			pos_location = glGetAttribLocation(program, "in_pos");
+			pos_location = glGetAttribLocation(program > get_id(), "in_pos");
 
 			glEnableVertexAttribArray(pos_location);
 			glVertexAttribPointer(pos_location, 2, GL_FLOAT, GL_FALSE, 0, kVertices);
 
-			tc_location = glGetAttribLocation(program, "in_tc");
+			tc_location = glGetAttribLocation(program > get_id(), "in_tc");
 
 			glEnableVertexAttribArray(tc_location);
 			glVertexAttribPointer(tc_location, 2, GL_FLOAT, GL_FALSE, 0,
 								  kTextureCoords);
 
 			glActiveTexture(GL_TEXTURE0);
-			glUniform1i(glGetUniformLocation(program, "texSampler"), 0);
+			glUniform1i(glGetUniformLocation(program > get_id(), "texSampler"), 0);
 
 			//To be done
 			if (!initiatedFrameBufferObjects)
 			{
+				int viewport[4];
+
+				glGetIntegerv(GL_VIEWPORT, viewport);
+				glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
+				glScissor(viewport[0], viewport[1], viewport[2], viewport[3]);
+
+				glGenTextures(1, &texture_id);
+
+				glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
 				initiatedFrameBufferObjects = true;
 			}
 
@@ -155,12 +198,8 @@ void NVidiaRenderer::glDraw()
 
 		EGLSyncKHR egl_sync;
 		int iErr;
-		hEglImage = NvEGLImageFromFd(NULL, render_fd);
-		if (!hEglImage)
-		{
-			LOG(SLog::ERROR) << "Could not get EglImage from fd. Not rendering";
-			//return -1;
-		}
+		hEglImage = NvEGLImageFromFd(egl_display, static_cast<NVDecoderReusableBuffer>(frame.reusableBuffer->nvBUffer->planes[0].fd));
+		TEST_ERROR(!hEglImage, "Could not get EglImage from fd. Not rendering", 0)
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
@@ -168,17 +207,11 @@ void NVidiaRenderer::glDraw()
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 		iErr = glGetError();
-		if (iErr != GL_NO_ERROR)
-		{
-			COMP_ERROR_MSG("glDrawArrays arrays failed:" << iErr);
-			return -1;
-		}
+		TEST_ERROR(iErr != GL_NO_ERROR, "glDrawArrays arrays failed:", iErr)
+
 		egl_sync = eglCreateSyncKHR(egl_display, EGL_SYNC_FENCE_KHR, NULL);
-		if (egl_sync == EGL_NO_SYNC_KHR)
-		{
-			COMP_ERROR_MSG("eglCreateSyncKHR() failed");
-			return -1;
-		}
+		TEST_ERROR(egl_sync == EGL_NO_SYNC_KHR, "eglCreateSyncKHR() failed", 0)
+
 		/*
 		if (last_render_time.tv_sec != 0)
 		{
@@ -215,23 +248,25 @@ void NVidiaRenderer::glDraw()
 		}
 		*/
 		eglSwapBuffers(egl_display, egl_surface);
-		if (eglGetError() != EGL_SUCCESS)
-		{
-			COMP_ERROR_MSG("Got Error in eglSwapBuffers " << eglGetError());
-			return -1;
-		}
-		if (eglClientWaitSyncKHR(egl_display, egl_sync,
-								 EGL_SYNC_FLUSH_COMMANDS_BIT_KHR, EGL_FOREVER_KHR) == EGL_FALSE)
-		{
-			COMP_ERROR_MSG("eglClientWaitSyncKHR failed!");
-		}
+		TEST_ERROR(eglGetError() != EGL_SUCCESS, "Got Error in eglSwapBuffers ", eglGetError())
+		iErr = eglClientWaitSyncKHR(egl_display, egl_sync,
+									   EGL_SYNC_FLUSH_COMMANDS_BIT_KHR, EGL_FOREVER_KHR);
+		TEST_ERROR(iErr == EGL_FALSE, "eglClientWaitSyncKHR failed!", 0)
 
-		if (eglDestroySyncKHR(egl_display, egl_sync) != EGL_TRUE)
-		{
-			COMP_ERROR_MSG("eglDestroySyncKHR failed!");
-		}
+		iErr = eglDestroySyncKHR(egl_display, egl_sync);
+		TEST_ERROR(iErr != EGL_TRUE, "eglDestroySyncKHR failed!", 0)
+
 		NvDestroyEGLImage(egl_display, hEglImage);
-
+		/*
+		if (strlen(overlay_str) != 0)
+		{
+			XSetForeground(x_display, gc,
+						   BlackPixel(x_display, DefaultScreen(x_display)));
+			XSetFont(x_display, gc, fontinfo->fid);
+			XDrawString(x_display, x_window, gc, overlay_str_x_offset,
+						overlay_str_y_offset, overlay_str, strlen(overlay_str));
+		}
+		*/
 		//profiler.finishProcessing(0, frame_is_late);
 	}
 }
