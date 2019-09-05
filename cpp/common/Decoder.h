@@ -1,7 +1,7 @@
 #ifndef Decoder_H
 #define Decoder_H
 #include <vector>
-
+#include <thread>
 #include <iostream>
 #include <memory>
 #include "EncodedPacket.h"
