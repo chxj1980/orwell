@@ -17,6 +17,11 @@ public:
         _shouldContinue.store(true);
     }
 
+    Stoppable(const Stoppable&& other)
+    {
+        _shouldContinue.store(other._shouldContinue.load());
+    }
+
     virtual void run() = 0;
     void operator()()
     {

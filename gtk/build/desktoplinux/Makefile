@@ -615,33 +615,6 @@ home/dev/orwell/cpp/common/VideoRecorder.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/VideoRecorder.cpp.s
 .PHONY : home/dev/orwell/cpp/common/VideoRecorder.cpp.s
 
-main.o: main.cpp.o
-
-.PHONY : main.o
-
-# target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/main.cpp.o
-.PHONY : main.cpp.o
-
-main.i: main.cpp.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/main.cpp.s
-.PHONY : main.cpp.s
-
 main3.o: main3.cpp.o
 
 .PHONY : main3.o
@@ -668,6 +641,33 @@ main3.s: main3.cpp.s
 main3.cpp.s:
 	$(MAKE) -f CMakeFiles/lab.dir/build.make CMakeFiles/lab.dir/main3.cpp.s
 .PHONY : main3.cpp.s
+
+orwellFfmpeg.o: orwellFfmpeg.cpp.o
+
+.PHONY : orwellFfmpeg.o
+
+# target to build an object file
+orwellFfmpeg.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/orwellFfmpeg.cpp.o
+.PHONY : orwellFfmpeg.cpp.o
+
+orwellFfmpeg.i: orwellFfmpeg.cpp.i
+
+.PHONY : orwellFfmpeg.i
+
+# target to preprocess a source file
+orwellFfmpeg.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/orwellFfmpeg.cpp.i
+.PHONY : orwellFfmpeg.cpp.i
+
+orwellFfmpeg.s: orwellFfmpeg.cpp.s
+
+.PHONY : orwellFfmpeg.s
+
+# target to generate assembly for a file
+orwellFfmpeg.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/orwellFfmpeg.cpp.s
+.PHONY : orwellFfmpeg.cpp.s
 
 # Help Target
 help:
@@ -729,12 +729,12 @@ help:
 	@echo "... home/dev/orwell/cpp/common/VideoRecorder.o"
 	@echo "... home/dev/orwell/cpp/common/VideoRecorder.i"
 	@echo "... home/dev/orwell/cpp/common/VideoRecorder.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
 	@echo "... main3.o"
 	@echo "... main3.i"
 	@echo "... main3.s"
+	@echo "... orwellFfmpeg.o"
+	@echo "... orwellFfmpeg.i"
+	@echo "... orwellFfmpeg.s"
 .PHONY : help
 
 
