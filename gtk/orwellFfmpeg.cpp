@@ -28,7 +28,7 @@
 int main(int argc, char **argv)
 {
 	//Gtk::Main kit;
-	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NaluUtils");
+	SLOG_ENABLE_CATEGORIES("main", "FfmpegDecoder", "Decoder");
 	auto app = Gtk::Application::create(argc, argv, "");
 	std::cout << "supported hardware: " << std::endl;
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())

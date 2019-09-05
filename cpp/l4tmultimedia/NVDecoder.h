@@ -83,6 +83,13 @@ public:
 	void captureLoop();
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
 	void run();
+	void capture() {
+
+	}
+	void startThreadMode() {
+		runThread = std::thread(&Decoder::run, this);
+		captureThread = std::thread(&NVDecoder::capture, this);
+	}
 
 protected:
 	//void read_decoder_input_nalu(NvBuffer *nvBuffer, EncodedPackets& encodedPackets);
@@ -99,6 +106,7 @@ protected:
 	int numberCaptureBuffers;
 	uint32_t height;
 	uint32_t width;
+	std::thread captureThread;
 };
 
 #endif // NVDecoder_H

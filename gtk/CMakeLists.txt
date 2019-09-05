@@ -55,13 +55,13 @@ if (COMPILE_TARGET STREQUAL "JETSON_NANO")
 	find_library(LIB_DRM drm PATHS /usr/lib/aarch64-linux-gnu/tegra)
 	find_library(LIB_EGL EGL PATHS /usr/lib/aarch64-linux-gnu/tegra)
 	#find_library(LIB_V4L2_VIDEO_CODEC v4l2_nvvideocodec PATHS /usr/lib/aarch64-linux-gnu/tegra)
-	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp 
+	file(GLOB ORWELL_SOURCES orwellNvidia.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp 
 	Shader.cpp NVidiaRenderer.cpp
 	"../cpp/common/*.cpp" "../cpp/l4tmultimedia/*.cpp" 
 	"../deps/tegra_multimedia_api/samples/common/classes/*.cpp")
 else (COMPILE_TARGET STREQUAL "DESKTOP_x86_64")
 	message(STATUS "Compiling for DESKTOP_x86_64")
-	file(GLOB ORWELL_SOURCES main.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*")
+	file(GLOB ORWELL_SOURCES orwellFfmpeg.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp Shader.cpp "../cpp/common/*")
 endif()
 
 set(FFMPEG_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../deps/ffmpeg/build/desktop/${CMAKE_SYSTEM_PROCESSOR}/lib)

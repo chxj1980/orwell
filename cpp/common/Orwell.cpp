@@ -15,14 +15,34 @@ Orwell::Orwell(RTSPUrl rtspUrl)
     decoder->setEncodedPacketsFifo(encodedPacketsFifo);
     decoder->setDecodedFramesFifo(decodedFramesFifo);
     //Important, only start decoderThread after inserting FIFOs like in above
-    decoderThread = std::make_shared<std::thread>(&Decoder::run, decoder);
+    decoder->startThreadMode();
+    //    decoderThread = std::make_shared<std::thread>(&Decoder::run, decoder);
+    //RTSP client
+    rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
+    rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
+}
+
+Orwell::Orwell(RTSPUrl rtspUrl, Decoder &&_decoder)
+{
+    rtspClient = std::make_shared<MyRTSPClient>(rtspUrl.url);
+    //FIFO encoded and decoder
+    encodedPacketsFifo = std::make_shared<ThreadSafeDeque<EncodedPacket>>();
+    decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
+    //Decoders
+    //Decoder specific configuration
+    decoder = std::make_shared<Decoder>(std::move(_decoder));
+    decoder->setEncodedPacketsFifo(encodedPacketsFifo);
+    decoder->setDecodedFramesFifo(decodedFramesFifo);
+    //Important, only start decoderThread after inserting FIFOs like in above
+    decoder->startThreadMode();
+    //decoderThread = std::make_shared<std::thread>(&Decoder::run, decoder);
     //RTSP client
     rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
     rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
 }
 
 //C interface
-void* orwell_init_from_rtsp(char *rtspUrl)
+void *orwell_init_from_rtsp(char *rtspUrl)
 {
     RTSPUrl rtspUrlObject(rtspUrl);
     return new Orwell(rtspUrlObject);
@@ -35,13 +55,13 @@ void* orwell_init_from_onvif(char *onvifUrl)
 }
 */
 
-void orwell_destroy(void* untyped_ptr)
+void orwell_destroy(void *untyped_ptr)
 {
     Orwell *typed_ptr = static_cast<Orwell *>(untyped_ptr);
     delete typed_ptr;
 }
 
-void orwell_doit(void* untyped_self, int param)
+void orwell_doit(void *untyped_self, int param)
 {
     Orwell *typed_self = static_cast<Orwell *>(untyped_self);
     //typed_self->doIt(param);

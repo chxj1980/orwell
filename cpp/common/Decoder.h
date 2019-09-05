@@ -57,6 +57,10 @@ public:
 		this->decodedFramesFifo = decodedFramesFifo;
 	}
 
+	virtual void startThreadMode() {
+		runThread = std::thread(&Decoder::run, this);
+	}
+
 protected:
 	/*
 		Here we store a pointer to our FIFOs, which are made of a simple thread-safe 
@@ -64,6 +68,7 @@ protected:
 	*/
 	std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo;
 	std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
+	std::thread runThread;
 };
 
 #endif // Decoder_H
