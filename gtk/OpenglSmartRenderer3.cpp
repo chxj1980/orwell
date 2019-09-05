@@ -55,7 +55,7 @@ void OpenglSmartRenderer3::glInit()
 {
 }
 
-void err(std::string lineInformation)
+static void err(std::string lineInformation)
 {
 	std::cout << lineInformation << std::endl;
 	GLenum err;
