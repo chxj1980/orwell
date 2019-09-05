@@ -38,7 +38,7 @@ class Orwell
 {
 public:
     explicit Orwell(RTSPUrl rtspUrl);
-    explicit Orwell(RTSPUrl rtspUrl,  Decoder&& _decoder);
+    explicit Orwell(RTSPUrl rtspUrl,  std::shared_ptr<Decoder> _decoder);
     //explicit Orwell(OnvifURL onvifURL);
 
     std::shared_ptr<RTSPClient> rtspClient;

@@ -19,6 +19,7 @@ public:
 
     Stoppable(const Stoppable&& other)
     {
+        //TODO: is this safe?
         _shouldContinue.store(other._shouldContinue.load());
     }
 

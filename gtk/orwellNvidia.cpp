@@ -32,8 +32,8 @@ int main(int argc, char **argv)
 	//Gtk::Main kit;
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NaluUtils", "NVidiaRenderer");
 	auto app = Gtk::Application::create(argc, argv, "");
-    
-	Orwell orwell(RTSPUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1"), NVDecoder(NVDecoder::NALU, Decoder::H264));
+    std::shared_ptr<Decoder> nvDecoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
+	Orwell orwell(RTSPUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1"), nvDecoder);
 	Singleton::instance()->addStream("cam1", orwell);
 
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.

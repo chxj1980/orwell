@@ -80,9 +80,9 @@ public:
 	int decodeFrame(EncodedPacket &encodedPacket);
 	int decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame);
 	void respondToResolutionEvent(v4l2_format& format, v4l2_crop& crop);
-	void captureLoop();
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
 	void run();
+	void captureLoop();
 	void startThreadMode() {
 		runThread = std::thread(&Decoder::run, this);
 		captureThread = std::thread(&NVDecoder::captureLoop, this);
