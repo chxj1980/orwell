@@ -37,11 +37,11 @@ public:
 		- frameLength contains size of frameBuffer
 		- frame is the pointer to the decoded frame data
 	*/
-	virtual int decodeFrame(EncodedPacket& encodedPacket, DecodedFrame &decodedFrame) = 0;
+	virtual int decodeFrame(EncodedPacket& encodedPacket, DecodedFrame &decodedFrame) {};
 	/*
 		Decodes directly to the decodedFramesFifo
 	*/
-	virtual int decodeFrame(EncodedPacket& encodedPacket) = 0;
+	virtual int decodeFrame(EncodedPacket& encodedPacket) {};
 	/*
 		Here go all the raw frames, as readed from network or file
 	*/
