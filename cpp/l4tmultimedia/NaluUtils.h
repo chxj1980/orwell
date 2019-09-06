@@ -15,4 +15,5 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
 uint8_t *findNaluHeader(uint8_t *const currentEncodedPacketBegginingPtr,
                         size_t currentEncodedPacketSize,
                         uint8_t *currentEncodedPacketSearchPtr);
+void printPacket(uint8_t* pointer, size_t size);
 #endif //NaluUtils_H

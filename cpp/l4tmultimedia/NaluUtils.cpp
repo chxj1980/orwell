@@ -41,7 +41,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     */
     if (!*currentEncodedPacketSearchPtr)
     {
-        printf("currentEncodedPacketSearchPtr null, setting to beggining %02X\n", (void *)*currentEncodedPacketBegginingPtr);
+        //printf("currentEncodedPacketSearchPtr null, setting to beggining %02X\n", (void *)*currentEncodedPacketBegginingPtr);
         *currentEncodedPacketSearchPtr = currentEncodedPacketBegginingPtr;
     }
 
@@ -52,7 +52,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
             nalu_found = IS_NAL_UNIT_HEADER(*currentEncodedPacketSearchPtr) || IS_NAL_UNIT_HEADER1(*currentEncodedPacketSearchPtr);
             if (nalu_found)
             {
-                printf("Found NALU start at %02X\n", (uint8_t *)*currentEncodedPacketSearchPtr);
+                //printf("Found NALU start at %02X\n", (uint8_t *)*currentEncodedPacketSearchPtr);
                 break;
             }
             (*currentEncodedPacketSearchPtr)++;
@@ -62,7 +62,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
             /*
                 TODO: understand this category better
             */
-            printf("did not find NALU start, gonna return true to query another packet\n");
+            //printf("did not find NALU start, gonna return true to query another packet\n");
             *currentEncodedPacketSearchPtr = NULL;
             naluSearchState = LOOKING_FOR_NALU_START;
             return true;
@@ -112,7 +112,7 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     {
         if (IS_NAL_UNIT_HEADER(*currentEncodedPacketSearchPtr) || IS_NAL_UNIT_HEADER1(*currentEncodedPacketSearchPtr))
         {
-            printf("Found NALU end at %02X\n", (uint8_t *)*currentEncodedPacketSearchPtr);
+            //printf("Found NALU end at %02X\n", (uint8_t *)*currentEncodedPacketSearchPtr);
             naluSearchState = LOOKING_FOR_NALU_START;
             return false;
         }
@@ -130,9 +130,9 @@ bool transferNalu(uint8_t *const currentEncodedPacketBegginingPtr,
     bytesWritten += 3;
     *currentEncodedPacketSearchPtr = NULL;
     naluSearchState = LOOKING_FOR_NALU_END;
-    printf("did not find NALU end, gonna return true to query another packet ");
-    printf("currentEncodedPacketSearchPtr: %02X\n", (uint8_t *)*currentEncodedPacketSearchPtr);
-    printf("walked %u\n", (*currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr));
+    //printf("did not find NALU end, gonna return true to query another packet ");
+    //printf("currentEncodedPacketSearchPtr: %02X\n", (uint8_t *)*currentEncodedPacketSearchPtr);
+    //printf("walked %u\n", (*currentEncodedPacketSearchPtr - currentEncodedPacketBegginingPtr));
     return true;
 }
 
@@ -146,7 +146,7 @@ uint8_t *findNaluHeader(uint8_t *const currentEncodedPacketBegginingPtr,
         nalu_found = IS_NAL_UNIT_HEADER(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_HEADER1(currentEncodedPacketSearchPtr);
         if (nalu_found)
         {
-            printf("Found NALU header at %02X\n", (uint8_t *)currentEncodedPacketSearchPtr);
+            //printf("Found NALU header at %02X\n", (uint8_t *)currentEncodedPacketSearchPtr);
             return currentEncodedPacketSearchPtr;
         }
         currentEncodedPacketSearchPtr++;
@@ -198,3 +198,12 @@ while (true)
     //finally set byteswritten here
 }
 */
+void printPacket(uint8_t* pointer, size_t size)
+{
+    printf("----------Entire packet: \n");
+    for (int i = 0; i < size; i++)
+    {
+        printf("%02X ", pointer[i]);
+    }
+    printf("\n");
+}

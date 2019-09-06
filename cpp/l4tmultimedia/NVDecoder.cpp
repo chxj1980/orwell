@@ -417,12 +417,8 @@ void NVDecoder::run()
             {
                 if (consumedEntirePacket)
                 {
-                    printf("----------Entire packet: \n");
-                    for (int i = 0; i < currentEncodedPacket.frameSize; i++)
-                    {
-                        printf("%02X ", currentEncodedPacket.frameBuffer.get()[i]);
-                    }
-                    printf("\n");
+                    //printf("----------Entire packet: \n");
+                    //printPacket(currentEncodedPacket.frameBuffer.get(), currentEncodedPacket.frameSize);
                 }
 
                 //--------------------------------------------
@@ -432,7 +428,7 @@ void NVDecoder::run()
                 if (!naluStart)
                 {
                     //Something very strange happened
-                    printf("didn't find nalu start\n");
+                    printf("didn't find nalu start???????\n");
                 }
 
                 uint8_t *naluEnd = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
@@ -444,7 +440,7 @@ void NVDecoder::run()
                         We found the end, copy bytes. Next iteration will continue 
                         from here
                     */
-                    printf("gonna copy %i bytes\n", naluEnd - naluStart);
+                    //printf("gonna copy %i bytes\n", naluEnd - naluStart);
                     memcpy(planeBufferPtr, naluStart, naluEnd - naluStart);
                     bytesWritten += naluEnd - naluStart;
                     currentEncodedPacketSearchPtr = naluEnd;
@@ -454,21 +450,25 @@ void NVDecoder::run()
                 }
                 else
                 {
+                    //printf("gonna start querieing packets\n");
                     //Copy the rest of our frame and start querying another one
-                    size_t howMuchToTheEnd = currentEncodedPacket.frameSize - (currentEncodedPacketSearchPtr-currentEncodedPacket.frameBuffer.get());
+                    size_t howMuchToTheEnd = currentEncodedPacket.frameSize - (currentEncodedPacketSearchPtr - currentEncodedPacket.frameBuffer.get());
                     memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, howMuchToTheEnd);
-                    bytesWritten+= howMuchToTheEnd;
+                    bytesWritten += howMuchToTheEnd;
                     while (!naluEnd)
                     {
                         currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
-                        printf("queried another packet\n");
+                        //printf("queried another packet\n");
+                        //printf("----------Entire packet: \n");
+                        //printPacket(currentEncodedPacket.frameBuffer.get(), currentEncodedPacket.frameSize);
                         currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
                         naluEnd = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
                                                  currentEncodedPacket.frameSize,
                                                  currentEncodedPacketSearchPtr);
-                        //TODO: check special case where naluend is in the end of packet, but I don't think it's the case
+                        //TODO: check special case where nalu end is in the end of packet, but I don't think it's the case
                         if (naluEnd)
                         {
+                            //printf("found nalu end in new packet, gonna copy till end\n");
                             memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, naluEnd - currentEncodedPacketSearchPtr);
                             currentEncodedPacketSearchPtr = naluEnd;
                             bytesWritten += naluEnd - currentEncodedPacketSearchPtr;
@@ -476,6 +476,7 @@ void NVDecoder::run()
                         }
                         else
                         {
+                            //printf("no nalu end in new packet, gonna copy entire packet\n");
                             //No NALU end, copy entire packet until the end
                             memcpy(planeBufferPtr, currentEncodedPacket.frameBuffer.get(), currentEncodedPacket.frameSize);
                             bytesWritten += currentEncodedPacket.frameSize;
@@ -486,15 +487,11 @@ void NVDecoder::run()
                 //finally set byteswritten here
                 //--------------------------------------------
 
-                printf("Single NALU: \n");
-                for (int i = 0; i < bytesWritten; i++)
-                {
-                    printf("%02X ", planeBufferPtr[i]);
-                }
-                printf("\n");
-                if (ii > 15)
-                    abort();
-                ii++;
+                //printf("Single NALU: \n");
+                //printPacket(planeBufferPtr, bytesWritten);
+                //if (ii > 15)
+                //    abort();
+                //ii++;
                 nvBuffer->planes[0].bytesused = bytesWritten;
             }
             else
