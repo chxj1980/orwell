@@ -11,6 +11,7 @@
 #include "DecodedFrame.h"
 #include <linux/videodev2.h>
 #include <nvbuf_utils.h>
+#include <chrono>
 #define CHUNK_SIZE 4000000
 //TODO: why 32??????? Wouldn't the index get out of range????
 #define MAX_BUFFERS 32
@@ -84,8 +85,8 @@ public:
 	void run();
 	void captureLoop();
 	void startThreadMode() {
-		runThread = std::thread(&Decoder::run, this);
 		captureThread = std::thread(&NVDecoder::captureLoop, this);
+		runThread = std::thread(&Decoder::run, this);
 	}
 
 protected:

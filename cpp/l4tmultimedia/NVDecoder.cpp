@@ -318,7 +318,7 @@ void NVDecoder::captureLoop()
             //else
             //decodedFrame.format
             decodedFrame.reusableBuffer = std::move(std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder, v4l2Buffer, nvBuffer));
-            //decodedFramesFifo->emplace_back(std::move(decodedFrame));
+            decodedFramesFifo->emplace_back(std::move(decodedFrame));
 
             //ctx->renderer->render(nvBuffer->planes[0].fd);
 
@@ -357,6 +357,7 @@ void NVDecoder::run()
     uint8_t *currentEncodedPacketSearchPtr = NULL;
     //Must always start with this value
     NaluSearchState naluSearchState = LOOKING_FOR_NALU_START;
+    bool consumedEntirePacket = true;
     /*
         In this first loop we fill all the buffers, taking care to
         see if we reached EOS (in case of CHUNK format). After
@@ -365,11 +366,12 @@ void NVDecoder::run()
     */
     //TODO: what happens if shouldContinue() is setted to FALSE in the middle of the while?
     //How should I destroy things?
+    int ii = 0;
     while (shouldContinue())
     {
         TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in while loop", 0)
-
-        currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
+        if (consumedEntirePacket)
+            currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
 
         /*
             This is a type of configuration file that tells how the buffer should be queued
@@ -411,14 +413,30 @@ void NVDecoder::run()
         {
             if (format == NALU)
             {
+                if (consumedEntirePacket)
+                {
+                    printf("----------Entire packet: \n");
+                    for (int i = 0; i < currentEncodedPacket.frameSize; i++)
+                    {
+                        printf("%02X ", currentEncodedPacket.frameBuffer.get()[i]);
+                    }
+                    printf("\n");
+                }
                 /*
                     Of course we're going to fill `planeBufferPtr` with an entire NALU.
                     transferNalu returns true if an entire NALU couldn't be found
                     inside `currentEncodedPacket`, so we need to query another unit from
                     our FIFO to continue writing our NALU to `planeBufferPtr`
                 */
+                consumedEntirePacket = transferNalu(currentEncodedPacket.frameBuffer.get(),
+                                                    &currentEncodedPacketSearchPtr,
+                                                    currentEncodedPacket.frameSize,
+                                                    planeBufferPtr,
+                                                    bytesWritten,
+                                                    naluSearchState);
+                /*
                 while (transferNalu(currentEncodedPacket.frameBuffer.get(),
-                                    currentEncodedPacketSearchPtr,
+                                    &currentEncodedPacketSearchPtr,
                                     currentEncodedPacket.frameSize,
                                     planeBufferPtr,
                                     bytesWritten,
@@ -426,6 +444,17 @@ void NVDecoder::run()
                 {
                     currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
                 }
+                */
+                //LOG << "bytesWritten: " << bytesWritten;
+                printf("Single NALU: \n");
+                for (int i = 0; i < bytesWritten; i++)
+                {
+                    printf("%02X ", planeBufferPtr[i]);
+                }
+                printf("\n");
+                if (ii > 15)
+                    abort();
+                ii++;
                 nvBuffer->planes[0].bytesused = bytesWritten;
             }
             else
@@ -464,7 +493,7 @@ void NVDecoder::run()
 
         if (v4l2Buffer.m.planes[0].bytesused == 0)
         {
-            LOG << "End of stream";
+            printf("End of stream");
             eos = true;
             break;
         }
