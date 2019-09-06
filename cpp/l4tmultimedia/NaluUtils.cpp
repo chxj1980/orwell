@@ -146,14 +146,16 @@ uint8_t *findNaluHeader(uint8_t *const currentEncodedPacketBegginingPtr,
         nalu_found = IS_NAL_UNIT_HEADER(currentEncodedPacketSearchPtr) || IS_NAL_UNIT_HEADER1(currentEncodedPacketSearchPtr);
         if (nalu_found)
         {
-            printf("Found NALU start at %02X\n", (uint8_t *)currentEncodedPacketSearchPtr);
+            printf("Found NALU header at %02X\n", (uint8_t *)currentEncodedPacketSearchPtr);
             return currentEncodedPacketSearchPtr;
         }
+        currentEncodedPacketSearchPtr++;
     }
     return NULL;
 }
+/*
 //Starts searchig at beggining of currentEncodedPacket
-currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
+//currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
 while (true)
 {
     bytesWritten = 0;
@@ -170,10 +172,10 @@ while (true)
                                       naluStart);
     if (naluEnd)
     {
-        /*
+        
             We found the end, copy bytes. Next iteration will continue 
             from here
-        */
+        
         memcpy(planeBufferPtr, naluStart, naluEnd - naluStart);
         bytesWritten += naluEnd - naluStart;
     }
@@ -195,3 +197,4 @@ while (true)
     }
     //finally set byteswritten here
 }
+*/

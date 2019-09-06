@@ -354,7 +354,7 @@ void NVDecoder::run()
     */
     EncodedPacket currentEncodedPacket;
     //Must be null
-    uint8_t *currentEncodedPacketSearchPtr = NULL;
+    uint8_t *currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
     //Must always start with this value
     NaluSearchState naluSearchState = LOOKING_FOR_NALU_START;
     bool consumedEntirePacket = true;
@@ -371,8 +371,10 @@ void NVDecoder::run()
     {
         TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in while loop", 0)
         if (consumedEntirePacket)
+        {
             currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
-
+            currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
+        }
         /*
             This is a type of configuration file that tells how the buffer should be queued
         */
@@ -422,33 +424,68 @@ void NVDecoder::run()
                     }
                     printf("\n");
                 }
-                /*
-                    Of course we're going to fill `planeBufferPtr` with an entire NALU.
-                    transferNalu returns true if an entire NALU couldn't be found
-                    inside `currentEncodedPacket`, so we need to query another unit from
-                    our FIFO to continue writing our NALU to `planeBufferPtr`
-                */
-                while (transferNalu(currentEncodedPacket.frameBuffer.get(),
-                                    &currentEncodedPacketSearchPtr,
-                                    currentEncodedPacket.frameSize,
-                                    planeBufferPtr,
-                                    bytesWritten,
-                                    naluSearchState))
+
+                //--------------------------------------------
+                uint8_t *naluStart = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
+                                                    currentEncodedPacket.frameSize,
+                                                    currentEncodedPacketSearchPtr);
+                if (!naluStart)
                 {
-                    currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
+                    //Something very strange happened
+                    printf("didn't find nalu start\n");
                 }
-                /*
-                while (transferNalu(currentEncodedPacket.frameBuffer.get(),
-                                    &currentEncodedPacketSearchPtr,
-                                    currentEncodedPacket.frameSize,
-                                    planeBufferPtr,
-                                    bytesWritten,
-                                    naluSearchState))
+
+                uint8_t *naluEnd = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
+                                                  currentEncodedPacket.frameSize,
+                                                  naluStart + 2); //+2 because +1 would make 00 00 01 detectable
+                if (naluEnd)
                 {
-                    currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
+                    /*
+                        We found the end, copy bytes. Next iteration will continue 
+                        from here
+                    */
+                    printf("gonna copy %i bytes\n", naluEnd - naluStart);
+                    memcpy(planeBufferPtr, naluStart, naluEnd - naluStart);
+                    bytesWritten += naluEnd - naluStart;
+                    currentEncodedPacketSearchPtr = naluEnd;
+                    consumedEntirePacket = false;
+
+                    //need to copy the rest here
                 }
-                */
-                //LOG << "bytesWritten: " << bytesWritten;
+                else
+                {
+                    //Copy the rest of our frame and start querying another one
+                    size_t howMuchToTheEnd = currentEncodedPacket.frameSize - (currentEncodedPacketSearchPtr-currentEncodedPacket.frameBuffer.get());
+                    memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, howMuchToTheEnd);
+                    bytesWritten+= howMuchToTheEnd;
+                    while (!naluEnd)
+                    {
+                        currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
+                        printf("queried another packet\n");
+                        currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
+                        naluEnd = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
+                                                 currentEncodedPacket.frameSize,
+                                                 currentEncodedPacketSearchPtr);
+                        //TODO: check special case where naluend is in the end of packet, but I don't think it's the case
+                        if (naluEnd)
+                        {
+                            memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, naluEnd - currentEncodedPacketSearchPtr);
+                            currentEncodedPacketSearchPtr = naluEnd;
+                            bytesWritten += naluEnd - currentEncodedPacketSearchPtr;
+                            consumedEntirePacket = false;
+                        }
+                        else
+                        {
+                            //No NALU end, copy entire packet until the end
+                            memcpy(planeBufferPtr, currentEncodedPacket.frameBuffer.get(), currentEncodedPacket.frameSize);
+                            bytesWritten += currentEncodedPacket.frameSize;
+                            consumedEntirePacket = true;
+                        }
+                    }
+                }
+                //finally set byteswritten here
+                //--------------------------------------------
+
                 printf("Single NALU: \n");
                 for (int i = 0; i < bytesWritten; i++)
                 {
