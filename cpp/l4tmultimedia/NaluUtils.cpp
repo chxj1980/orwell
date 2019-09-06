@@ -174,7 +174,7 @@ while (true)
             We found the end, copy bytes. Next iteration will continue 
             from here
         */
-        memcpy(naluStart, naluEnd, naluEnd - naluStart);
+        memcpy(planeBufferPtr, naluStart, naluEnd - naluStart);
         bytesWritten += naluEnd - naluStart;
     }
     else
@@ -186,8 +186,12 @@ while (true)
             naluEnd = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
                                      currentEncodedPacket.frameSize,
                                      currentEncodedPacketSearchPtr);
-            memcpy(currentEncodedPacketSearchPtr, naluEnd, naluEnd - currentEncodedPacketSearchPtr);
+            if(naluEnd)
+                memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, naluEnd - currentEncodedPacketSearchPtr);
+            else
+                memcpy(planeBufferPtr, currentEncodedPacket.frameBuffer.get(), currentEncodedPacket.frameSize);
             bytesWritten += naluEnd - currentEncodedPacketSearchPtr;
         }
     }
+    //finally set byteswritten here
 }

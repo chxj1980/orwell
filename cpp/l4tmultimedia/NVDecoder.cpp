@@ -428,12 +428,15 @@ void NVDecoder::run()
                     inside `currentEncodedPacket`, so we need to query another unit from
                     our FIFO to continue writing our NALU to `planeBufferPtr`
                 */
-                consumedEntirePacket = transferNalu(currentEncodedPacket.frameBuffer.get(),
-                                                    &currentEncodedPacketSearchPtr,
-                                                    currentEncodedPacket.frameSize,
-                                                    planeBufferPtr,
-                                                    bytesWritten,
-                                                    naluSearchState);
+                while (transferNalu(currentEncodedPacket.frameBuffer.get(),
+                                    &currentEncodedPacketSearchPtr,
+                                    currentEncodedPacket.frameSize,
+                                    planeBufferPtr,
+                                    bytesWritten,
+                                    naluSearchState))
+                {
+                    currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
+                }
                 /*
                 while (transferNalu(currentEncodedPacket.frameBuffer.get(),
                                     &currentEncodedPacketSearchPtr,
