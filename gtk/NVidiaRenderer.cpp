@@ -14,6 +14,7 @@ const std::string fragmentShaderSource =
 #define TEST_CONDITION(condition, message, errorCode)      \
 	if (condition)                                         \
 	{                                                      \
+		LOG << message;									   \
 		throw NVidiaRendererException(message, errorCode); \
 	}
 
@@ -225,19 +226,22 @@ void NVidiaRenderer::glDraw()
 		EGLSyncKHR egl_sync;
 		int iErr;
 		NVDecoderReusableBuffer *nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer *>(frame.reusableBuffer.get());
-		hEglImage = NvEGLImageFromFd(&eglDisplay, nVDecoderReusableBuffer->nvBuffer->planes[0].fd);
+		hEglImage = NvEGLImageFromFd(NULL, nVDecoderReusableBuffer->nvBuffer->planes[0].fd);
 		TEST_CONDITION(!hEglImage, "Could not get EglImage from fd. Not rendering", 0)
-
+		LOG << "got image :)";
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
+		LOG << "233";
 		glEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, hEglImage);
+		LOG << "235";
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
+		LOG << "237";
 		iErr = glGetError();
 		TEST_CONDITION(iErr != GL_NO_ERROR, "glDrawArrays arrays failed:", iErr)
-
+		LOG << "240";
 		egl_sync = eglCreateSyncKHR(&eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
 		TEST_CONDITION(egl_sync == EGL_NO_SYNC_KHR, "eglCreateSyncKHR() failed", 0)
+		LOG << "241";
 
 		/*
 		if (last_render_time.tv_sec != 0)
@@ -274,6 +278,8 @@ void NVidiaRenderer::glDraw()
 			last_render_time.tv_nsec = now.tv_usec * 1000L;
 		}
 		*/
+			LOG << "278";
+
 		eglSwapBuffers(&eglDisplay, &eglSurface);
 		TEST_CONDITION(eglGetError() != EGL_SUCCESS, "Got Error in eglSwapBuffers ", eglGetError())
 
@@ -283,6 +289,7 @@ void NVidiaRenderer::glDraw()
 
 		iErr = eglDestroySyncKHR(&eglDisplay, egl_sync);
 		TEST_CONDITION(iErr != EGL_TRUE, "eglDestroySyncKHR failed!", 0)
+		LOG << "289";
 
 		NvDestroyEGLImage(&eglDisplay, hEglImage);
 		/*

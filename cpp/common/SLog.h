@@ -94,7 +94,8 @@ enum Config
 {
     NO_NEW_LINE,
     TO_FILE,
-    NO_CONSOLE
+    NO_CONSOLE,
+    IMMEDIATE_PRINT
 };
 
 enum Level
@@ -143,6 +144,34 @@ bool unorderedSetHasElement(std::unordered_set<T, U, V>& unorderedSet, T element
 }
 */
 /*
+    Blocking call that actually prints the message using the rigth
+    call for each device.
+*/
+static void printMessage(Message& message) {
+    //std::cout << "gonna print " << message.stringstream.str() << std::endl;
+    std::stringstream s;
+    s << "time, ";
+    if (message.level == WARN)
+        s << "warn: ";
+    else if (message.level == INFO)
+        s << "info: ";
+    else if (message.level == ERROR || message.level == CRITICAL_ERROR)
+        s << "error: ";
+    s << message.stringstream.str();
+
+    #if defined(ANDROID)
+        if (message.level == ERROR)
+            __android_log_print(ANDROID_LOG_ERROR, "", s.str().c_str());
+        else
+            __android_log_print(ANDROID_LOG_VERBOSE, "", s.str().c_str());
+    #else
+        std::cout << s.str() << std::flush;
+    #endif //ANDROID
+    //TODO: enhance this 
+    if (message.level == CRITICAL_ERROR)
+        throw std::runtime_error(s.str()); 
+}
+/*
     Class that picks messages from queue and writes to specific targets
     depending on the message itself
  */
@@ -167,34 +196,10 @@ public:
                 Blocks until a message is added to queue, so no CPU time is wasted 
                 in thread loop
             */
-            auto message = logMessages->pop();
+            auto message = std::move(logMessages->pop());
             //If category is in the set of allowed categories, we do things
             if (allowTheseCategories->find(message.category) != allowTheseCategories->end())
-            //if (unorderedSetHasElement<UnorderedSetConfig>(*allowTheseCategories, message.category))
-            {
-                //std::cout << "gonna print " << message.stringstream.str() << std::endl;
-                std::stringstream s;
-                s << "time, ";
-                if (message.level == WARN)
-                    s << "warn: ";
-                else if (message.level == INFO)
-                    s << "info: ";
-                else if (message.level == ERROR || message.level == CRITICAL_ERROR)
-                    s << "error: ";
-                s << message.stringstream.str();
-
-                #if defined(ANDROID)
-                    if (message.level == ERROR)
-                        __android_log_print(ANDROID_LOG_ERROR, "", s.str().c_str());
-                    else
-                        __android_log_print(ANDROID_LOG_VERBOSE, "", s.str().c_str());
-                #else
-                    std::cout << s.str() << std::flush;
-                #endif //ANDROID
-                //TODO: enhance this 
-                if (message.level == CRITICAL_ERROR)
-                    throw std::runtime_error(s.str()); 
-            }
+                printMessage(message);
         }
     }
 
@@ -223,6 +228,7 @@ struct SLogBuffer
 public:
     //std::stringstream ss;
     Message message;
+    bool immediate = false;
     //SLog *sLog;
     SLogBuffer() = default;
     SLogBuffer(const SLogBuffer &) = delete;
@@ -248,7 +254,10 @@ public:
         //message.configurations = sLog->configurations;
         //message.subCategory = std::move(sLog->subCategory);
         //message.message = std::move(ss);
-        SLogInterface::queue(std::move(message));
+        if (!immediate)
+            SLogInterface::queue(std::move(message));
+        else
+            printMessage(message);
     }
 };
 /*
@@ -270,6 +279,10 @@ public:
     ~SLog()
     {
         //STOP loggerThread here!
+    }
+
+    void printImmediately(bool b) {
+        immediate = b;
     }
 
     //template <typename T>
@@ -347,6 +360,7 @@ public:
     static LoggerThread loggerThread;
     static std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
     Category category;
+    bool immediate = false;
     //SubCategory subCategory;
 };
 
@@ -354,6 +368,7 @@ template <typename T>
 SLogBuffer operator<<(SLog &&sLog, T message)
 {
     SLogBuffer buffer;
+    buffer.immediate = sLog.immediate;
     buffer.message.category = sLog.category;
     buffer.message.stringstream << std::forward<T>(message);
     buffer.message.configurations = sLog.configurations;

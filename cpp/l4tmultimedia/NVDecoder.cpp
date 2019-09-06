@@ -9,7 +9,7 @@ SLOG_CATEGORY("NVDecoder");
 #define TEST_ERROR(condition, message, errorCode)             \
     if (condition)                                            \
     {                                                         \
-        throw NVDecoderCreationException(message, errorCode); \
+        LOG << message;									      \
     }
 
 NvApplicationProfiler &NVDecoder::nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
@@ -81,7 +81,10 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
     TEST_ERROR(ret < 0, "Error: Could not get crop from decoder capture plane", ret);
 
     LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height;
-
+    renderer = NvEglRenderer::createEglRenderer("renderer0", crop.c.width,
+                                                crop.c.height, 0,
+                                                0);
+    LOG << "renderer created";
     //deinitPlane unmaps the buffers and calls REQBUFS with count 0
     nvVideoDecoder->capture_plane.deinitPlane();
     if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
@@ -175,6 +178,7 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
             cParams.layout = NvBufferLayout_BlockLinear;
             cParams.payloadType = NvBufferPayload_SurfArray;
             cParams.nvbuf_tag = NvBufferTag_VIDEO_DEC;
+            LOG << "creating fd for index " << index;
             ret = NvBufferCreateEx(&dmaBufferFileDescriptor[index], &cParams);
             TEST_ERROR(ret < 0, "Failed to create buffers", ret);
         }
@@ -200,11 +204,15 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
         v4l2_buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
         v4l2_buf.memory = capturePlaneMemType;
         if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
+        {
+            LOG << "gonna set fd to " << dmaBufferFileDescriptor[i] << " because i = " << i;
             v4l2_buf.m.planes[0].m.fd = dmaBufferFileDescriptor[i];
+        }
+
         ret = nvVideoDecoder->capture_plane.qBuffer(v4l2_buf, NULL);
         TEST_ERROR(ret < 0, "Error Qing buffer at output plane", ret);
     }
-    LOG << "Query and set capture successful";
+    LOG << "respondToResolutionEvent successful";
 }
 
 void NVDecoder::captureLoop()
@@ -306,9 +314,17 @@ void NVDecoder::captureLoop()
             */
             //RENDER HERE!
             //EglRenderer requires the fd of the 0th plane to render the buffer
+            LOG << "v4l2Buffer.index: " << v4l2Buffer.index;
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
                 nvBuffer->planes[0].fd = dmaBufferFileDescriptor[v4l2Buffer.index];
+            LOG << "eglimage test: ";
+            //unsigned char *p = new unsigned char[v4l2Crop.c.width * v4l2Crop.c.height];
 
+            //int test = NvBuffer2Raw(nvBuffer->planes[0].fd,
+            //  0, v4l2Crop.c.width, v4l2Crop.c.height, p);
+            //LOG << test;
+            //printPacket(p, v4l2Crop.c.width * v4l2Crop.c.height);
+            /*
             DecodedFrame decodedFrame;
             decodedFrame.decodedFrom == DecodedFrame::NVDECODER;
             decodedFrame.width = v4l2Format.fmt.pix_mp.width;
@@ -319,11 +335,14 @@ void NVDecoder::captureLoop()
             //decodedFrame.format
             decodedFrame.reusableBuffer = std::move(std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder, v4l2Buffer, nvBuffer));
             decodedFramesFifo->emplace_back(std::move(decodedFrame));
+            */
+            renderer->render(nvBuffer->planes[0].fd);
+            //decodedFramesFifo->emplace_back(std::move(decodedFrame));
 
             //ctx->renderer->render(nvBuffer->planes[0].fd);
 
             //Queue the buffer back once it has been used.
-            /*
+            
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
                 v4l2Buffer.m.planes[0].m.fd = dmaBufferFileDescriptor[v4l2Buffer.index];
 
@@ -333,7 +352,7 @@ void NVDecoder::captureLoop()
                 LOG(SLog::ERROR) << "Error while queueing buffer at decoder capture plane";
                 break;
             }
-            */
+            
         }
     }
 }
@@ -356,7 +375,7 @@ void NVDecoder::run()
     //Must be null
     uint8_t *currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
     //Must always start with this value
-    NaluSearchState naluSearchState = LOOKING_FOR_NALU_START;
+    //NaluSearchState naluSearchState = LOOKING_FOR_NALU_START;
     bool consumedEntirePacket = true;
     /*
         In this first loop we fill all the buffers, taking care to

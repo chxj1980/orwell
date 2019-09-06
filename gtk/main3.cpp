@@ -10,6 +10,7 @@ SLOG_CATEGORY("main");
 int main()
 {
     SLOG_ENABLE_CATEGORIES("main", "main2");
+    LOG.printImmediately(false);
     //options.add_options()
     //("d,debug", "Enable debugging")
     //("f,file", "File name", cxxopts::value<std::string>());
@@ -17,6 +18,9 @@ int main()
     //SLog::SLog::enableCategories("main", "main2");
     LOG << "hello" << " world";
     LOG << "testando: " << 1;
+    LOG.printImmediately(true);
+    LOG << "hello???? not immediately" << " world";
+
     LOG(SLog::WARN) << "hi, this is a warning " << 1;
     while (true)
     {

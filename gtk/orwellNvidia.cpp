@@ -27,8 +27,12 @@
 #include "Orwell.h"
 #include "SLog.h"
 #include "NVDecoder.h"
+SLOG_CATEGORY("main");
+
 int main(int argc, char **argv)
 {
+	LOG.printImmediately(true);
+	/*
 	//Gtk::Main kit;
     //"NaluUtils"
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer");
@@ -45,4 +49,20 @@ int main(int argc, char **argv)
 	auto nVidiaRendererThread = std::make_shared<std::thread>(&NVidiaRenderer::run, &nVidiaRenderer);
 	//return app->run();
 	return app->run(nVidiaRenderer);
+	*/
+//Gtk::Main kit;
+    //"NaluUtils"
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer");
+    std::shared_ptr<Decoder> nvDecoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
+	Orwell orwell(RTSPUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1"), nvDecoder);
+	Singleton::instance()->addStream("cam1", orwell);
+
+	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
+	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
+
+	//NVidiaRenderer nVidiaRenderer;
+	//nVidiaRenderer.setDecodedFramesFifo(orwell.decodedFramesFifo);
+	//auto nVidiaRendererThread = std::make_shared<std::thread>(&NVidiaRenderer::run, &nVidiaRenderer);
+	//return app->run();
+	while(true){}
 }

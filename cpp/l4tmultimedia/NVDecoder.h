@@ -12,6 +12,7 @@
 #include <linux/videodev2.h>
 #include <nvbuf_utils.h>
 #include <chrono>
+#include "NvEglRenderer.h"
 #define CHUNK_SIZE 4000000
 //TODO: why 32??????? Wouldn't the index get out of range????
 #define MAX_BUFFERS 32
@@ -43,6 +44,7 @@ public:
 
 public:
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder;
+	//TODO: I think I can take off these two members
 	struct v4l2_buffer v4l2Buffer;
 	std::unique_ptr<NvBuffer> nvBuffer;
 };
@@ -105,6 +107,7 @@ protected:
 	uint32_t height;
 	uint32_t width;
 	std::thread captureThread;
+	NvEglRenderer *renderer;
 };
 
 #endif // NVDecoder_H
