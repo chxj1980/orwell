@@ -55,7 +55,7 @@ if (COMPILE_TARGET STREQUAL "JETSON_NANO")
 	find_library(LIB_DRM drm PATHS /usr/lib/aarch64-linux-gnu/tegra)
 	find_library(LIB_EGL EGL PATHS /usr/lib/aarch64-linux-gnu/tegra)
 	#find_library(LIB_V4L2_VIDEO_CODEC v4l2_nvvideocodec PATHS /usr/lib/aarch64-linux-gnu/tegra)
-	file(GLOB ORWELL_SOURCES orwellNvidia.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp Program.cpp 
+	file(GLOB ORWELL_SOURCES orwellNvidia.cpp OpenGLArea2.cpp OpenglSmartRenderer3.cpp NvidiaRendererEGL.cpp Program.cpp 
 	Shader.cpp NVidiaRenderer.cpp
 	"../cpp/common/*.cpp" "../cpp/l4tmultimedia/*.cpp" 
 	"../deps/tegra_multimedia_api/samples/common/classes/*.cpp")

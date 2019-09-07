@@ -29,6 +29,9 @@
 class NVDecoderReusableBuffer : public ReusableBuffer
 {
 public:
+	NVDecoderReusableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder) {
+		
+	}
 	NVDecoderReusableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder,
 							v4l2_buffer v4l2Buffer,
 							NvBuffer* nvBuffer) : nvVideoDecoder(nvVideoDecoder),
@@ -38,15 +41,20 @@ public:
 	}
 	int giveBack()
 	{
+		printf("gonna give back");
+		printf("v4l2Buffer.index: %i", v4l2Buffer.index);
+		v4l2Buffer.m.planes[0].m.fd = nvBuffer->planes[0].fd;
 		return nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL);
 	}
 
 
 public:
+	//WHY??????????????????
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder;
 	//TODO: I think I can take off these two members
 	struct v4l2_buffer v4l2Buffer;
-	std::unique_ptr<NvBuffer> nvBuffer;
+	struct v4l2_plane planes[MAX_PLANES];
+	NvBuffer* nvBuffer;
 };
 
 struct NVDecoderCreationException : public std::exception
@@ -94,7 +102,6 @@ public:
 protected:
 	//void read_decoder_input_nalu(NvBuffer *nvBuffer, EncodedPackets& encodedPackets);
 	//Creates our decoder in blocking mode
-	//SHOULD DESTROY???
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder{NvVideoDecoder::createVideoDecoder("dec0")};
 	//NvVideoDecoder* nvVideoDecoder = NvVideoDecoder::createVideoDecoder("dec0");
 	static NvApplicationProfiler& nvApplicationProfiler;// = NvApplicationProfiler::getProfilerInstance();
@@ -107,7 +114,7 @@ protected:
 	uint32_t height;
 	uint32_t width;
 	std::thread captureThread;
-	NvEglRenderer *renderer;
+	//NvEglRenderer *renderer;
 };
 
 #endif // NVDecoder_H

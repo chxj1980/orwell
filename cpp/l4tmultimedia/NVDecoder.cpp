@@ -6,10 +6,10 @@
 
 SLOG_CATEGORY("NVDecoder");
 
-#define TEST_ERROR(condition, message, errorCode)             \
-    if (condition)                                            \
-    {                                                         \
-        LOG << message;									      \
+#define TEST_ERROR(condition, message, errorCode) \
+    if (condition)                                \
+    {                                             \
+        LOG << message;                           \
     }
 
 NvApplicationProfiler &NVDecoder::nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
@@ -81,9 +81,9 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
     TEST_ERROR(ret < 0, "Error: Could not get crop from decoder capture plane", ret);
 
     LOG << "Video Resolution: " << crop.c.width << "x" << crop.c.height;
-    renderer = NvEglRenderer::createEglRenderer("renderer0", crop.c.width,
-                                                crop.c.height, 0,
-                                                0);
+    //renderer = NvEglRenderer::createEglRenderer("renderer0", 0,
+    //0, 0,
+    //0);
     LOG << "renderer created";
     //deinitPlane unmaps the buffers and calls REQBUFS with count 0
     nvVideoDecoder->capture_plane.deinitPlane();
@@ -221,8 +221,7 @@ void NVDecoder::captureLoop()
     struct v4l2_crop v4l2Crop;
     struct v4l2_event v4l2Event;
     int ret;
-
-    LOG << "Starting decoder capture loop thread";
+    LOG << "224";
     //Need to wait for the first Resolution change event, so that
     //the decoder knows the stream resolution and can allocate appropriate
     //buffers when we call REQBUFS
@@ -248,12 +247,14 @@ void NVDecoder::captureLoop()
     //query_and_set_capture acts on the resolution change event
     //if (!ctx->got_error)
     //query_and_set_capture(ctx);
+    LOG << "250";
+
     respondToResolutionEvent(v4l2Format, v4l2Crop);
 
     //Exit on error or EOS which is signalled in main()
     while (!nvVideoDecoder->isInError()) //|| ctx->got_eos))
     {
-        LOG << "captureLoop first loop";
+        LOG << "257";
 
         //Check for Resolution change again
         ret = nvVideoDecoder->dqEvent(v4l2Event, false);
@@ -266,20 +267,22 @@ void NVDecoder::captureLoop()
                 continue;
             }
         }
+        LOG << "270";
 
         while (true)
         {
-            LOG << "captureLoop second loop";
-
-            struct v4l2_buffer v4l2Buffer;
-            struct v4l2_plane planes[MAX_PLANES];
-            NvBuffer *nvBuffer; //= new NvBuffer;
-            memset(&v4l2Buffer, 0, sizeof(v4l2Buffer));
-            memset(planes, 0, sizeof(planes));
-            v4l2Buffer.m.planes = planes;
+            //decodedFrame.reusableBuffer = std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder);
+            NVDecoderReusableBuffer nVDecoderReusableBuffer(nvVideoDecoder.get());
+            //struct v4l2_buffer v4l2Buffer;
+            //struct v4l2_plane planes[MAX_PLANES];
+            //NvBuffer *nvBuffer; //= new NvBuffer;
+            memset(&nVDecoderReusableBuffer.v4l2Buffer, 0, sizeof(nVDecoderReusableBuffer.v4l2Buffer));
+            memset(nVDecoderReusableBuffer.planes, 0, sizeof(nVDecoderReusableBuffer.planes));
+            nVDecoderReusableBuffer.v4l2Buffer.m.planes = nVDecoderReusableBuffer.planes;
 
             //Dequeue a filled buffer
-            if (nvVideoDecoder->capture_plane.dqBuffer(v4l2Buffer, &nvBuffer, NULL, 0))
+            if (nvVideoDecoder->capture_plane.dqBuffer(nVDecoderReusableBuffer.v4l2Buffer,
+                                                       &nVDecoderReusableBuffer.nvBuffer, NULL, 0))
             {
                 if (errno == EAGAIN)
                 {
@@ -314,35 +317,36 @@ void NVDecoder::captureLoop()
             */
             //RENDER HERE!
             //EglRenderer requires the fd of the 0th plane to render the buffer
-            LOG << "v4l2Buffer.index: " << v4l2Buffer.index;
+            //LOG << "v4l2Buffer.index: " << v4l2Buffer.index;
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
-                nvBuffer->planes[0].fd = dmaBufferFileDescriptor[v4l2Buffer.index];
-            LOG << "eglimage test: ";
+            {
+                nVDecoderReusableBuffer.nvBuffer->planes[0].fd = dmaBufferFileDescriptor[nVDecoderReusableBuffer.v4l2Buffer.index];
+                //nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd = dmaBufferFileDescriptor[nVDecoderReusableBuffer.v4l2Buffer.index];
+                //LOG << "nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd: " << nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd;
+            }
+            LOG << "nVDecoderReusableBuffer.v4l2Buffer.index: " << nVDecoderReusableBuffer.v4l2Buffer.index;
+            //LOG << "eglimage test: ";
             //unsigned char *p = new unsigned char[v4l2Crop.c.width * v4l2Crop.c.height];
 
             //int test = NvBuffer2Raw(nvBuffer->planes[0].fd,
             //  0, v4l2Crop.c.width, v4l2Crop.c.height, p);
             //LOG << test;
             //printPacket(p, v4l2Crop.c.width * v4l2Crop.c.height);
-            /*
             DecodedFrame decodedFrame;
             decodedFrame.decodedFrom == DecodedFrame::NVDECODER;
             decodedFrame.width = v4l2Format.fmt.pix_mp.width;
             decodedFrame.height = v4l2Format.fmt.pix_mp.height;
-            //if (v4l2Format.fmt.pix_mp.pixelformat==0)
-            //decodedFrame.format = AV_PIX;
-            //else
-            //decodedFrame.format
-            decodedFrame.reusableBuffer = std::move(std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder, v4l2Buffer, nvBuffer));
+            decodedFrame.reusableBuffer = std::make_unique<NVDecoderReusableBuffer>(nVDecoderReusableBuffer);
             decodedFramesFifo->emplace_back(std::move(decodedFrame));
-            */
-            renderer->render(nvBuffer->planes[0].fd);
+            LOG << "370";
+
+            //renderer->render(nvBuffer->planes[0].fd);
             //decodedFramesFifo->emplace_back(std::move(decodedFrame));
 
             //ctx->renderer->render(nvBuffer->planes[0].fd);
 
             //Queue the buffer back once it has been used.
-            
+            /*
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
                 v4l2Buffer.m.planes[0].m.fd = dmaBufferFileDescriptor[v4l2Buffer.index];
 
@@ -352,7 +356,7 @@ void NVDecoder::captureLoop()
                 LOG(SLog::ERROR) << "Error while queueing buffer at decoder capture plane";
                 break;
             }
-            
+            */
         }
     }
 }
@@ -385,7 +389,6 @@ void NVDecoder::run()
     */
     //TODO: what happens if shouldContinue() is setted to FALSE in the middle of the while?
     //How should I destroy things?
-    int ii = 0;
     while (shouldContinue())
     {
         TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in while loop", 0)
@@ -446,7 +449,7 @@ void NVDecoder::run()
                                                     currentEncodedPacketSearchPtr);
                 if (!naluStart)
                 {
-                    //Something very strange happened
+                    //Something very strange happened, we should never have reached this point
                     printf("didn't find nalu start???????\n");
                 }
 
