@@ -25,11 +25,7 @@ void NvidiaRendererEGL::run()
         DecodedFrame decodedFrame = std::move(decodedFramesFifo->pop_front());
         NVDecoderReusableBuffer *nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer *>(decodedFrame.reusableBuffer.get());
         //LOG << "v4l2Buffer.m.planes[0].m.fd: " << nVDecoderReusableBuffer->v4l2Buffer.m.planes[0].m.fd;
-        LOG << "gonna set fps";
-        renderer->setFPS(30);
-        LOG << "did set fps";
-        LOG << "gonna render " << nVDecoderReusableBuffer->nvBuffer->planes[0].fd;
+        //renderer->setFPS(30);
         renderer->render(nVDecoderReusableBuffer->nvBuffer->planes[0].fd);
-        LOG << "did render";
     }
 }

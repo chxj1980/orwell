@@ -247,15 +247,12 @@ void NVDecoder::captureLoop()
     //query_and_set_capture acts on the resolution change event
     //if (!ctx->got_error)
     //query_and_set_capture(ctx);
-    LOG << "250";
 
     respondToResolutionEvent(v4l2Format, v4l2Crop);
 
     //Exit on error or EOS which is signalled in main()
     while (!nvVideoDecoder->isInError()) //|| ctx->got_eos))
     {
-        LOG << "257";
-
         //Check for Resolution change again
         ret = nvVideoDecoder->dqEvent(v4l2Event, false);
         if (ret == 0)
@@ -267,12 +264,10 @@ void NVDecoder::captureLoop()
                 continue;
             }
         }
-        LOG << "270";
-
         while (true)
         {
             //decodedFrame.reusableBuffer = std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder);
-            NVDecoderReusableBuffer nVDecoderReusableBuffer(nvVideoDecoder.get());
+            NVDecoderReusableBuffer nVDecoderReusableBuffer(nvVideoDecoder);
             //struct v4l2_buffer v4l2Buffer;
             //struct v4l2_plane planes[MAX_PLANES];
             //NvBuffer *nvBuffer; //= new NvBuffer;
@@ -324,7 +319,6 @@ void NVDecoder::captureLoop()
                 //nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd = dmaBufferFileDescriptor[nVDecoderReusableBuffer.v4l2Buffer.index];
                 //LOG << "nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd: " << nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd;
             }
-            LOG << "nVDecoderReusableBuffer.v4l2Buffer.index: " << nVDecoderReusableBuffer.v4l2Buffer.index;
             //LOG << "eglimage test: ";
             //unsigned char *p = new unsigned char[v4l2Crop.c.width * v4l2Crop.c.height];
 
@@ -338,7 +332,6 @@ void NVDecoder::captureLoop()
             decodedFrame.height = v4l2Format.fmt.pix_mp.height;
             decodedFrame.reusableBuffer = std::make_unique<NVDecoderReusableBuffer>(nVDecoderReusableBuffer);
             decodedFramesFifo->emplace_back(std::move(decodedFrame));
-            LOG << "370";
 
             //renderer->render(nvBuffer->planes[0].fd);
             //decodedFramesFifo->emplace_back(std::move(decodedFrame));

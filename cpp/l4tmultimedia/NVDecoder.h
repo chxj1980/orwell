@@ -29,7 +29,7 @@
 class NVDecoderReusableBuffer : public ReusableBuffer
 {
 public:
-	NVDecoderReusableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder) {
+	NVDecoderReusableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder): nvVideoDecoder(nvVideoDecoder) {
 		
 	}
 	NVDecoderReusableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder,
@@ -41,8 +41,6 @@ public:
 	}
 	int giveBack()
 	{
-		printf("gonna give back");
-		printf("v4l2Buffer.index: %i", v4l2Buffer.index);
 		v4l2Buffer.m.planes[0].m.fd = nvBuffer->planes[0].fd;
 		return nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL);
 	}
