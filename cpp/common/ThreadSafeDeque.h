@@ -111,17 +111,11 @@ public:
 
     void setPolicy(std::shared_ptr<ThreadSafeDequePolicy<T>> threadSafeDequePolicy)
     {
-        printf("gonna set policy\n");
         lockAndDo([&] {
-            printf("1\n");
             this->threadSafeDequePolicy = threadSafeDequePolicy;
-            printf("2\n");
             this->threadSafeDequePolicy->mutex = this->mutex;
-            printf("3\n");
             this->threadSafeDequePolicy->collection = this->collection;
-            printf("4\n");
         });
-        printf("setted policy\n");
     }
 private:
     /*
@@ -145,7 +139,7 @@ private:
 
     std::shared_ptr<std::deque<T>> collection{std::make_shared<std::deque<T>>()};
     std::shared_ptr<std::mutex> mutex{std::make_shared<std::mutex>()};
-    std::condition_variable condNewData;
     std::shared_ptr<ThreadSafeDequePolicy<T>> threadSafeDequePolicy;
+    std::condition_variable condNewData;
 };
 #endif //ThreadSafeDeque_H

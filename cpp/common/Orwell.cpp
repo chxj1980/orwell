@@ -1,5 +1,7 @@
 #include "Orwell.h"
+//No more than x encoded packets
 const int maxEncodedPacketFifoSize = 40;
+//No more than x decoded video frames
 const int maxDecodedFrameFifoSize = 15;
 std::shared_ptr<ThreadSafeDequePolicy<EncodedPacket>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<EncodedPacket>>(maxEncodedPacketFifoSize);
 std::shared_ptr<ThreadSafeDequePolicy<DecodedFrame>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<DecodedFrame>>(maxDecodedFrameFifoSize);

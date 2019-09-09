@@ -20,8 +20,10 @@ public:
     //Not thread-safe, we must lock the mutex
     void setSize(int maxSize)
     {
-        if (mutex)
-            std::unique_lock<std::mutex> lock{*mutex};
+        if (this->mutex)
+            std::unique_lock<std::mutex> lock{*this->mutex};
+        else
+            throw std::runtime_error("no mutex setted for SizePolicy");
         if (maxSize <= 0)
             throw std::invalid_argument("SizePolicy::setSize received invalid value");
         this->maxSize = maxSize;
@@ -29,18 +31,20 @@ public:
     //Thread safe because it's called from ThreadSafeDeque when mutex is locked
     void afterEmplaceFront()
     {
-        if (collection->size() >= maxSize)
-            collection->pop_back();
+        if (!this->collection)
+            throw std::runtime_error("no collection setted for SizePolicy");
+        if (this->collection->size() >= maxSize)
+            this->collection->pop_back();
     }
     //Thread safe because it's called from ThreadSafeDeque when mutex is locked
     void afterEmplaceBack()
     {
-        if (collection->size() >= maxSize)
-            collection->pop_front();
+        if (!this->collection)
+            throw std::runtime_error("no collection setted for SizePolicy");
+        if (this->collection->size() >= maxSize)
+            this->collection->pop_front();
     }
 
     int maxSize;
-    std::shared_ptr<std::deque<T>> collection;
-    std::shared_ptr<std::mutex> mutex;
 };
 #endif //ThreadSafeDequePolicies_H
