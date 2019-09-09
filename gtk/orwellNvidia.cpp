@@ -54,8 +54,10 @@ int main(int argc, char **argv)
 //Gtk::Main kit;
     //"NaluUtils"
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL");
-    std::shared_ptr<Decoder> nvDecoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
-	Orwell orwell(RTSPUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0"), nvDecoder);
+	std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
+	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl);
+	auto decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
+	Orwell orwell(rtspClient, decoder);
 	Singleton::instance()->addStream("cam1", orwell);
 	NvidiaRendererEGL nVidiaRendererEGL(1920,1080,0,0);
 	nVidiaRendererEGL.setDecodedFramesFifo(orwell.decodedFramesFifo);

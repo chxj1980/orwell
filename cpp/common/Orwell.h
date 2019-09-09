@@ -40,7 +40,6 @@ class Orwell
 public:
     explicit Orwell(RTSPUrl rtspUrl,  std::shared_ptr<Decoder> _decoder);
     //explicit Orwell(OnvifURL onvifURL);
-
     std::shared_ptr<RTSPClient> rtspClient;
     std::shared_ptr<std::thread> rtspClientThread;
     std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo;
@@ -49,20 +48,27 @@ public:
     //std::shared_ptr<std::thread> decoderThread;
     std::shared_ptr<VideoRecorder> videoRecorder;
 };
-
+/*
 //C interface 
-EXTERNC enum DEVICE{
-    GENERIC_DESKTOP,
-    ANDROID,
-    
-}
-EXTERNC struct{
+EXTERNC enum Decoder {
+    FFMPEG,
+    MEDIACODEC,
+    NVDEC
+};
 
-}
-EXTERNC void* orwell_init_from_rtsp(char *rtspUrl);
+EXTERNC enum RtspClient {
+    MY_RTSP_CLIENT
+};
+
+EXTERNC struct Config{
+    Decoder decoder;
+    RtspClient rtspClient;
+};
+
+EXTERNC void* orwell_init_from_rtsp(Config* config, char* rtspUrl);
 //EXTERN C void* orwell_init_from_onvif(char *onvifUrl);
 EXTERNC void orwell_destroy(void* mytype);
 EXTERNC void orwell_doit(void* self, int param);
-
-#undef EXTERNC
+*/
+//#undef EXTERNC
 #endif //Orwell_H

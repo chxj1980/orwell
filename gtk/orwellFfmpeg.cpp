@@ -34,12 +34,14 @@ int main(int argc, char **argv)
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		std::cout << i << std::endl;
 	//auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
-    auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
-	Orwell orwell(RTSPUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1"), ffmpegSoftwareDecoder);
+    std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
+	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl);
+	auto decoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
+	Orwell orwell(rtspClient, decoder);
 	Singleton::instance()->addStream("cam1", orwell);
 
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
-	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
+	//It must be already setted. TODO: I must find a way to not cause problems if it's not setted yet.
 
 	OpenglSmartRenderer3 openglSmartRenderer3;
 	openglSmartRenderer3.setDecodedFramesFifo(orwell.decodedFramesFifo);
