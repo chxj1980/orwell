@@ -1,8 +1,8 @@
 #include "Orwell.h"
 const int maxEncodedPacketFifoSize = 40;
 const int maxDecodedFrameFifoSize = 15;
-static std::shared_ptr<ThreadSafeDequePolicy<EncodedPacket>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<EncodedPacket>>(maxEncodedPacketFifoSize);
-static std::shared_ptr<ThreadSafeDequePolicy<DecodedFrame>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<DecodedFrame>>(maxDecodedFrameFifoSize);
+std::shared_ptr<ThreadSafeDequePolicy<EncodedPacket>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<EncodedPacket>>(maxEncodedPacketFifoSize);
+std::shared_ptr<ThreadSafeDequePolicy<DecodedFrame>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<DecodedFrame>>(maxDecodedFrameFifoSize);
 
 Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder> _decoder)
 {

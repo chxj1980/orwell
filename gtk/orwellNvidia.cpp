@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 	*/
 	//Gtk::Main kit;
     //"NaluUtils"
-	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL");
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient");
 	std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
 	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl);
 	auto decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);

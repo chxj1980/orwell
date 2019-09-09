@@ -25,19 +25,26 @@
 #include "SimpleRenderer.h"
 #include "Orwell.h"
 #include "SLog.h"
+SLOG_CATEGORY("main");
+
 int main(int argc, char **argv)
 {
+	LOG.printImmediately(true);
 	//Gtk::Main kit;
-	SLOG_ENABLE_CATEGORIES("main", "FfmpegDecoder", "Decoder");
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient");
 	auto app = Gtk::Application::create(argc, argv, "");
 	std::cout << "supported hardware: " << std::endl;
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		std::cout << i << std::endl;
 	//auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
     std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
+	LOG << "41";
 	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl);
+	LOG << "43";
 	auto decoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
+	LOG << "45";
 	Orwell orwell(rtspClient, decoder);
+	LOG << "47";
 	Singleton::instance()->addStream("cam1", orwell);
 
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
