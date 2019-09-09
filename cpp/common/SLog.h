@@ -10,6 +10,9 @@
 #include <string>
 #include "Stoppable.h"
 #include <stdexcept>
+#include <iomanip>
+#include <ctime>
+#include <chrono>
 
 #if defined(ANDROID)
 #include <android/log.h>
@@ -150,7 +153,10 @@ bool unorderedSetHasElement(std::unordered_set<T, U, V>& unorderedSet, T element
 static void printMessage(Message& message) {
     //std::cout << "gonna print " << message.stringstream.str() << std::endl;
     std::stringstream s;
-    s << "time, ";
+    std::time_t t = std::time(nullptr);
+    auto localTime = std::put_time(std::localtime(&t), "%T %d/%m");
+
+    s << localTime << ", ";
     if (message.level == WARN)
         s << "warn: ";
     else if (message.level == INFO)
