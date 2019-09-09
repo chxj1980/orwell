@@ -9,7 +9,7 @@
     stop consuming the deque for any reason.
 */
 template <typename T>
-class SizePolicy : public ThreadSafeDequePolicy
+class SizePolicy : public ThreadSafeDequePolicy<T>
 {
 public:
     SizePolicy(int maxSize) : maxSize(maxSize)
@@ -21,7 +21,7 @@ public:
     void setSize(int maxSize)
     {
         if (mutex)
-            std::unique_lock<std::mutex> lock{mutex};
+            std::unique_lock<std::mutex> lock{*mutex};
         if (maxSize <= 0)
             throw std::invalid_argument("SizePolicy::setSize received invalid value");
         this->maxSize = maxSize;
@@ -29,18 +29,18 @@ public:
     //Thread safe because it's called from ThreadSafeDeque when mutex is locked
     void afterEmplaceFront()
     {
-        if (collection.size() >= maxSize)
-            collection.pop_back();
+        if (collection->size() >= maxSize)
+            collection->pop_back();
     }
     //Thread safe because it's called from ThreadSafeDeque when mutex is locked
     void afterEmplaceBack()
     {
-        if (collection.size() >= maxSize)
-            collection.pop_front();
+        if (collection->size() >= maxSize)
+            collection->pop_front();
     }
 
     int maxSize;
-    std::deque<T> &collection;
-    std::mutex &mutex;
+    std::shared_ptr<std::deque<T>> collection;
+    std::shared_ptr<std::mutex> mutex;
 };
 #endif //ThreadSafeDequePolicies_H

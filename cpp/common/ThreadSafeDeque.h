@@ -36,8 +36,8 @@ public:
     {
     }
 
-    std::deque<T> &collection;
-    std::mutex &mutex;
+    std::shared_ptr<std::deque<T>> collection;
+    std::shared_ptr<std::mutex> mutex;
 };
 
 template <typename T>
@@ -48,9 +48,9 @@ public:
     void emplace_front(Args &&... args)
     {
         addDataProtected([&] {
-            _collection.emplace_front(std::forward<Args>(args)...);
+            collection->emplace_front(std::forward<Args>(args)...);
             if (threadSafeDequePolicy)
-                threadSafeDequePolicy.afterEmplaceFront();
+                threadSafeDequePolicy->afterEmplaceFront();
         });
     }
 
@@ -58,9 +58,9 @@ public:
     void emplace_back(Args &&... args)
     {
         addDataProtected([&] {
-            _collection.emplace_back(std::forward<Args>(args)...);
+            collection->emplace_back(std::forward<Args>(args)...);
             if (threadSafeDequePolicy)
-                threadSafeDequePolicy.afterEmplaceBack();
+                threadSafeDequePolicy->afterEmplaceBack();
         });
     }
 
@@ -73,46 +73,46 @@ public:
     */
     T pop_front(void) noexcept
     {
-        std::unique_lock<std::mutex> lock{_mutex};
+        std::unique_lock<std::mutex> lock{*mutex};
 
-        while (_collection.empty())
+        while (collection->empty())
         {
-            _condNewData.wait(lock);
+            condNewData.wait(lock);
         }
-        auto elem = std::move(_collection.front());
-        _collection.pop_front();
+        auto elem = std::move(collection->front());
+        collection->pop_front();
         if (threadSafeDequePolicy)
-            threadSafeDequePolicy.afterPopFront();
+            threadSafeDequePolicy->afterPopFront();
         return elem;
     }
 
     T pop_back(void) noexcept
     {
-        std::unique_lock<std::mutex> lock{_mutex};
-        while (_collection.empty())
+        std::unique_lock<std::mutex> lock{*mutex};
+        while (collection->empty())
         {
-            _condNewData.wait(lock);
+            condNewData.wait(lock);
         }
-        auto elem = std::move(_collection.back());
-        _collection.pop_back();
+        auto elem = std::move(collection->back());
+        collection->pop_back();
         if (threadSafeDequePolicy)
-            threadSafeDequePolicy.afterPopBack();
+            threadSafeDequePolicy->afterPopBack();
         return elem;
     }
 
     typename std::deque<T>::size_type size() const noexcept
     {
         return lockAndDo([&] {
-            return _collection.size();
+            return collection->size();
         });
     }
 
-    void setPolicy(std::shared_ptr<ThreadSafeDequePolicy> threadSafeDequePolicy)
+    void setPolicy(std::shared_ptr<ThreadSafeDequePolicy<T>> threadSafeDequePolicy)
     {
         lockAndDo([&] {
             this->threadSafeDequePolicy = threadSafeDequePolicy;
-            this->threadSafeDequePolicy.mutex = this->_mutex;
-            this->threadSafeDequePolicy.collection = this->_collection;
+            this->threadSafeDequePolicy->mutex = this->mutex;
+            this->threadSafeDequePolicy->collection = this->collection;
         });
     }
 
@@ -125,7 +125,7 @@ private:
     template <class F>
     decltype(auto) lockAndDo(F &&fct)
     {
-        std::unique_lock<std::mutex> lock{_mutex};
+        std::unique_lock<std::mutex> lock{*mutex};
         return fct();
     }
 
@@ -133,12 +133,12 @@ private:
     void addDataProtected(F &&fct)
     {
         lockAndDo(std::forward<F>(fct));
-        _condNewData.notify_one();
+        condNewData.notify_one();
     }
 
-    std::deque<T> _collection;            // Concrete, not thread safe, storage.
-    std::mutex _mutex;                    // Mutex protecting the concrete storage
-    std::condition_variable _condNewData; // Condition used to notify that new data are available.
-    std::shared_ptr<ThreadSafeDequePolicy> threadSafeDequePolicy;
+    std::shared_ptr<std::deque<T>> collection;            // Concrete, not thread safe, storage.
+    std::shared_ptr<std::mutex> mutex;                    // Mutex protecting the concrete storage
+    std::condition_variable condNewData; // Condition used to notify that new data are available.
+    std::shared_ptr<ThreadSafeDequePolicy<T>> threadSafeDequePolicy;
 };
 #endif //ThreadSafeDeque_H
