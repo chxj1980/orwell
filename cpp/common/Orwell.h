@@ -19,6 +19,7 @@
 #include <mutex>
 #include <deque>
 #include "DecodedFrame.h"
+#include "ThreadSafeDequePolicies.h"
 #ifdef __cplusplus
 #define EXTERNC extern "C"
 #else
@@ -37,7 +38,6 @@ public:
 class Orwell
 {
 public:
-    explicit Orwell(RTSPUrl rtspUrl);
     explicit Orwell(RTSPUrl rtspUrl,  std::shared_ptr<Decoder> _decoder);
     //explicit Orwell(OnvifURL onvifURL);
 
@@ -51,6 +51,14 @@ public:
 };
 
 //C interface 
+EXTERNC enum DEVICE{
+    GENERIC_DESKTOP,
+    ANDROID,
+    
+}
+EXTERNC struct{
+
+}
 EXTERNC void* orwell_init_from_rtsp(char *rtspUrl);
 //EXTERN C void* orwell_init_from_onvif(char *onvifUrl);
 EXTERNC void orwell_destroy(void* mytype);

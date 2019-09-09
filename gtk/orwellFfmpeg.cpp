@@ -33,7 +33,9 @@ int main(int argc, char **argv)
 	std::cout << "supported hardware: " << std::endl;
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		std::cout << i << std::endl;
-	Orwell orwell(RTSPUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1"));
+	//auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
+    auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
+	Orwell orwell(RTSPUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1"), ffmpegSoftwareDecoder);
 	Singleton::instance()->addStream("cam1", orwell);
 
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.

@@ -82,3 +82,4 @@ gtk/build/armlinux/_myRtspClient/*
 deps/ffmpeg/build/*
 gtk/build/jetson_nano/_myRtspClient/*
 gtk/build/jetson_nano/Makefile
+deps/ffmpeg-include/*

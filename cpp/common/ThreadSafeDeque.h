@@ -6,17 +6,51 @@
 #include <deque>
 #include <iostream>
 
+/*
+    Little class to ensure simple policies like size control
+    after emplace, or any thing you might imagine.
+    Calls to afterEmplaceFront, afterEmplaceBack, afterPopFront
+    and afterPopBack are thread-safe because they are called by
+    ThreadSafeDeque when the mutex is locked.
+    ThreadSafeDequePolicy only shares a mutex with ThreadSafeDeque
+    because when ThreadSafeDequePolicy gets its properties
+    updated it MUST lock the mutex from ThreadSafeDeque.
+*/
+template <typename T>
+class ThreadSafeDequePolicy
+{
+public:
+    virtual void afterEmplaceFront()
+    {
+    }
+
+    virtual void afterEmplaceBack()
+    {
+    }
+
+    virtual void afterPopFront()
+    {
+    }
+
+    virtual void afterPopBack()
+    {
+    }
+
+    std::deque<T> &collection;
+    std::mutex &mutex;
+};
+
 template <typename T>
 class ThreadSafeDeque
 {
-    //using const_iterator = typename std::deque<T>::const_iterator;
-
 public:
     template <typename... Args>
     void emplace_front(Args &&... args)
     {
         addDataProtected([&] {
             _collection.emplace_front(std::forward<Args>(args)...);
+            if (threadSafeDequePolicy)
+                threadSafeDequePolicy.afterEmplaceFront();
         });
     }
 
@@ -25,6 +59,8 @@ public:
     {
         addDataProtected([&] {
             _collection.emplace_back(std::forward<Args>(args)...);
+            if (threadSafeDequePolicy)
+                threadSafeDequePolicy.afterEmplaceBack();
         });
     }
 
@@ -45,6 +81,8 @@ public:
         }
         auto elem = std::move(_collection.front());
         _collection.pop_front();
+        if (threadSafeDequePolicy)
+            threadSafeDequePolicy.afterPopFront();
         return elem;
     }
 
@@ -57,6 +95,8 @@ public:
         }
         auto elem = std::move(_collection.back());
         _collection.pop_back();
+        if (threadSafeDequePolicy)
+            threadSafeDequePolicy.afterPopBack();
         return elem;
     }
 
@@ -64,6 +104,15 @@ public:
     {
         return lockAndDo([&] {
             return _collection.size();
+        });
+    }
+
+    void setPolicy(std::shared_ptr<ThreadSafeDequePolicy> threadSafeDequePolicy)
+    {
+        lockAndDo([&] {
+            this->threadSafeDequePolicy = threadSafeDequePolicy;
+            this->threadSafeDequePolicy.mutex = this->_mutex;
+            this->threadSafeDequePolicy.collection = this->_collection;
         });
     }
 
@@ -90,5 +139,6 @@ private:
     std::deque<T> _collection;            // Concrete, not thread safe, storage.
     std::mutex _mutex;                    // Mutex protecting the concrete storage
     std::condition_variable _condNewData; // Condition used to notify that new data are available.
+    std::shared_ptr<ThreadSafeDequePolicy> threadSafeDequePolicy;
 };
 #endif //ThreadSafeDeque_H

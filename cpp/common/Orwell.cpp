@@ -1,41 +1,23 @@
 #include "Orwell.h"
-
-Orwell::Orwell(RTSPUrl rtspUrl)
-{
-    rtspClient = std::make_shared<MyRTSPClient>(rtspUrl.url);
-    //FIFO encoded and decoder
-    encodedPacketsFifo = std::make_shared<ThreadSafeDeque<EncodedPacket>>();
-    decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
-    //Decoders
-    //auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
-    auto ffmpegSoftwareDecoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
-    //auto nvDecoder = std::make_shared<NVDecoder>(NVDecoder::NALU,Decoder::H264);
-    //Decoder specific configuration
-    decoder = ffmpegSoftwareDecoder;
-    decoder->setEncodedPacketsFifo(encodedPacketsFifo);
-    decoder->setDecodedFramesFifo(decodedFramesFifo);
-    //Important, only start decoderThread after inserting FIFOs like in above
-    decoder->startThreadMode();
-    //    decoderThread = std::make_shared<std::thread>(&Decoder::run, decoder);
-    //RTSP client
-    rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
-    rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
-}
+const int maxEncodedPacketFifoSize = 40;
+const int maxDecodedFrameFifoSize = 15;
+static std::shared_ptr<SizePolicy> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy>(maxEncodedPacketFifoSize);
+static std::shared_ptr<SizePolicy> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy>(maxDecodedFrameFifoSize);
 
 Orwell::Orwell(RTSPUrl rtspUrl, std::shared_ptr<Decoder> _decoder)
 {
     rtspClient = std::make_shared<MyRTSPClient>(rtspUrl.url);
-    //FIFO encoded and decoder
+    //FIFOs for encoded and decoder
     encodedPacketsFifo = std::make_shared<ThreadSafeDeque<EncodedPacket>>();
+    encodedPacketsFifo.setPolicy(encodedPacketFifoSizePolicy);
     decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
+    decodedFramesFifo.setPolicy(decodedFrameFifoSizePolicy);
     //Decoders
-    //Decoder specific configuration
     decoder = _decoder;
     decoder->setEncodedPacketsFifo(encodedPacketsFifo);
     decoder->setDecodedFramesFifo(decodedFramesFifo);
     //Important, only start decoderThread after inserting FIFOs like in above
     decoder->startThreadMode();
-    //decoderThread = std::make_shared<std::thread>(&Decoder::run, decoder);
     //RTSP client
     rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
     rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);

@@ -9,6 +9,7 @@
                 "${workspaceFolder}/cpp/l4tmultimedia",
                 "${workspaceFolder}/gtk",
                 "${workspaceFolder}/deps/tegra_multimedia_api/include",
+                "${workspaceFolder}/deps/ffmpeg-include",
                 "/usr/include/gtk-3.0",
                 "/home/${USER}/Android/Sdk/ndk/20.0.5594570/sysroot/usr/include",
                 "/usr/include/gtkmm-3.0/",

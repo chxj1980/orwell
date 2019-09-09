@@ -57,7 +57,7 @@ int main(int argc, char **argv)
     std::shared_ptr<Decoder> nvDecoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
 	Orwell orwell(RTSPUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_0"), nvDecoder);
 	Singleton::instance()->addStream("cam1", orwell);
-	NvidiaRendererEGL nVidiaRendererEGL(640,360,30,30);
+	NvidiaRendererEGL nVidiaRendererEGL(1920,1080,0,0);
 	nVidiaRendererEGL.setDecodedFramesFifo(orwell.decodedFramesFifo);
 	auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
