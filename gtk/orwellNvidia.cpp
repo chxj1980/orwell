@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 	//return app->run();
 	return app->run(nVidiaRenderer);
 	*/
-//Gtk::Main kit;
+	//Gtk::Main kit;
     //"NaluUtils"
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL");
 	std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");

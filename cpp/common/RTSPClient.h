@@ -34,7 +34,9 @@ public:
 		receive an RTSP packet
 	*/
 	virtual int receivePacket() = 0;
-
+	/*
+		To be used when there's a FIFO to write to
+	*/
 	virtual void startThreadMode() {
 		runThread = std::thread(&RTSPClient::run, this);
 	}

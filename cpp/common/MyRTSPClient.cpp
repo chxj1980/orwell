@@ -20,6 +20,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "MyRTSPClient.h"
+#include "SLog.h"
+SLOG_CATEGORY("myRtspClient");
 
 bool ByeFromServerFlag2 = false;
 void ByeFromServerClbk2()
@@ -27,7 +29,7 @@ void ByeFromServerClbk2()
 	//cout << "Server send BYE" << endl;
 	ByeFromServerFlag2 = true;
 }
-MyRTSPClient::MyRTSPClient(std::string uri): RTSPClient(uri), myRtspClient(uri)
+MyRTSPClient::MyRTSPClient(std::string uri) : RTSPClient(uri), myRtspClient(uri)
 {
 }
 
@@ -47,10 +49,11 @@ int MyRTSPClient::init()
 	if (firstConnection)
 	{
 		//std::cout << "RTSP connection for " << this->uri << std::endl;
+		LOG << "RTSP connection for " << this->uri;
 	}
 	else
 	{
-		//std::cout << "RTSP reconnection for " << this->uri << std::endl;
+		LOG << "RTSP reconnection for " << this->uri;
 	}
 	firstConnection = false;
 
@@ -68,8 +71,9 @@ int MyRTSPClient::init()
 	/* Check whether server return '200'(OK) */
 	if (!myRtspClient.IsResponse_200_OK())
 	{
-		printf("DoOPTIONS error\n");
-		printf("%s\n", myRtspClient.GetSDP().c_str());
+		//printf("DoOPTIONS error\n");
+		//printf("%s\n", myRtspClient.GetSDP().c_str());
+		//LOG << "RTSP DoOPTIONS() not ok for " << this->uri;
 		//init();
 		return 2;
 	}
@@ -77,8 +81,9 @@ int MyRTSPClient::init()
 	/* Send DESCRIBE command to server */
 	if (myRtspClient.DoDESCRIBE() != RTSP_NO_ERROR)
 	{
-		printf("DoDESCRIBE error\n");
-		printf("%s\n", myRtspClient.GetSDP().c_str());
+		//printf("DoDESCRIBE error\n");
+		//printf("%s\n", myRtspClient.GetSDP().c_str());
+		//LOG << "DoDESCRIBE() error for " << this->uri;
 		//init();
 		return 3;
 	}
@@ -86,9 +91,10 @@ int MyRTSPClient::init()
 	/* Check whether server return '200'(OK) */
 	if (!myRtspClient.IsResponse_200_OK())
 	{
-		printf("DoDESCRIBE error\n");
+		//printf("DoDESCRIBE error\n");
 		//init();
-		printf("%s\n", myRtspClient.GetSDP().c_str());
+		//printf("%s\n", myRtspClient.GetSDP().c_str());
+		//LOG << "DoDESCRIBE() response error for " << this->uri;
 		return 4;
 	}
 
@@ -96,7 +102,7 @@ int MyRTSPClient::init()
 	//printf("%s\n", myRtspClient.GetSDP().c_str());
 	if (myRtspClient.ParseSDP() != RTSP_NO_ERROR)
 	{
-		printf("ParseSDP error\n");
+		//printf("ParseSDP error\n");
 		return 5;
 	}
 
@@ -106,8 +112,9 @@ int MyRTSPClient::init()
 
 	if (myRtspClient.DoSETUP("video", true) != RTSP_NO_ERROR)
 	{ //TODO: this DoSETUP actually works only for vstarcam cameras, change it to work with anything
-		printf("DoSETUP error\n");
-		printf("%s\n", myRtspClient.GetResponse().c_str());
+		//printf("DoSETUP error\n");
+		//printf("%s\n", myRtspClient.GetResponse().c_str());
+		//LOG << "DoSETUP() response error for " << this->uri;
 		return 6;
 	}
 	myRtspClient.SetVideoByeFromServerClbk(ByeFromServerClbk2);
@@ -116,7 +123,7 @@ int MyRTSPClient::init()
 	/* Check whether server return '200'(OK) */
 	if (!myRtspClient.IsResponse_200_OK())
 	{
-		printf("DoSETUP error\n");
+		//printf("DoSETUP error\n");
 		return 7;
 	}
 
@@ -128,8 +135,8 @@ int MyRTSPClient::init()
 	 * session, the same as 'audio'.*/
 	if (myRtspClient.DoPLAY("video", NULL, NULL, NULL) != RTSP_NO_ERROR)
 	{
-		printf("DoPLAY #include <stdio.h> error\n");
-		printf("%s\n", myRtspClient.GetResponse().c_str());
+		//printf("DoPLAY #include <stdio.h> error\n");
+		//printf("%s\n", myRtspClient.GetResponse().c_str());
 		return 8;
 	}
 
@@ -137,7 +144,7 @@ int MyRTSPClient::init()
 	/* Check whether server return '200'(OK) */
 	if (!myRtspClient.IsResponse_200_OK())
 	{
-		printf("DoPLAY error\n");
+		//printf("DoPLAY error\n");
 		return 9;
 	}
 	return 0;
@@ -202,7 +209,7 @@ int MyRTSPClient::receivePacket()
 			}
 			if (try_times > 5)
 			{
-				std::cout << "RTSP connection lost for " << this->uri << std::endl;
+				LOG << "RTSP connection for " << this->uri;
 				break;
 				return 1;
 			}
@@ -212,7 +219,7 @@ int MyRTSPClient::receivePacket()
 		{
 			if (!encodedPacketsFifo)
 			{
-				std::cerr << "MyRTSPClient: no encodedPacketsFifo setted, nowhere to send RTSP data!" << std::endl;
+				LOG(SLog::CRITICAL_ERROR) << "MyRTSPClient: no encodedPacketsFifo setted, nowhere to send RTSP data!" << this->uri;
 			}
 			else
 			{
