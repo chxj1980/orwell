@@ -16,11 +16,13 @@ Orwell::Orwell(RTSPClient _rtspClient, std::shared_ptr<Decoder> _decoder)
     decoder = _decoder;
     decoder->setEncodedPacketsFifo(encodedPacketsFifo);
     decoder->setDecodedFramesFifo(decodedFramesFifo);
-    //Important, only start decoderThread after inserting FIFOs like in above
+    //Important, only start thread mode after inserting FIFOs like in above
     decoder->startThreadMode();
     //RTSP client
     rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
-    rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
+    //Important, only start thread mode after inserting FIFOs like in above
+    rtspClient->startThreadMode();
+    //rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
 }
 /*
 //C interface

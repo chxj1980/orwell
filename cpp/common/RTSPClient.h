@@ -35,7 +35,12 @@ public:
 	*/
 	virtual int receivePacket() = 0;
 
+	virtual void startThreadMode() {
+		runThread = std::thread(&RTSPClient::run, this);
+	}
+
 protected:
 	std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo;
+	std::thread runThread;
 };
 #endif // RTSPCLient_H
