@@ -18,7 +18,6 @@
 #if defined(ANDROID)
 #include <android/log.h>
 #endif //ANDROID
-std::ofstream logFile{"orwell.log"};
 namespace SLog
 {
 template <typename T>
@@ -132,6 +131,15 @@ struct CategoryEqual
 };
 typedef std::unordered_set<Category, CategoryHash, CategoryEqual> UnorderedSetConfig;
 
+//Filename for the log file
+struct Filename{
+public:
+    Filename(std::string name): name(name) {
+
+    }
+    std::string name;
+};
+
 struct Message
 {
 public:
@@ -140,22 +148,18 @@ public:
     SubCategory subCategory;
     Level level = INFO;
     std::stringstream stringstream;
+    std::shared_ptr<std::ofstream> logFile;
     bool noNewLine = false;
     bool noConsole = false;
     bool toFile = false;
     bool immediatePrint = false;
 };
-/* 
-template <typename T, typenme U, typename V>
-bool unorderedSetHasElement(std::unordered_set<T, U, V>& unorderedSet, T element) {
-    return unorderedSet->find(element) != unorderedSet->end()
-}
-*/
+
 /*
     Blocking call that actually prints the message using the rigth
     call for each device.
 */
-static void printMessage(Message &message, std::ofstream &logFile)
+static void printMessage(Message &message,  std::shared_ptr<std::ofstream> logFile)
 {
     std::stringstream s;
     std::time_t t = std::time(nullptr);
@@ -183,7 +187,10 @@ static void printMessage(Message &message, std::ofstream &logFile)
     }
     if (message.toFile)
     {
-        logFile << s.str() << std::flush;
+        if (logFile)
+            *logFile << s.str() << std::flush;
+        else 
+            throw std::runtime_error("no logfile pointer");
     }
     //TODO: enhance this
     if (message.level == CRITICAL_ERROR)
@@ -199,6 +206,7 @@ public:
     LoggerThread(std::shared_ptr<ThreadSafeQueue<Message>> logMessages,
                  std::shared_ptr<UnorderedSetConfig> allowTheseCategories) : logMessages(logMessages),
                                                                              allowTheseCategories(allowTheseCategories)
+                                                           
     {
         thread = std::thread(&LoggerThread::run, this);
     }
@@ -217,7 +225,8 @@ public:
             auto message = std::move(logMessages->pop());
             //If category is in the set of allowed categories, we do things
             if (allowTheseCategories->find(message.category) != allowTheseCategories->end())
-                printMessage(message, logFile);
+                printMessage(message, message.logFile);
+                
         }
     }
 
@@ -267,7 +276,7 @@ public:
         if (!message.immediatePrint)
             SLogInterface::queue(std::move(message));
         else
-            printMessage(message, logFile);
+            printMessage(message, message.logFile);
     }
 };
 /*
@@ -316,6 +325,16 @@ public:
         this->category = category;
     }
 
+    void applyConfiguration(Filename filename) {
+        /*
+            No need to control logFile with mutex
+            as it's a shared_ptr and goes embbeded in
+            Message, so it only dies when the last Message
+            with it dies
+        */
+        this->logFile = std::make_shared<std::ofstream>(filename.name);
+    }
+
     template <typename T>
     static void enableCategories(T category)
     {
@@ -354,12 +373,14 @@ public:
         buffer.message.noConsole = noConsole;
         buffer.message.toFile = toFile;
         buffer.message.immediatePrint = immediatePrint;
+        buffer.message.logFile = logFile;
         return buffer;
     }
 
 public:
     static LoggerThread loggerThread;
     static std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
+    std::shared_ptr<std::ofstream> logFile = std::make_shared<std::ofstream>("log.log");
     Category category;
     bool immediate = false;
     bool noNewLine = false;
@@ -378,6 +399,7 @@ SLogBuffer operator<<(SLog &&sLog, T message)
     buffer.message.toFile = sLog.toFile;
     buffer.message.category = sLog.category;
     buffer.message.immediatePrint = sLog.immediatePrint;
+    buffer.message.logFile = sLog.logFile;
     buffer.message.stringstream << std::forward<T>(message);
     return buffer;
 }
@@ -389,5 +411,6 @@ SLogBuffer operator<<(SLog &sLog, T message)
 }
 } // namespace SLog
 #define SLOG_CATEGORY(x) static SLog::SLog LOG(SLog::Category(x));
+#define SLOG_FILENAME(x) LOG.applyConfiguration(Filename(x)); LOG.applyConfiguration(TO_FILE);
 #define SLOG_ENABLE_CATEGORIES(...) SLog::SLog::enableCategories(__VA_ARGS__);
 #endif //SLog_H
