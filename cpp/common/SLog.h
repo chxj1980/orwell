@@ -99,7 +99,7 @@ enum Config
     NO_NEW_LINE,
     TO_FILE,
     NO_CONSOLE,
-    IMMEDIATE_PRINT
+    IMMEDIATE_LOG
 };
 
 enum Level
@@ -152,7 +152,7 @@ public:
     bool noNewLine = false;
     bool noConsole = false;
     bool toFile = false;
-    bool immediatePrint = false;
+    bool immediateLog = false;
 };
 
 /*
@@ -273,7 +273,7 @@ public:
         if (!message.noNewLine)
             message.stringstream << "\n";
 
-        if (!message.immediatePrint)
+        if (!message.immediateLog)
             SLogInterface::queue(std::move(message));
         else
             printMessage(message, message.logFile);
@@ -302,9 +302,9 @@ public:
         //TODO: STOP loggerThread here!
     }
 
-    void printImmediately(bool b)
+    void logImmediately(bool b)
     {
-        immediatePrint = b;
+        immediateLog = b;
     }
 
     //template <typename T>
@@ -312,8 +312,8 @@ public:
     {
         if (config==NO_NEW_LINE)
             noNewLine = true;
-        else if (config==IMMEDIATE_PRINT)
-            immediatePrint = true;
+        else if (config==IMMEDIATE_LOG)
+            immediateLog = true;
         else if (config==TO_FILE)
             toFile = true;
         else if (config==NO_CONSOLE)
@@ -372,7 +372,7 @@ public:
         buffer.message.noNewLine = noNewLine;
         buffer.message.noConsole = noConsole;
         buffer.message.toFile = toFile;
-        buffer.message.immediatePrint = immediatePrint;
+        buffer.message.immediateLog = immediateLog;
         buffer.message.logFile = logFile;
         return buffer;
     }
@@ -382,11 +382,10 @@ public:
     static std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
     std::shared_ptr<std::ofstream> logFile = std::make_shared<std::ofstream>("log.log", std::fstream::app | std::fstream::ate);
     Category category;
-    bool immediate = false;
     bool noNewLine = false;
     bool noConsole = false;
-    bool toFile = false;
-    bool immediatePrint = false;
+    bool toFile = true;
+    bool immediateLog = false;
     //SubCategory subCategory;
 };
 
@@ -398,7 +397,7 @@ SLogBuffer operator<<(SLog &&sLog, T message)
     buffer.message.noConsole = sLog.noConsole;
     buffer.message.toFile = sLog.toFile;
     buffer.message.category = sLog.category;
-    buffer.message.immediatePrint = sLog.immediatePrint;
+    buffer.message.immediateLog = sLog.immediateLog;
     buffer.message.logFile = sLog.logFile;
     buffer.message.stringstream << std::forward<T>(message);
     return buffer;

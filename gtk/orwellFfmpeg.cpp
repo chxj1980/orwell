@@ -29,14 +29,14 @@ SLOG_CATEGORY("main");
 
 int main(int argc, char **argv)
 {
-	LOG.printImmediately(true);
+	LOG.logImmediately(true);
 	LOG << "------------ Orwell initiated!";
 	//Gtk::Main kit;
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient");
 	auto app = Gtk::Application::create(argc, argv, "");
-	std::cout << "supported hardware: " << std::endl;
+	LOG << "supported hardware: ";
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
-		std::cout << i << std::endl;
+		LOG << i;
 	//auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
     std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
 	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl);

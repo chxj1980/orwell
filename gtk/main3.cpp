@@ -11,7 +11,7 @@ int main()
 {
     SLOG_ENABLE_CATEGORIES("main", "main2");
     SLOG_FILENAME("lab.log");
-    LOG.printImmediately(false);
+    LOG.logImmediately(false);
     LOG << "------------ Lab initiated!";
     //options.add_options()
     //("d,debug", "Enable debugging")
@@ -20,7 +20,7 @@ int main()
     //SLog::SLog::enableCategories("main", "main2");
     LOG << "hello" << " world";
     LOG << "testando: " << 1;
-    LOG.printImmediately(true);
+    LOG.logImmediately(true);
     LOG << "hello???? not immediately" << " world";
 
     LOG(SLog::WARN) << "hi, this is a warning " << 1;

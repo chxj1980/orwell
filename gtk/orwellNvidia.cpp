@@ -32,7 +32,7 @@ SLOG_CATEGORY("main");
 
 int main(int argc, char **argv)
 {
-	LOG.printImmediately(true);
+	LOG.logImmediately(true);
 	LOG << "------------ Orwell initiated!";
 	/*
 	//Gtk::Main kit;
