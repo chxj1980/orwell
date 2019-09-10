@@ -10,7 +10,9 @@ SLOG_CATEGORY("main");
 int main()
 {
     SLOG_ENABLE_CATEGORIES("main", "main2");
+    SLOG_FILENAME("lab.log");
     LOG.printImmediately(false);
+    LOG << "------------ Lab initiated!";
     //options.add_options()
     //("d,debug", "Enable debugging")
     //("f,file", "File name", cxxopts::value<std::string>());

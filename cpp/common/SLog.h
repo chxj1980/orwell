@@ -332,7 +332,7 @@ public:
             Message, so it only dies when the last Message
             with it dies
         */
-        this->logFile = std::make_shared<std::ofstream>(filename.name);
+        this->logFile = std::make_shared<std::ofstream>(filename.name, std::fstream::app | std::fstream::ate);
     }
 
     template <typename T>
@@ -380,7 +380,7 @@ public:
 public:
     static LoggerThread loggerThread;
     static std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
-    std::shared_ptr<std::ofstream> logFile = std::make_shared<std::ofstream>("log.log");
+    std::shared_ptr<std::ofstream> logFile = std::make_shared<std::ofstream>("log.log", std::fstream::app | std::fstream::ate);
     Category category;
     bool immediate = false;
     bool noNewLine = false;
@@ -411,6 +411,6 @@ SLogBuffer operator<<(SLog &sLog, T message)
 }
 } // namespace SLog
 #define SLOG_CATEGORY(x) static SLog::SLog LOG(SLog::Category(x));
-#define SLOG_FILENAME(x) LOG.applyConfiguration(Filename(x)); LOG.applyConfiguration(TO_FILE);
+#define SLOG_FILENAME(x) LOG.applyConfiguration(SLog::Filename(x)); LOG.applyConfiguration(SLog::TO_FILE);
 #define SLOG_ENABLE_CATEGORIES(...) SLog::SLog::enableCategories(__VA_ARGS__);
 #endif //SLog_H

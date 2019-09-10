@@ -33,6 +33,7 @@ SLOG_CATEGORY("main");
 int main(int argc, char **argv)
 {
 	LOG.printImmediately(true);
+	LOG << "------------ Orwell initiated!";
 	/*
 	//Gtk::Main kit;
     //"NaluUtils"
@@ -52,14 +53,14 @@ int main(int argc, char **argv)
 	return app->run(nVidiaRenderer);
 	*/
 	//Gtk::Main kit;
-    //"NaluUtils"
+	//"NaluUtils"
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient");
 	std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
 	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl);
 	auto decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
 	Orwell orwell(rtspClient, decoder);
 	Singleton::instance()->addStream("cam1", orwell);
-	NvidiaRendererEGL nVidiaRendererEGL(1920,1080,0,0);
+	NvidiaRendererEGL nVidiaRendererEGL(1920, 1080, 0, 0);
 	nVidiaRendererEGL.setDecodedFramesFifo(orwell.decodedFramesFifo);
 	auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
@@ -69,5 +70,7 @@ int main(int argc, char **argv)
 	//nVidiaRenderer.setDecodedFramesFifo(orwell.decodedFramesFifo);
 	//auto nVidiaRendererThread = std::make_shared<std::thread>(&NVidiaRenderer::run, &nVidiaRenderer);
 	//return app->run();
-	while(true){}
+	while (true)
+	{
+	}
 }

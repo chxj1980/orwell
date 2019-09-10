@@ -30,6 +30,7 @@ SLOG_CATEGORY("main");
 int main(int argc, char **argv)
 {
 	LOG.printImmediately(true);
+	LOG << "------------ Orwell initiated!";
 	//Gtk::Main kit;
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient");
 	auto app = Gtk::Application::create(argc, argv, "");
