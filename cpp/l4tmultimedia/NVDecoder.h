@@ -14,6 +14,7 @@
 #include <chrono>
 #include "NvEglRenderer.h"
 #define CHUNK_SIZE 4000000
+#define MAX_RTP_SIZE 0
 //TODO: why 32??????? Wouldn't the index get out of range????
 #define MAX_BUFFERS 32
 #define MAXIMUM_OUTPUT_PLANES 10

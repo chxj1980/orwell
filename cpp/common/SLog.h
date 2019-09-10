@@ -13,10 +13,12 @@
 #include <iomanip>
 #include <ctime>
 #include <chrono>
-
+#include <iostream>
+#include <fstream>
 #if defined(ANDROID)
 #include <android/log.h>
 #endif //ANDROID
+std::ofstream logFile{"orwell.log"};
 namespace SLog
 {
 template <typename T>
@@ -138,7 +140,10 @@ public:
     SubCategory subCategory;
     Level level = INFO;
     std::stringstream stringstream;
-    std::shared_ptr<std::unordered_set<Config>> configurations;
+    bool noNewLine = false;
+    bool noConsole = false;
+    bool toFile = false;
+    bool immediatePrint = false;
 };
 /* 
 template <typename T, typenme U, typename V>
@@ -150,8 +155,8 @@ bool unorderedSetHasElement(std::unordered_set<T, U, V>& unorderedSet, T element
     Blocking call that actually prints the message using the rigth
     call for each device.
 */
-static void printMessage(Message& message) {
-    //std::cout << "gonna print " << message.stringstream.str() << std::endl;
+static void printMessage(Message &message, std::ofstream &logFile)
+{
     std::stringstream s;
     std::time_t t = std::time(nullptr);
     auto localTime = std::put_time(std::localtime(&t), "%T %d/%m");
@@ -165,17 +170,24 @@ static void printMessage(Message& message) {
         s << "error: ";
     s << message.stringstream.str();
 
-    #if defined(ANDROID)
-        if (message.level == ERROR)
-            __android_log_print(ANDROID_LOG_ERROR, "", s.str().c_str());
-        else
-            __android_log_print(ANDROID_LOG_VERBOSE, "", s.str().c_str());
-    #else
-        std::cout << s.str() << std::flush;
-    #endif //ANDROID
-    //TODO: enhance this 
+    if (!message.noConsole)
+    {
+        #if defined(ANDROID)
+            if (message.level == ERROR)
+                __android_log_print(ANDROID_LOG_ERROR, "", s.str().c_str());
+            else
+                __android_log_print(ANDROID_LOG_VERBOSE, "", s.str().c_str());
+        #else
+            std::cout << s.str() << std::flush;
+        #endif //ANDROID
+    }
+    if (message.toFile)
+    {
+        logFile << s.str() << std::flush;
+    }
+    //TODO: enhance this
     if (message.level == CRITICAL_ERROR)
-        throw std::runtime_error(s.str()); 
+        throw std::runtime_error(s.str());
 }
 /*
     Class that picks messages from queue and writes to specific targets
@@ -205,7 +217,7 @@ public:
             auto message = std::move(logMessages->pop());
             //If category is in the set of allowed categories, we do things
             if (allowTheseCategories->find(message.category) != allowTheseCategories->end())
-                printMessage(message);
+                printMessage(message, logFile);
         }
     }
 
@@ -232,10 +244,7 @@ public:
 struct SLogBuffer
 {
 public:
-    //std::stringstream ss;
     Message message;
-    bool immediate = false;
-    //SLog *sLog;
     SLogBuffer() = default;
     SLogBuffer(const SLogBuffer &) = delete;
     SLogBuffer &operator=(const SLogBuffer &) = delete;
@@ -246,30 +255,27 @@ public:
     template <typename T>
     SLogBuffer &operator<<(T &&message)
     {
-        //ss << std::forward<T>(message);
         this->message.stringstream << std::forward<T>(message);
         return *this;
     }
 
     ~SLogBuffer()
     {
-        if (message.configurations->find(Config::NO_NEW_LINE) == message.configurations->end())
+        if (!message.noNewLine)
             message.stringstream << "\n";
-        //Message message;
-        //message.category = std::move(sLog->category);
-        //message.configurations = sLog->configurations;
-        //message.subCategory = std::move(sLog->subCategory);
-        //message.message = std::move(ss);
-        if (!immediate)
+
+        if (!message.immediatePrint)
             SLogInterface::queue(std::move(message));
         else
-            printMessage(message);
+            printMessage(message, logFile);
     }
 };
 /*
     Simple logging class designed to hold configurations.
     One instance per class should be created, and a Category 
     must be given. 
+    Particular messages can override SLog configurations 
+    in SLogBuffer/
 */
 class SLog : SLogInterface
 {
@@ -284,17 +290,25 @@ public:
 
     ~SLog()
     {
-        //STOP loggerThread here!
+        //TODO: STOP loggerThread here!
     }
 
-    void printImmediately(bool b) {
-        immediate = b;
+    void printImmediately(bool b)
+    {
+        immediatePrint = b;
     }
 
     //template <typename T>
     void applyConfiguration(Config config)
     {
-        configurations->emplace(config);
+        if (config==NO_NEW_LINE)
+            noNewLine = true;
+        else if (config==IMMEDIATE_PRINT)
+            immediatePrint = true;
+        else if (config==TO_FILE)
+            toFile = true;
+        else if (config==NO_CONSOLE)
+            noConsole = true;
     }
 
     void applyConfiguration(Category category)
@@ -336,37 +350,22 @@ public:
         SLogBuffer buffer;
         buffer.message.category = category;
         buffer.message.level = level;
-        buffer.message.configurations = configurations;
-        //buffer.message.stringstream << "";
+        buffer.message.noNewLine = noNewLine;
+        buffer.message.noConsole = noConsole;
+        buffer.message.toFile = toFile;
+        buffer.message.immediatePrint = immediatePrint;
         return buffer;
-        //return std::move(buffer);
     }
-    /* 
-    SLog &&operator()()
-    {
-        return std::forward<SLog>(*this);
-    }
-    template <typename T>
-    SLog &&operator()(T t)
-    {
-        applyConfiguration(t);
-        return std::forward<SLog>(*this);
-    }
-    template <typename T, typename... Args>
-    SLog &&operator()(T t, Args... args)
-    {
-        SLog &&a = operator()(t);
-        operator()(args...);
-        return std::forward<SLog>(a);
-    }
-    */
 
 public:
-    std::shared_ptr<std::unordered_set<Config>> configurations = std::make_shared<std::unordered_set<Config>>();
     static LoggerThread loggerThread;
     static std::shared_ptr<UnorderedSetConfig> allowTheseCategories;
     Category category;
     bool immediate = false;
+    bool noNewLine = false;
+    bool noConsole = false;
+    bool toFile = false;
+    bool immediatePrint = false;
     //SubCategory subCategory;
 };
 
@@ -374,10 +373,12 @@ template <typename T>
 SLogBuffer operator<<(SLog &&sLog, T message)
 {
     SLogBuffer buffer;
-    buffer.immediate = sLog.immediate;
+    buffer.message.noNewLine = sLog.noNewLine;
+    buffer.message.noConsole = sLog.noConsole;
+    buffer.message.toFile = sLog.toFile;
     buffer.message.category = sLog.category;
+    buffer.message.immediatePrint = sLog.immediatePrint;
     buffer.message.stringstream << std::forward<T>(message);
-    buffer.message.configurations = sLog.configurations;
     return buffer;
 }
 
