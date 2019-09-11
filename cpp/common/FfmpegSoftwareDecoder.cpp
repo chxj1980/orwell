@@ -31,20 +31,21 @@ FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
 int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket)
 {
-	std::shared_ptr<DecodedFrame> decodedFrame;
-	decodedFrame->decodedFrom = DecodedFrame::FFMPEG;
-	int r = decodeFrame(encodedPacket, decodedFrame);
+	auto decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
+	decodedFfmpegFrame->decodedFrom = DecodedFrame::FFMPEG;
+	int r = decodeFrame(encodedPacket, decodedFfmpegFrame);
 	if (!decodedFramesFifo)
 	{
 		std::cerr << "No decodedFramesFifo setted in FfmpegSoftwareDecoder" << std::endl;
 	}
 	if (r == 0)
-		this->decodedFramesFifo->emplace_back(std::move(decodedFrame));
+		this->decodedFramesFifo->emplace_back(decodedFfmpegFrame);
 	return r;
 }
 
 int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
+	std::shared_ptr<DecodedFfmpegFrame> decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFrame);
 	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET);
 	if (encodedPacket->getSize() <= 0)
@@ -74,14 +75,14 @@ int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
 				We just need to move our avFrame to a generic Frame object. 
 				Now caller has a video frame and can render it.
 			*/
-			decodedFrame->width = avFrame->width;
-			decodedFrame->height = avFrame->height;
-			decodedFrame->format = avFrame->format;
+			decodedFfmpegFrame->avFrame->width = avFrame->width;
+			decodedFfmpegFrame->avFrame->height = avFrame->height;
+			decodedFfmpegFrame->avFrame->format = avFrame->format;
 			for (int i=0; i<AV_NUM_DATA_POINTERS; i++) {
-				decodedFrame->linesize[i] = avFrame->linesize[i];
-				decodedFrame->buffer[i] = avFrame->data[i];
+				decodedFfmpegFrame->avFrame->linesize[i] = avFrame->linesize[i];
+				decodedFfmpegFrame->avFrame->data[i] = avFrame->data[i];
 			}
-			decodedFrame->avFrame = std::move(avFrame);
+			decodedFfmpegFrame->avFrame = std::move(avFrame);
 			return 0;
 		}
 		else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF))

@@ -23,9 +23,7 @@
 #include <sstream>
 
 /*
-	By inheriting from ReusableBuffer (virtual class), we don't need to put NVIDIA specific code
-	inside DecodedFrame (where ReusableBuffer is defined). We use downcasting
-	to treat ReusableBuffer as NVDecoderReusableBuffer when needed.
+	
 */
 class DecodedNvFrame : public DecodedFrame
 {
@@ -49,6 +47,9 @@ public:
 		memset(planes, 0, sizeof(planes));
 		v4l2Buffer.m.planes = planes;
 	}
+	/*
+		On destruction we queue the buffer back to nvVideoDecoder so the decoder can fill again
+	*/
 	~DecodedNvFrame()
 	{
 		v4l2Buffer.m.planes[0].m.fd = nvBuffer->planes[0].fd;
@@ -71,7 +72,7 @@ public:
 	{
 		return height;
 	}
-	
+
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder;
 	struct v4l2_buffer v4l2Buffer;
 	struct v4l2_plane planes[MAX_PLANES];
@@ -125,7 +126,7 @@ public:
 	}
 
 protected:
-	//void read_decoder_input_nalu(NvBuffer *nvBuffer, EncodedPackets& encodedPackets);
+	static int counter;
 	//Creates our decoder in blocking mode
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder{NvVideoDecoder::createVideoDecoder("dec0")};
 	//NvVideoDecoder* nvVideoDecoder = NvVideoDecoder::createVideoDecoder("dec0");

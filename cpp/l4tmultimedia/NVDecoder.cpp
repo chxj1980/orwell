@@ -12,6 +12,7 @@ SLOG_CATEGORY("NVDecoder");
         LOG << message;                           \
     }
 
+int NVDecoder::counter = 0;
 NvApplicationProfiler &NVDecoder::nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
 
 int NVDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket)

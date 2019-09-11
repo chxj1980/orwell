@@ -12,34 +12,14 @@
 class EncodedPacket
 {
 public:
-    EncodedPacket(const EncodedPacket &decodedFrame) = delete;
+    EncodedPacket(){}
+    EncodedPacket(const EncodedPacket &encodedPacket) = delete;
     EncodedPacket &operator=(const EncodedPacket &) = delete;
     EncodedPacket(EncodedPacket &&) = default;
     EncodedPacket &operator=(EncodedPacket &&) = default;
 
-    EncodedPacket()
-    {
-    }
-    EncodedPacket(size_t size) : size(size),
-                                 frame(new uint8_t[size])
-    {
-    }
+    virtual uint8_t* getFramePointer() = 0;
 
-    /*
-        Subclass these method to get the pointer to the data you need
-    */
-    virtual uint8_t *getFramePointer()
-    {
-        return frame.get();
-    }
-
-    virtual uint32_t getSize()
-    {
-        return size;
-    }
-
-    //Actual frameSize. Must be less than bufferSize obviously
-    size_t size = 0;
-    std::unique_ptr<uint8_t> frame;
+    virtual uint32_t getSize() = 0;
 };
 #endif //EncodedPacket_H

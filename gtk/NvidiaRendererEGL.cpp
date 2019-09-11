@@ -22,10 +22,10 @@ void NvidiaRendererEGL::run()
 {
     while (shouldContinue())
     {
-        DecodedFrame decodedFrame = std::move(decodedFramesFifo->pop_front());
-        NVDecoderReusableBuffer *nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer *>(decodedFrame.reusableBuffer.get());
+        auto decodedNvFrame = std::dynamic_pointer_cast<DecodedNvFrame>(decodedFramesFifo->pop_front());
+        //NVDecoderReusableBuffer *nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer *>(decodedFrame.reusableBuffer.get());
         //LOG << "v4l2Buffer.m.planes[0].m.fd: " << nVDecoderReusableBuffer->v4l2Buffer.m.planes[0].m.fd;
         //renderer->setFPS(30);
-        renderer->render(nVDecoderReusableBuffer->nvBuffer->planes[0].fd);
+        renderer->render(decodedNvFrame->nvBuffer->planes[0].fd);
     }
 }

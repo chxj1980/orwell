@@ -21,26 +21,42 @@ class DecodedFfmpegFrame : public DecodedFrame
 public:
 	uint8_t *getPointer(int plane)
 	{
-		if (plane < AV_NUM_DATA_POINTERS)
+		if (plane < AV_NUM_DATA_POINTERS && avFrame)
 			return avFrame->data[plane];
+		else
+			return NULL;
 	}
 
 	int getLineSize(int plane)
 	{
-		if (plane < AV_NUM_DATA_POINTERS)
+		if (plane < AV_NUM_DATA_POINTERS && avFrame)
 			return avFrame->linesize[plane];
+		else
+			return NULL;
 	}
 
-	int getFormat() {
-		return avFrame->format;
+	int getFormat()
+	{
+		if (avFrame)
+			return avFrame->format;
+		else
+			return -1;
 	}
 
-	int getWidth(int plane) {
-		return avFrame->width;
+	int getWidth()
+	{
+		if (avFrame)
+			return avFrame->width;
+		else
+			return 0;
 	}
 
-    int getHeight(int plane) {
-		return avFrame->height;
+	int getHeight()
+	{
+		if (avFrame)
+			return avFrame->height;
+		else
+			return 0;
 	}
 
 	std::unique_ptr<AVFrame, AVFrameDeleter> avFrame;

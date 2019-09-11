@@ -3,6 +3,27 @@
 #include "RTSPClient.h"
 #include "Player/MediaPlayer.h"
 #include "SLog.h"
+
+class ZLRTSPEncodedPacket : public EncodedPacket
+{
+public:
+    ZLRTSPEncodedPacket(const Frame::Ptr &frame): frame(frame) {
+
+    }
+    uint8_t* getFramePointer()
+    {
+        return static_cast<uint8_t*>(frame.get()->data);
+    }
+
+    uint32_t getSize()
+    {
+        return frame.get()->size;
+    }
+
+protected:
+    Frame::Ptr frame;
+};
+
 class ZLRTSPClient : public RTSPClient
 {
 public:
