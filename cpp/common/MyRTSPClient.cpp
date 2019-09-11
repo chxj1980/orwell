@@ -21,6 +21,8 @@
 #include <fcntl.h>
 #include "MyRTSPClient.h"
 #include "SLog.h"
+#include <chrono>
+#include <thread>
 SLOG_CATEGORY("myRtspClient");
 
 bool ByeFromServerFlag2 = false;
@@ -29,9 +31,6 @@ void ByeFromServerClbk2()
 	//cout << "Server send BYE" << endl;
 	ByeFromServerFlag2 = true;
 }
-MyRTSPClient::MyRTSPClient(std::string uri) : RTSPClient(uri), myRtspClient(uri)
-{
-}
 
 void MyRTSPClient::run()
 {
@@ -39,8 +38,11 @@ void MyRTSPClient::run()
 	{
 		while (init() != 0)
 		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		}
 		receivePacket();
+		LOG << "RTSP connection LOST for " << this->uri;
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
 }
 
@@ -50,21 +52,45 @@ int MyRTSPClient::init()
 	{
 		//std::cout << "RTSP connection for " << this->uri << std::endl;
 		LOG << "RTSP connection for " << this->uri;
+		firstConnection = false;
 	}
 	else
 	{
-		LOG << "RTSP reconnection for " << this->uri;
+		//LOG << "RTSP reconnection for " << this->uri;
 	}
-	firstConnection = false;
+	if (!username.empty() || !password.empty())
+	{
+		myRtspClient.SetUsername(username);
+		myRtspClient.SetPassword(password);
+		LOG << "username: " << username;
+		LOG << "password: " << password;
+	}
 
 	//TODO: init this only one time
 
 	//decoder.setFrameUpdater(frameUpdater);
-
+	if (transport == RTP_OVER_HTTP)
+	{
+		myRtspClient.SetHttpTunnelPort(8000);
+		myRtspClient.SetPort(8000);
+		if (myRtspClient.DoRtspOverHttpGet() == RTSP_NO_ERROR)
+		{
+			LOG << "DoGet OK for " << this->uri;
+			;
+		}
+		LOG << myRtspClient.GetResource();
+		if (myRtspClient.DoRtspOverHttpPost() == RTSP_NO_ERROR)
+		{
+			LOG << "DoPost OK for " << this->uri;
+			;
+		}
+	}
 	//printf("DoOPTIONS():\n");
 	if (myRtspClient.DoOPTIONS() != RTSP_NO_ERROR)
 	{
 		//printf("DoOPTIONS error\n");
+		LOG << "RTSP DoOPTIONS() error for " << this->uri;
+
 		return 1;
 	}
 	//printf("%s\n", myRtspClient.GetResponse().c_str());
@@ -73,7 +99,7 @@ int MyRTSPClient::init()
 	{
 		//printf("DoOPTIONS error\n");
 		//printf("%s\n", myRtspClient.GetSDP().c_str());
-		//LOG << "RTSP DoOPTIONS() not ok for " << this->uri;
+		LOG << "RTSP DoOPTIONS() not ok for " << this->uri;
 		//init();
 		return 2;
 	}
@@ -83,7 +109,7 @@ int MyRTSPClient::init()
 	{
 		//printf("DoDESCRIBE error\n");
 		//printf("%s\n", myRtspClient.GetSDP().c_str());
-		//LOG << "DoDESCRIBE() error for " << this->uri;
+		LOG << "DoDESCRIBE() error for " << this->uri;
 		//init();
 		return 3;
 	}
@@ -94,7 +120,7 @@ int MyRTSPClient::init()
 		//printf("DoDESCRIBE error\n");
 		//init();
 		//printf("%s\n", myRtspClient.GetSDP().c_str());
-		//LOG << "DoDESCRIBE() response error for " << this->uri;
+		LOG << "DoDESCRIBE() response error for " << this->uri;
 		return 4;
 	}
 
@@ -114,7 +140,7 @@ int MyRTSPClient::init()
 	{ //TODO: this DoSETUP actually works only for vstarcam cameras, change it to work with anything
 		//printf("DoSETUP error\n");
 		//printf("%s\n", myRtspClient.GetResponse().c_str());
-		//LOG << "DoSETUP() response error for " << this->uri;
+		LOG << "DoSETUP() response error for " << this->uri;
 		return 6;
 	}
 	myRtspClient.SetVideoByeFromServerClbk(ByeFromServerClbk2);
@@ -145,7 +171,12 @@ int MyRTSPClient::init()
 	if (!myRtspClient.IsResponse_200_OK())
 	{
 		//printf("DoPLAY error\n");
+		LOG << "DoPlay error";
 		return 9;
+	}
+	else
+	{
+		LOG << "RTSP reconnection for " << this->uri;
 	}
 	return 0;
 }
@@ -153,45 +184,6 @@ int MyRTSPClient::init()
 int MyRTSPClient::receivePacket()
 {
 	int try_times = 0;
-	//const size_t BufSize = 398304;
-	//uint8_t buf[/*4 +*/ BufSize];//4 bytes for 0x00000001 at beggining
-	//uint8_t* paddedBuf = buf + 4;
-	//const size_t bufferSize = 408304;//TODO: make it variable according to video's size
-	//uint8_t frameBuffer[bufferSize];
-
-	//size_t write_size = 0;
-	//std::cout << "accessed char" << std::endl;
-
-	/* Write h264 video data to file "test_packet_recv.h264" 
-	 * Then it could be played by ffplay */
-	// int fd = open("test_packet_recv.h264", O_CREAT | O_RDWR, 0);
-	//int fd = open("test_packet_recv.h264", O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IXUSR);
-
-	/* By default, myRtspmyRtspClient will write SPS, PPS, VPS(H265 only) for H264/H265 video
-       periodly when you invoke 'GetMediaData'. It could bring your video data stability.
-       However, if you want a high performance, you could turn down this function and get 
-       SPS, PPS, VPS by yourself just at the begining of the video data */
-	/* For convenience, you could refer to "simple_example.cpp" */
-	/* Get SPS, PPS, VPS manually start */
-	//std::cout << "writing vps" << std::endl;
-	/*
-    myRtspClient.SetObtainVpsSpsPpsPeriodly(false);
-    if(!myRtspClient.GetVPSNalu(paddedBuf, &size)) {
-		if(write(fd, paddedBuf, size) < 0) {
-			perror("write");
-		}
-    } 
-    if(!myRtspClient.GetSPSNalu(paddedBuf, &size)) {
-		if(write(fd, paddedBuf, size) < 0) {
-			perror("write");
-		}
-    } 
-    if(!myRtspClient.GetPPSNalu(paddedBuf, &size)) {
-		if(write(fd, paddedBuf, size) < 0) {
-			perror("write");
-		}
-    }
-	*/
 	/* Get SPS, PPS, VPS manually end */
 	unsigned int a = 0;
 	size_t bufferSize = 408304;

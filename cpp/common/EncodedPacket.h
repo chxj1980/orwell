@@ -20,9 +20,9 @@ public:
         EncodedPacket encodedPacket = std::move(otherEncodedPacket);
         No need to allocate data if it's just being used as temporary object 
     */
-    EncodedPacket(){}
+    EncodedPacket() {}
     EncodedPacket(size_t bufferSize) : frameSize(bufferSize),
-                                    frameBuffer(new uint8_t[bufferSize])
+                                       frameBuffer(new uint8_t[bufferSize])
     {
     }
     //Actual frameSize. Must be less than bufferSize obviously

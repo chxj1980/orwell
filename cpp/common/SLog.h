@@ -20,6 +20,7 @@
 #endif //ANDROID
 namespace SLog
 {
+    const int MAX_SIZE = 100;
 template <typename T>
 class ThreadSafeQueue
 {
@@ -47,6 +48,8 @@ public:
     void emplace(Args &&... args)
     {
         addDataProtected([&] {
+            if (_collection.size()>=MAX_SIZE)
+                _collection.pop();
             _collection.emplace(std::forward<Args>(args)...);
         });
     }

@@ -86,3 +86,6 @@ deps/ffmpeg-include/*
 gtk/build/desktoplinux/lab.log
 gtk/build/desktoplinux/log.log
 gtk/build/desktoplinux/lab
+deps/ZLMediaKit/release*
+gtk/build/desktoplinux/_ZLMediaKit/*
+deps/ZLMediaKit/tests/ssl.p12

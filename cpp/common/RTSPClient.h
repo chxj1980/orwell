@@ -14,9 +14,40 @@
 class RTSPClient : public Stoppable
 {
 public:
-	std::string uri;
-	RTSPClient(std::string uri) : uri(uri) {}
-
+	enum Transport
+	{
+		RTP_OVER_UDP,
+		RTP_OVER_TCP,
+		RTP_OVER_HTTP,
+		RTP_OVER_UDP_MULTICAST
+	};
+	RTSPClient(std::string uri, Transport transport) : RTSPClient(uri, transport, "", "")
+	{
+	}
+	RTSPClient(std::string uri, Transport transport,
+			   std::string username, std::string password): transport(transport), uri(uri),
+															username(username), password(password)
+	{
+	}
+	/*
+	RTSPClient(std::string uri, Transport transport,
+			   std::string user, std::string password, int port) : transport(transport), uri(uri),
+																   username(username), password(password),
+																   port(port)
+	{
+	}
+	*/
+	/*
+	void setUsername(std::string username) {
+		this->username = username;
+	}
+	void setPassword(std::string username) {
+		this->password = password;
+	}
+	void setPort(int port) {
+		this->port = port;
+	}
+	*/
 	void setEncodedPacketsFifo(std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo)
 	{
 		this->encodedPacketsFifo = encodedPacketsFifo;
@@ -37,12 +68,18 @@ public:
 	/*
 		To be used when there's a FIFO to write to
 	*/
-	virtual void startThreadMode() {
+	virtual void startThreadMode()
+	{
 		runThread = std::thread(&RTSPClient::run, this);
 	}
 
 protected:
 	std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo;
 	std::thread runThread;
+	Transport transport;
+	std::string uri;
+	std::string username;
+	std::string password;
+	int port;
 };
 #endif // RTSPCLient_H

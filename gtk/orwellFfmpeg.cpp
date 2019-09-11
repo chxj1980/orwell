@@ -38,8 +38,16 @@ int main(int argc, char **argv)
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		LOG << i;
 	//auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
-    std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
-	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl);
+    std::string username;
+	std::string password;
+	std::string rtspUrl;
+	username = "admin";
+	password = "19929394";
+	rtspUrl = "rtsp://192.168.0.101:10554/tcp/av0_1";
+	//username = "admin";
+	//password = "ljspqk1.618.@";
+	//rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
+	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
 	auto decoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
 	Orwell orwell(rtspClient, decoder);
 	Singleton::instance()->addStream("cam1", orwell);

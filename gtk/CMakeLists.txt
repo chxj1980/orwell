@@ -34,7 +34,10 @@ link_directories(${GTKMM_LIBRARY_DIRS})
 include_directories(include ${GTKMM_INCLUDE_DIRS})
 
 add_subdirectory(../myRtspClient _myRtspClient)
+add_subdirectory(../deps/ZLMediaKit _ZLMediaKit)
 include_directories(../myRtspClient/myRtspClient/include)
+include_directories(../deps/ZLMediaKit/src/)
+include_directories(../deps/ZLMediaKit/3rdpart/ZLToolKit/src)
 include_directories(../cpp/common/ ../cpp/desktop/)
 include_directories(..)
 include_directories(../deps/cxxopts/include)
@@ -89,12 +92,12 @@ if (COMPILE_TARGET STREQUAL "JETSON_NANO")
 	target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIB_V4L2} ${LIB_NVJPEG} ${LIB_DRM} ${LIB_EGL} ${LIB_NVBUF}
-	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
+	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy zltoolkit zlmediakit)
 else (COMPILE_TARGET STREQUAL "GENERIC_x86_64")
 	target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11}
-	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
+	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy zltoolkit zlmediakit)
 endif()
 	#${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIBDRM_LIBRARY} 
 

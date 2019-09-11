@@ -39,7 +39,8 @@ int main(int argc, char **argv)
 	//"NaluUtils"
 	auto app = Gtk::Application::create(argc, argv, "");
 	std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
-	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl);
+	std::string rtspUrl2("rtsp://admin:19929394..@192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif");
+	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl2);
 	std::shared_ptr<Decoder> decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
 	Orwell orwell(rtspClient, decoder);
 	Singleton::instance()->addStream("cam1", orwell);

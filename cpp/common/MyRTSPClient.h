@@ -16,8 +16,16 @@ class MyRTSPClient : public RTSPClient
 {
 public:
     RtspClient myRtspClient;
-    MyRTSPClient(std::string uri);
-
+    using RTSPClient::RTSPClient;
+    
+    MyRTSPClient(std::string uri, Transport transport) : myRtspClient(uri),RTSPClient(uri, transport)
+    {
+    }
+    MyRTSPClient(std::string uri, Transport transport, std::string user,
+                 std::string password) : myRtspClient(uri), RTSPClient(uri, transport, user, password)
+    {
+    }
+    
     int init();
     void run();
     int receivePacket();

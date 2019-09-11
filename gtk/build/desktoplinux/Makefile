@@ -234,6 +234,201 @@ jrtplib-static/fast:
 	$(MAKE) -f _myRtspClient/_JTRPLIB/src/CMakeFiles/jrtplib-static.dir/build.make _myRtspClient/_JTRPLIB/src/CMakeFiles/jrtplib-static.dir/build
 .PHONY : jrtplib-static/fast
 
+#=============================================================================
+# Target rules for targets named zlmediakit
+
+# Build rule for target.
+zlmediakit: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 zlmediakit
+.PHONY : zlmediakit
+
+# fast build rule for target.
+zlmediakit/fast:
+	$(MAKE) -f _ZLMediaKit/CMakeFiles/zlmediakit.dir/build.make _ZLMediaKit/CMakeFiles/zlmediakit.dir/build
+.PHONY : zlmediakit/fast
+
+#=============================================================================
+# Target rules for targets named zltoolkit
+
+# Build rule for target.
+zltoolkit: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 zltoolkit
+.PHONY : zltoolkit
+
+# fast build rule for target.
+zltoolkit/fast:
+	$(MAKE) -f _ZLMediaKit/CMakeFiles/zltoolkit.dir/build.make _ZLMediaKit/CMakeFiles/zltoolkit.dir/build
+.PHONY : zltoolkit/fast
+
+#=============================================================================
+# Target rules for targets named mpeg
+
+# Build rule for target.
+mpeg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mpeg
+.PHONY : mpeg
+
+# fast build rule for target.
+mpeg/fast:
+	$(MAKE) -f _ZLMediaKit/CMakeFiles/mpeg.dir/build.make _ZLMediaKit/CMakeFiles/mpeg.dir/build
+.PHONY : mpeg/fast
+
+#=============================================================================
+# Target rules for targets named mov
+
+# Build rule for target.
+mov: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mov
+.PHONY : mov
+
+# fast build rule for target.
+mov/fast:
+	$(MAKE) -f _ZLMediaKit/CMakeFiles/mov.dir/build.make _ZLMediaKit/CMakeFiles/mov.dir/build
+.PHONY : mov/fast
+
+#=============================================================================
+# Target rules for targets named flv
+
+# Build rule for target.
+flv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 flv
+.PHONY : flv
+
+# fast build rule for target.
+flv/fast:
+	$(MAKE) -f _ZLMediaKit/CMakeFiles/flv.dir/build.make _ZLMediaKit/CMakeFiles/flv.dir/build
+.PHONY : flv/fast
+
+#=============================================================================
+# Target rules for targets named test_pusherMp4
+
+# Build rule for target.
+test_pusherMp4: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_pusherMp4
+.PHONY : test_pusherMp4
+
+# fast build rule for target.
+test_pusherMp4/fast:
+	$(MAKE) -f _ZLMediaKit/tests/CMakeFiles/test_pusherMp4.dir/build.make _ZLMediaKit/tests/CMakeFiles/test_pusherMp4.dir/build
+.PHONY : test_pusherMp4/fast
+
+#=============================================================================
+# Target rules for targets named test_benchmark
+
+# Build rule for target.
+test_benchmark: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_benchmark
+.PHONY : test_benchmark
+
+# fast build rule for target.
+test_benchmark/fast:
+	$(MAKE) -f _ZLMediaKit/tests/CMakeFiles/test_benchmark.dir/build.make _ZLMediaKit/tests/CMakeFiles/test_benchmark.dir/build
+.PHONY : test_benchmark/fast
+
+#=============================================================================
+# Target rules for targets named bom
+
+# Build rule for target.
+bom: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bom
+.PHONY : bom
+
+# fast build rule for target.
+bom/fast:
+	$(MAKE) -f _ZLMediaKit/tests/CMakeFiles/bom.dir/build.make _ZLMediaKit/tests/CMakeFiles/bom.dir/build
+.PHONY : bom/fast
+
+#=============================================================================
+# Target rules for targets named test_server
+
+# Build rule for target.
+test_server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_server
+.PHONY : test_server
+
+# fast build rule for target.
+test_server/fast:
+	$(MAKE) -f _ZLMediaKit/tests/CMakeFiles/test_server.dir/build.make _ZLMediaKit/tests/CMakeFiles/test_server.dir/build
+.PHONY : test_server/fast
+
+#=============================================================================
+# Target rules for targets named test_httpClient
+
+# Build rule for target.
+test_httpClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_httpClient
+.PHONY : test_httpClient
+
+# fast build rule for target.
+test_httpClient/fast:
+	$(MAKE) -f _ZLMediaKit/tests/CMakeFiles/test_httpClient.dir/build.make _ZLMediaKit/tests/CMakeFiles/test_httpClient.dir/build
+.PHONY : test_httpClient/fast
+
+#=============================================================================
+# Target rules for targets named test_player
+
+# Build rule for target.
+test_player: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_player
+.PHONY : test_player
+
+# fast build rule for target.
+test_player/fast:
+	$(MAKE) -f _ZLMediaKit/tests/CMakeFiles/test_player.dir/build.make _ZLMediaKit/tests/CMakeFiles/test_player.dir/build
+.PHONY : test_player/fast
+
+#=============================================================================
+# Target rules for targets named test_httpApi
+
+# Build rule for target.
+test_httpApi: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_httpApi
+.PHONY : test_httpApi
+
+# fast build rule for target.
+test_httpApi/fast:
+	$(MAKE) -f _ZLMediaKit/tests/CMakeFiles/test_httpApi.dir/build.make _ZLMediaKit/tests/CMakeFiles/test_httpApi.dir/build
+.PHONY : test_httpApi/fast
+
+#=============================================================================
+# Target rules for targets named test_pusher
+
+# Build rule for target.
+test_pusher: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_pusher
+.PHONY : test_pusher
+
+# fast build rule for target.
+test_pusher/fast:
+	$(MAKE) -f _ZLMediaKit/tests/CMakeFiles/test_pusher.dir/build.make _ZLMediaKit/tests/CMakeFiles/test_pusher.dir/build
+.PHONY : test_pusher/fast
+
+#=============================================================================
+# Target rules for targets named MediaServer
+
+# Build rule for target.
+MediaServer: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 MediaServer
+.PHONY : MediaServer
+
+# fast build rule for target.
+MediaServer/fast:
+	$(MAKE) -f _ZLMediaKit/server/CMakeFiles/MediaServer.dir/build.make _ZLMediaKit/server/CMakeFiles/MediaServer.dir/build
+.PHONY : MediaServer/fast
+
+#=============================================================================
+# Target rules for targets named jsoncpp
+
+# Build rule for target.
+jsoncpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 jsoncpp
+.PHONY : jsoncpp
+
+# fast build rule for target.
+jsoncpp/fast:
+	$(MAKE) -f _ZLMediaKit/server/CMakeFiles/jsoncpp.dir/build.make _ZLMediaKit/server/CMakeFiles/jsoncpp.dir/build
+.PHONY : jsoncpp/fast
+
 OpenGLArea2.o: OpenGLArea2.cpp.o
 
 .PHONY : OpenGLArea2.o
@@ -615,6 +810,33 @@ home/dev/orwell/cpp/common/VideoRecorder.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/VideoRecorder.cpp.s
 .PHONY : home/dev/orwell/cpp/common/VideoRecorder.cpp.s
 
+home/dev/orwell/cpp/common/ZLRTSPClient.o: home/dev/orwell/cpp/common/ZLRTSPClient.cpp.o
+
+.PHONY : home/dev/orwell/cpp/common/ZLRTSPClient.o
+
+# target to build an object file
+home/dev/orwell/cpp/common/ZLRTSPClient.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/ZLRTSPClient.cpp.o
+.PHONY : home/dev/orwell/cpp/common/ZLRTSPClient.cpp.o
+
+home/dev/orwell/cpp/common/ZLRTSPClient.i: home/dev/orwell/cpp/common/ZLRTSPClient.cpp.i
+
+.PHONY : home/dev/orwell/cpp/common/ZLRTSPClient.i
+
+# target to preprocess a source file
+home/dev/orwell/cpp/common/ZLRTSPClient.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/ZLRTSPClient.cpp.i
+.PHONY : home/dev/orwell/cpp/common/ZLRTSPClient.cpp.i
+
+home/dev/orwell/cpp/common/ZLRTSPClient.s: home/dev/orwell/cpp/common/ZLRTSPClient.cpp.s
+
+.PHONY : home/dev/orwell/cpp/common/ZLRTSPClient.s
+
+# target to generate assembly for a file
+home/dev/orwell/cpp/common/ZLRTSPClient.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/ZLRTSPClient.cpp.s
+.PHONY : home/dev/orwell/cpp/common/ZLRTSPClient.cpp.s
+
 main3.o: main3.cpp.o
 
 .PHONY : main3.o
@@ -687,6 +909,21 @@ help:
 	@echo "... myRtspClient"
 	@echo "... jrtplib-shared"
 	@echo "... jrtplib-static"
+	@echo "... zlmediakit"
+	@echo "... zltoolkit"
+	@echo "... mpeg"
+	@echo "... mov"
+	@echo "... flv"
+	@echo "... test_pusherMp4"
+	@echo "... test_benchmark"
+	@echo "... bom"
+	@echo "... test_server"
+	@echo "... test_httpClient"
+	@echo "... test_player"
+	@echo "... test_httpApi"
+	@echo "... test_pusher"
+	@echo "... MediaServer"
+	@echo "... jsoncpp"
 	@echo "... OpenGLArea2.o"
 	@echo "... OpenGLArea2.i"
 	@echo "... OpenGLArea2.s"
@@ -729,6 +966,9 @@ help:
 	@echo "... home/dev/orwell/cpp/common/VideoRecorder.o"
 	@echo "... home/dev/orwell/cpp/common/VideoRecorder.i"
 	@echo "... home/dev/orwell/cpp/common/VideoRecorder.s"
+	@echo "... home/dev/orwell/cpp/common/ZLRTSPClient.o"
+	@echo "... home/dev/orwell/cpp/common/ZLRTSPClient.i"
+	@echo "... home/dev/orwell/cpp/common/ZLRTSPClient.s"
 	@echo "... main3.o"
 	@echo "... main3.i"
 	@echo "... main3.s"
