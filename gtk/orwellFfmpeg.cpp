@@ -25,6 +25,8 @@
 #include "SimpleRenderer.h"
 #include "Orwell.h"
 #include "SLog.h"
+#include "ZLRTSPClient.h"
+
 SLOG_CATEGORY("main");
 
 int main(int argc, char **argv)
@@ -32,7 +34,7 @@ int main(int argc, char **argv)
 	LOG.logImmediately(true);
 	LOG << "------------ Orwell initiated!";
 	//Gtk::Main kit;
-	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient");
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", "ZLRTSPClient");
 	auto app = Gtk::Application::create(argc, argv, "");
 	LOG << "supported hardware: ";
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
@@ -43,11 +45,13 @@ int main(int argc, char **argv)
 	std::string rtspUrl;
 	username = "admin";
 	password = "19929394";
-	rtspUrl = "rtsp://192.168.0.101:10554/tcp/av0_1";
-	//username = "admin";
-	//password = "ljspqk1.618.@";
-	//rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
-	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
+	rtspUrl = "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1";
+	username = "admin";
+	password = "ljspqk1.618.@";
+	rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
+	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
+	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
+
 	auto decoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
 	Orwell orwell(rtspClient, decoder);
 	Singleton::instance()->addStream("cam1", orwell);

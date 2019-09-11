@@ -17,6 +17,8 @@ find_library(ZLIB_LIBRARY z)
 find_library(MLIB_LIBRARY m)
 find_library(LIBDL_LIBRARY dl)
 find_library(LIBDRM_LIBRARY drm)
+find_library(LIB_SSL ssl)
+find_library(LIB_CRYPTO crypto)
 
 #These driver libraries are only available for x86 or x86_64, arm libs are not compiled with them
 if (CMAKE_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_SYSTEM_PROCESSOR STREQUAL x86)
@@ -34,6 +36,8 @@ link_directories(${GTKMM_LIBRARY_DIRS})
 include_directories(include ${GTKMM_INCLUDE_DIRS})
 
 add_subdirectory(../myRtspClient _myRtspClient)
+#No openssl for ZLMediaKit for now, because it uses 1.1-dev and ubuntu bionic only has 1.0-dev
+set(ENABLE_OPENSSL false)
 add_subdirectory(../deps/ZLMediaKit _ZLMediaKit)
 include_directories(../myRtspClient/myRtspClient/include)
 include_directories(../deps/ZLMediaKit/src/)
@@ -92,12 +96,12 @@ if (COMPILE_TARGET STREQUAL "JETSON_NANO")
 	target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIB_V4L2} ${LIB_NVJPEG} ${LIB_DRM} ${LIB_EGL} ${LIB_NVBUF}
-	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy zltoolkit zlmediakit)
+	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} ${LIB_SSL} ${LIB_CRYPTO} epoxy zlmediakit zltoolkit)
 else (COMPILE_TARGET STREQUAL "GENERIC_x86_64")
 	target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11}
-	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy zltoolkit zlmediakit)
+	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy zlmediakit zltoolkit ${LIB_SSL} ${LIB_CRYPTO} )
 endif()
 	#${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIBDRM_LIBRARY} 
 

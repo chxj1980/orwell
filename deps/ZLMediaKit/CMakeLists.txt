@@ -52,7 +52,7 @@ else()
 endif ()
 
 set(ENABLE_HLS true)
-set(ENABLE_OPENSSL true)
+set(ENABLE_OPENSSL false)
 set(ENABLE_MYSQL true)
 set(ENABLE_MP4V2 true)
 set(ENABLE_FAAC true)

@@ -3,9 +3,10 @@
 
 int ZLRTSPClient::init()
 {
+    LOG << "ZRTSPClient init for " << this->uri;
     weak_ptr<MediaPlayer> weakPlayer = player;
     player->setOnPlayResult([weakPlayer, this](const SockException &ex) {
-        this->LOG << "OnPlayResult:" << ex.what() << " for " << this->uri;
+        this->LOG << "OnPlayResult: " << ex.what() << " for " << this->uri;
         auto strongPlayer = weakPlayer.lock();
         if (ex || !strongPlayer)
         {
