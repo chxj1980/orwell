@@ -7,9 +7,10 @@
 class ZLRTSPEncodedPacket : public EncodedPacket
 {
 public:
-    ZLRTSPEncodedPacket(const Frame::Ptr &frame): frame(frame) {
+    ZLRTSPEncodedPacket(Frame::Ptr frame): frame(frame) {
 
     }
+
     uint8_t* getFramePointer()
     {
         return static_cast<uint8_t*>(frame.get()->data);

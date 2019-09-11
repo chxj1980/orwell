@@ -1,4 +1,7 @@
 #include "FfmpegHardwareDecoder.h"
+#include "SLog.h"
+SLOG_CATEGORY("FfmpegHardwareDecoder");
+
 struct avCodecContextOpaque
 {
     AVPixelFormat *avPixelFormat;
@@ -125,7 +128,6 @@ FfmpegHardwareDecoder::FfmpegHardwareDecoder(Codec codec, Device device, std::st
         std::cout << "avcodec_open2 problem" << std::endl;
         //return 5;
     }
-
 };
 
 int FfmpegHardwareDecoder::hardwareDecode(std::shared_ptr<EncodedPacket> encodedPacket)
@@ -165,8 +167,9 @@ int FfmpegHardwareDecoder::hardwareDecode(std::shared_ptr<EncodedPacket> encoded
 
 int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket)
 {
-    std::shared_ptr<DecodedFrame> decodedFrame;
-    decodedFrame->decodedFrom = DecodedFrame::FFMPEG;
+    auto decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
+	decodedFfmpegFrame->decodedFrom = DecodedFrame::FFMPEG;
+
     //Decodes video into `frame`.
     int r = decodeFrame(encodedPacket, decodedFrame);
     if (!decodedFramesFifo)
@@ -175,12 +178,14 @@ int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
     }
     //Adds the frame to the end of the FIFO.
     if (r != 0)
-        this->decodedFramesFifo->emplace_back(std::move(decodedFrame));
+        this->decodedFramesFifo->emplace_back(decodedFrame);
     return r;
 }
 
 int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
+    std::shared_ptr<DecodedFfmpegFrame> decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFrame);
+
     bool r = hardwareDecode(encodedPacket);
 
     if (r != 0)
@@ -202,7 +207,7 @@ int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
         }
         else
         {
-            decodedFrame->avFrame = std::move(avFrameUniquePtr);
+            decodedFfmpegFrame->avFrame = std::move(avFrameUniquePtr);
         }
         /*
             Now the decoded frame from hardware is in CPU memory, in frame struct

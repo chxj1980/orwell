@@ -1,4 +1,6 @@
 #include "FfmpegSoftwareDecoder.h"
+#include "SLog.h"
+SLOG_CATEGORY("FfmpegSoftwareDecoder");
 
 FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 {
@@ -8,13 +10,13 @@ FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 	else if (codec == H265)
 	{
 		//avCodec = avcodec_find_decoder(AV_CODEC_ID_H265);
-		std::cout << "H265 not yet supported" << std::endl;
+		LOG << "H265 not yet supported";
 		//return -1;
 	}
 
 	if (!avCodec)
 	{
-		std::cout << "avcodec_find_decoder problem" << std::endl;
+		LOG << "avcodec_find_decoder problem";
 		//return -2;
 	}
 
@@ -23,7 +25,7 @@ FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 	int ret = avcodec_open2(avCodecContext.get(), avCodec, NULL);
 	if (ret < 0)
 	{
-		std::cout << "avcodec_open2 problem: " << ret << std::endl;
+		LOG << "avcodec_open2 problem: " << ret;
 		//return -3;
 	}
 }
@@ -36,7 +38,7 @@ int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
 	int r = decodeFrame(encodedPacket, decodedFfmpegFrame);
 	if (!decodedFramesFifo)
 	{
-		std::cerr << "No decodedFramesFifo setted in FfmpegSoftwareDecoder" << std::endl;
+		LOG << "No decodedFramesFifo setted in FfmpegSoftwareDecoder";
 	}
 	if (r == 0)
 		this->decodedFramesFifo->emplace_back(decodedFfmpegFrame);
@@ -55,7 +57,7 @@ int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
 
 	std::unique_ptr<AVPacket, AVPacketDeleter> avPacket(av_packet_alloc());
 	if (!avPacket.get())
-		std::cout << "av packet error" << std::endl;
+		LOG << "av packet error";
 
 	avPacket.get()->size = encodedPacket->getSize();
 	avPacket.get()->data = encodedPacket->getFramePointer();
@@ -87,7 +89,7 @@ int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
 		}
 		else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF))
 		{
-			std::cout << "avcodec_receive_frame returned error " << receiveFrameResult << std::endl;
+			LOG << "avcodec_receive_frame returned error " << receiveFrameResult;
 			return -2;
 		}
 		else
@@ -100,11 +102,11 @@ int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
 				break;
 			//To be done: what does this error mean? I think it's literally the end of an mp4 file
 			case AVERROR_EOF:
-				std::cout << "avcodec_receive_frame AVERROR_EOF" << std::endl;
+				LOG << "avcodec_receive_frame AVERROR_EOF";
 				break;
 			//To be done: describe what error is this in std cout before stopping
 			default:
-				std::cout << "avcodec_receive_frame returned error, stopping..." << receiveFrameResult /*<< av_err2str(result).c_str()*/ << std::endl;
+				LOG << "avcodec_receive_frame returned error, stopping..." << receiveFrameResult /*<< av_err2str(result).c_str()*/;
 				break;
 				//Error happened, should break anyway
 				break;
@@ -116,14 +118,14 @@ int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
 		switch (sendPacketResult)
 		{
 		case AVERROR(EAGAIN):
-			std::cout << "avcodec_send_packet EAGAIN" << std::endl;
+			LOG << "avcodec_send_packet EAGAIN";
 			break;
 		case AVERROR_EOF:
-			std::cout << "avcodec_send_packet AVERROR_EOF" << std::endl;
+			LOG << "avcodec_send_packet AVERROR_EOF";
 			break;
 		//To be done: debug which erros are these. Last time I checked it was a bunch of -1094995529 errors
 		default:
-			//std::cout << "ffmpeg default unknown error number " << result << " for " << this->uri << std::endl;
+			//LOG << "ffmpeg default unknown error number " << result << " for " << this->uri;
 			break;
 		}
 	}
