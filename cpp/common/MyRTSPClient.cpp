@@ -217,7 +217,7 @@ int MyRTSPClient::receivePacket()
 			{
 				this->encodedPacketsFifo->emplace_back(std::move(frame));
 			}
-			//decoder->decodeFrame(frameBuffer, size);
+			//decoder->uploadPacket(frameBuffer, size);
 		}
 	}
 	return 0;

@@ -8,7 +8,6 @@
 #include <fcntl.h>
 #include <memory>
 #include <cstdint>
-
 class EncodedPacket
 {
 public:
@@ -19,7 +18,7 @@ public:
     EncodedPacket &operator=(EncodedPacket &&) = default;
 
     virtual uint8_t* getFramePointer() = 0;
-
     virtual uint32_t getSize() = 0;
 };
+typedef std::shared_ptr<EncodedPacket> SharedEncodedPacket;
 #endif //EncodedPacket_H

@@ -31,21 +31,23 @@ FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
-int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket)
+int FfmpegSoftwareDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket)
 {
-	auto decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
+	//auto decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
+	auto decodedFfmpegFrame = std::make_shared<DecodedFfmpegFrame>();
 	decodedFfmpegFrame->decodedFrom = DecodedFrame::FFMPEG;
-	int r = decodeFrame(encodedPacket, decodedFfmpegFrame);
+	int r = uploadPacket(encodedPacket, decodedFfmpegFrame);
 	if (!decodedFramesFifo)
 	{
 		LOG << "No decodedFramesFifo setted in FfmpegSoftwareDecoder";
 	}
+	//If we got a frame
 	if (r == 0)
 		this->decodedFramesFifo->emplace_back(decodedFfmpegFrame);
 	return r;
 }
 
-int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
+int FfmpegSoftwareDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
 	std::shared_ptr<DecodedFfmpegFrame> decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFrame);
 	//Disable ffmpeg annoying output

@@ -25,8 +25,8 @@ public:
             Calls hardwareDecode() then gets video from GPU memory to CPU memory and 
             sends to VideoReceiver instance.
         */
-    int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket);
-    int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame);
+    int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket);
+    int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame);
     //
     AVPixelFormat print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt);
     AVPixelFormat get_format(struct AVCodecContext *s, const AVPixelFormat *fmt);

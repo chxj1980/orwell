@@ -165,24 +165,24 @@ int FfmpegHardwareDecoder::hardwareDecode(std::shared_ptr<EncodedPacket> encoded
     return true;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket)
+int FfmpegHardwareDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket)
 {
-    auto decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
+    auto decodedFfmpegFrame = std::make_shared<DecodedFfmpegFrame>();
 	decodedFfmpegFrame->decodedFrom = DecodedFrame::FFMPEG;
 
     //Decodes video into `frame`.
-    int r = decodeFrame(encodedPacket, decodedFrame);
+    int r = uploadPacket(encodedPacket, decodedFfmpegFrame);
     if (!decodedFramesFifo)
     {
         std::cerr << "No decodedFramesFifo setted in FfmpegHardwareDecoder" << std::endl;
     }
     //Adds the frame to the end of the FIFO.
     if (r != 0)
-        this->decodedFramesFifo->emplace_back(decodedFrame);
+        this->decodedFramesFifo->emplace_back(decodedFfmpegFrame);
     return r;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
+int FfmpegHardwareDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
     std::shared_ptr<DecodedFfmpegFrame> decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFrame);
 
@@ -218,7 +218,7 @@ int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
         //tmp_frame = fromGPUAvFrame;
     }
     else
-        std::cout << "FfmpegHardwareDecoder::decodeFrame: something is wrong, decodedAvFrame->format != avPixelFormat" << std::endl;
+        std::cout << "FfmpegHardwareDecoder::uploadPacket: something is wrong, decodedAvFrame->format != avPixelFormat" << std::endl;
     return -2;
     //tmp_frame = decodedAvFrame;
     /*
@@ -295,67 +295,3 @@ int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPac
 
     return 0;
     */
-
-AVPixelFormat FfmpegHardwareDecoder::print_avaliable_pixel_formats_for_hardware(struct AVCodecContext *avctx, const AVPixelFormat *fmt)
-{
-    //const AVPixFmtDescriptor *desc;
-    //const AVCodecHWConfig *config;
-    int i, n;
-    /* 
-     // If a device was supplied when the codec was opened, assume that the
-     // user wants to use it.
-     if (avctx->hw_device_ctx && avctx->codec->hw_configs) {
-         AVHWDeviceContext *device_ctx =
-             (AVHWDeviceContext*)avctx->hw_device_ctx->data;
-         for (i = 0;; i++) {
-             config = &avctx->codec->hw_configs[i]->public;
-             if (!config)
-                 break;
-             if (!(config->methods &
-                   AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX))
-                 continue;
-             if (device_ctx->type != config->device_type)
-                 continue;
-             for (n = 0; fmt[n] != AV_PIX_FMT_NONE; n++) {
-                 if (config->pix_fmt == fmt[n])
-                     return fmt[n];
-             }
-         }
-     }
-	*/
-    // No device or other setup, so we have to choose from things which
-    // don't any other external information.
-
-    // Finally, traverse the list in order and choose the first entry
-    // with no external dependencies (if there is no hardware configuration
-    // information available then this just picks the first entry).
-    printf("supported formats are \n");
-    for (n = 0; fmt[n] != AV_PIX_FMT_NONE; n++)
-    {
-
-        /* 
-         for (i = 0;; i++) {
-			 
-             config = avcodec_get_hw_config(avctx->codec, i);
-             if (!config)
-                 break;
-             if (config->pix_fmt == fmt[n])
-                 break;
-         }
-		 */
-        /* 
-         if (!config) {
-             // No specific config available, so the decoder must be able
-             // to handle this format without any additional setup.
-             return fmt[n];
-         }
-         if (config->methods & AV_CODEC_HW_CONFIG_METHOD_INTERNAL) {
-             // Usable with only internal setup.
-             return fmt[n];
-         }
-		 */
-    }
-
-    // Nothing is usable, give up.
-    return AV_PIX_FMT_NONE;
-}

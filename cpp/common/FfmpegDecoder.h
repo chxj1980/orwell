@@ -74,8 +74,8 @@ public:
 		To just decode to GPU memory but not get it in CPU memory, use
 		FfmpegHardwareDecoder::hardwareDecode().
 	*/
-	virtual int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacketh) = 0;
-	virtual int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) = 0;
+	virtual int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacketh) = 0;
+	virtual int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) = 0;
 	/* 
 	static int avFrameToFrame(AVFrame* avFrame, Frame &frame)
 	{

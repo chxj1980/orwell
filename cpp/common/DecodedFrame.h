@@ -29,12 +29,10 @@ public:
     } decodedFrom;
 
     virtual int getWidth() {}
-
     virtual int getHeight() {}
-
     //Format number of the enum
     virtual int getFormat() {}
 
 };
-
+typedef std::shared_ptr<DecodedFrame> SharedDecodedFrame;
 #endif // Frame_h
