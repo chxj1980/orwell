@@ -37,11 +37,11 @@ public:
 		- frameLength contains size of frameBuffer
 		- frame is the pointer to the decoded frame data
 	*/
-	virtual int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) {};
+	virtual int sendPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) {};
 	/*
 		Decodes directly to the decodedFramesFifo
 	*/
-	virtual int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket) {};
+	virtual int sendPacket(std::shared_ptr<EncodedPacket> encodedPacket) {};
 	/*
 		Here go all the raw frames, as readed from network or file
 	*/

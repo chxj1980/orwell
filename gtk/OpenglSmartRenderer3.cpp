@@ -31,14 +31,14 @@ void OpenglSmartRenderer3::run()
 	{
 		//std::unique_lock<std::mutex> lock{mutex};
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
-		std::shared_ptr<DecodedFrame> decodedFrame = decodedFramesFifo->pop_front();
+		auto decodedFfmpegFrame =  std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
 		/* 
 		    Since the frame is gone from the fifo, it only exists here. We move it to the renderer and then we 
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
 		    TODO: verify if this indeed happens
 		*/
 		std::unique_lock<std::mutex> lk{mutex};
-		this->decodedFrame = decodedFrame;
+		this->decodedFfmpegFrame = decodedFfmpegFrame;
 		lk.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
@@ -104,7 +104,7 @@ void OpenglSmartRenderer3::glDraw()
 	int alpha;
 	PixelFormat *pixelFormat;
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
-	if (this->firstFrameReceived && decodedFrame->getWidth() != 0)
+	if (this->firstFrameReceived && decodedFfmpegFrame->getWidth() != 0)
 	{
 		//std::cout << "Received frame with width: " << decodedFrame->width << " and height: " << decodedFrame->height << std::endl;
 		//std::cout << "getting pixelformat for " << (int)decodedFrame->format << std::endl;
@@ -127,7 +127,7 @@ void OpenglSmartRenderer3::glDraw()
 			component, in the case of an YUV frame, or the details about RGB in the
 			case of an RGB decodedFrame->
 		*/
-		pixelFormat = PixelFormats::get(static_cast<int>(decodedFrame->getFormat()));
+		pixelFormat = PixelFormats::get(static_cast<int>(decodedFfmpegFrame->getFormat()));
 		for (int i = 0; i <= 2; i++)
 		{
 			/*
@@ -153,9 +153,9 @@ void OpenglSmartRenderer3::glDraw()
 				that come after the stride.
 			*/
 			//TODO: can linesize be <0?
-			linesize[i] = decodedFrame->getLineSize(i);
-			width[i] = decodedFrame->getWidth() * widthRatio.numerator / heightRatio.denominator;
-			height[i] = decodedFrame->getHeight() * heightRatio.numerator / heightRatio.denominator;
+			linesize[i] = decodedFfmpegFrame->getLineSize(i);
+			width[i] = decodedFfmpegFrame->getWidth() * widthRatio.numerator / heightRatio.denominator;
+			height[i] = decodedFfmpegFrame->getHeight() * heightRatio.numerator / heightRatio.denominator;
 			planeSize[i] = linesize[i] * height[i];
 			textureSize[i] = width[i] * height[i];
 			/*
@@ -294,7 +294,7 @@ void OpenglSmartRenderer3::glDraw()
 
 			//glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, TBO);
 
-			if (decodedFrame->getPointer(j) != NULL) // && linesize[j] != 0)
+			if (decodedFfmpegFrame->getPointer(j) != NULL) // && linesize[j] != 0)
 			{
 				/*
 					We're gonna write to our Pixel Buffer Object line by line ignoring the stride.
@@ -304,7 +304,7 @@ void OpenglSmartRenderer3::glDraw()
 				for (int i = 0; i <= height[j] - 1; i++)
 				{
 					GLintptr offset = i * linesize[j];
-					glBufferSubData(GL_PIXEL_UNPACK_BUFFER, offset, width[j], decodedFrame->getPointer(j) + offset);
+					glBufferSubData(GL_PIXEL_UNPACK_BUFFER, offset, width[j], decodedFfmpegFrame->getPointer(j) + offset);
 				}
 				glTexSubImage2D(GL_TEXTURE_2D,
 								0,

@@ -13,12 +13,12 @@ public:
 
     uint8_t* getFramePointer()
     {
-        return static_cast<uint8_t*>(frame.get()->data);
+        return static_cast<uint8_t*>(frame.get()->data());
     }
 
-    uint32_t getSize()
+    size_t getSize()
     {
-        return frame.get()->size;
+        return frame.get()->size();
     }
 
 protected:

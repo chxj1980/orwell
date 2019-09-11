@@ -189,10 +189,11 @@ int MyRTSPClient::receivePacket()
 	size_t bufferSize = 408304;
 	while (true)
 	{
-		EncodedPacket frame(bufferSize);
+		//EncodedPacket frame(bufferSize);
+		auto myRtspEncodedPacket = std::make_shared<MyRTSPEncodedPacket>(bufferSize);
 		a++;
 
-		if (!myRtspClient.GetMediaData("video", frame.frameBuffer.get(), &frame.frameSize, bufferSize))
+		if (!myRtspClient.GetMediaData("video", myRtspEncodedPacket->getFramePointer(), myRtspEncodedPacket->getSizePointer(), bufferSize))
 		{
 			if (ByeFromServerFlag2)
 			{
@@ -215,9 +216,9 @@ int MyRTSPClient::receivePacket()
 			}
 			else
 			{
-				this->encodedPacketsFifo->emplace_back(std::move(frame));
+				this->encodedPacketsFifo->emplace_back(myRtspEncodedPacket);
 			}
-			//decoder->uploadPacket(frameBuffer, size);
+			//decoder->sendPacket(frameBuffer, size);
 		}
 	}
 	return 0;

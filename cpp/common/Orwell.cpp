@@ -3,8 +3,8 @@
 const int maxEncodedPacketFifoSize = 40;
 //No more than x decoded video frames
 const int maxDecodedFrameFifoSize = 15;
-std::shared_ptr<ThreadSafeDequePolicy<EncodedPacket>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<EncodedPacket>>(maxEncodedPacketFifoSize);
-std::shared_ptr<ThreadSafeDequePolicy<DecodedFrame>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<DecodedFrame>>(maxDecodedFrameFifoSize);
+std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<EncodedPacket>>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<EncodedPacket>>>(maxEncodedPacketFifoSize);
+std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<DecodedFrame>>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<DecodedFrame>>>(maxDecodedFrameFifoSize);
 
 Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder> _decoder)
 {

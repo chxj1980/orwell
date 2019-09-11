@@ -57,7 +57,7 @@ protected:
 
 private:
 	//void on_glx_init ();
-	std::shared_ptr<DecodedFrame> decodedFrame;
+	std::shared_ptr<DecodedFfmpegFrame> decodedFfmpegFrame;
 	int frameWidth = 0;
 	int frameHeight = 0;
 	int format;

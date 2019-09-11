@@ -11,14 +11,15 @@
 class EncodedPacket
 {
 public:
-    EncodedPacket(){}
+    EncodedPacket() {}
     EncodedPacket(const EncodedPacket &encodedPacket) = delete;
     EncodedPacket &operator=(const EncodedPacket &) = delete;
     EncodedPacket(EncodedPacket &&) = default;
     EncodedPacket &operator=(EncodedPacket &&) = default;
 
     virtual uint8_t* getFramePointer() = 0;
-    virtual uint32_t getSize() = 0;
+    virtual size_t* getSizePointer() = 0;
+    virtual size_t getSize() = 0;
 };
 typedef std::shared_ptr<EncodedPacket> SharedEncodedPacket;
 #endif //EncodedPacket_H

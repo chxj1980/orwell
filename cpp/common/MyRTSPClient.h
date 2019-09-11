@@ -29,10 +29,15 @@ public:
         return frame.get();
     }
 
-    uint32_t getSize()
+    size_t getSize()
     {
         return size;
     }
+
+    size_t* getSizePointer() {
+        return &size;
+    }
+
 
     //Actual frameSize. Must be less than bufferSize obviously
     size_t size = 0;

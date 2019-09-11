@@ -15,10 +15,10 @@ SLOG_CATEGORY("NVDecoder");
 int NVDecoder::counter = 0;
 NvApplicationProfiler &NVDecoder::nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
 
-int NVDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket)
+int NVDecoder::sendPacket(std::shared_ptr<EncodedPacket> encodedPacket)
 {
 }
-int NVDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
+int NVDecoder::sendPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
 }
 

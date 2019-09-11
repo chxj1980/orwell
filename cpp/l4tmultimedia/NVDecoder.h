@@ -113,8 +113,8 @@ public:
 	/* 
 		
 	*/
-	int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket);
-	int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame);
+	int sendPacket(std::shared_ptr<EncodedPacket> encodedPacket);
+	int sendPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame);
 	void respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop);
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
 	void run();

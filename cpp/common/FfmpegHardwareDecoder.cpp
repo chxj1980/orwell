@@ -165,13 +165,13 @@ int FfmpegHardwareDecoder::hardwareDecode(std::shared_ptr<EncodedPacket> encoded
     return true;
 }
 
-int FfmpegHardwareDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket)
+int FfmpegHardwareDecoder::sendPacket(std::shared_ptr<EncodedPacket> encodedPacket)
 {
     auto decodedFfmpegFrame = std::make_shared<DecodedFfmpegFrame>();
 	decodedFfmpegFrame->decodedFrom = DecodedFrame::FFMPEG;
 
     //Decodes video into `frame`.
-    int r = uploadPacket(encodedPacket, decodedFfmpegFrame);
+    int r = sendPacket(encodedPacket, decodedFfmpegFrame);
     if (!decodedFramesFifo)
     {
         std::cerr << "No decodedFramesFifo setted in FfmpegHardwareDecoder" << std::endl;
@@ -182,7 +182,7 @@ int FfmpegHardwareDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPa
     return r;
 }
 
-int FfmpegHardwareDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
+int FfmpegHardwareDecoder::sendPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
     std::shared_ptr<DecodedFfmpegFrame> decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFrame);
 
@@ -218,7 +218,7 @@ int FfmpegHardwareDecoder::uploadPacket(std::shared_ptr<EncodedPacket> encodedPa
         //tmp_frame = fromGPUAvFrame;
     }
     else
-        std::cout << "FfmpegHardwareDecoder::uploadPacket: something is wrong, decodedAvFrame->format != avPixelFormat" << std::endl;
+        std::cout << "FfmpegHardwareDecoder::sendPacket: something is wrong, decodedAvFrame->format != avPixelFormat" << std::endl;
     return -2;
     //tmp_frame = decodedAvFrame;
     /*

@@ -18,8 +18,8 @@ class MediaCodecDecoder: public Decoder
 {
 public:
     MediaCodecDecoder(Codec codec);
-    int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacketh) = 0;
-    int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) = 0;
+    int sendPacket(std::shared_ptr<EncodedPacket> encodedPacketh) = 0;
+    int sendPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) = 0;
 
 protected:
     //std::unique_ptr<AMediaExtractor> aMediaExtractor = std::make_unique<AMediaExtractor>(AMediaExtractor_new());

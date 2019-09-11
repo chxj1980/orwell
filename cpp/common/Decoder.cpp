@@ -20,10 +20,10 @@ void Decoder::run()
 			std::shared_ptr<EncodedPacket> encodedPacket = encodedPacketsFifo->pop_front();
 			/* 
 				Since the frame is gone from the fifo, it only exists here. 
-				uploadPacket() access its pointers and is blocking. When uploadPacket 
+				sendPacket() access its pointers and is blocking. When sendPacket 
 				finishes, `encodedPacket` is gone and its contents are automatically deleted.
 				DecodedFrame is sent to the decodedFramesFifo
 			*/
-			uploadPacket(encodedPacket);
+			sendPacket(encodedPacket);
 		}
 	}

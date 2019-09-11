@@ -32,7 +32,7 @@ public:
 		if (plane < AV_NUM_DATA_POINTERS && avFrame)
 			return avFrame->linesize[plane];
 		else
-			return NULL;
+			return 0;
 	}
 
 	int getFormat()
@@ -74,8 +74,8 @@ public:
 		To just decode to GPU memory but not get it in CPU memory, use
 		FfmpegHardwareDecoder::hardwareDecode().
 	*/
-	virtual int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacketh) = 0;
-	virtual int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) = 0;
+	virtual int sendPacket(std::shared_ptr<EncodedPacket> encodedPacketh) = 0;
+	virtual int sendPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) = 0;
 	/* 
 	static int avFrameToFrame(AVFrame* avFrame, Frame &frame)
 	{

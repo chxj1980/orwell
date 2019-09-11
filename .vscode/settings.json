@@ -70,7 +70,8 @@
         "set": "cpp",
         "regex": "cpp",
         "*.vert": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "*.moc": "cpp"
     },
     "search.exclude": {
         "**/node_modules": false

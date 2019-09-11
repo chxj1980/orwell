@@ -5,8 +5,8 @@
 class FfmpegSoftwareDecoder: public FfmpegDecoder {
     public:
         FfmpegSoftwareDecoder(Codec codec);
-        int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket);
-        int uploadPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame);
+        int sendPacket(std::shared_ptr<EncodedPacket> encodedPacket);
+        int sendPacket(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame);
     private:
     	
 };
