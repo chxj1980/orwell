@@ -10,9 +10,9 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
 {
     rtspClient = _rtspClient;
     //FIFOs for encoded and decoder
-    encodedPacketsFifo = std::make_shared<ThreadSafeDeque<EncodedPacket>>();
+    encodedPacketsFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>>();
     encodedPacketsFifo->setPolicy(encodedPacketFifoSizePolicy);
-    decodedFramesFifo = std::make_shared<ThreadSafeDeque<DecodedFrame>>();
+    decodedFramesFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>>();
     decodedFramesFifo->setPolicy(decodedFrameFifoSizePolicy);
     //Decoders
     decoder = _decoder;

@@ -9,10 +9,10 @@ MediaCodecDecoder::MediaCodecDecoder(Codec codec) {
     }
 }
 
-int MediaCodecDecoder::decodeFrame(EncodedPacket &encodedPacket) {
+int MediaCodecDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket) {
 
 }
-int MediaCodecDecoder::decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame) {
+int MediaCodecDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) {
     ssize_t bufidx = -1;
     bufidx = AMediaCodec_dequeueInputBuffer(aMediaCodec.get(), 2000);
     if (bufidx >= 0) {

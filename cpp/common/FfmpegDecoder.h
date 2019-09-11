@@ -16,7 +16,37 @@ extern "C"
 #include "Decoder.h"
 #include "FfmpegDeleters.h"
 
-class FfmpegDecoder: public Decoder
+class DecodedFfmpegFrame : public DecodedFrame
+{
+public:
+	uint8_t *getPointer(int plane)
+	{
+		if (plane < AV_NUM_DATA_POINTERS)
+			return avFrame->data[plane];
+	}
+
+	int getLineSize(int plane)
+	{
+		if (plane < AV_NUM_DATA_POINTERS)
+			return avFrame->linesize[plane];
+	}
+
+	int getFormat() {
+		return avFrame->format;
+	}
+
+	int getWidth(int plane) {
+		return avFrame->width;
+	}
+
+    int getHeight(int plane) {
+		return avFrame->height;
+	}
+
+	std::unique_ptr<AVFrame, AVFrameDeleter> avFrame;
+};
+
+class FfmpegDecoder : public Decoder
 {
 public:
 	/* 
@@ -28,8 +58,8 @@ public:
 		To just decode to GPU memory but not get it in CPU memory, use
 		FfmpegHardwareDecoder::hardwareDecode().
 	*/
-	virtual int decodeFrame(EncodedPacket& encodedPacketh) = 0;
-	virtual int decodeFrame(EncodedPacket& encodedPacket, DecodedFrame &decodedFrame) = 0;
+	virtual int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacketh) = 0;
+	virtual int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) = 0;
 	/* 
 	static int avFrameToFrame(AVFrame* avFrame, Frame &frame)
 	{

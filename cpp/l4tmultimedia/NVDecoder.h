@@ -27,33 +27,58 @@
 	inside DecodedFrame (where ReusableBuffer is defined). We use downcasting
 	to treat ReusableBuffer as NVDecoderReusableBuffer when needed.
 */
-class NVDecoderReusableBuffer : public ReusableBuffer
+class DecodedNvFrame : public DecodedFrame
 {
 public:
-	NVDecoderReusableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder): nvVideoDecoder(nvVideoDecoder) {
-		
-	}
-	NVDecoderReusableBuffer(std::shared_ptr<NvVideoDecoder> nvVideoDecoder,
-							v4l2_buffer v4l2Buffer,
-							NvBuffer* nvBuffer) : nvVideoDecoder(nvVideoDecoder),
-												  v4l2Buffer(v4l2Buffer),
-												  nvBuffer{nvBuffer}
+	DecodedNvFrame(std::shared_ptr<NvVideoDecoder> nvVideoDecoder) : nvVideoDecoder(nvVideoDecoder)
 	{
+		fill();
 	}
-	int giveBack()
+	DecodedNvFrame(std::shared_ptr<NvVideoDecoder> nvVideoDecoder,
+				   v4l2_buffer v4l2Buffer,
+				   NvBuffer *nvBuffer) : nvVideoDecoder(nvVideoDecoder),
+										 v4l2Buffer(v4l2Buffer),
+										 nvBuffer{nvBuffer}
+	{
+		fill();
+	}
+
+	void fill()
+	{
+		memset(&v4l2Buffer, 0, sizeof(v4l2Buffer));
+		memset(planes, 0, sizeof(planes));
+		v4l2Buffer.m.planes = planes;
+	}
+	~DecodedNvFrame()
 	{
 		v4l2Buffer.m.planes[0].m.fd = nvBuffer->planes[0].fd;
-		return nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL);
+		int ret = nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL);
+		if (ret < 0)
+			throw std::runtime_error("DecodedNvFrame: Could not quebe buffer back");
 	}
 
+	int getFormat()
+	{
+		return format;
+	}
 
-public:
-	//WHY??????????????????
+	int getWidth(int plane)
+	{
+		return width;
+	}
+
+	int getHeight(int plane)
+	{
+		return height;
+	}
+	
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder;
-	//TODO: I think I can take off these two members
 	struct v4l2_buffer v4l2Buffer;
 	struct v4l2_plane planes[MAX_PLANES];
-	NvBuffer* nvBuffer;
+	NvBuffer *nvBuffer;
+	int width;
+	int height;
+	int format;
 };
 
 struct NVDecoderCreationException : public std::exception
@@ -87,13 +112,14 @@ public:
 	/* 
 		
 	*/
-	int decodeFrame(EncodedPacket &encodedPacket);
-	int decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame);
-	void respondToResolutionEvent(v4l2_format& format, v4l2_crop& crop);
+	int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket);
+	int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame);
+	void respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop);
 	//Thread that reads NALUs or CHUNKs, parses it and sends to decoder
 	void run();
 	void captureLoop();
-	void startThreadMode() {
+	void startThreadMode()
+	{
 		captureThread = std::thread(&NVDecoder::captureLoop, this);
 		runThread = std::thread(&Decoder::run, this);
 	}
@@ -103,7 +129,7 @@ protected:
 	//Creates our decoder in blocking mode
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder{NvVideoDecoder::createVideoDecoder("dec0")};
 	//NvVideoDecoder* nvVideoDecoder = NvVideoDecoder::createVideoDecoder("dec0");
-	static NvApplicationProfiler& nvApplicationProfiler;// = NvApplicationProfiler::getProfilerInstance();
+	static NvApplicationProfiler &nvApplicationProfiler; // = NvApplicationProfiler::getProfilerInstance();
 	Format format;
 	Codec codec;
 	enum v4l2_memory outputPlaneMemType = V4L2_MEMORY_USERPTR;

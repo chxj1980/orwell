@@ -19,6 +19,10 @@ public:
     int init();
     void run(){};
     int receivePacket(){};
+    /*
+        ZLRTSP library already has thread support, so we simply play,
+        no need to do it in a while loop, neither implement void run
+    */
     void startThreadMode()
     {
         init();

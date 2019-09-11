@@ -29,25 +29,25 @@ FfmpegSoftwareDecoder::FfmpegSoftwareDecoder(Codec codec)
 }
 
 //https://stackoverflow.com/questions/30784549/best-simplest-way-to-display-ffmpeg-frames-in-qt5
-int FfmpegSoftwareDecoder::decodeFrame(EncodedPacket& encodedPacket)
+int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket)
 {
-	DecodedFrame frame;
-	frame.decodedFrom = DecodedFrame::FFMPEG;
-	int r = decodeFrame(encodedPacket, frame);
+	std::shared_ptr<DecodedFrame> decodedFrame;
+	decodedFrame->decodedFrom = DecodedFrame::FFMPEG;
+	int r = decodeFrame(encodedPacket, decodedFrame);
 	if (!decodedFramesFifo)
 	{
 		std::cerr << "No decodedFramesFifo setted in FfmpegSoftwareDecoder" << std::endl;
 	}
 	if (r == 0)
-		this->decodedFramesFifo->emplace_back(std::move(frame));
+		this->decodedFramesFifo->emplace_back(std::move(decodedFrame));
 	return r;
 }
 
-int FfmpegSoftwareDecoder::decodeFrame(EncodedPacket& encodedPacket, DecodedFrame &decodedFrame)
+int FfmpegSoftwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
 	//Disable ffmpeg annoying output
 	av_log_set_level(AV_LOG_QUIET);
-	if (encodedPacket.frameSize <= 0)
+	if (encodedPacket->getSize() <= 0)
 		return -1;
 
 	int frameFinished = 0;
@@ -56,8 +56,8 @@ int FfmpegSoftwareDecoder::decodeFrame(EncodedPacket& encodedPacket, DecodedFram
 	if (!avPacket.get())
 		std::cout << "av packet error" << std::endl;
 
-	avPacket.get()->size = encodedPacket.frameSize;
-	avPacket.get()->data = encodedPacket.frameBuffer.get();
+	avPacket.get()->size = encodedPacket->getSize();
+	avPacket.get()->data = encodedPacket->getFramePointer();
 
 	//https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
 
@@ -74,14 +74,14 @@ int FfmpegSoftwareDecoder::decodeFrame(EncodedPacket& encodedPacket, DecodedFram
 				We just need to move our avFrame to a generic Frame object. 
 				Now caller has a video frame and can render it.
 			*/
-			decodedFrame.width = avFrame->width;
-			decodedFrame.height = avFrame->height;
-			decodedFrame.format = avFrame->format;
+			decodedFrame->width = avFrame->width;
+			decodedFrame->height = avFrame->height;
+			decodedFrame->format = avFrame->format;
 			for (int i=0; i<AV_NUM_DATA_POINTERS; i++) {
-				decodedFrame.linesize[i] = avFrame->linesize[i];
-				decodedFrame.buffer[i] = avFrame->data[i];
+				decodedFrame->linesize[i] = avFrame->linesize[i];
+				decodedFrame->buffer[i] = avFrame->data[i];
 			}
-			decodedFrame.avFrame = std::move(avFrame);
+			decodedFrame->avFrame = std::move(avFrame);
 			return 0;
 		}
 		else if ((receiveFrameResult < 0) && (receiveFrameResult != AVERROR(EAGAIN)) && (receiveFrameResult != AVERROR_EOF))

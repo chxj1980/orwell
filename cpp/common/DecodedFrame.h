@@ -35,11 +35,12 @@ class DecodedFrame
 {
 public:
     DecodedFrame() {}
-    DecodedFrame(const DecodedFrame &decodedFrame) = delete;
+    DecodedFrame(const std::shared_ptr<DecodedFrame> decodedFrame) = delete;
     DecodedFrame &operator=(const DecodedFrame &) = delete;
     DecodedFrame(DecodedFrame &&) = default;
     DecodedFrame &operator=(DecodedFrame &&) = default;
     //DecodedFrame &operator=(DecodedFrame &&) = delete;
+    /*
     ~DecodedFrame()
     {
         if (reusableBuffer)
@@ -50,28 +51,24 @@ public:
                 std::cout << "reusableBuffer on ~DecodedFrame() gone wrong: " << ret << std::endl;
         }
     }
+    */
     enum
     {
         FFMPEG,
         MEDIA_CODEC,
         NVDECODER
     } decodedFrom;
-    /*
-        In this container we store a flag when some object consumes this object.
-        Then, some process somewhere (yet to be defined) will delete this frame
-        from the decoded frames FIFO only if all flags have been set. 
-        This prevents the frame to go away before all consumers consume its data. 
-    */
-    //std::unordered_set<std::string> consumedBy;
-    std::unique_ptr<AVFrame, AVFrameDeleter> avFrame;
-    std::unique_ptr<ReusableBuffer> reusableBuffer;
+    virtual uint8_t *getPointer(int plane) {};
 
-public:
-    int width;
-    int height;
-    int format;
-    int linesize[AV_NUM_DATA_POINTERS];
-    uint8_t *buffer[AV_NUM_DATA_POINTERS];
+    virtual int getLineSize(int plane) {};
+
+    virtual int getWidth(int plane) {}
+
+    virtual int getHeight(int plane) {}
+
+    //Format number of the enum
+    virtual int getFormat() {}
+
 };
 
 #endif // Frame_h

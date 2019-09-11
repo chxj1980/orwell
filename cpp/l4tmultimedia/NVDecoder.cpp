@@ -14,10 +14,10 @@ SLOG_CATEGORY("NVDecoder");
 
 NvApplicationProfiler &NVDecoder::nvApplicationProfiler = NvApplicationProfiler::getProfilerInstance();
 
-int NVDecoder::decodeFrame(EncodedPacket &encodedPacket)
+int NVDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket)
 {
 }
-int NVDecoder::decodeFrame(EncodedPacket &encodedPacket, DecodedFrame &decodedFrame)
+int NVDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
 }
 
@@ -221,7 +221,6 @@ void NVDecoder::captureLoop()
     struct v4l2_crop v4l2Crop;
     struct v4l2_event v4l2Event;
     int ret;
-    LOG << "224";
     //Need to wait for the first Resolution change event, so that
     //the decoder knows the stream resolution and can allocate appropriate
     //buffers when we call REQBUFS
@@ -266,18 +265,11 @@ void NVDecoder::captureLoop()
         }
         while (true)
         {
-            //decodedFrame.reusableBuffer = std::make_unique<NVDecoderReusableBuffer>(nvVideoDecoder);
-            NVDecoderReusableBuffer nVDecoderReusableBuffer(nvVideoDecoder);
-            //struct v4l2_buffer v4l2Buffer;
-            //struct v4l2_plane planes[MAX_PLANES];
-            //NvBuffer *nvBuffer; //= new NvBuffer;
-            memset(&nVDecoderReusableBuffer.v4l2Buffer, 0, sizeof(nVDecoderReusableBuffer.v4l2Buffer));
-            memset(nVDecoderReusableBuffer.planes, 0, sizeof(nVDecoderReusableBuffer.planes));
-            nVDecoderReusableBuffer.v4l2Buffer.m.planes = nVDecoderReusableBuffer.planes;
+            std::shared_ptr<DecodedNvFrame> decodedNvFrame = std::make_shared<DecodedNvFrame>(nvVideoDecoder);
 
             //Dequeue a filled buffer
-            if (nvVideoDecoder->capture_plane.dqBuffer(nVDecoderReusableBuffer.v4l2Buffer,
-                                                       &nVDecoderReusableBuffer.nvBuffer, NULL, 0))
+            if (nvVideoDecoder->capture_plane.dqBuffer(decodedNvFrame->v4l2Buffer,
+                                                       &decodedNvFrame->nvBuffer, NULL, 0))
             {
                 if (errno == EAGAIN)
                 {
@@ -315,7 +307,7 @@ void NVDecoder::captureLoop()
             //LOG << "v4l2Buffer.index: " << v4l2Buffer.index;
             if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
             {
-                nVDecoderReusableBuffer.nvBuffer->planes[0].fd = dmaBufferFileDescriptor[nVDecoderReusableBuffer.v4l2Buffer.index];
+                decodedNvFrame->nvBuffer->planes[0].fd = dmaBufferFileDescriptor[decodedNvFrame->v4l2Buffer.index];
                 //nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd = dmaBufferFileDescriptor[nVDecoderReusableBuffer.v4l2Buffer.index];
                 //LOG << "nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd: " << nVDecoderReusableBuffer.v4l2Buffer.m.planes[0].m.fd;
             }
@@ -326,12 +318,10 @@ void NVDecoder::captureLoop()
             //  0, v4l2Crop.c.width, v4l2Crop.c.height, p);
             //LOG << test;
             //printPacket(p, v4l2Crop.c.width * v4l2Crop.c.height);
-            DecodedFrame decodedFrame;
-            decodedFrame.decodedFrom == DecodedFrame::NVDECODER;
-            decodedFrame.width = v4l2Format.fmt.pix_mp.width;
-            decodedFrame.height = v4l2Format.fmt.pix_mp.height;
-            decodedFrame.reusableBuffer = std::make_unique<NVDecoderReusableBuffer>(nVDecoderReusableBuffer);
-            decodedFramesFifo->emplace_back(std::move(decodedFrame));
+            decodedNvFrame->decodedFrom == DecodedFrame::NVDECODER;
+            decodedNvFrame->width = v4l2Format.fmt.pix_mp.width;
+            decodedNvFrame->height = v4l2Format.fmt.pix_mp.height;
+            decodedFramesFifo->emplace_back(decodedNvFrame);
 
             //renderer->render(nvBuffer->planes[0].fd);
             //decodedFramesFifo->emplace_back(std::move(decodedFrame));
@@ -368,9 +358,9 @@ void NVDecoder::run()
         so currentEncodedPacket saves this EncodedPacket for work to continue in the offset
         currentEncodedPacketSearchPtr.
     */
-    EncodedPacket currentEncodedPacket;
+    std::shared_ptr<EncodedPacket> currentEncodedPacket;
     //Must be null
-    uint8_t *currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
+    uint8_t *currentEncodedPacketSearchPtr = currentEncodedPacket->getFramePointer();
     //Must always start with this value
     //NaluSearchState naluSearchState = LOOKING_FOR_NALU_START;
     bool consumedEntirePacket = true;
@@ -387,8 +377,8 @@ void NVDecoder::run()
         TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in while loop", 0)
         if (consumedEntirePacket)
         {
-            currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
-            currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
+            currentEncodedPacket = encodedPacketsFifo->pop_front();
+            currentEncodedPacketSearchPtr = currentEncodedPacket->getFramePointer();
         }
         /*
             This is a type of configuration file that tells how the buffer should be queued
@@ -433,12 +423,12 @@ void NVDecoder::run()
                 if (consumedEntirePacket)
                 {
                     //printf("----------Entire packet: \n");
-                    //printPacket(currentEncodedPacket.frameBuffer.get(), currentEncodedPacket.frameSize);
+                    //printPacket(currentEncodedPacket->frameBuffer.getFramePointer(), currentEncodedPacket->getSize());
                 }
 
                 //--------------------------------------------
-                uint8_t *naluStart = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
-                                                    currentEncodedPacket.frameSize,
+                uint8_t *naluStart = findNaluHeader(currentEncodedPacket->getFramePointer(),
+                                                    currentEncodedPacket->getSize(),
                                                     currentEncodedPacketSearchPtr);
                 if (!naluStart)
                 {
@@ -446,8 +436,8 @@ void NVDecoder::run()
                     printf("didn't find nalu start???????\n");
                 }
 
-                uint8_t *naluEnd = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
-                                                  currentEncodedPacket.frameSize,
+                uint8_t *naluEnd = findNaluHeader(currentEncodedPacket->getFramePointer(),
+                                                  currentEncodedPacket->getSize(),
                                                   naluStart + 2); //+2 because +1 would make 00 00 01 detectable
                 if (naluEnd)
                 {
@@ -467,7 +457,7 @@ void NVDecoder::run()
                 {
                     //printf("gonna start querieing packets\n");
                     //Copy the rest of our frame and start querying another one
-                    size_t howMuchToTheEnd = currentEncodedPacket.frameSize - (currentEncodedPacketSearchPtr - currentEncodedPacket.frameBuffer.get());
+                    size_t howMuchToTheEnd = currentEncodedPacket->getSize() - (currentEncodedPacketSearchPtr - currentEncodedPacket->getFramePointer());
                     memcpy(planeBufferPtr, currentEncodedPacketSearchPtr, howMuchToTheEnd);
                     bytesWritten += howMuchToTheEnd;
                     while (!naluEnd)
@@ -475,10 +465,10 @@ void NVDecoder::run()
                         currentEncodedPacket = std::move(encodedPacketsFifo->pop_front());
                         //printf("queried another packet\n");
                         //printf("----------Entire packet: \n");
-                        //printPacket(currentEncodedPacket.frameBuffer.get(), currentEncodedPacket.frameSize);
-                        currentEncodedPacketSearchPtr = currentEncodedPacket.frameBuffer.get();
-                        naluEnd = findNaluHeader(currentEncodedPacket.frameBuffer.get(),
-                                                 currentEncodedPacket.frameSize,
+                        //printPacket(currentEncodedPacket->getFramePointer(), currentEncodedPacket->getSize());
+                        currentEncodedPacketSearchPtr = currentEncodedPacket->getFramePointer();
+                        naluEnd = findNaluHeader(currentEncodedPacket->getFramePointer(),
+                                                 currentEncodedPacket->getSize(),
                                                  currentEncodedPacketSearchPtr);
                         //TODO: check special case where nalu end is in the end of packet, but I don't think it's the case
                         if (naluEnd)
@@ -493,8 +483,8 @@ void NVDecoder::run()
                         {
                             //printf("no nalu end in new packet, gonna copy entire packet\n");
                             //No NALU end, copy entire packet until the end
-                            memcpy(planeBufferPtr, currentEncodedPacket.frameBuffer.get(), currentEncodedPacket.frameSize);
-                            bytesWritten += currentEncodedPacket.frameSize;
+                            memcpy(planeBufferPtr, currentEncodedPacket->getFramePointer(), currentEncodedPacket->getSize());
+                            bytesWritten += currentEncodedPacket->getSize();
                             consumedEntirePacket = true;
                         }
                     }

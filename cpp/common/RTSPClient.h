@@ -48,7 +48,7 @@ public:
 		this->port = port;
 	}
 	*/
-	void setEncodedPacketsFifo(std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo)
+	void setEncodedPacketsFifo(std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo)
 	{
 		this->encodedPacketsFifo = encodedPacketsFifo;
 	}
@@ -74,7 +74,7 @@ public:
 	}
 
 protected:
-	std::shared_ptr<ThreadSafeDeque<EncodedPacket>> encodedPacketsFifo;
+	std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo;
 	std::thread runThread;
 	Transport transport;
 	std::string uri;

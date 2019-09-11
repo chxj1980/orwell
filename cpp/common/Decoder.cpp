@@ -17,7 +17,7 @@ void Decoder::run()
 				no CPU time is wasted.
 			*/
 			//TODO: certify that the operation below is MOVING the frame to here, not copying it
-			EncodedPacket encodedPacket = std::move(encodedPacketsFifo->pop_front());
+			std::shared_ptr<EncodedPacket> encodedPacket = encodedPacketsFifo->pop_front();
 			/* 
 				Since the frame is gone from the fifo, it only exists here. 
 				decodeFrame() access its pointers and is blocking. When decodeFrame 

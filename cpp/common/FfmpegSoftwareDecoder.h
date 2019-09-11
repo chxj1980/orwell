@@ -5,8 +5,8 @@
 class FfmpegSoftwareDecoder: public FfmpegDecoder {
     public:
         FfmpegSoftwareDecoder(Codec codec);
-        int decodeFrame(EncodedPacket& encodedPacket);
-        int decodeFrame(EncodedPacket& encodedPacket, DecodedFrame& decodedFrame);
+        int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket);
+        int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame);
     private:
     	
 };

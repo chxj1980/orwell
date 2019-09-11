@@ -128,10 +128,10 @@ FfmpegHardwareDecoder::FfmpegHardwareDecoder(Codec codec, Device device, std::st
 
 };
 
-int FfmpegHardwareDecoder::hardwareDecode(EncodedPacket& encodedPacket)
+int FfmpegHardwareDecoder::hardwareDecode(std::shared_ptr<EncodedPacket> encodedPacket)
 {
-    avPacket.get()->size = encodedPacket.frameSize;
-    avPacket.get()->data = encodedPacket.frameBuffer.get();
+    avPacket.get()->size = encodedPacket->getSize();
+    avPacket.get()->data = encodedPacket->getFramePointer();
     int ret = avcodec_send_packet(avCodecContext.get(), avPacket.get());
     if (ret < 0)
     {
@@ -163,23 +163,23 @@ int FfmpegHardwareDecoder::hardwareDecode(EncodedPacket& encodedPacket)
     return true;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(EncodedPacket& encodedPacket)
+int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket)
 {
-    DecodedFrame frame;
-    frame.decodedFrom = DecodedFrame::FFMPEG;
+    std::shared_ptr<DecodedFrame> decodedFrame;
+    decodedFrame->decodedFrom = DecodedFrame::FFMPEG;
     //Decodes video into `frame`.
-    int r = decodeFrame(encodedPacket, frame);
+    int r = decodeFrame(encodedPacket, decodedFrame);
     if (!decodedFramesFifo)
     {
         std::cerr << "No decodedFramesFifo setted in FfmpegHardwareDecoder" << std::endl;
     }
     //Adds the frame to the end of the FIFO.
     if (r != 0)
-        this->decodedFramesFifo->emplace_back(std::move(frame));
+        this->decodedFramesFifo->emplace_back(std::move(decodedFrame));
     return r;
 }
 
-int FfmpegHardwareDecoder::decodeFrame(EncodedPacket& encodedPacket, DecodedFrame &decodedFrame)
+int FfmpegHardwareDecoder::decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame)
 {
     bool r = hardwareDecode(encodedPacket);
 
@@ -202,7 +202,7 @@ int FfmpegHardwareDecoder::decodeFrame(EncodedPacket& encodedPacket, DecodedFram
         }
         else
         {
-            decodedFrame.avFrame = std::move(avFrameUniquePtr);
+            decodedFrame->avFrame = std::move(avFrameUniquePtr);
         }
         /*
             Now the decoded frame from hardware is in CPU memory, in frame struct

@@ -10,7 +10,7 @@ class NvidiaRendererEGL: public Stoppable {
 public:
     NvidiaRendererEGL();
     NvidiaRendererEGL(int width, int height, int x, int y);
-    void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo)
+    void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo)
 	{
 		this->decodedFramesFifo = decodedFramesFifo;
 	}
@@ -20,6 +20,6 @@ public:
     NvEglRenderer* renderer;
     static int count;
 protected:
-    std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
+    std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
 };
 #endif //NvidiaRendererEGL_H

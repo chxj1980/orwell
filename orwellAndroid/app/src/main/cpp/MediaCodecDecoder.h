@@ -18,8 +18,8 @@ class MediaCodecDecoder: public Decoder
 {
 public:
     MediaCodecDecoder(Codec codec);
-    int decodeFrame(EncodedPacket& encodedPacketh) = 0;
-    int decodeFrame(EncodedPacket& encodedPacket, DecodedFrame &decodedFrame) = 0;
+    int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacketh) = 0;
+    int decodeFrame(std::shared_ptr<EncodedPacket> encodedPacket, std::shared_ptr<DecodedFrame> decodedFrame) = 0;
 
 protected:
     //std::unique_ptr<AMediaExtractor> aMediaExtractor = std::make_unique<AMediaExtractor>(AMediaExtractor_new());

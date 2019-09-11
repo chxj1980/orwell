@@ -85,7 +85,7 @@ public:
     void init();
     void realize();
     bool render(const Glib::RefPtr<Gdk::GLContext> &context);
-    void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo)
+    void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo)
     {
         this->decodedFramesFifo = decodedFramesFifo;
     }
@@ -112,7 +112,7 @@ public:
 protected:
     bool firstFrameReceived = false;
     std::unique_ptr<Program> program;
-    std::shared_ptr<ThreadSafeDeque<DecodedFrame>> decodedFramesFifo;
+    std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
 
 private:
     //void on_glx_init ();
