@@ -30,19 +30,6 @@ class DecodedNvFrame : public DecodedFrame
 public:
 	DecodedNvFrame(std::shared_ptr<NvVideoDecoder> nvVideoDecoder) : nvVideoDecoder(nvVideoDecoder)
 	{
-		fill();
-	}
-	DecodedNvFrame(std::shared_ptr<NvVideoDecoder> nvVideoDecoder,
-				   v4l2_buffer v4l2Buffer,
-				   NvBuffer *nvBuffer) : nvVideoDecoder(nvVideoDecoder),
-										 v4l2Buffer(v4l2Buffer),
-										 nvBuffer{nvBuffer}
-	{
-		fill();
-	}
-
-	void fill()
-	{
 		memset(&v4l2Buffer, 0, sizeof(v4l2Buffer));
 		memset(planes, 0, sizeof(planes));
 		v4l2Buffer.m.planes = planes;
@@ -52,10 +39,15 @@ public:
 	*/
 	~DecodedNvFrame()
 	{
-		v4l2Buffer.m.planes[0].m.fd = nvBuffer->planes[0].fd;
-		int ret = nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL);
-		if (ret < 0)
-			throw std::runtime_error("DecodedNvFrame: Could not quebe buffer back");
+		//TODO: checking if nvbuffer is not NULL is not a good way to do things, I guess
+		if(nvBuffer) {
+			v4l2Buffer.m.planes[0].m.fd = nvBuffer->planes[0].fd;
+			int ret = nvVideoDecoder->capture_plane.qBuffer(v4l2Buffer, NULL);
+			if (ret < 0)
+				printf("DecodedNvFrame: Could not quebe buffer back");
+		}
+			//throw std::runtime_error("DecodedNvFrame: Could not quebe buffer back");
+		
 	}
 
 	int getFormat()
@@ -63,12 +55,12 @@ public:
 		return format;
 	}
 
-	int getWidth(int plane)
+	int getWidth()
 	{
 		return width;
 	}
 
-	int getHeight(int plane)
+	int getHeight()
 	{
 		return height;
 	}
@@ -76,7 +68,7 @@ public:
 	std::shared_ptr<NvVideoDecoder> nvVideoDecoder;
 	struct v4l2_buffer v4l2Buffer;
 	struct v4l2_plane planes[MAX_PLANES];
-	NvBuffer *nvBuffer;
+	NvBuffer *nvBuffer = NULL;
 	int width;
 	int height;
 	int format;
@@ -121,8 +113,8 @@ public:
 	void captureLoop();
 	void startThreadMode()
 	{
-		captureThread = std::thread(&NVDecoder::captureLoop, this);
 		runThread = std::thread(&Decoder::run, this);
+		captureThread = std::thread(&NVDecoder::captureLoop, this);
 	}
 
 protected:
@@ -135,7 +127,7 @@ protected:
 	Codec codec;
 	enum v4l2_memory outputPlaneMemType = V4L2_MEMORY_USERPTR;
 	enum v4l2_memory capturePlaneMemType = V4L2_MEMORY_DMABUF;
-	int dmaBufferFileDescriptor[MAX_BUFFERS];
+	int dmaBufferFileDescriptor[MAX_BUFFERS] = {0};
 	int numberCaptureBuffers;
 	uint32_t height;
 	uint32_t width;

@@ -53,15 +53,23 @@ int main(int argc, char **argv)
 	std::shared_ptr<Decoder> decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
 	Orwell orwell(rtspClient, decoder);
 	Singleton::instance()->addStream("cam1", orwell);
-
+	NvidiaRendererEGL nVidiaRendererEGL(640, 360, 100, 30);
+	nVidiaRendererEGL.setDecodedFramesFifo(orwell.decodedFramesFifo);
+	auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
 	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
 
-	NVidiaRenderer nVidiaRenderer;
-	nVidiaRenderer.setDecodedFramesFifo(orwell.decodedFramesFifo);
-	auto nVidiaRendererThread = std::make_shared<std::thread>(&NVidiaRenderer::run, &nVidiaRenderer);
+		while (true)
+	{
+	}
+	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
+	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
+
+	//NVidiaRenderer nVidiaRenderer;
+	//nVidiaRenderer.setDecodedFramesFifo(orwell.decodedFramesFifo);
+	//auto nVidiaRendererThread = std::make_shared<std::thread>(&NVidiaRenderer::run, &nVidiaRenderer);
 	//return app->run();
-	return app->run(nVidiaRenderer);
+	//return app->run(nVidiaRenderer);
 
 	//Gtk::Main kit;
 	//"NaluUtils"
@@ -73,9 +81,9 @@ int main(int argc, char **argv)
 	Singleton::instance()->addStream("cam1", orwell);
 	
 
-	//NvidiaRendererEGL nVidiaRendererEGL(1920, 1080, 0, 0);
-	//nVidiaRendererEGL.setDecodedFramesFifo(orwell.decodedFramesFifo);
-	//auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
+	NvidiaRendererEGL nVidiaRendererEGL(1920, 1080, 0, 0);
+	nVidiaRendererEGL.setDecodedFramesFifo(orwell.decodedFramesFifo);
+	auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
 	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
 

@@ -1,6 +1,5 @@
 #include "NVidiaRenderer.h"
 #include "SLog.h"
-#include "NVDecoder.h"
 
 SLOG_CATEGORY("NVidiaRenderer")
 
@@ -87,15 +86,14 @@ void NVidiaRenderer::run()
 	{
 		//std::unique_lock<std::mutex> lock{mutex};
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
-		DecodedFrame frame = std::move(decodedFramesFifo->pop_front());
-
+		auto decodedNvFrame =  std::dynamic_pointer_cast<DecodedNvFrame>(decodedFramesFifo->pop_front());
 		/* 
 		    Since the frame is gone from the fifo, it only exists here. We move it to the renderer and then we 
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
 		    TODO: verify if this indeed happens
 		*/
 		std::unique_lock<std::mutex> lk{mutex};
-		this->frame = std::move(frame);
+		this->decodedNvFrame = decodedNvFrame;
 
 		//lk.unlock();
 		if (!firstFrameReceived)
@@ -160,7 +158,7 @@ void NVidiaRenderer::glDraw()
 	*/
 
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
-	if (this->firstFrameReceived && frame.width != 0)
+	if (this->firstFrameReceived && decodedNvFrame->getWidth() != 0)
 	{
 		if (this->firstRun)
 		{
@@ -224,8 +222,8 @@ void NVidiaRenderer::glDraw()
 
 		EGLSyncKHR egl_sync;
 		int iErr;
-		NVDecoderReusableBuffer *nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer *>(frame.reusableBuffer.get());
-		hEglImage = NvEGLImageFromFd(NULL, nVDecoderReusableBuffer->nvBuffer->planes[0].fd);
+		//NVDecoderReusableBuffer *nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer *>(frame.reusableBuffer.get());
+		hEglImage = NvEGLImageFromFd(NULL, decodedNvFrame->nvBuffer->planes[0].fd);
 		TEST_CONDITION(!hEglImage, "Could not get EglImage from fd. Not rendering", 0)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);

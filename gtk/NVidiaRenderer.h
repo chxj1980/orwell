@@ -15,6 +15,8 @@
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include <GL/gl.h>
+#include "NVDecoder.h"
+
 
 #define TEST_ERROR(condition, message)     \
     if (condition)                         \
@@ -116,7 +118,7 @@ protected:
 
 private:
     //void on_glx_init ();
-    DecodedFrame frame;
+    std::shared_ptr<DecodedNvFrame> decodedNvFrame;
     int frameWidth = 0;
     int frameHeight = 0;
     int format;
