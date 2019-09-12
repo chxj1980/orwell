@@ -34,12 +34,6 @@ public:
         return size;
     }
 
-    size_t* getSizePointer() {
-        return &size;
-    }
-
-
-    //Actual frameSize. Must be less than bufferSize obviously
     size_t size = 0;
     std::unique_ptr<uint8_t> frame;
 };

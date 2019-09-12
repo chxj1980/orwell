@@ -13,13 +13,15 @@ public:
 
     uint8_t* getFramePointer()
     {
-        return static_cast<uint8_t*>(frame.get()->data());
+        //TODO: what is char* points to negative data?
+        return reinterpret_cast<uint8_t*>(frame.get()->data());
     }
 
     size_t getSize()
     {
         return frame.get()->size();
     }
+
 
 protected:
     Frame::Ptr frame;

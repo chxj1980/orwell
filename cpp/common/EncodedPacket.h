@@ -18,7 +18,6 @@ public:
     EncodedPacket &operator=(EncodedPacket &&) = default;
 
     virtual uint8_t* getFramePointer() = 0;
-    virtual size_t* getSizePointer() = 0;
     virtual size_t getSize() = 0;
 };
 typedef std::shared_ptr<EncodedPacket> SharedEncodedPacket;

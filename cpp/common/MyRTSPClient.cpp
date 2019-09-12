@@ -193,7 +193,7 @@ int MyRTSPClient::receivePacket()
 		auto myRtspEncodedPacket = std::make_shared<MyRTSPEncodedPacket>(bufferSize);
 		a++;
 
-		if (!myRtspClient.GetMediaData("video", myRtspEncodedPacket->getFramePointer(), myRtspEncodedPacket->getSizePointer(), bufferSize))
+		if (!myRtspClient.GetMediaData("video", myRtspEncodedPacket->frame.get(), &myRtspEncodedPacket->size, bufferSize))
 		{
 			if (ByeFromServerFlag2)
 			{
