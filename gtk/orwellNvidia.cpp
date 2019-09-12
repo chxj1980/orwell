@@ -28,19 +28,28 @@
 #include "Orwell.h"
 #include "SLog.h"
 #include "NVDecoder.h"
+#include "ZLRTSPClient.h"
 SLOG_CATEGORY("main");
 
 int main(int argc, char **argv)
 {
 	LOG.logImmediately(true);
 	LOG << "------------ Orwell initiated!";
-	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient");
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", "ZLRTSPClient");
 	Gtk::Main kit;
 	//"NaluUtils"
 	auto app = Gtk::Application::create(argc, argv, "");
-	std::string rtspUrl("rtsp://admin:19929394@192.168.0.103:10554/tcp/av0_1");
-	std::string rtspUrl2("rtsp://admin:19929394..@192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif");
-	auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl2);
+	std::string username;
+	std::string password;
+	std::string rtspUrl;
+	username = "admin";
+	password = "19929394";
+	rtspUrl = "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1";
+	username = "admin";
+	password = "ljspqk1.618.@";
+	rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
+	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
+	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
 	std::shared_ptr<Decoder> decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
 	Orwell orwell(rtspClient, decoder);
 	Singleton::instance()->addStream("cam1", orwell);

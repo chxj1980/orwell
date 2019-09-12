@@ -29,7 +29,6 @@ int ZLRTSPClient::init()
             {
                 auto zLRTSPEncodedPacket = std::make_shared<ZLRTSPEncodedPacket>(frame);
                 this->encodedPacketsFifo->emplace_back(zLRTSPEncodedPacket);
-                //this->LOG << "encodedPacketsFifo emplace!";
             }
         }));
     });
