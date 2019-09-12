@@ -64,9 +64,7 @@ int FfmpegSoftwareDecoder::sendPacket(std::shared_ptr<EncodedPacket> encodedPack
 	avPacket.get()->data = encodedPacket->getFramePointer();
 
 	//https://github.com/saki4510t/pupilClient/blob/0e9f7bdcfe9f5fcb197b1c2408a6fffb90345f8d/src/media/h264_decoder.cpp#L119
-
 	int sendPacketResult = avcodec_send_packet(avCodecContext.get(), avPacket.get());
-
 	std::unique_ptr<AVFrame, AVFrameDeleter> avFrame(av_frame_alloc());
 	if (!sendPacketResult)
 	{
@@ -78,13 +76,6 @@ int FfmpegSoftwareDecoder::sendPacket(std::shared_ptr<EncodedPacket> encodedPack
 				We just need to move our avFrame to a generic Frame object. 
 				Now caller has a video frame and can render it.
 			*/
-			decodedFfmpegFrame->avFrame->width = avFrame->width;
-			decodedFfmpegFrame->avFrame->height = avFrame->height;
-			decodedFfmpegFrame->avFrame->format = avFrame->format;
-			for (int i=0; i<AV_NUM_DATA_POINTERS; i++) {
-				decodedFfmpegFrame->avFrame->linesize[i] = avFrame->linesize[i];
-				decodedFfmpegFrame->avFrame->data[i] = avFrame->data[i];
-			}
 			decodedFfmpegFrame->avFrame = std::move(avFrame);
 			return 0;
 		}
