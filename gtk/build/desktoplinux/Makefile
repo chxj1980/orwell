@@ -699,6 +699,33 @@ home/dev/orwell/cpp/common/PixelFormats.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/PixelFormats.cpp.s
 .PHONY : home/dev/orwell/cpp/common/PixelFormats.cpp.s
 
+home/dev/orwell/cpp/common/Profiler.o: home/dev/orwell/cpp/common/Profiler.cpp.o
+
+.PHONY : home/dev/orwell/cpp/common/Profiler.o
+
+# target to build an object file
+home/dev/orwell/cpp/common/Profiler.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Profiler.cpp.o
+.PHONY : home/dev/orwell/cpp/common/Profiler.cpp.o
+
+home/dev/orwell/cpp/common/Profiler.i: home/dev/orwell/cpp/common/Profiler.cpp.i
+
+.PHONY : home/dev/orwell/cpp/common/Profiler.i
+
+# target to preprocess a source file
+home/dev/orwell/cpp/common/Profiler.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Profiler.cpp.i
+.PHONY : home/dev/orwell/cpp/common/Profiler.cpp.i
+
+home/dev/orwell/cpp/common/Profiler.s: home/dev/orwell/cpp/common/Profiler.cpp.s
+
+.PHONY : home/dev/orwell/cpp/common/Profiler.s
+
+# target to generate assembly for a file
+home/dev/orwell/cpp/common/Profiler.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/Profiler.cpp.s
+.PHONY : home/dev/orwell/cpp/common/Profiler.cpp.s
+
 home/dev/orwell/cpp/common/SLog.o: home/dev/orwell/cpp/common/SLog.cpp.o
 
 .PHONY : home/dev/orwell/cpp/common/SLog.o
@@ -954,6 +981,9 @@ help:
 	@echo "... home/dev/orwell/cpp/common/PixelFormats.o"
 	@echo "... home/dev/orwell/cpp/common/PixelFormats.i"
 	@echo "... home/dev/orwell/cpp/common/PixelFormats.s"
+	@echo "... home/dev/orwell/cpp/common/Profiler.o"
+	@echo "... home/dev/orwell/cpp/common/Profiler.i"
+	@echo "... home/dev/orwell/cpp/common/Profiler.s"
 	@echo "... home/dev/orwell/cpp/common/SLog.o"
 	@echo "... home/dev/orwell/cpp/common/SLog.i"
 	@echo "... home/dev/orwell/cpp/common/SLog.s"

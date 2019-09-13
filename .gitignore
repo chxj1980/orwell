@@ -89,3 +89,4 @@ gtk/build/desktoplinux/lab
 deps/ZLMediaKit/release*
 gtk/build/desktoplinux/_ZLMediaKit/*
 deps/ZLMediaKit/tests/ssl.p12
+gtk/build/desktoplinux/profiler.log

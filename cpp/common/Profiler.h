@@ -5,6 +5,7 @@
 #include <functional>
 #include "Stoppable.h"
 #include <thread>
+#include <mutex>
 
 //Just so we can treat ProfilerVariable<T> equally
 class ProfilerVariableInterface
@@ -20,7 +21,7 @@ template <typename T>
 class ProfilerVariable : public ProfilerVariableInterface
 {
 public:
-    ProfilerVariable(int intervalInMilliseconds) : intervalInMilliseconds(intervalInMilliseconds)
+    ProfilerVariable(int interval) : interval(interval)
     {
     }
     void profile(std::function<void(T &)> const &increaseFunction,
@@ -28,7 +29,7 @@ public:
     {
         auto now = std::chrono::system_clock::now();
         auto difference = std::chrono::duration_cast<std::chrono::milliseconds>(now - before).count();
-        if (difference >= intervalInMilliseconds)
+        if (difference >= interval)
         {
             snapshot();
             resetFunction(counter);
@@ -64,8 +65,8 @@ private:
     std::mutex mutex;
     //Using array (not vector) to be fast. Only drawback is MAX ammount of profiler variables
     std::chrono::system_clock::time_point before;
-    //
-    int intervalInMilliseconds;
+    //Interval in milliseconds
+    int interval;
 };
 
 /*
@@ -79,16 +80,16 @@ class ProfilingThread : public Stoppable
 public:
     ProfilingThread();
     void run();
-    void addProfilerVariable(std::shared_ptr<ProfilerVariableInterface> profilerVariable)
-    {
-        std::unique_lock<std::mutex> lock{mutex};
-        profilerVariables.push_back(profilerVariable);
-    }
+    //void addProfilerVariable(std::shared_ptr<ProfilerVariableInterface> profilerVariable)
+    //{
+    //    std::unique_lock<std::mutex> lock{mutex};
+    //    profilerVariables.push_back(profilerVariable);
+    //}
 
 private:
     std::thread thread;
     std::mutex mutex;
-    std::list<std::shared_ptr<ProfilerVariableInterface>> profilerVariables;
+    //std::list<std::shared_ptr<ProfilerVariableInterface>> profilerVariables;
 };
 
 #endif //Profiler_H
