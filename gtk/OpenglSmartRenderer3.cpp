@@ -1,4 +1,6 @@
 #include "OpenglSmartRenderer3.h"
+#include "SLog.h"
+SLOG_CATEGORY("OpenglSmartRenderer3");
 
 const std::string vertexShaderSource =
 #include "video.vert"
@@ -26,7 +28,7 @@ void OpenglSmartRenderer3::run()
 		std::cerr << "No decodedFramesFifo setted for this renderer" << std::endl;
 		return;
 	}
-	int i = 0;
+	//int i = 0;
 	while (true)
 	{
 		//std::unique_lock<std::mutex> lock{mutex};
@@ -42,9 +44,10 @@ void OpenglSmartRenderer3::run()
 		lk.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
-		i++;
-		std::cout << i << std::endl;
+		//i++;
 		queue_draw();
+		profile(0, 1000, [this]{fps++;}, [this]{fps=0;});
+		//LOG << fps;
 		//std::cout << "waiting" << std::endl;
 		//conditiconditionVariable.wait(lock);
 		//std::cout << "waited" << std::endl;

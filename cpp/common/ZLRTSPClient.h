@@ -2,6 +2,7 @@
 #define ZLRTSPClient_H
 #include "RTSPClient.h"
 #include "Player/MediaPlayer.h"
+#include "Profiler.h"
 #include "SLog.h"
 
 class ZLRTSPEncodedPacket : public EncodedPacket
@@ -27,7 +28,7 @@ protected:
     Frame::Ptr frame;
 };
 
-class ZLRTSPClient : public RTSPClient
+class ZLRTSPClient : public RTSPClient, public Profiler
 {
 public:
     using RTSPClient::RTSPClient;
@@ -57,8 +58,9 @@ public:
         }
     }
 
-protected:
+private:
     MediaPlayer::Ptr player;
+    int bytesPerSecond = 0;
     //We have to create a non static log here in order to pass inside the lambda functions
     SLog::SLog LOG{SLog::Category{"ZLRTSPClient"}};
 };

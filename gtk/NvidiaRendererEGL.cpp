@@ -23,9 +23,8 @@ void NvidiaRendererEGL::run()
     while (shouldContinue())
     {
         auto decodedNvFrame = std::dynamic_pointer_cast<DecodedNvFrame>(decodedFramesFifo->pop_front());
-        //NVDecoderReusableBuffer *nVDecoderReusableBuffer = dynamic_cast<NVDecoderReusableBuffer *>(decodedFrame.reusableBuffer.get());
-        //LOG << "v4l2Buffer.m.planes[0].m.fd: " << nVDecoderReusableBuffer->v4l2Buffer.m.planes[0].m.fd;
         //renderer->setFPS(30);
         renderer->render(decodedNvFrame->nvBuffer->planes[0].fd);
+        profile(0, 1000, [this]{fps++;}, [this]{fps=0;});
     }
 }

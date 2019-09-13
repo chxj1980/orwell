@@ -9,8 +9,9 @@
 #include "ThreadSafeDeque.h"
 #include <mutex>
 #include <condition_variable>
+#include "Profiler.h"
 
-class OpenglSmartRenderer3 : public OpenGLArea2//, public VideoReceiver
+class OpenglSmartRenderer3 : public OpenGLArea2, public Profiler //, public VideoReceiver
 {
 public:
 	unsigned char *buffer[3] = {0};
@@ -40,12 +41,10 @@ public:
 
 	const GLfloat vertices_textures[20] = {
 		//vertices            //positions
-		-1.0f, -1.0f, 0.0f,   0.0f, 1.0f,
-		1.0f, -1.0f, 0.0f,    1.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f,    0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,     1.0f, 0.0f
-	};
-
+		-1.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 0.0f};
 
 	const int VERTEX_POINTER = 0;
 	const int FRAGMENT_POINTER = 1;
@@ -74,6 +73,7 @@ private:
 	GLint textureInLocation;
 	std::mutex mutex;
 	std::condition_variable conditionVariable;
+	int fps = 0;
 	//std::mutex mutex;
 	//std::condition_variable conditionVariable;
 	//PixelFormats pixelFormats;

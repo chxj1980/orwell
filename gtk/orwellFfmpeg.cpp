@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 	LOG.logImmediately(true);
 	LOG << "------------ Orwell initiated!";
 	//Gtk::Main kit;
-	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", "ZLRTSPClient");
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", "ZLRTSPClient", "OpenglSmartRenderer3");
 	auto app = Gtk::Application::create(argc, argv, "");
 	LOG << "supported hardware: ";
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
