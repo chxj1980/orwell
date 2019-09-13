@@ -59,9 +59,6 @@ int main(int argc, char **argv)
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
 	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
 
-		while (true)
-	{
-	}
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
 	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
 
@@ -86,9 +83,6 @@ int main(int argc, char **argv)
 	auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
 	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
-
-		while (true)
-	{
-	}
 	*/
+	getchar();
 }

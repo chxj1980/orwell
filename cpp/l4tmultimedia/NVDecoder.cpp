@@ -377,14 +377,11 @@ void NVDecoder::run()
     //How should I destroy things?
     while (shouldContinue())
     {
-        printf("378\n");
         TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in while loop", 0)
         if (consumedEntirePacket)
         {
-            printf("382\n");
             currentEncodedPacket = encodedPacketsFifo->pop_front();
             currentEncodedPacketSearchPtr = currentEncodedPacket->getFramePointer();
-            printf("385\n");
         }
         struct v4l2_buffer v4l2Buffer;
         struct v4l2_plane planes[MAX_PLANES];
@@ -402,7 +399,6 @@ void NVDecoder::run()
             lots of planes. But our data is encoded (has no planes) so we only use 
             the 0th plane
         */
-        printf("407\n");
 
         if (i < nvVideoDecoder->output_plane.getNumBuffers())
             nvBuffer = nvVideoDecoder->output_plane.getNthBuffer(i);
@@ -411,7 +407,6 @@ void NVDecoder::run()
             ret = nvVideoDecoder->output_plane.dqBuffer(v4l2Buffer, &nvBuffer, NULL, -1);
             TEST_ERROR(ret < 0, "Error dequeueing buffer at output plane", 0)
         }
-        printf("416\n");
 
         //Number of bytes written to nvBuffer's data pointer planeBufferPtr
         uint32_t bytesWritten = 0;
@@ -428,7 +423,6 @@ void NVDecoder::run()
                     //printf("----------Entire packet: \n");
                     //printPacket(currentEncodedPacket->frameBuffer.getFramePointer(), currentEncodedPacket->getSize());
                 }
-                printf("433\n");
 
                 //--------------------------------------------
                 uint8_t *naluStart = findNaluHeader(currentEncodedPacket->getFramePointer(),
@@ -443,7 +437,6 @@ void NVDecoder::run()
                 uint8_t *naluEnd = findNaluHeader(currentEncodedPacket->getFramePointer(),
                                                   currentEncodedPacket->getSize(),
                                                   naluStart + 2); //+2 because +1 would make 00 00 01 detectable
-                        printf("448\n");
 
                 if (naluEnd)
                 {
@@ -495,7 +488,6 @@ void NVDecoder::run()
                         }
                     }
                 }
-                        printf("500\n");
 
                 //finally set byteswritten here
                 //--------------------------------------------
@@ -512,7 +504,6 @@ void NVDecoder::run()
                 //read_decoder_input_chunk(ctx.in_file[current_file], buffer);
             }
         }
-                printf("510\n");
 
         /*
         if (codec == VP9)
