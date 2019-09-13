@@ -25,6 +25,6 @@ void NvidiaRendererEGL::run()
         auto decodedNvFrame = std::dynamic_pointer_cast<DecodedNvFrame>(decodedFramesFifo->pop_front());
         //renderer->setFPS(30);
         renderer->render(decodedNvFrame->nvBuffer->planes[0].fd);
-        fps.profile([](int& counter){counter++;}, [](int& counter){counter=0;});
+        fps->profile([](int& counter){counter++;}, [](int& counter){counter=0;});
     }
 }

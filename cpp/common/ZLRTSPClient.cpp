@@ -28,7 +28,7 @@ int ZLRTSPClient::init()
             else
             {
                 auto zLRTSPEncodedPacket = std::make_shared<ZLRTSPEncodedPacket>(frame);
-                bytesPerSecond.profile(
+                bytesPerSecond->profile(
                         [&frame](int& counter) {
                             counter += frame->size();
                         },
@@ -37,7 +37,7 @@ int ZLRTSPClient::init()
                         });
                 encodedPacketsFifo->emplace_back(zLRTSPEncodedPacket);
                 //LOG << "size: " << frame->size();
-                LOG << bytesPerSecond.getSampleString() << "kB/s";
+                LOG << bytesPerSecond->getSampleString() << "kB/s";
             }
         }));
     });

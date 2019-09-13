@@ -6,10 +6,11 @@
 #include "Stoppable.h"
 #include <thread>
 
+//Just so we can treat ProfilerVariable<T> equally
 class ProfilerVariableInterface
 {
 public:
-    virtual std::string getSampleString()=0;
+    virtual std::string getSampleString(){};
 };
 
 /*
@@ -19,7 +20,7 @@ template <typename T>
 class ProfilerVariable : public ProfilerVariableInterface
 {
 public:
-    ProfilerVariable(int intervalInMilliseconds) : interval(intervalInMilliseconds)
+    ProfilerVariable(int intervalInMilliseconds) : intervalInMilliseconds(intervalInMilliseconds)
     {
     }
     void profile(std::function<void(T &)> const &increaseFunction,
@@ -36,7 +37,7 @@ public:
         increaseFunction(counter);
     }
 
-    //To be executed at the end of the profiling period
+    //To be executed at the end of the profiling period, takes a snapshot of counter
     void snapshot()
     {
         std::unique_lock<std::mutex> lock{mutex};
@@ -48,9 +49,9 @@ public:
         std::unique_lock<std::mutex> lock{mutex};
         return sample;
     }
-
+    //To be shown as string, converts the generic T type to string
     std::string getSampleString() {
-        return std::string(sample);
+        return std::to_string(sample);
     }
 
     //Value to be increased at every profile call. `counter` can only be modified from one thread

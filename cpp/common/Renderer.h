@@ -4,6 +4,6 @@
 class Renderer
 {
 public:
-    ProfilerVariable<int> fps;
+    std::shared_ptr<ProfilerVariable<int>> fps = std::make_shared<ProfilerVariable<int>>(1000);
 };
 #endif //Renderer_H
