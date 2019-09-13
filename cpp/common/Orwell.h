@@ -20,6 +20,7 @@
 #include <deque>
 #include "DecodedFrame.h"
 #include "ThreadSafeDequePolicies.h"
+#include "Profiler.h"
 #ifdef __cplusplus
 #define EXTERNC extern "C"
 #else
@@ -45,6 +46,7 @@ public:
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;
     std::shared_ptr<VideoRecorder> videoRecorder;
+    static std::shared_ptr<ProfilingThread> profilingThread;
 };
 /*
 //C interface 

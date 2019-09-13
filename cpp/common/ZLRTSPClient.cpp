@@ -47,8 +47,8 @@ int ZLRTSPClient::init()
         LOG << "onResume for " << uri;
     });
 
-    player->setOnShutdown([](const SockException &ex) {
-        ErrorL << "OnShutdown:" << ex.what();
+    player->setOnShutdown([this](const SockException &ex) {
+        LOG << "OnShutdown:" << ex.what();
     });
     return 0;
 }

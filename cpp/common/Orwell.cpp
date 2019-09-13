@@ -5,6 +5,7 @@ const int maxEncodedPacketFifoSize = 40;
 const int maxDecodedFrameFifoSize = 15;
 std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<EncodedPacket>>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<EncodedPacket>>>(maxEncodedPacketFifoSize);
 std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<DecodedFrame>>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<DecodedFrame>>>(maxDecodedFrameFifoSize);
+std::shared_ptr<ProfilingThread> Orwell::profilingThread = std::make_shared<ProfilingThread>();
 
 Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder> _decoder)
 {
@@ -24,6 +25,7 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
     //Important, only start thread mode after inserting FIFOs like in above
     rtspClient->startThreadMode();
+    //profilingThread->addProflingVariable(rtspClient->bytesPerSecond);
     //rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
 }
 /*

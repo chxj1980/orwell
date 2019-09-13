@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 {
 	LOG.logImmediately(true);
 	LOG << "------------ Orwell initiated!";
-	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", "ZLRTSPClient");
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", "ZLRTSPClient", "Profiler");
 	Gtk::Main kit;
 	//"NaluUtils"
 	auto app = Gtk::Application::create(argc, argv, "");
