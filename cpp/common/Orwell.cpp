@@ -25,7 +25,9 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
     //Important, only start thread mode after inserting FIFOs like in above
     rtspClient->startThreadMode();
-    //profilingThread->addProflingVariable(rtspClient->bytesPerSecond);
+    profilingThread->addProflingVariable(rtspClient->bytesPerSecond);
+    //profilingThread->addProflingVariable(renderer->fps);
+
     //rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
 }
 /*

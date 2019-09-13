@@ -29,7 +29,7 @@ int ZLRTSPClient::init()
             {
                 auto zLRTSPEncodedPacket = std::make_shared<ZLRTSPEncodedPacket>(frame);
                 profile<int>(0, 1000,
-                        bytesPerSecond,
+                        *bytesPerSecond,
                         [&frame](ProfilerVariable<int> &bytesPerSecond) {
                             bytesPerSecond.counter += frame->size();
                         },

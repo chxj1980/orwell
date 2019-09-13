@@ -73,7 +73,7 @@ public:
 	{
 		runThread = std::thread(&RTSPClient::run, this);
 	}
-	ProfilerVariable<int> bytesPerSecond;
+	std::shared_ptr<ProfilerVariable<int>> bytesPerSecond;
 
 
 protected:

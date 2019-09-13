@@ -4,6 +4,6 @@
 class Renderer: public Profiler
 {
 public:
-    ProfilerVariable<int> fps;
+    std::shared_ptr<ProfilerVariable<int>> fps;
 };
 #endif //Renderer_H
