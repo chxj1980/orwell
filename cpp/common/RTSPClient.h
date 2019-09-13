@@ -12,7 +12,7 @@
 /*
 	Generic class to accomodate RTSP clients of any type
 */
-class RTSPClient : public Stoppable, public Profiler
+class RTSPClient : public Stoppable
 {
 public:
 	enum Transport
@@ -73,7 +73,7 @@ public:
 	{
 		runThread = std::thread(&RTSPClient::run, this);
 	}
-	std::shared_ptr<ProfilerVariable<int>> bytesPerSecond;
+	ProfilerVariable<int> bytesPerSecond;
 
 
 protected:

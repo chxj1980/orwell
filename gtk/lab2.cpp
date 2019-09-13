@@ -63,22 +63,6 @@ public:
         GtkWidget* widget = this->Widget::gobj();
         //glViewport(0, 0, gtk_widget_get_allocated_width(widget), gtk_widget_get_allocated_height(widget));
 
-        glClearColor(0, 0, 0, 1);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, 100, 0, 100, 0, 1);
-
-        glBegin(GL_TRIANGLES);
-        glColor3f(1, 0, 0);
-        glVertex2f(50, 10);
-        glColor3f(0, 1, 0);
-        glVertex2f(90, 90);
-        glColor3f(0, 0, 1);
-        glVertex2f(10, 90);
-        glEnd();
-
         eglSwapBuffers(&eglDisplay, &eglSurface);
         std::cout << "finished drawing" << std::endl;
     }

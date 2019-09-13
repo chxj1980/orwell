@@ -46,7 +46,7 @@ void OpenglSmartRenderer3::run()
 			firstFrameReceived = true;
 		//i++;
 		queue_draw();
-		profile<int>(0, 1000, fps, [](ProfilerVariable<int> &fps){fps.counter++;}, [](ProfilerVariable<int> &fps){fps.counter=0;});
+		fps.profile([](int &counter){counter++;}, [](int& counter){counter=0;});
 		//LOG << fps;
 		//std::cout << "waiting" << std::endl;
 		LOG << "fps: " << fps.getSample();

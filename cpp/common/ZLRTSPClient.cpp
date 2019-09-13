@@ -28,17 +28,16 @@ int ZLRTSPClient::init()
             else
             {
                 auto zLRTSPEncodedPacket = std::make_shared<ZLRTSPEncodedPacket>(frame);
-                profile<int>(0, 1000,
-                        *bytesPerSecond,
-                        [&frame](ProfilerVariable<int> &bytesPerSecond) {
-                            bytesPerSecond.counter += frame->size();
+                bytesPerSecond.profile(
+                        [&frame](int& counter) {
+                            counter += frame->size();
                         },
-                        [](ProfilerVariable<int> &bytesPerSecond) {
-                            bytesPerSecond.counter = 0;
+                        [](int& counter) {
+                            counter = 0;
                         });
                 encodedPacketsFifo->emplace_back(zLRTSPEncodedPacket);
                 //LOG << "size: " << frame->size();
-                //LOG << bytesPerSecond.getSample() << "kB/s";
+                LOG << bytesPerSecond.getSampleString() << "kB/s";
             }
         }));
     });

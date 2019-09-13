@@ -2,7 +2,7 @@
 #include "SLog.h"
 SLOG_CATEGORY("Profiler")
 //Interval in milliseconds
-const int profilingInterval = 500;
+const int profilingInterval = 250;
 
 ProfilingThread::ProfilingThread()
 {
@@ -16,11 +16,13 @@ void ProfilingThread::run()
     while (shouldContinue())
     {
         std::unique_lock<std::mutex> lock{mutex};
+        /*
         for (auto profilerVariable : profilerVariables)
         {
             LOG << profilerVariable.getSample();
         }
         lock.unlock();
+        */
         std::this_thread::sleep_for(std::chrono::milliseconds(profilingInterval));
     }
 }
