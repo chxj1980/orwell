@@ -6,8 +6,9 @@
 #include "Stoppable.h"
 #include <memory>
 #include "Profiler.h"
+#include "Renderer.h"
 
-class NvidiaRendererEGL: public Stoppable, public Profiler {
+class NvidiaRendererEGL: public Stoppable, public Renderer {
 public:
     NvidiaRendererEGL();
     NvidiaRendererEGL(int width, int height, int x, int y);
@@ -22,6 +23,5 @@ public:
     static int count;
 protected:
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
-    int fps = 0;
 };
 #endif //NvidiaRendererEGL_H

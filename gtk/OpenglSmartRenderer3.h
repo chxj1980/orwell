@@ -10,8 +10,9 @@
 #include <mutex>
 #include <condition_variable>
 #include "Profiler.h"
+#include "Renderer.h"
 
-class OpenglSmartRenderer3 : public OpenGLArea2, public Profiler //, public VideoReceiver
+class OpenglSmartRenderer3 : public OpenGLArea2, public Renderer //, public VideoReceiver
 {
 public:
 	unsigned char *buffer[3] = {0};
@@ -73,7 +74,6 @@ private:
 	GLint textureInLocation;
 	std::mutex mutex;
 	std::condition_variable conditionVariable;
-	int fps = 0;
 	//std::mutex mutex;
 	//std::condition_variable conditionVariable;
 	//PixelFormats pixelFormats;

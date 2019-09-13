@@ -8,10 +8,11 @@
 #include "VideoRecorder.h"
 #include "EncodedPacket.h"
 #include "Stoppable.h"
+#include "Profiler.h"
 /*
 	Generic class to accomodate RTSP clients of any type
 */
-class RTSPClient : public Stoppable
+class RTSPClient : public Stoppable, public Profiler
 {
 public:
 	enum Transport
@@ -72,6 +73,8 @@ public:
 	{
 		runThread = std::thread(&RTSPClient::run, this);
 	}
+	ProfilerVariable<int> bytesPerSecond;
+
 
 protected:
 	std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo;

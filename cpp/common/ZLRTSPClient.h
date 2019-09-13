@@ -28,7 +28,7 @@ protected:
     Frame::Ptr frame;
 };
 
-class ZLRTSPClient : public RTSPClient, public Profiler
+class ZLRTSPClient : public RTSPClient
 {
 public:
     using RTSPClient::RTSPClient;
@@ -60,7 +60,6 @@ public:
 
 private:
     MediaPlayer::Ptr player;
-    int bytesPerSecond = 0;
     //We have to create a non static log here in order to pass inside the lambda functions
     SLog::SLog LOG{SLog::Category{"ZLRTSPClient"}};
 };

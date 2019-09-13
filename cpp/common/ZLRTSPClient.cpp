@@ -28,18 +28,23 @@ int ZLRTSPClient::init()
             else
             {
                 auto zLRTSPEncodedPacket = std::make_shared<ZLRTSPEncodedPacket>(frame);
-                profile(0, 1000,
-                        [this, frame] {
-                            bytesPerSecond+= frame->size();
+                profile<int>(0, 1000,
+                        bytesPerSecond,
+                        [&frame](ProfilerVariable<int> &bytesPerSecond) {
+                            bytesPerSecond.counter += frame->size();
                         },
-                        [this] {
-                            bytesPerSecond = 0;
+                        [](ProfilerVariable<int> &bytesPerSecond) {
+                            bytesPerSecond.counter = 0;
                         });
                 encodedPacketsFifo->emplace_back(zLRTSPEncodedPacket);
-                LOG << "size: " <<  frame->size();
-                LOG << bytesPerSecond << "kB/s";
+                //LOG << "size: " << frame->size();
+                //LOG << bytesPerSecond.getSample() << "kB/s";
             }
         }));
+    });
+
+    player->setOnResume([this]() {
+        LOG << "onResume for " << uri;
     });
 
     player->setOnShutdown([](const SockException &ex) {
