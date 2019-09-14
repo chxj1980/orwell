@@ -20,7 +20,8 @@
 #include <deque>
 #include "DecodedFrame.h"
 #include "ThreadSafeDequePolicies.h"
-#include "Profiler.h"
+#include "Renderer.h"
+//#include "Profiler.h"
 #ifdef __cplusplus
 #define EXTERNC extern "C"
 #else
@@ -39,14 +40,32 @@ public:
 class Orwell
 {
 public:
-    explicit Orwell(std::shared_ptr<RTSPClient> _rtspClient,  std::shared_ptr<Decoder> _decoder);
+    explicit Orwell(std::shared_ptr<RTSPClient> _rtspClient,  std::shared_ptr<Decoder> _decoder, std::shared_ptr<Renderer> _renderer);
     //explicit Orwell(OnvifURL onvifURL);
     std::shared_ptr<RTSPClient> rtspClient;
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo;
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;
     std::shared_ptr<VideoRecorder> videoRecorder;
-    static std::shared_ptr<ProfilingThread> profilingThread;
+    std::shared_ptr<Renderer> renderer;
+    //static std::shared_ptr<ProfilingThread> profilingThread;
+};
+
+class ProfilingThread : public Stoppable
+{
+public:
+    ProfilingThread();
+    void run();
+    //void addProfilerVariable(std::shared_ptr<ProfilerVariableInterface> profilerVariable)
+    //{
+    //    std::unique_lock<std::mutex> lock{mutex};
+    //    profilerVariables.push_back(profilerVariable);
+    //}
+
+private:
+    std::thread thread;
+    //std::mutex mutex;
+    //std::list<std::shared_ptr<ProfilerVariableInterface>> profilerVariables;
 };
 /*
 //C interface 

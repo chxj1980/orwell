@@ -51,11 +51,12 @@ int main(int argc, char **argv)
 	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
 	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
 	std::shared_ptr<Decoder> decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
-	Orwell orwell(rtspClient, decoder);
+	auto nVidiaRendererEGL = std::make_shared<NvidiaRendererEGL>(640, 360, 100, 30);
+	auto orwell = std::make_shared<Orwell>(rtspClient, decoder, nVidiaRendererEGL);
 	Singleton::instance()->addStream("cam1", orwell);
-	NvidiaRendererEGL nVidiaRendererEGL(640, 360, 100, 30);
-	nVidiaRendererEGL.setDecodedFramesFifo(orwell.decodedFramesFifo);
-	auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
+	
+	//nVidiaRendererEGL.setDecodedFramesFifo(orwell->decodedFramesFifo);
+	//auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
 	//It must be already setted. I must find a way to not cause problems if it's not setted yet.
 

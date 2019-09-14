@@ -37,7 +37,7 @@ int ZLRTSPClient::init()
                         });
                 encodedPacketsFifo->emplace_back(zLRTSPEncodedPacket);
                 //LOG << "size: " << frame->size();
-                LOG << bytesPerSecond->getSampleString() << "kB/s";
+                //LOG << bytesPerSecond->getSampleString() << "kB/s";
             }
         }));
     });

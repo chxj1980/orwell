@@ -18,16 +18,27 @@ public:
     Singleton(Singleton const &) = delete;
     Singleton &operator=(Singleton const &) = delete;
 
-    static void addStream(std::string id, Orwell orwell)
+    static void addStream(std::string id, std::shared_ptr<Orwell> orwell)
     {
         std::unique_lock<std::mutex> lock{mutex};
-        orwellMap.insert(std::pair<std::string, Orwell>(id, orwell));
+        orwellMap.insert(std::pair<std::string, std::shared_ptr<Orwell>>(id, orwell));
     }
 
-    static Orwell getStream(std::string id)
+    static std::shared_ptr<Orwell> getStream(std::string id)
     {
         std::unique_lock<std::mutex> lock{mutex};
         return orwellMap.at(id);
+    }
+
+    static std::list<std::string> getStreamKeys()
+    {
+        std::unique_lock<std::mutex> lock{mutex};
+        std::list<std::string> returnValue;
+        for (auto const &element : orwellMap)
+        {
+            returnValue.push_front(element.first);
+        }
+        return returnValue;
     }
 
     static std::shared_ptr<Singleton> instance()
@@ -38,7 +49,7 @@ public:
 
 private:
     Singleton() {}
-    static std::map<std::string, Orwell> orwellMap;
+    static std::map<std::string, std::shared_ptr<Orwell>> orwellMap;
     static std::mutex mutex;
 };
 

@@ -16,6 +16,7 @@
 #include <EGL/eglext.h>
 #include <GL/gl.h>
 #include "NVDecoder.h"
+#include "Renderer.h"
 
 
 #define TEST_ERROR(condition, message)     \
@@ -43,7 +44,7 @@ private:
     int errorCode;
 };
 
-class NVidiaRenderer : public OpenGLArea2
+class NVidiaRenderer : public OpenGLArea2, public Renderer
 {
 public:
     NVidiaRenderer()
@@ -87,10 +88,6 @@ public:
     void init();
     void realize();
     bool render(const Glib::RefPtr<Gdk::GLContext> &context);
-    void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo)
-    {
-        this->decodedFramesFifo = decodedFramesFifo;
-    }
 
     //virtual void on_realize();
     //virtual bool on_draw (const Cairo::RefPtr<Cairo::Context> &);
@@ -114,7 +111,6 @@ public:
 protected:
     bool firstFrameReceived = false;
     std::unique_ptr<Program> program;
-    std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
 
 private:
     //void on_glx_init ();

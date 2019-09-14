@@ -15,7 +15,22 @@ public:
 };
 
 /*
-    A class to safely update the sample variable at the end of a 
+    This class represents a variable that can be profiled. That is,
+    we can snapshot its value every `interval` seconds and then
+    we can read it in a thread-safe way through getSampleString() or
+    getSample if you know the type. 
+    To use this, simply create an instance and call `profile` on this 
+    instance every time you run your loop. You pass two funcions: one
+    that will increase your `counter` every iteration, and one that will
+    tell to what value to reset it.
+    Example of a simple fps counter in a thread that renders things in a loop:
+
+    ProfilerVariable<int> fps;
+    while (...) {
+        //render things here
+        fps.profile([](int &counter){counter++;}, [](int& counter){counter=0;});
+    }
+    
 */
 template <typename T>
 class ProfilerVariable : public ProfilerVariableInterface
@@ -55,7 +70,7 @@ public:
         return std::to_string(sample);
     }
 
-    //Value to be increased at every profile call. `counter` can only be modified from one thread
+    //Value to be increased at every profile call. `counter` can only be modified from one thread, not thread-safe
     T counter;
 
 private:
@@ -63,33 +78,10 @@ private:
     T sample;
     //Mutex for setting and reading sample.
     std::mutex mutex;
-    //Using array (not vector) to be fast. Only drawback is MAX ammount of profiler variables
+    //Stores the last profiler call time
     std::chrono::system_clock::time_point before;
     //Interval in milliseconds
     int interval;
-};
-
-/*
-    Classes should subclass this class to have profiling capabilities. 
-    They can simply call profile(index,...) using a different index for each 
-    variable, up to MAX of them
-*/
-
-class ProfilingThread : public Stoppable
-{
-public:
-    ProfilingThread();
-    void run();
-    //void addProfilerVariable(std::shared_ptr<ProfilerVariableInterface> profilerVariable)
-    //{
-    //    std::unique_lock<std::mutex> lock{mutex};
-    //    profilerVariables.push_back(profilerVariable);
-    //}
-
-private:
-    std::thread thread;
-    std::mutex mutex;
-    //std::list<std::shared_ptr<ProfilerVariableInterface>> profilerVariables;
 };
 
 #endif //Profiler_H

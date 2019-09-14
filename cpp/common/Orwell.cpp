@@ -1,13 +1,18 @@
 #include "Orwell.h"
+#include "Profiler.h"
+#include "SLog.h"
+#include "Singleton.h"
+static SLog::SLog LOGP(SLog::Category("Profiler"));
+
 //No more than x encoded packets
 const int maxEncodedPacketFifoSize = 40;
 //No more than x decoded video frames
 const int maxDecodedFrameFifoSize = 15;
 std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<EncodedPacket>>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<EncodedPacket>>>(maxEncodedPacketFifoSize);
 std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<DecodedFrame>>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<DecodedFrame>>>(maxDecodedFrameFifoSize);
-std::shared_ptr<ProfilingThread> Orwell::profilingThread = std::make_shared<ProfilingThread>();
+//std::shared_ptr<ProfilingThread> Orwell::profilingThread = std::make_shared<ProfilingThread>();
 
-Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder> _decoder)
+Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder> _decoder, std::shared_ptr<Renderer> _renderer)
 {
     rtspClient = _rtspClient;
     //FIFOs for encoded and decoder
@@ -25,10 +30,45 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
     //Important, only start thread mode after inserting FIFOs like in above
     rtspClient->startThreadMode();
+    renderer = _renderer;
+    renderer->setDecodedFramesFifo(decodedFramesFifo);
+    renderer->startThreadMode();
     //profilingThread->addProfilerVariable(rtspClient->bytesPerSecond);
     //profilingThread->addProflingVariable(renderer->fps);
 
     //rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
+}
+
+const int profilingInterval = 250;
+
+ProfilingThread::ProfilingThread()
+{
+    LOGP.applyConfiguration(SLog::Filename("profiler.log")); 
+    LOGP.applyConfiguration(SLog::TO_FILE);
+    //LOG.enableCategories("Profiler");
+    thread = std::thread(&ProfilingThread::run, this);
+}
+
+void ProfilingThread::run()
+{
+    while (shouldContinue())
+    {
+        //std::unique_lock<std::mutex> lock{mutex};
+        /*
+        for (auto profilerVariable : profilerVariables)
+        {
+            LOG << profilerVariable.getSample();
+        }
+        lock.unlock();
+        */
+        for(auto cam: Singleton::instance()->getStreamKeys()) {
+            auto orwell = Singleton::instance()->getStream(cam);
+            //get weak ptr?
+            LOGP << cam << ": " << "" << " fps" << ", " 
+                 << orwell->rtspClient->bytesPerSecond->getSampleString << "kb/s" << ", ";
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(profilingInterval));
+    }
 }
 /*
 //C interface

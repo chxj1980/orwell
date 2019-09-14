@@ -49,7 +49,7 @@ void OpenglSmartRenderer3::run()
 		fps->profile([](int &counter){counter++;}, [](int& counter){counter=0;});
 		//LOG << fps;
 		//std::cout << "waiting" << std::endl;
-		LOG << "fps: " << fps->getSample();
+		//LOG << "fps: " << fps->getSample();
 
 		//conditiconditionVariable.wait(lock);
 		//std::cout << "waited" << std::endl;

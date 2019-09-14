@@ -24,10 +24,6 @@ public:
 	void init();
 	//int receiveVideo(DecodedFrame& frame);
 	bool render(const Glib::RefPtr<Gdk::GLContext> &context);
-	void setDecodedFramesFifo(std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo)
-	{
-		this->decodedFramesFifo = decodedFramesFifo;
-	}
 
 	//virtual void on_realize();
 	//virtual bool on_draw (const Cairo::RefPtr<Cairo::Context> &);
@@ -53,7 +49,6 @@ public:
 protected:
 	bool firstFrameReceived = false;
 	std::unique_ptr<Program> program;
-	std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
 
 private:
 	//void on_glx_init ();

@@ -51,17 +51,17 @@ int main(int argc, char **argv)
 	rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
 	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
 	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
-
+	OpenglSmartRenderer3 openglSmartRenderer3;
+	//openglSmartRenderer3.setDecodedFramesFifo(orwell->decodedFramesFifo);
 	auto decoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
-	Orwell orwell(rtspClient, decoder);
+	auto orwell = std::make_shared<Orwell>(rtspClient, decoder, openglSmartRenderer3);
 	Singleton::instance()->addStream("cam1", orwell);
 
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
 	//It must be already setted. TODO: I must find a way to not cause problems if it's not setted yet.
 
-	OpenglSmartRenderer3 openglSmartRenderer3;
-	openglSmartRenderer3.setDecodedFramesFifo(orwell.decodedFramesFifo);
-	auto openglSmartRenderer3Thread = std::make_shared<std::thread>(&OpenglSmartRenderer3::run, &openglSmartRenderer3);
+	
+	//auto openglSmartRenderer3Thread = std::make_shared<std::thread>(&OpenglSmartRenderer3::run, &openglSmartRenderer3);
 	//return app->run();
 	return app->run(openglSmartRenderer3);
 }
