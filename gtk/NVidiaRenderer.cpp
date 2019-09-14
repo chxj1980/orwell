@@ -14,7 +14,6 @@ const std::string fragmentShaderSource =
 	if (condition)                                         \
 	{                                                      \
 		LOG << message;									   \
-		throw NVidiaRendererException(message, errorCode); \
 	}
 
 static const float kVertices[] = {
@@ -59,12 +58,15 @@ void NVidiaRenderer::realize()
 	EGLint attributes[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
 						   EGL_NONE};
 
-	eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(gtk_widget_get_display(widget)));
+	eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(glArea.get_display()->gobj()));
+
 	eglInitialize(&eglDisplay, NULL, NULL);
 	eglChooseConfig(&eglDisplay, attributes, &egl_config, 1, &n_config);
 	eglBindAPI(EGL_OPENGL_API);
-	eglSurface = eglCreateWindowSurface(&eglDisplay, egl_config, gdk_x11_window_get_xid(gtk_widget_get_window(widget)), NULL);
+	eglSurface = eglCreateWindowSurface(&eglDisplay, egl_config, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
 	eglContext = eglCreateContext(&eglDisplay, egl_config, EGL_NO_CONTEXT, NULL);
+
+
 }
 
 void NVidiaRenderer::run()
@@ -233,7 +235,7 @@ void NVidiaRenderer::glDraw()
 		TEST_CONDITION(iErr != GL_NO_ERROR, "glDrawArrays arrays failed:", iErr)
 		egl_sync = eglCreateSyncKHR(&eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
 		TEST_CONDITION(egl_sync == EGL_NO_SYNC_KHR, "eglCreateSyncKHR() failed", 0)
-
+		
 		/*
 		if (last_render_time.tv_sec != 0)
 		{
@@ -281,6 +283,9 @@ void NVidiaRenderer::glDraw()
 		TEST_CONDITION(iErr != EGL_TRUE, "eglDestroySyncKHR failed!", 0)
 
 		NvDestroyEGLImage(&eglDisplay, hEglImage);
+
+		if(iErr != EGL_TRUE)
+			abort();
 		/*
 		if (strlen(overlay_str) != 0)
 		{

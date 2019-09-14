@@ -34,19 +34,18 @@ public:
     void realize()
     {
         std::cout << "realize" << std::endl;
-        GtkWidget *widget = this->Widget::gobj();
-        EGLConfig eglConfig;
+        EGLConfig egl_config;
         EGLint n_config;
         EGLint attributes[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-                               EGL_NONE};
+                            EGL_NONE};
 
-        eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(gtk_widget_get_display(widget)));
+        eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(glArea.get_display()->gobj()));
+
         eglInitialize(&eglDisplay, NULL, NULL);
-        eglChooseConfig(&eglDisplay, attributes, &eglConfig, 1, &n_config);
+        eglChooseConfig(&eglDisplay, attributes, &egl_config, 1, &n_config);
         eglBindAPI(EGL_OPENGL_API);
-        eglSurface = eglCreateWindowSurface(&eglDisplay, &eglConfig, gdk_x11_window_get_xid(gtk_widget_get_window(widget)), NULL);
-        eglContext = eglCreateContext(&eglDisplay, &eglConfig, EGL_NO_CONTEXT, NULL);
-    };
+        eglSurface = eglCreateWindowSurface(&eglDisplay, egl_config, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
+        eglContext = eglCreateContext(&eglDisplay, egl_config, EGL_NO_CONTEXT, NULL);
 
 
     virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context)
