@@ -128,7 +128,9 @@ protected:
 	enum v4l2_memory outputPlaneMemType = V4L2_MEMORY_USERPTR;
 	enum v4l2_memory capturePlaneMemType = V4L2_MEMORY_DMABUF;
 	int dmaBufferFileDescriptor[MAX_BUFFERS] = {0};
-	int numberCaptureBuffers;
+	//TODO!!!!!!!!!!!! what? why numberCaptureBuffers=MAX_BUFFERS?
+	//I only know that this undefined thing was causing problems
+	int numberCaptureBuffers = MAX_BUFFERS;
 	uint32_t height;
 	uint32_t width;
 	std::thread captureThread;

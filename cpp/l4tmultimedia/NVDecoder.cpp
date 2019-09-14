@@ -87,6 +87,7 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
     //0);
     //deinitPlane unmaps the buffers and calls REQBUFS with count 0
     printf("89");
+    printf("numberCaptureBuffers:%i\n", numberCaptureBuffers);
     nvVideoDecoder->capture_plane.deinitPlane();
     if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
     {
