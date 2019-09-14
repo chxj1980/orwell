@@ -179,7 +179,7 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
             cParams.layout = NvBufferLayout_BlockLinear;
             cParams.payloadType = NvBufferPayload_SurfArray;
             cParams.nvbuf_tag = NvBufferTag_VIDEO_DEC;
-            LOG << "creating fd for index " << index;
+            //LOG << "creating fd for index " << index;
             ret = NvBufferCreateEx(&dmaBufferFileDescriptor[index], &cParams);
             TEST_ERROR(ret < 0, "Failed to create buffers", ret);
         }
@@ -206,7 +206,7 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
         v4l2_buf.memory = capturePlaneMemType;
         if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
         {
-            LOG << "gonna set fd to " << dmaBufferFileDescriptor[i] << " because i = " << i;
+            //LOG << "gonna set fd to " << dmaBufferFileDescriptor[i] << " because i = " << i;
             v4l2_buf.m.planes[0].m.fd = dmaBufferFileDescriptor[i];
         }
 

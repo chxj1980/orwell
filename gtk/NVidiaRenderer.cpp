@@ -77,22 +77,61 @@ void NVidiaRenderer::realize()
 
 	eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(glArea.get_display()->gobj()));
 
-	eglInitialize(&eglDisplay, NULL, NULL);
-	eglChooseConfig(&eglDisplay, context_attribs, &eglConfig, 1, &n_config);
-	eglBindAPI(EGL_OPENGL_API);
-	eglSurface = eglCreateWindowSurface(&eglDisplay, eglConfig, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
-	eglContext = eglCreateContext(&eglDisplay, eglConfig, EGL_NO_CONTEXT, NULL);
-	eglStatus = eglInitialize(eglDisplay, 0, 0);
-    if (!eglStatus)
+	eglStatus = eglInitialize(eglDisplay, NULL, NULL);
+	if (!eglStatus)
     {
-        printf("Unable to initialize egl library\n");
-    }
-
-    eglStatus = eglChooseConfig(eglDisplay, rgba8888,&eglConfig, 1, &numConfigs);
-    if (!eglStatus)
+        printf("Error at eglInitialize\n");
+		switch(eglStatus) {
+			case EGL_BAD_DISPLAY:
+				printf("EGL_BAD_DISPLAY\n");
+				break;
+			case EGL_NOT_INITIALIZED:
+				printf("EGL_NOT_INITIALIZED\n");
+				break;
+			case EGL_FALSE:
+				printf("EGL_FALSE\n");
+				break;
+		}
+	}
+	eglStatus = eglChooseConfig(eglDisplay, context_attribs, &eglConfig, 1, &numConfigs);
+	if (!eglStatus)
     {
         printf("Error at eglChooseConfig\n");
+		switch(eglStatus) {
+			case EGL_BAD_DISPLAY:
+				printf("EGL_BAD_DISPLAY\n");
+				break;
+			case EGL_BAD_ATTRIBUTE:
+				printf("EGL_BAD_ATTRIBUTE\n");
+				break;
+			case EGL_NOT_INITIALIZED:
+				printf("EGL_NOT_INITIALIZED\n");
+				break;
+			case EGL_BAD_PARAMETER:
+				printf("EGL_BAD_PARAMETER\n");
+				break;
+			case EGL_FALSE:
+				printf("EGL_FALSE\n");
+				break;
+		}
     }
+	eglContext = eglCreateContext(eglDisplay, eglConfig, EGL_NO_CONTEXT, context_attribs);
+	if (eglGetError() != EGL_SUCCESS)
+    {
+        printf("Got Error in eglCreateContext \n");
+    }
+	eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
+	if (eglSurface == EGL_NO_SURFACE)
+    {
+        printf("Error in creating egl surface \n");
+    }
+	eglMakeCurrent(&eglDisplay, &eglSurface, &eglSurface, &eglContext);
+
+    if (eglGetError() != EGL_SUCCESS)
+    {
+        printf("Error in eglMakeCurrent \n");
+    }
+
     printf("Got numconfigs as %i\n", numConfigs);
 	/*
     renderer->egl_context =
@@ -109,7 +148,6 @@ void NVidiaRenderer::realize()
         goto error;
     }
 	*/
-	eglMakeCurrent(&eglDisplay, &eglSurface, &eglSurface, &eglContext);
 }
 
 void NVidiaRenderer::run()

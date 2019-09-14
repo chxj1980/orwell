@@ -25,7 +25,7 @@ public:
 
         glArea.show();
         vBox.show();
-    }
+    };
 
 public:
     Gtk::GLArea glArea;
@@ -33,22 +33,55 @@ public:
 
     void realize()
     {
-        std::cout << "realize" << std::endl;
-        EGLConfig egl_config;
+        EGLBoolean eglStatus;
+        EGLConfig eglConfig;
         EGLint n_config;
-        EGLint attributes[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-                            EGL_NONE};
+        EGLint context_attribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
 
         eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(glArea.get_display()->gobj()));
 
-        eglInitialize(&eglDisplay, NULL, NULL);
-        eglChooseConfig(&eglDisplay, attributes, &egl_config, 1, &n_config);
-        eglBindAPI(EGL_OPENGL_API);
-        eglSurface = eglCreateWindowSurface(&eglDisplay, egl_config, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
-        eglContext = eglCreateContext(&eglDisplay, egl_config, EGL_NO_CONTEXT, NULL);
-
+        eglStatus = eglInitialize(eglDisplay, NULL, NULL);
+        if (!eglStatus)
+    {
+        printf("Error at eglInitialize\n");
+            switch(eglStatus) {
+                case EGL_BAD_DISPLAY:
+                    printf("EGL_BAD_DISPLAY\n");
+                    break;
+                case EGL_NOT_INITIALIZED:
+                    printf("EGL_NOT_INITIALIZED\n");
+                    break;
+                case EGL_FALSE:
+                    printf("EGL_FALSE\n");
+                    break;
+            }
+        }
+        eglStatus = eglChooseConfig(eglDisplay, context_attribs, &eglConfig, 1, &numConfigs);
+        if (!eglStatus)
+    {
+        printf("Error at eglChooseConfig\n");
+            switch(eglStatus) {
+                case EGL_BAD_DISPLAY:
+                    printf("EGL_BAD_DISPLAY\n");
+                    break;
+                case EGL_BAD_ATTRIBUTE:
+                    printf("EGL_BAD_ATTRIBUTE\n");
+                    break;
+                case EGL_NOT_INITIALIZED:
+                    printf("EGL_NOT_INITIALIZED\n");
+                    break;
+                case EGL_BAD_PARAMETER:
+                    printf("EGL_BAD_PARAMETER\n");
+                    break;
+                case EGL_FALSE:
+                    printf("EGL_FALSE\n");
+                    break;
+            }
     }
-    bool render(const Glib::RefPtr<Gdk::GLContext> &context)
+    };
+
+
+    virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context)
     {
         glDraw();
         glFinish();
@@ -57,44 +90,21 @@ public:
 
     void glDraw()
     {
-        std::cout << "drawing" << std::endl;
-        eglMakeCurrent(&eglDisplay, &eglSurface, &eglSurface, &eglContext);
-        /*
-        if (this->firstRun)
-		{
-			std::cout << "firstRun of NVidiaRenderer" << std::endl;
 
-			uint32_t pos_location = 0;
-			uint32_t tc_location = 0;
-			glEnable(GL_SCISSOR_TEST);
-			program = std::make_unique<Program>();
-			Shader vertexShader(ShaderType::Vertex);
-			vertexShader.load_from_string(vertexShaderSource);
-			//) Shader(ShaderType::Vertex, "video.vert")
-			program->attach_shader(vertexShader);
-			
-
-			Shader fragmentShader(ShaderType::Fragment);
-			fragmentShader.load_from_string(fragmentShaderSource);
-			program->attach_shader(fragmentShader);
-
-			program->link();
-        }
-        //glViewport(0, 0, gtk_widget_get_allocated_width(widget), gtk_widget_get_allocated_height(widget));
-        */
-        eglSwapBuffers(&eglDisplay, &eglSurface);
-        std::cout << "finished drawing" << std::endl;
     }
 
 private:
-    EGLDisplay eglDisplay;
+    EGLDisplay eglDisplay;  
+
+        eglSwapBuffers(&eglDisplay, &eglSurface);
+        std::cout << "finished drawing" << std::endl;
     EGLSurface eglSurface;
     EGLContext eglContext;
 };
 
 int main(int argc, char **argv)
 {
-	auto app = Gtk::Application::create(argc, argv, "");
+    auto app = Gtk::Application::create(argc, argv, "");
     MyOpenGLArea myOpenGLArea;
-	return app->run(myOpenGLArea);
+    return app->run(myOpenGLArea);
 }
