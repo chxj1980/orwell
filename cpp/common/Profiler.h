@@ -71,11 +71,11 @@ public:
     }
 
     //Value to be increased at every profile call. `counter` can only be modified from one thread, not thread-safe
-    T counter;
+    T counter = 0;
 
 private:
     //Value to store the result of the accumulated counter at the end of profile period
-    T sample;
+    T sample = 0;
     //Mutex for setting and reading sample.
     std::mutex mutex;
     //Stores the last profiler call time

@@ -34,9 +34,11 @@ int main(int argc, char **argv)
 	LOG.logImmediately(true);
 	LOG << "------------ Orwell initiated!";
 	//Gtk::Main kit;
-	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", "ZLRTSPClient", "OpenglSmartRenderer3", "Profiler");
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", 
+						  "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", 
+						  "ZLRTSPClient", "OpenglSmartRenderer3", "Profiler");
 	auto app = Gtk::Application::create(argc, argv, "");
-	LOG << "supported hardware: ";
+	LOG << "Supported ffmpeg hardware decoders: ";
 	for (auto i : FfmpegHardwareDecoder::getSupportedDevices())
 		LOG << i;
 	//auto ffmpegHardwareDecoder = std::make_shared<FfmpegHardwareDecoder>(Decoder::H264, FfmpegHardwareDecoder::HARDWARE, std::string("cuda"));
@@ -55,7 +57,7 @@ int main(int argc, char **argv)
 	auto decoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
 	auto orwell = std::make_shared<Orwell>(rtspClient, decoder, renderer);
 	Singleton::instance()->addStream("cam1", orwell);
-
+	ProfilingThread profilingThread;
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
 	//It must be already setted. TODO: I must find a way to not cause problems if it's not setted yet.
 

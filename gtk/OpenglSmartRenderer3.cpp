@@ -112,7 +112,7 @@ void OpenglSmartRenderer3::glDraw()
 	{
 		//std::cout << "Received frame with width: " << decodedFrame->width << " and height: " << decodedFrame->height << std::endl;
 		//std::cout << "getting pixelformat for " << (int)decodedFrame->format << std::endl;
-		std::cout << "begin drawing" << std::endl;
+		//std::cout << "begin drawing" << std::endl;
 		//--------------
 		//Width of each plane Y,U,V or R,G,B
 		int width[3];

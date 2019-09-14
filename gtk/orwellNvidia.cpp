@@ -35,7 +35,9 @@ int main(int argc, char **argv)
 {
 	LOG.logImmediately(true);
 	LOG << "------------ Orwell initiated!";
-	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", "NVidiaRenderer", "NvidiaRendererEGL", "myRtspClient", "ZLRTSPClient", "Profiler");
+	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", 
+						   "NVidiaRenderer", "NvidiaRendererEGL", 
+						   "myRtspClient", "ZLRTSPClient", "Profiler");
 	Gtk::Main kit;
 	//"NaluUtils"
 	auto app = Gtk::Application::create(argc, argv, "");
@@ -54,7 +56,8 @@ int main(int argc, char **argv)
 	auto nVidiaRendererEGL = std::make_shared<NvidiaRendererEGL>(640, 360, 100, 30);
 	auto orwell = std::make_shared<Orwell>(rtspClient, decoder, nVidiaRendererEGL);
 	Singleton::instance()->addStream("cam1", orwell);
-	
+	ProfilingThread profilingThread;
+
 	//nVidiaRendererEGL.setDecodedFramesFifo(orwell->decodedFramesFifo);
 	//auto nVidiaRendererEGLThread = std::make_shared<std::thread>(&NvidiaRendererEGL::run, &nVidiaRendererEGL);
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.

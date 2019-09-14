@@ -39,6 +39,7 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     //rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
 }
 
+//Interval in milliseconds
 const int profilingInterval = 250;
 
 ProfilingThread::ProfilingThread()
@@ -48,7 +49,10 @@ ProfilingThread::ProfilingThread()
     //LOG.enableCategories("Profiler");
     thread = std::thread(&ProfilingThread::run, this);
 }
-
+static int bytesToKbytes(std::string s) {
+    auto f = std::stod(s)/1000;
+    return f;
+}
 void ProfilingThread::run()
 {
     while (shouldContinue())
@@ -64,8 +68,8 @@ void ProfilingThread::run()
         for(auto cam: Singleton::instance()->getStreamKeys()) {
             auto orwell = Singleton::instance()->getStream(cam);
             //get weak ptr?
-            LOGP << cam << ": " << "" << " fps" << ", " 
-                 << orwell->rtspClient->bytesPerSecond->getSampleString << "kb/s" << ", ";
+            LOGP << cam << ": " << orwell->renderer->fps->getSampleString() << " fps" << ", " 
+                 << bytesToKbytes(orwell->rtspClient->bytesPerSecond->getSampleString()) << "kb/s" << ", ";
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(profilingInterval));
     }
