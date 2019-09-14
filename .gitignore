@@ -90,3 +90,6 @@ deps/ZLMediaKit/release*
 gtk/build/desktoplinux/_ZLMediaKit/*
 deps/ZLMediaKit/tests/ssl.p12
 gtk/build/desktoplinux/profiler.log
+gtk/build/desktoplinux/*.log
+gtk/build/jetson_nano/*.log
+gtk/build/*/*.log

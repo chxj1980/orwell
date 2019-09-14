@@ -80,38 +80,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -123,6 +91,38 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -181,6 +181,19 @@ orwell: cmake_check_build_system
 orwell/fast:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/build
 .PHONY : orwell/fast
+
+#=============================================================================
+# Target rules for targets named lab2
+
+# Build rule for target.
+lab2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab2
+.PHONY : lab2
+
+# fast build rule for target.
+lab2/fast:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/build
+.PHONY : lab2/fast
 
 #=============================================================================
 # Target rules for targets named myRtspClient-static
@@ -837,6 +850,33 @@ home/dev/orwell/cpp/common/ZLRTSPClient.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/ZLRTSPClient.cpp.s
 .PHONY : home/dev/orwell/cpp/common/ZLRTSPClient.cpp.s
 
+lab2.o: lab2.cpp.o
+
+.PHONY : lab2.o
+
+# target to build an object file
+lab2.cpp.o:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.o
+.PHONY : lab2.cpp.o
+
+lab2.i: lab2.cpp.i
+
+.PHONY : lab2.i
+
+# target to preprocess a source file
+lab2.cpp.i:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.i
+.PHONY : lab2.cpp.i
+
+lab2.s: lab2.cpp.s
+
+.PHONY : lab2.s
+
+# target to generate assembly for a file
+lab2.cpp.s:
+	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.s
+.PHONY : lab2.cpp.s
+
 main3.o: main3.cpp.o
 
 .PHONY : main3.o
@@ -899,12 +939,13 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
-	@echo "... rebuild_cache"
+	@echo "... install"
 	@echo "... lab"
 	@echo "... orwell"
-	@echo "... edit_cache"
+	@echo "... rebuild_cache"
+	@echo "... lab2"
 	@echo "... list_install_components"
-	@echo "... install"
+	@echo "... edit_cache"
 	@echo "... myRtspClient-static"
 	@echo "... myRtspClient"
 	@echo "... jrtplib-shared"
@@ -969,6 +1010,9 @@ help:
 	@echo "... home/dev/orwell/cpp/common/ZLRTSPClient.o"
 	@echo "... home/dev/orwell/cpp/common/ZLRTSPClient.i"
 	@echo "... home/dev/orwell/cpp/common/ZLRTSPClient.s"
+	@echo "... lab2.o"
+	@echo "... lab2.i"
+	@echo "... lab2.s"
 	@echo "... main3.o"
 	@echo "... main3.i"
 	@echo "... main3.s"

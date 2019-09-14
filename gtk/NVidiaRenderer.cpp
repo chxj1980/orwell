@@ -218,7 +218,8 @@ void NVidiaRenderer::glDraw()
 		}
 
 		program->use();
-
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		/*
 		EGLImageKHR hEglImage;
 		bool frame_is_late = false;
 
@@ -236,42 +237,7 @@ void NVidiaRenderer::glDraw()
 		egl_sync = eglCreateSyncKHR(&eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
 		TEST_CONDITION(egl_sync == EGL_NO_SYNC_KHR, "eglCreateSyncKHR() failed", 0)
 		
-		/*
-		if (last_render_time.tv_sec != 0)
-		{
-			pthread_mutex_lock(&render_lock);
-			last_render_time.tv_sec += render_time_sec;
-			last_render_time.tv_nsec += render_time_nsec;
-			last_render_time.tv_sec += last_render_time.tv_nsec / 1000000000UL;
-			last_render_time.tv_nsec %= 1000000000UL;
-
-			if (isProfilingEnabled())
-			{
-				struct timeval cur_time;
-				gettimeofday(&cur_time, NULL);
-				if ((cur_time.tv_sec * 1000000.0 + cur_time.tv_usec) >
-					(last_render_time.tv_sec * 1000000.0 +
-					 last_render_time.tv_nsec / 1000.0))
-				{
-					frame_is_late = true;
-				}
-			}
-
-			pthread_cond_timedwait(&render_cond, &render_lock,
-								   &last_render_time);
-
-			pthread_mutex_unlock(&render_lock);
-		}
-		else
-		{
-			struct timeval now;
-
-			gettimeofday(&now, NULL);
-			last_render_time.tv_sec = now.tv_sec;
-			last_render_time.tv_nsec = now.tv_usec * 1000L;
-		}
-		*/
-
+		
 		eglSwapBuffers(&eglDisplay, &eglSurface);
 		TEST_CONDITION(eglGetError() != EGL_SUCCESS, "Got Error in eglSwapBuffers ", eglGetError())
 
@@ -286,16 +252,8 @@ void NVidiaRenderer::glDraw()
 
 		if(iErr != EGL_TRUE)
 			abort();
-		/*
-		if (strlen(overlay_str) != 0)
-		{
-			XSetForeground(x_display, gc,
-						   BlackPixel(x_display, DefaultScreen(x_display)));
-			XSetFont(x_display, gc, fontinfo->fid);
-			XDrawString(x_display, x_window, gc, overlay_str_x_offset,
-						overlay_str_y_offset, overlay_str, strlen(overlay_str));
-		}
 		*/
+		
 		//profiler.finishProcessing(0, frame_is_late);
 	}
 }

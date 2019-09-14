@@ -25,7 +25,7 @@ public:
 
         glArea.show();
         vBox.show();
-    };
+    }
 
 public:
     Gtk::GLArea glArea;
@@ -47,8 +47,8 @@ public:
         eglSurface = eglCreateWindowSurface(&eglDisplay, egl_config, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
         eglContext = eglCreateContext(&eglDisplay, egl_config, EGL_NO_CONTEXT, NULL);
 
-
-    virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context)
+    }
+    bool render(const Glib::RefPtr<Gdk::GLContext> &context)
     {
         glDraw();
         glFinish();
@@ -59,9 +59,29 @@ public:
     {
         std::cout << "drawing" << std::endl;
         eglMakeCurrent(&eglDisplay, &eglSurface, &eglSurface, &eglContext);
-        GtkWidget* widget = this->Widget::gobj();
-        //glViewport(0, 0, gtk_widget_get_allocated_width(widget), gtk_widget_get_allocated_height(widget));
+        /*
+        if (this->firstRun)
+		{
+			std::cout << "firstRun of NVidiaRenderer" << std::endl;
 
+			uint32_t pos_location = 0;
+			uint32_t tc_location = 0;
+			glEnable(GL_SCISSOR_TEST);
+			program = std::make_unique<Program>();
+			Shader vertexShader(ShaderType::Vertex);
+			vertexShader.load_from_string(vertexShaderSource);
+			//) Shader(ShaderType::Vertex, "video.vert")
+			program->attach_shader(vertexShader);
+			
+
+			Shader fragmentShader(ShaderType::Fragment);
+			fragmentShader.load_from_string(fragmentShaderSource);
+			program->attach_shader(fragmentShader);
+
+			program->link();
+        }
+        //glViewport(0, 0, gtk_widget_get_allocated_width(widget), gtk_widget_get_allocated_height(widget));
+        */
         eglSwapBuffers(&eglDisplay, &eglSurface);
         std::cout << "finished drawing" << std::endl;
     }
