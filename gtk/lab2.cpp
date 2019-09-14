@@ -9,7 +9,8 @@
 class MyOpenGLArea : public Gtk::Window
 {
 public:
-    MyOpenGLArea(){
+    MyOpenGLArea()
+    {
         set_title("Test");
         set_default_size(640, 360);
 
@@ -36,50 +37,51 @@ public:
         EGLBoolean eglStatus;
         EGLConfig eglConfig;
         EGLint n_config;
-        EGLint context_attribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
+        EGLint context_attribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE};
 
         eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(glArea.get_display()->gobj()));
 
         eglStatus = eglInitialize(eglDisplay, NULL, NULL);
         if (!eglStatus)
-    {
-        printf("Error at eglInitialize\n");
-            switch(eglStatus) {
-                case EGL_BAD_DISPLAY:
-                    printf("EGL_BAD_DISPLAY\n");
-                    break;
-                case EGL_NOT_INITIALIZED:
-                    printf("EGL_NOT_INITIALIZED\n");
-                    break;
-                case EGL_FALSE:
-                    printf("EGL_FALSE\n");
-                    break;
+        {
+            printf("Error at eglInitialize\n");
+            switch (eglStatus)
+            {
+            case EGL_BAD_DISPLAY:
+                printf("EGL_BAD_DISPLAY\n");
+                break;
+            case EGL_NOT_INITIALIZED:
+                printf("EGL_NOT_INITIALIZED\n");
+                break;
+            case EGL_FALSE:
+                printf("EGL_FALSE\n");
+                break;
             }
         }
         eglStatus = eglChooseConfig(eglDisplay, context_attribs, &eglConfig, 1, &numConfigs);
         if (!eglStatus)
-    {
-        printf("Error at eglChooseConfig\n");
-            switch(eglStatus) {
-                case EGL_BAD_DISPLAY:
-                    printf("EGL_BAD_DISPLAY\n");
-                    break;
-                case EGL_BAD_ATTRIBUTE:
-                    printf("EGL_BAD_ATTRIBUTE\n");
-                    break;
-                case EGL_NOT_INITIALIZED:
-                    printf("EGL_NOT_INITIALIZED\n");
-                    break;
-                case EGL_BAD_PARAMETER:
-                    printf("EGL_BAD_PARAMETER\n");
-                    break;
-                case EGL_FALSE:
-                    printf("EGL_FALSE\n");
-                    break;
+        {
+            printf("Error at eglChooseConfig\n");
+            switch (eglStatus)
+            {
+            case EGL_BAD_DISPLAY:
+                printf("EGL_BAD_DISPLAY\n");
+                break;
+            case EGL_BAD_ATTRIBUTE:
+                printf("EGL_BAD_ATTRIBUTE\n");
+                break;
+            case EGL_NOT_INITIALIZED:
+                printf("EGL_NOT_INITIALIZED\n");
+                break;
+            case EGL_BAD_PARAMETER:
+                printf("EGL_BAD_PARAMETER\n");
+                break;
+            case EGL_FALSE:
+                printf("EGL_FALSE\n");
+                break;
             }
-    }
+        }
     };
-
 
     virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context)
     {
@@ -90,16 +92,13 @@ public:
 
     void glDraw()
     {
-
     }
 
 private:
-    EGLDisplay eglDisplay;  
-
-        eglSwapBuffers(&eglDisplay, &eglSurface);
-        std::cout << "finished drawing" << std::endl;
+    EGLDisplay eglDisplay;
     EGLSurface eglSurface;
     EGLContext eglContext;
+    int numConfigs;
 };
 
 int main(int argc, char **argv)
