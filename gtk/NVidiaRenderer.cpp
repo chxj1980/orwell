@@ -15,7 +15,14 @@ const std::string fragmentShaderSource =
 	{                                                      \
 		LOG << message;									   \
 	}
-
+static EGLint rgba8888[] = {
+        EGL_RED_SIZE, 8,
+        EGL_GREEN_SIZE, 8,
+        EGL_BLUE_SIZE, 8,
+        EGL_ALPHA_SIZE, 8,
+        EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+        EGL_NONE,
+    };
 static const float kVertices[] = {
 	-1.f,
 	-1.f,
@@ -58,23 +65,51 @@ PFNGLEGLIMAGETARGETTEXTURE2DOESPROC NVidiaRenderer::glEGLImageTargetTexture2DOES
 
 void NVidiaRenderer::realize()
 {
-	/*
-	std::cout << "NVidiaRenderer::realize" << std::endl;
+	EGLBoolean eglStatus;
+	LOG << "NVidiaRenderer::realize";
 	GtkWidget *widget = glArea.Widget::gobj();
-	EGLConfig egl_config;
+	EGLConfig eglConfig;
 	EGLint n_config;
 	EGLint attributes[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
 						   EGL_NONE};
+	//TODO: test these attributes
+	EGLint context_attribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
 
 	eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(glArea.get_display()->gobj()));
 
 	eglInitialize(&eglDisplay, NULL, NULL);
-	eglChooseConfig(&eglDisplay, attributes, &egl_config, 1, &n_config);
+	eglChooseConfig(&eglDisplay, context_attribs, &eglConfig, 1, &n_config);
 	eglBindAPI(EGL_OPENGL_API);
-	eglSurface = eglCreateWindowSurface(&eglDisplay, egl_config, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
-	eglContext = eglCreateContext(&eglDisplay, egl_config, EGL_NO_CONTEXT, NULL);
-	*/
+	eglSurface = eglCreateWindowSurface(&eglDisplay, eglConfig, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
+	eglContext = eglCreateContext(&eglDisplay, eglConfig, EGL_NO_CONTEXT, NULL);
+	eglStatus = eglInitialize(eglDisplay, 0, 0);
+    if (!eglStatus)
+    {
+        printf("Unable to initialize egl library\n");
+    }
 
+    eglStatus = eglChooseConfig(eglDisplay, rgba8888,&eglConfig, 1, &numConfigs);
+    if (!eglStatus)
+    {
+        printf("Error at eglChooseConfig\n");
+    }
+    printf("Got numconfigs as %i\n", numConfigs);
+	/*
+    renderer->egl_context =
+        eglCreateContext(renderer->egl_display, renderer->eglConfig,
+                            EGL_NO_CONTEXT, context_attribs);
+	*/
+    /*
+    renderer->egl_surface =
+        eglCreateWindowSurface(renderer->egl_display, renderer->eglConfig,
+                (EGLNativeWindowType) renderer->x_window, NULL);
+    if (renderer->egl_surface == EGL_NO_SURFACE)
+    {
+        COMP_ERROR_MSG("Error in creating egl surface " << eglGetError());
+        goto error;
+    }
+	*/
+	eglMakeCurrent(&eglDisplay, &eglSurface, &eglSurface, &eglContext);
 }
 
 void NVidiaRenderer::run()
@@ -173,7 +208,9 @@ static float vertices[] = {
     -0.5f, -0.5f, 0.0f,
      0.5f, -0.5f, 0.0f,
      0.0f,  0.5f, 0.0f
-};  
+};
+
+
 void NVidiaRenderer::glDraw()
 {
 	/*
@@ -181,7 +218,7 @@ void NVidiaRenderer::glDraw()
 		we only create the resources after we know the size and pixel format
 		of the received frame. 
 	*/
-	//eglMakeCurrent(&eglDisplay, &eglSurface, &eglSurface, &eglContext);
+	
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
 	if (this->firstFrameReceived && decodedNvFrame->getWidth() != 0)
 	{
@@ -225,44 +262,19 @@ void NVidiaRenderer::glDraw()
 
 			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
 			glEnableVertexAttribArray(textureInLocation);
-			/*
-			pos_location = glGetAttribLocation(program->get_id(), "aPos");
+			
+			glActiveTexture(GL_TEXTURE0);
+			//try tex instead of texSampler????
+    		glUniform1i(glGetUniformLocation(program->get_id(), "texSampler"), 0);
 
-			glGenVertexArrays(1, &VAO);
-			glGenBuffers(1, &VBO);
-			// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-			glBindVertexArray(VAO);
+			int viewport[4];
 
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+			glGetIntegerv(GL_VIEWPORT, viewport);
+			glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
+			glScissor(viewport[0], viewport[1], viewport[2], viewport[3]);
 
-			glVertexAttribPointer(pos_location, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-			glEnableVertexAttribArray(0);
-
-			// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-			glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-			// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-			// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-			glBindVertexArray(0); 
-			*/
-			/*
-			tc_location = glGetAttribLocation(program->get_id(), "aTexCoord");
-
-			glEnableVertexAttribArray(tc_location);
-			glVertexAttribPointer(tc_location, 2, GL_FLOAT, GL_FALSE, 0,
-								  kTextureCoords);
-
-			*/
-			// Generate 1 buffer, put the resulting identifier in vertexbuffer
-			/*
-			glGenBuffers(1, &vertexbuffer);
-			// The following commands will talk about our 'vertexbuffer' buffer
-			glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-			// Give our vertices to OpenGL.
-			glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-			*/
-
+			glGenTextures(1, &texture_id);
+			glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
 			//glUniform1i(glGetUniformLocation(program->get_id(), "texSampler"), 0);
 			/*
 			//To be done
@@ -287,10 +299,33 @@ void NVidiaRenderer::glDraw()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 		program->use();
+		EGLImageKHR hEglImage;
+    
+		EGLSyncKHR eglSync;
+		int iErr;
+		hEglImage = NvEGLImageFromFd(eglDisplay, decodedNvFrame->nvBuffer->planes[0].fd);
+		if (!hEglImage)
+		{
+			printf("Could not get EglImage from fd. Not rendering\n");
+		}
 
-        // draw our first triangle
-        glBindVertexArray(vertexArrayObject);
+        glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
+		glEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, hEglImage);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+		iErr = glGetError();
+		if (iErr != GL_NO_ERROR)
+		{
+			printf("glDrawArrays arrays failed:\n");
+		}
+		eglSync = eglCreateSyncKHR(eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
+		if (eglSync == EGL_NO_SYNC_KHR)
+		{
+			printf("eglCreateSyncKHR() failed\n");
+		}
+		eglSwapBuffers(eglDisplay, eglSurface);
+		NvDestroyEGLImage(eglDisplay, hEglImage);
 		/*
 		EGLImageKHR hEglImage;
 		bool frame_is_late = false;

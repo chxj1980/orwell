@@ -143,6 +143,8 @@ private:
     EGLDisplay eglDisplay;
     EGLSurface eglSurface;
     EGLContext eglContext;
+    EGLConfig eglConfig;  
+    int numConfigs = 0;  
     GLuint tex;
     GLuint vertexbuffer;
     unsigned int VBO, VAO;
