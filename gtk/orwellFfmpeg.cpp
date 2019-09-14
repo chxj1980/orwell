@@ -51,10 +51,9 @@ int main(int argc, char **argv)
 	rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
 	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
 	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
-	OpenglSmartRenderer3 openglSmartRenderer3;
-	//openglSmartRenderer3.setDecodedFramesFifo(orwell->decodedFramesFifo);
+	auto renderer = std::make_shared<OpenglSmartRenderer3>();
 	auto decoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
-	auto orwell = std::make_shared<Orwell>(rtspClient, decoder, openglSmartRenderer3);
+	auto orwell = std::make_shared<Orwell>(rtspClient, decoder, renderer);
 	Singleton::instance()->addStream("cam1", orwell);
 
 	//TODO (VERY IMPORTANT): when Windows is created, it searches for "cam1" in Singleton.
@@ -63,5 +62,5 @@ int main(int argc, char **argv)
 	
 	//auto openglSmartRenderer3Thread = std::make_shared<std::thread>(&OpenglSmartRenderer3::run, &openglSmartRenderer3);
 	//return app->run();
-	return app->run(openglSmartRenderer3);
+	return app->run(*renderer.get());
 }

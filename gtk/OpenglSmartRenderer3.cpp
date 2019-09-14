@@ -46,7 +46,6 @@ void OpenglSmartRenderer3::run()
 			firstFrameReceived = true;
 		//i++;
 		queue_draw();
-		fps->profile([](int &counter){counter++;}, [](int& counter){counter=0;});
 		//LOG << fps;
 		//std::cout << "waiting" << std::endl;
 		//LOG << "fps: " << fps->getSample();
@@ -327,5 +326,6 @@ void OpenglSmartRenderer3::glDraw()
 
 		glBindVertexArray(vertexArrayObject);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		fps->profile([](int &counter){counter++;}, [](int& counter){counter=0;});
 	}
 }

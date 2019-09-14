@@ -16,7 +16,7 @@ public:
     virtual void startThreadMode() {
 		runThread = std::thread(&Renderer::run, this);
 	}
-private:
+protected:
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
     std::thread runThread;
 };
