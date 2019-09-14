@@ -253,11 +253,13 @@ void NVDecoder::captureLoop()
     while (!nvVideoDecoder->isInError()) //|| ctx->got_eos))
     {
         //Check for Resolution change again
-        ret = nvVideoDecoder->dqEvent(v4l2Event, false);
+        //TODO: sould I wait miliseconds or false?
+        ret = nvVideoDecoder->dqEvent(v4l2Event, 50);
         if (ret == 0)
         {
             switch (v4l2Event.type)
             {
+                //TODO: this seems problematic and runs many times per second?
             case V4L2_EVENT_RESOLUTION_CHANGE:
                 respondToResolutionEvent(v4l2Format, v4l2Crop);
                 continue;

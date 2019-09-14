@@ -143,6 +143,9 @@ private:
     EGLDisplay eglDisplay;
     EGLSurface eglSurface;
     EGLContext eglContext;
+    GLuint tex;
+    GLuint vertexbuffer;
+    unsigned int VBO, VAO;
     //std::mutex mutex;
     //std::condition_variable conditionVariable;
     //PixelFormats pixelFormats;

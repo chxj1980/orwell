@@ -71,7 +71,8 @@
         "regex": "cpp",
         "*.vert": "cpp",
         "random": "cpp",
-        "*.moc": "cpp"
+        "*.moc": "cpp",
+        "*.frag": "cpp"
     },
     "search.exclude": {
         "**/node_modules": false

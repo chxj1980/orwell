@@ -4,10 +4,10 @@
 SLOG_CATEGORY("NVidiaRenderer")
 
 const std::string vertexShaderSource =
-#include "nvidia.vert"
+#include "video.vert"
 	;
 const std::string fragmentShaderSource =
-#include "nvidia.frag"
+#include "color.frag"
 	;
 
 #define TEST_CONDITION(condition, message, errorCode)      \
@@ -25,6 +25,13 @@ static const float kVertices[] = {
 	1.f,
 	1.f,
 	1.f,
+};
+
+static const GLfloat ver[] = {
+    -1.0f,-1.0f,
+     1.0f,-1.0f,
+    -1.0f, 1.0f,
+     1.0f, 1.0f
 };
 static const float kTextureCoords[] = {
 	0.0f,
@@ -51,6 +58,7 @@ PFNGLEGLIMAGETARGETTEXTURE2DOESPROC NVidiaRenderer::glEGLImageTargetTexture2DOES
 
 void NVidiaRenderer::realize()
 {
+	/*
 	std::cout << "NVidiaRenderer::realize" << std::endl;
 	GtkWidget *widget = glArea.Widget::gobj();
 	EGLConfig egl_config;
@@ -65,7 +73,7 @@ void NVidiaRenderer::realize()
 	eglBindAPI(EGL_OPENGL_API);
 	eglSurface = eglCreateWindowSurface(&eglDisplay, egl_config, gdk_x11_window_get_xid(glArea.get_window()->gobj()), NULL);
 	eglContext = eglCreateContext(&eglDisplay, egl_config, EGL_NO_CONTEXT, NULL);
-
+	*/
 
 }
 
@@ -83,7 +91,6 @@ void NVidiaRenderer::run()
 	}
 	int i = 0;
 	//TODO: run every loop?
-	eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
 	while (true)
 	{
 		//std::unique_lock<std::mutex> lock{mutex};
@@ -108,6 +115,13 @@ void NVidiaRenderer::run()
 		//std::cout << "waited" << std::endl;
 	}
 }
+
+const GLfloat vertices_textures[20] = {
+		//vertices            //positions
+		-1.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 0.0f};
 
 void NVidiaRenderer::glInit()
 {
@@ -150,7 +164,16 @@ bool NVidiaRenderer::render(const Glib::RefPtr<Gdk::GLContext> &context)
 		return false;
 	}
 }
-
+static const GLfloat g_vertex_buffer_data[] = {
+   -1.0f, -1.0f, 0.0f,
+   1.0f, -1.0f, 0.0f,
+   0.0f,  1.0f, 0.0f,
+};
+static float vertices[] = {
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
+};  
 void NVidiaRenderer::glDraw()
 {
 	/*
@@ -158,17 +181,17 @@ void NVidiaRenderer::glDraw()
 		we only create the resources after we know the size and pixel format
 		of the received frame. 
 	*/
-
+	//eglMakeCurrent(&eglDisplay, &eglSurface, &eglSurface, &eglContext);
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
 	if (this->firstFrameReceived && decodedNvFrame->getWidth() != 0)
 	{
 		if (this->firstRun)
 		{
 			std::cout << "firstRun of NVidiaRenderer" << std::endl;
-
+			
 			uint32_t pos_location = 0;
 			uint32_t tc_location = 0;
-			glEnable(GL_SCISSOR_TEST);
+			//glEnable(GL_SCISSOR_TEST);
 			program = std::make_unique<Program>();
 			Shader vertexShader(ShaderType::Vertex);
 			vertexShader.load_from_string(vertexShaderSource);
@@ -185,20 +208,63 @@ void NVidiaRenderer::glDraw()
 			program->attach_shader(fragmentShader);
 
 			program->link();
-			pos_location = glGetAttribLocation(program->get_id(), "in_pos");
+			vextexInLocation = glGetAttribLocation(program->get_id(), "aPos");
+			textureInLocation = glGetAttribLocation(program->get_id(), "aTexCoord");
 
-			glEnableVertexAttribArray(pos_location);
-			glVertexAttribPointer(pos_location, 2, GL_FLOAT, GL_FALSE, 0, kVertices);
+			glGenVertexArrays(1, &vertexArrayObject);
+			glGenBuffers(1, &vertexBufferObject);
+			glGenBuffers(3, pixelBufferObjects);
 
-			tc_location = glGetAttribLocation(program->get_id(), "in_tc");
+			glBindVertexArray(vertexArrayObject);
+
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_textures), vertices_textures, GL_STATIC_DRAW);
+
+			glVertexAttribPointer(vextexInLocation, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)0);
+			glEnableVertexAttribArray(vextexInLocation);
+
+			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
+			glEnableVertexAttribArray(textureInLocation);
+			/*
+			pos_location = glGetAttribLocation(program->get_id(), "aPos");
+
+			glGenVertexArrays(1, &VAO);
+			glGenBuffers(1, &VBO);
+			// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+			glBindVertexArray(VAO);
+
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+			glVertexAttribPointer(pos_location, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+			glEnableVertexAttribArray(0);
+
+			// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+			glBindBuffer(GL_ARRAY_BUFFER, 0); 
+
+			// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+			// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+			glBindVertexArray(0); 
+			*/
+			/*
+			tc_location = glGetAttribLocation(program->get_id(), "aTexCoord");
 
 			glEnableVertexAttribArray(tc_location);
 			glVertexAttribPointer(tc_location, 2, GL_FLOAT, GL_FALSE, 0,
 								  kTextureCoords);
 
-			glActiveTexture(GL_TEXTURE0);
-			glUniform1i(glGetUniformLocation(program->get_id(), "texSampler"), 0);
+			*/
+			// Generate 1 buffer, put the resulting identifier in vertexbuffer
+			/*
+			glGenBuffers(1, &vertexbuffer);
+			// The following commands will talk about our 'vertexbuffer' buffer
+			glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+			// Give our vertices to OpenGL.
+			glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+			*/
 
+			//glUniform1i(glGetUniformLocation(program->get_id(), "texSampler"), 0);
+			/*
 			//To be done
 			if (!initiatedFrameBufferObjects)
 			{
@@ -213,11 +279,17 @@ void NVidiaRenderer::glDraw()
 				glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
 				initiatedFrameBufferObjects = true;
 			}
-
+			*/
 			firstRun = false;
 		}
 
+		
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 		program->use();
+
+        // draw our first triangle
+        glBindVertexArray(vertexArrayObject);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		/*
 		EGLImageKHR hEglImage;
