@@ -9,7 +9,7 @@ SLOG_CATEGORY("NVDecoder");
 #define TEST_ERROR(condition, message, errorCode) \
     if (condition)                                \
     {                                             \
-        printf(message);printf("\n");                           \
+        LOG << message;                           \
     }
 
 int NVDecoder::counter = 0;
@@ -86,8 +86,7 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
     //0, 0,
     //0);
     //deinitPlane unmaps the buffers and calls REQBUFS with count 0
-    printf("89");
-    printf("numberCaptureBuffers:%i\n", numberCaptureBuffers);
+    
     nvVideoDecoder->capture_plane.deinitPlane();
     if (capturePlaneMemType == V4L2_MEMORY_DMABUF)
     {
@@ -181,7 +180,6 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
             cParams.payloadType = NvBufferPayload_SurfArray;
             cParams.nvbuf_tag = NvBufferTag_VIDEO_DEC;
             //LOG << "creating fd for index " << index;
-            printf("NvBufferCreateEx!");
             ret = NvBufferCreateEx(&dmaBufferFileDescriptor[index], &cParams);
             TEST_ERROR(ret < 0, "Failed to create buffers", ret);
         }
