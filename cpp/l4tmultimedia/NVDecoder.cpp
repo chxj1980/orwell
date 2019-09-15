@@ -325,7 +325,7 @@ void NVDecoder::captureLoop()
             decodedNvFrame->decodedFrom == DecodedFrame::NVDECODER;
             decodedNvFrame->width = v4l2Format.fmt.pix_mp.width;
             decodedNvFrame->height = v4l2Format.fmt.pix_mp.height;
-            decodedFramesFifo->emplace_back(decodedNvFrame);
+            //decodedFramesFifo->emplace_back(decodedNvFrame);
 
             //renderer->render(nvBuffer->planes[0].fd);
             //decodedFramesFifo->emplace_back(std::move(decodedFrame));
