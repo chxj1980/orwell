@@ -118,3 +118,7 @@ target_link_libraries(lab pthread)
 file(GLOB LAB2_SOURCES lab2.cpp)
 add_executable(lab2 ${LAB2_SOURCES})
 target_link_libraries(lab2 pthread ${X11_LIBRARY} ${LIB_EGL} ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)
+
+file(GLOB LAB2_SOURCES lab3.cpp)
+add_executable(lab3 ${LAB2_SOURCES})
+target_link_libraries(lab3 pthread ${X11_LIBRARY} ${LIB_EGL} ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy)

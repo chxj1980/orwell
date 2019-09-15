@@ -92,6 +92,16 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -102,16 +112,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -194,6 +194,19 @@ lab2: cmake_check_build_system
 lab2/fast:
 	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/build
 .PHONY : lab2/fast
+
+#=============================================================================
+# Target rules for targets named lab3
+
+# Build rule for target.
+lab3: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab3
+.PHONY : lab3
+
+# fast build rule for target.
+lab3/fast:
+	$(MAKE) -f CMakeFiles/lab3.dir/build.make CMakeFiles/lab3.dir/build
+.PHONY : lab3/fast
 
 #=============================================================================
 # Target rules for targets named myRtspClient-static
@@ -877,6 +890,33 @@ lab2.cpp.s:
 	$(MAKE) -f CMakeFiles/lab2.dir/build.make CMakeFiles/lab2.dir/lab2.cpp.s
 .PHONY : lab2.cpp.s
 
+lab3.o: lab3.cpp.o
+
+.PHONY : lab3.o
+
+# target to build an object file
+lab3.cpp.o:
+	$(MAKE) -f CMakeFiles/lab3.dir/build.make CMakeFiles/lab3.dir/lab3.cpp.o
+.PHONY : lab3.cpp.o
+
+lab3.i: lab3.cpp.i
+
+.PHONY : lab3.i
+
+# target to preprocess a source file
+lab3.cpp.i:
+	$(MAKE) -f CMakeFiles/lab3.dir/build.make CMakeFiles/lab3.dir/lab3.cpp.i
+.PHONY : lab3.cpp.i
+
+lab3.s: lab3.cpp.s
+
+.PHONY : lab3.s
+
+# target to generate assembly for a file
+lab3.cpp.s:
+	$(MAKE) -f CMakeFiles/lab3.dir/build.make CMakeFiles/lab3.dir/lab3.cpp.s
+.PHONY : lab3.cpp.s
+
 main3.o: main3.cpp.o
 
 .PHONY : main3.o
@@ -940,11 +980,12 @@ help:
 	@echo "... install/strip"
 	@echo "... install/local"
 	@echo "... install"
+	@echo "... list_install_components"
 	@echo "... lab"
 	@echo "... orwell"
 	@echo "... rebuild_cache"
 	@echo "... lab2"
-	@echo "... list_install_components"
+	@echo "... lab3"
 	@echo "... edit_cache"
 	@echo "... myRtspClient-static"
 	@echo "... myRtspClient"
@@ -1013,6 +1054,9 @@ help:
 	@echo "... lab2.o"
 	@echo "... lab2.i"
 	@echo "... lab2.s"
+	@echo "... lab3.o"
+	@echo "... lab3.i"
+	@echo "... lab3.s"
 	@echo "... main3.o"
 	@echo "... main3.i"
 	@echo "... main3.s"

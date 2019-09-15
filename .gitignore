@@ -93,3 +93,6 @@ gtk/build/desktoplinux/profiler.log
 gtk/build/desktoplinux/*.log
 gtk/build/jetson_nano/*.log
 gtk/build/*/*.log
+gtk/build/desktoplinux/valgrind-out.txt
+gtk/build/desktoplinux/lab2
+gtk/build/desktoplinux/lab3

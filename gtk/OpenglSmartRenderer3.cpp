@@ -18,40 +18,24 @@ void OpenglSmartRenderer3::init()
 
 void OpenglSmartRenderer3::run()
 {
-	/*
-		ThreadSafeDeque decodedFramesFifo is a nice object because it will only pop_front when it has data.
-		This way, if decodedFramesFifo is empty, this rendering loop will wait, which is good, no CPU time is wasted.
-	*/
-	std::cout << "OpenglSmartRenderer3 run called" << std::endl;
 	if (!decodedFramesFifo)
 	{
 		std::cerr << "No decodedFramesFifo setted for this renderer" << std::endl;
 		return;
 	}
-	//int i = 0;
+
 	while (true)
 	{
-		//std::unique_lock<std::mutex> lock{mutex};
-		//TODO: certify that the operation below is MOVING the frame to here, not copying it
 		auto decodedFfmpegFrame =  std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
-		/* 
-		    Since the frame is gone from the fifo, it only exists here. We move it to the renderer and then we 
-		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
-		    TODO: verify if this indeed happens
-		*/
-		std::unique_lock<std::mutex> lk{mutex};
+
+		std::unique_lock<std::mutex> lock{mutex};
+		printf("received\n");
 		this->decodedFfmpegFrame = decodedFfmpegFrame;
-		lk.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
-		//i++;
-		queue_draw();
-		//LOG << fps;
-		//std::cout << "waiting" << std::endl;
-		//LOG << "fps: " << fps->getSample();
+		lock.unlock();
 
-		//conditiconditionVariable.wait(lock);
-		//std::cout << "waited" << std::endl;
+		queue_draw();
 	}
 }
 
@@ -59,56 +43,26 @@ void OpenglSmartRenderer3::glInit()
 {
 }
 
-static void err(std::string lineInformation)
-{
-	std::cout << lineInformation << std::endl;
-	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR)
-	{
-		std::cerr << ">>>>>>>>>>>>>>>>OpenGL error: " << err << std::endl;
-	}
-}
-
 bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 {
-	std::unique_lock<std::mutex> lk{mutex};
-	try
-	{
-		//std::cout << "gonna render" << std::endl;
-
-		glArea.throw_if_error();
-
-		glDraw();
-
-		glFinish();
-		//std::cout << "gonna notify" << std::endl;
-		//conditionVariable.notify_one();
-		//std::cout << "did notify" << std::endl;
-		//std::cout << "did render" << std::endl;
-
-		return true;
-	}
-	catch (const Gdk::GLError &gle)
-	{
-		std::cerr << "An error occurred in the render callback of the GLArea" << std::endl;
-		std::cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << std::endl;
-		//conditionVariable.notify_one();
-		return false;
-	}
+	std::unique_lock<std::mutex> lock{mutex};
+	//glDraw();
+	//glFinish();
+	printf("drawed\n");
 }
 
 void OpenglSmartRenderer3::glDraw()
 {
 	/*
-		By putting everythng inside a bit if (firstFrameReceived),
+		By putting everythng inside a bit if (this->firstFrameReceived),
 		we only create the resources after we know the size and pixel format
-		of the received decodedFrame-> 
+		of the received decodedFfmpegFrame
 	*/
 	int textureFormat;
 	int alpha;
 	PixelFormat *pixelFormat;
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
-	if (this->firstFrameReceived && decodedFfmpegFrame->getWidth() != 0)
+	if (decodedFfmpegFrame && this->firstFrameReceived && decodedFfmpegFrame->getWidth() != 0)
 	{
 		//std::cout << "Received frame with width: " << decodedFrame->width << " and height: " << decodedFrame->height << std::endl;
 		//std::cout << "getting pixelformat for " << (int)decodedFrame->format << std::endl;
@@ -169,11 +123,11 @@ void OpenglSmartRenderer3::glDraw()
 		}
 		if (this->firstRun)
 		{
-			std::cout << "firstRun of OpenglSmartRenderer3" << std::endl;
+			LOG << "firstRun of OpenglSmartRenderer3";
 			//This is a pointer to an object that is created with this renderer, so it never goes away
 			if (!pixelFormat)
 			{
-				std::cout << "ERROR, format of decoded frame is not supported" << std::endl;
+				LOG << "ERROR, format of decoded frame is not supported";
 				return;
 			}
 			//glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -193,7 +147,6 @@ void OpenglSmartRenderer3::glDraw()
 				Shader fragmentShader(ShaderType::Fragment);
 				fragmentShader.load_from_string(fragmentShaderSourcePlanar);
 				program->attach_shader(fragmentShader);
-				//program->attach_shader(Shader(ShaderType::Fragment, "yuv420p.frag"));
 			}
 			else
 			{
@@ -239,7 +192,7 @@ void OpenglSmartRenderer3::glDraw()
 			//-------
 			if (!initiatedTextures)
 			{
-				std::cout << "initiatedTextures" << std::endl;
+				LOG << "initiatedTextures";
 				//TODO: delete these textures
 				glGenTextures(TEXTURE_NUMBER, textureId);
 
