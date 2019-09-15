@@ -325,7 +325,7 @@ void NVDecoder::captureLoop()
             decodedNvFrame->decodedFrom == DecodedFrame::NVDECODER;
             decodedNvFrame->width = v4l2Format.fmt.pix_mp.width;
             decodedNvFrame->height = v4l2Format.fmt.pix_mp.height;
-            //decodedFramesFifo->emplace_back(decodedNvFrame);
+            decodedFramesFifo->emplace_back(decodedNvFrame);
 
             //renderer->render(nvBuffer->planes[0].fd);
             //decodedFramesFifo->emplace_back(std::move(decodedFrame));
@@ -419,6 +419,7 @@ void NVDecoder::run()
             (codec == MPEG2) ||
             (codec == MPEG4))
         {
+            
             if (format == NALU)
             {
                 if (consumedEntirePacket)
@@ -443,10 +444,10 @@ void NVDecoder::run()
 
                 if (naluEnd)
                 {
-                    /*
-                        We found the end, copy bytes. Next iteration will continue 
-                        from here
-                    */
+                    
+                        //We found the end, copy bytes. Next iteration will continue 
+                        //from here
+                    
                     //printf("gonna copy %i bytes\n", naluEnd - naluStart);
                     memcpy(planeBufferPtr, naluStart, naluEnd - naluStart);
                     bytesWritten += naluEnd - naluStart;
@@ -506,6 +507,7 @@ void NVDecoder::run()
             {
                 //read_decoder_input_chunk(ctx.in_file[current_file], buffer);
             }
+            
         }
 
         /*

@@ -8,6 +8,7 @@
 #include "DecodedFrame.h"
 #include "ThreadSafeDeque.h"
 #include "Stoppable.h"
+#include <functional>
 
 class Decoder: public Stoppable
 {
@@ -69,6 +70,7 @@ protected:
 	std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo;
 	std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
 	std::thread runThread;
+	std::function<void()> on
 };
 
 #endif // Decoder_H
