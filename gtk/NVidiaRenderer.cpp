@@ -169,17 +169,15 @@ void NVidiaRenderer::run()
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
 		    TODO: verify if this indeed happens
 		*/
-		std::unique_lock<std::mutex> lk{mutex};
+		std::unique_lock<std::mutex> lock{mutex};
 		this->decodedNvFrame = decodedNvFrame;
 
-		//lk.unlock();
+		lock.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
-		//std::cout << i << std::endl;
-		queue_draw();
-		//std::cout << "waiting" << std::endl;
-		//conditiconditionVariable.wait(lock);
-		//std::cout << "waited" << std::endl;
+
+		drawerDispatcher.emit();
+		
 	}
 }
 
@@ -194,43 +192,15 @@ void NVidiaRenderer::glInit()
 {
 }
 
-static void err(std::string lineInformation)
-{
-	std::cout << lineInformation << std::endl;
-	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR)
-	{
-		std::cerr << ">>>>>>>>>>>>>>>>OpenGL error: " << err << std::endl;
-	}
-}
+
 
 bool NVidiaRenderer::render(const Glib::RefPtr<Gdk::GLContext> &context)
 {
-	std::unique_lock<std::mutex> lk{mutex};
-	try
-	{
-		//std::cout << "gonna render" << std::endl;
-
-		glArea.throw_if_error();
-
-		glDraw();
-
-		glFinish();
-		//std::cout << "gonna notify" << std::endl;
-		//conditionVariable.notify_one();
-		//std::cout << "did notify" << std::endl;
-		//std::cout << "did render" << std::endl;
-
-		return true;
-	}
-	catch (const Gdk::GLError &gle)
-	{
-		std::cerr << "An error occurred in the render callback of the GLArea" << std::endl;
-		std::cerr << gle.domain() << "-" << gle.code() << "-" << gle.what() << std::endl;
-		//conditionVariable.notify_one();
-		return false;
-	}
+	std::unique_lock<std::mutex> lock{mutex};
+	glDraw();
+	glFinish();
 }
+
 static const GLfloat g_vertex_buffer_data[] = {
    -1.0f, -1.0f, 0.0f,
    1.0f, -1.0f, 0.0f,
@@ -351,12 +321,14 @@ void NVidiaRenderer::glDraw()
 		{
 			printf("glDrawArrays arrays failed:\n");
 		}
+		/*
 		eglSync = eglCreateSyncKHR(eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
 		if (eglSync == EGL_NO_SYNC_KHR)
 		{
 			printf("eglCreateSyncKHR() failed\n");
 		}
 		eglSwapBuffers(eglDisplay, eglSurface);
+		*/
 		NvDestroyEGLImage(eglDisplay, hEglImage);
 		/*
 		EGLImageKHR hEglImage;

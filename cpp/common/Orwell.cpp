@@ -22,8 +22,6 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     decodedFramesFifo->setPolicy(decodedFrameFifoSizePolicy);
     //Decoders
     decoder = _decoder;
-    //decoder->setEncodedPacketsFifo(encodedPacketsFifo);
-    //decoder->setDecodedFramesFifo(decodedFramesFifo);
     auto& encodedPacketsFifoReference = encodedPacketsFifo;
     auto& decodedFramesFifoReference = decodedFramesFifo;
     //Makes a COPY of the shared_ptrs below from its references
@@ -37,22 +35,16 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     //Important, only start thread mode after inserting FIFOs like in above
     decoder->startThreadMode();
     //RTSP client
-    //rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
     rtspClient->setOnNewPacket([encodedPacketsFifo = encodedPacketsFifoReference](std::shared_ptr<EncodedPacket> encodedPacket){
         encodedPacketsFifo->emplace_back(encodedPacket);
     });
     //Important, only start thread mode after inserting FIFOs like in above
     rtspClient->startThreadMode();
     renderer = _renderer;
-    //renderer->setDecodedFramesFifo(decodedFramesFifo);
     renderer->setOnAcquireNewDecodedFrame([decodedFramesFifo = decodedFramesFifoReference]()->std::shared_ptr<DecodedFrame>{
         return decodedFramesFifo->pop_front();
     });
     renderer->startThreadMode();
-    //profilingThread->addProfilerVariable(rtspClient->bytesPerSecond);
-    //profilingThread->addProflingVariable(renderer->fps);
-
-    //rtspClientThread = std::make_shared<std::thread>(&RTSPClient::run, rtspClient);
 }
 
 //Interval in milliseconds
