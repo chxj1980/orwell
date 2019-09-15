@@ -23,7 +23,7 @@ public:
         vBox.add(glArea);
 
         glArea.signal_render().connect(sigc::mem_fun(*this, &MyOpenGLArea::render), false);
-
+        drawerDispatcher.connect(sigc::mem_fun(*this, &MyOpenGLArea::onNotificationFromWorkerThread));
         glArea.show();
         vBox.show();
     };
@@ -32,10 +32,14 @@ public:
     {
         while (true)
         {
-            printf("run()\n");
-            queue_draw();
+            drawerDispatcher.emit();
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
         }
+    }
+
+    void onNotificationFromWorkerThread() {
+        printf("onNotificationFromWorkerThread()\n");
+        queue_draw();
     }
 
     virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context)
@@ -47,6 +51,8 @@ public:
 public:
     Gtk::GLArea glArea;
     Gtk::Box vBox{Gtk::ORIENTATION_VERTICAL, false};
+private:
+    Glib::Dispatcher drawerDispatcher;
 };
 
 int main(int argc, char **argv)

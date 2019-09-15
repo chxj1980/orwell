@@ -30,6 +30,7 @@ OpenGLArea2::OpenGLArea2()
     // GL resources _before_ the default unrealize handler is called (the "false")
     //glArea.signal_unrealize().connect(sigc::mem_fun(*this, &OpenGLArea2::unrealize), false);
     glArea.signal_render().connect(sigc::mem_fun(*this, &OpenGLArea2::render), false);
+    drawerDispatcher.connect(sigc::mem_fun(*this, &OpenGLArea2::onNotificationFromWorkerThread));
 
     glArea.show();
 

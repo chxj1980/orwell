@@ -11,8 +11,9 @@
 #include <condition_variable>
 #include "Profiler.h"
 #include "Renderer.h"
+#include "Stoppable.h"
 
-class OpenglSmartRenderer3 : public OpenGLArea2, public Renderer //, public VideoReceiver
+class OpenglSmartRenderer3 : public OpenGLArea2, public Renderer
 {
 public:
 	unsigned char *buffer[3] = {0};
@@ -20,6 +21,7 @@ public:
 	{
 		//set_size_request(640, 360);
 		//Singleton::instance()->getStream("cam1").mediaStream->decoder->setVideoReceiver(this);
+		
 	}
 	void init();
 	//int receiveVideo(DecodedFrame& frame);
@@ -30,6 +32,8 @@ public:
 	//virtual bool on_configure_event (GdkEventConfigure *event);
 
 	void realize() {}
+
+	void onNotificationFromWorkerThread();
 
 	void glInit();
 	void glDraw();
