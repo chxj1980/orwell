@@ -4,16 +4,21 @@ SLOG_CATEGORY("OpenglSmartRenderer3");
 
 const std::string vertexShaderSource =
 #include "video.vert"
-;
+	;
 const std::string fragmentShaderSourcePlanar =
 #include "planar.frag"
-;
+	;
 const std::string fragmentShaderSourcePacked =
 #include "packed.frag"
-;
+	;
 
 void OpenglSmartRenderer3::init()
 {
+}
+
+void OpenglSmartRenderer3::onNotificationFromWorkerThread()
+{
+	queue_draw();
 }
 
 void OpenglSmartRenderer3::run()
@@ -26,16 +31,15 @@ void OpenglSmartRenderer3::run()
 
 	while (true)
 	{
-		auto decodedFfmpegFrame =  std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
+		auto decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
 
 		std::unique_lock<std::mutex> lock{mutex};
-		printf("received\n");
 		this->decodedFfmpegFrame = decodedFfmpegFrame;
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
 		lock.unlock();
 
-		queue_draw();
+		drawerDispatcher.emit();
 	}
 }
 
@@ -46,9 +50,8 @@ void OpenglSmartRenderer3::glInit()
 bool OpenglSmartRenderer3::render(const Glib::RefPtr<Gdk::GLContext> &context)
 {
 	std::unique_lock<std::mutex> lock{mutex};
-	//glDraw();
-	//glFinish();
-	printf("drawed\n");
+	glDraw();
+	glFinish();
 }
 
 void OpenglSmartRenderer3::glDraw()
@@ -279,6 +282,6 @@ void OpenglSmartRenderer3::glDraw()
 
 		glBindVertexArray(vertexArrayObject);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		fps->profile([](int &counter){counter++;}, [](int& counter){counter=0;});
+		fps->profile([](int &counter) { counter++; }, [](int &counter) { counter = 0; });
 	}
 }
