@@ -19,10 +19,14 @@ public:
     Gtk::GLArea glArea;
     //Gtk::Box m_Controls{Gtk::ORIENTATION_VERTICAL, false};
 
-    virtual void onNotificationFromWorkerThread() = 0;
+    virtual void onNotificationFromWorkerThread()
+    {
+        queue_draw();
+    }
+    
     virtual void realize() = 0;
     //void unrealize();
-    virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context){return true;};
+    virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context) { return true; };
     //void draw_triangle();
 protected:
     Glib::Dispatcher drawerDispatcher;

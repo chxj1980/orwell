@@ -150,6 +150,7 @@ void NVidiaRenderer::realize()
 	*/
 }
 
+
 void NVidiaRenderer::run()
 {
 	/*
@@ -226,10 +227,8 @@ void NVidiaRenderer::glDraw()
 	{
 		if (this->firstRun)
 		{
-			std::cout << "firstRun of NVidiaRenderer" << std::endl;
+			LOG << "firstRun of NVidiaRenderer";
 			
-			uint32_t pos_location = 0;
-			uint32_t tc_location = 0;
 			//glEnable(GL_SCISSOR_TEST);
 			program = std::make_unique<Program>();
 			Shader vertexShader(ShaderType::Vertex);
@@ -267,14 +266,16 @@ void NVidiaRenderer::glDraw()
 			
 			glActiveTexture(GL_TEXTURE0);
 			//try tex instead of texSampler????
-    		glUniform1i(glGetUniformLocation(program->get_id(), "texSampler"), 0);
-
+			GLuint texLocation = glGetUniformLocation(program->get_id(), "tex");
+			printf("texLocation: %i\n", texLocation);
+    		glUniform1i(texLocation, 0);
+			/*
 			int viewport[4];
 
 			glGetIntegerv(GL_VIEWPORT, viewport);
 			glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
 			glScissor(viewport[0], viewport[1], viewport[2], viewport[3]);
-
+			*/
 			glGenTextures(1, &texture_id);
 			glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
 			//glUniform1i(glGetUniformLocation(program->get_id(), "texSampler"), 0);
@@ -296,21 +297,20 @@ void NVidiaRenderer::glDraw()
 			*/
 			firstRun = false;
 		}
-
 		
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 		program->use();
 		EGLImageKHR hEglImage;
     
-		EGLSyncKHR eglSync;
+		//EGLSyncKHR eglSync;
 		int iErr;
-		hEglImage = NvEGLImageFromFd(eglDisplay, decodedNvFrame->nvBuffer->planes[0].fd);
+		hEglImage = NvEGLImageFromFd(NULL, decodedNvFrame->nvBuffer->planes[0].fd);
 		if (!hEglImage)
 		{
 			printf("Could not get EglImage from fd. Not rendering\n");
 		}
-
+		glBindVertexArray(vertexArrayObject);
         glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
 		glEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, hEglImage);
@@ -319,7 +319,7 @@ void NVidiaRenderer::glDraw()
 		iErr = glGetError();
 		if (iErr != GL_NO_ERROR)
 		{
-			printf("glDrawArrays arrays failed:\n");
+			printf("glDrawArrays arrays failed:%i\n", iErr);
 		}
 		/*
 		eglSync = eglCreateSyncKHR(eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
@@ -329,7 +329,7 @@ void NVidiaRenderer::glDraw()
 		}
 		eglSwapBuffers(eglDisplay, eglSurface);
 		*/
-		NvDestroyEGLImage(eglDisplay, hEglImage);
+		NvDestroyEGLImage(NULL, hEglImage);
 		/*
 		EGLImageKHR hEglImage;
 		bool frame_is_late = false;

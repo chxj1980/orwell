@@ -16,10 +16,6 @@ void OpenglSmartRenderer3::init()
 {
 }
 
-void OpenglSmartRenderer3::onNotificationFromWorkerThread()
-{
-	queue_draw();
-}
 
 void OpenglSmartRenderer3::run()
 {

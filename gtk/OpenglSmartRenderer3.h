@@ -33,8 +33,6 @@ public:
 
 	void realize() {}
 
-	void onNotificationFromWorkerThread();
-
 	void glInit();
 	void glDraw();
 
