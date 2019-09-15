@@ -171,6 +171,7 @@ void NVDecoder::respondToResolutionEvent(v4l2_format &format, v4l2_crop &crop)
             }
             break;
         }
+        //TODO: only one thread access this?????
         numberCaptureBuffers = minimumDecoderCaptureBuffers + 5;
         for (int index = 0; index < numberCaptureBuffers; index++)
         {

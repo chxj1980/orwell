@@ -93,6 +93,10 @@ set_target_properties(SWRESAMPLE_LIB PROPERTIES IMPORTED_LOCATION ${FFMPEG_LIB_D
 
 add_executable(orwell ${ORWELL_SOURCES})
 
+#for valgrind usage
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -ggdb3")
+target_compile_options(orwell PUBLIC "$<$<CONFIG:DEBUG>:-ggdb3>")
+
 if (COMPILE_TARGET STREQUAL "JETSON_NANO")
 	target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 

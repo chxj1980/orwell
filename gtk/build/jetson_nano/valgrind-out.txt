@@ -1,0 +1,435 @@
+==8705== Memcheck, a memory error detector
+==8705== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==8705== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==8705== Command: ./orwell
+==8705== Parent PID: 8704
+==8705== 
+--8705-- 
+--8705-- Valgrind options:
+--8705--    --leak-check=full
+--8705--    --show-leak-kinds=all
+--8705--    --track-origins=yes
+--8705--    --verbose
+--8705--    --log-file=valgrind-out.txt
+--8705-- Contents of /proc/version:
+--8705--   Linux version 4.9.140-tegra (buildbrain@mobile-u64-3561) (gcc version 7.3.1 20180425 [linaro-7.3-2018.05 revision d29120a424ecfbc167ef90065c0eeb7f91977701] (Linaro GCC 7.3-2018.05) ) #1 SMP PREEMPT Mon Aug 12 21:16:23 PDT 2019
+--8705-- 
+--8705-- Arch and hwcaps: ARM64, LittleEndian, baseline
+--8705-- Page sizes: currently 4096, max supported 65536
+--8705-- Valgrind library directory: /usr/lib/valgrind
+--8705-- Reading syms from /home/lz/orwell/gtk/build/jetson_nano/orwell
+--8705-- Reading syms from /lib/aarch64-linux-gnu/ld-2.27.so
+--8705--   Considering /lib/aarch64-linux-gnu/ld-2.27.so ..
+--8705--   .. CRC mismatch (computed 16b1c539 wanted 3f030045)
+--8705--   Considering /usr/lib/debug/lib/aarch64-linux-gnu/ld-2.27.so ..
+--8705--   .. CRC is valid
+--8705-- Reading syms from /usr/lib/valgrind/memcheck-arm64-linux
+--8705--   Considering /usr/lib/valgrind/memcheck-arm64-linux ..
+--8705--   .. CRC mismatch (computed f1f01166 wanted 0510c203)
+--8705--    object doesn't have a symbol table
+--8705--    object doesn't have a dynamic symbol table
+--8705-- Scheduler: using generic scheduler lock implementation.
+--8705-- Reading suppressions file: /usr/lib/valgrind/default.supp
+==8705== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-8705-by-lz-on-???
+==8705== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-8705-by-lz-on-???
+==8705== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-8705-by-lz-on-???
+==8705== 
+==8705== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==8705== don't want to do, unless you know exactly what you're doing,
+==8705== or are doing some strange experiment):
+==8705==   /usr/lib/valgrind/../../bin/vgdb --pid=8705 ...command...
+==8705== 
+==8705== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==8705==   /path/to/gdb ./orwell
+==8705== and then give GDB the following command
+==8705==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=8705
+==8705== --pid is optional if only one valgrind process is running
+==8705== 
+--8705-- REDIR: 0x4017340 (ld-linux-aarch64.so.1:strlen) redirected to 0x5805ad44 (???)
+--8705-- REDIR: 0x40170c0 (ld-linux-aarch64.so.1:strcmp) redirected to 0x5805ad98 (???)
+--8705-- REDIR: 0x4016fb0 (ld-linux-aarch64.so.1:index) redirected to 0x5805ad6c (???)
+--8705-- Reading syms from /usr/lib/valgrind/vgpreload_core-arm64-linux.so
+--8705--   Considering /usr/lib/valgrind/vgpreload_core-arm64-linux.so ..
+--8705--   .. CRC mismatch (computed 5de09044 wanted 7eadc6a0)
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so
+--8705--   Considering /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so ..
+--8705--   .. CRC mismatch (computed fffe5bf1 wanted b554669a)
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgtk3-nocsd.so.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libX11.so.6.3.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvv4l2.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvjpeg.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libdrm.so.2
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libEGL.so.1.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvbuf_utils.so.1.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libpthread-2.27.so
+--8705--   Considering /usr/lib/debug/.build-id/94/47f37309461cc15fb1915bc198d718017a1f87.debug ..
+--8705--   .. build-id is valid
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgtkmm-3.0.so.1.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libatkmm-1.6.so.1.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgdkmm-3.0.so.1.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgiomm-2.4.so.1.3.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libglibmm-2.4.so.1.3.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgdk-3.so.0.2200.30
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libsigc-2.0.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libGL.so.1.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libepoxy.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.25
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libm-2.27.so
+--8705--   Considering /lib/aarch64-linux-gnu/libm-2.27.so ..
+--8705--   .. CRC mismatch (computed 5acf7593 wanted 2112f4f8)
+--8705--   Considering /usr/lib/debug/lib/aarch64-linux-gnu/libm-2.27.so ..
+--8705--   .. CRC is valid
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libgcc_s.so.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libc-2.27.so
+--8705--   Considering /lib/aarch64-linux-gnu/libc-2.27.so ..
+--8705--   .. CRC mismatch (computed 01915085 wanted 4f60d5f7)
+--8705--   Considering /usr/lib/debug/lib/aarch64-linux-gnu/libc-2.27.so ..
+--8705--   .. CRC is valid
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libdl-2.27.so
+--8705--   Considering /lib/aarch64-linux-gnu/libdl-2.27.so ..
+--8705--   .. CRC mismatch (computed 5b973773 wanted a7f4eab9)
+--8705--   Considering /usr/lib/debug/lib/aarch64-linux-gnu/libdl-2.27.so ..
+--8705--   .. CRC is valid
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libxcb.so.1.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvv4lconvert.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvddk_2d_v2.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvrm.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvbufsurface.so.1.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvll.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libGLdispatch.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvrm_graphics.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvddk_vic.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvbuf_fdmap.so.1.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libpangomm-1.4.so.1.0.30
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libcairomm-1.0.so.1.4.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgtk-3.so.0.2200.30
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgobject-2.0.so.0.5600.4
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libglib-2.0.so.0.5600.4
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libatk-1.0.so.0.22810.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgdk_pixbuf-2.0.so.0.3611.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgio-2.0.so.0.5600.4
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgmodule-2.0.so.0.5600.4
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libpangocairo-1.0.so.0.4000.14
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libpango-1.0.so.0.4000.14
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libcairo-gobject.so.2.11510.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libfontconfig.so.1.10.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXinerama.so.1.0.0
+--8705--   Considering /usr/lib/aarch64-linux-gnu/libXinerama.so.1.0.0 ..
+--8705--   .. CRC mismatch (computed 6d83d125 wanted ed1d3bff)
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXi.so.6.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXrandr.so.2.2.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXcursor.so.1.0.2
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXcomposite.so.1.0.0
+--8705--   Considering /usr/lib/aarch64-linux-gnu/libXcomposite.so.1.0.0 ..
+--8705--   .. CRC mismatch (computed 5f583a44 wanted 43f87d64)
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXdamage.so.1.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXfixes.so.3.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libxkbcommon.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libwayland-cursor.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libwayland-egl.so.1.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libwayland-client.so.0.3.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXext.so.6.4.0
+--8705--   Considering /usr/lib/aarch64-linux-gnu/libXext.so.6.4.0 ..
+--8705--   .. CRC mismatch (computed 359c0bf0 wanted 3afe2d4c)
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libcairo.so.2.11510.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/librt-2.27.so
+--8705--   Considering /lib/aarch64-linux-gnu/librt-2.27.so ..
+--8705--   .. CRC mismatch (computed 5edb4eb4 wanted d9bd6058)
+--8705--   Considering /usr/lib/debug/lib/aarch64-linux-gnu/librt-2.27.so ..
+--8705--   .. CRC is valid
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libGLX.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXau.so.6.0.0
+--8705--   Considering /usr/lib/aarch64-linux-gnu/libXau.so.6.0.0 ..
+--8705--   .. CRC mismatch (computed 28a715ee wanted 85338fa3)
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXdmcp.so.6.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvos.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvdc.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libatk-bridge-2.0.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libpangoft2-1.0.so.0.4000.14
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libffi.so.6.0.4
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libpcre.so.3.13.3
+--8705--   Considering /lib/aarch64-linux-gnu/libpcre.so.3.13.3 ..
+--8705--   .. CRC mismatch (computed d68c8fe5 wanted 69843d93)
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libz.so.1.2.11
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libselinux.so.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libresolv-2.27.so
+--8705--   Considering /lib/aarch64-linux-gnu/libresolv-2.27.so ..
+--8705--   .. CRC mismatch (computed 96e13c7c wanted a26d6ea0)
+--8705--   Considering /usr/lib/debug/lib/aarch64-linux-gnu/libresolv-2.27.so ..
+--8705--   .. CRC is valid
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libmount.so.1.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libfreetype.so.6.15.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libthai.so.0.3.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libexpat.so.1.6.7
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libXrender.so.1.3.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libpixman-1.so.0.34.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libpng16.so.16.34.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libxcb-shm.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libxcb-render.so.0.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libbsd.so.0.8.7
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvimp.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libdbus-1.so.3.19.4
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libatspi.so.0.0.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libharfbuzz.so.0.10702.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libblkid.so.1.1.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libdatrie.so.1.3.3
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libsystemd.so.0.21.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libgraphite2.so.3.0.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libuuid.so.1.3.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/liblzma.so.5.2.2
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/liblz4.so.1.7.1
+--8705--   Considering /usr/lib/aarch64-linux-gnu/liblz4.so.1.7.1 ..
+--8705--   .. CRC mismatch (computed a3bacb34 wanted cca2a831)
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libgcrypt.so.20.2.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /lib/aarch64-linux-gnu/libgpg-error.so.0.22.0
+--8705--    object doesn't have a symbol table
+--8705-- REDIR: 0x5a7b000 (libc.so.6:memcpy) redirected to 0x482f7d0 (_vgnU_ifunc_wrapper)
+--8705-- REDIR: 0x5a7aa60 (libc.so.6:memset) redirected to 0x482f7d0 (_vgnU_ifunc_wrapper)
+--8705-- REDIR: 0x5a7a9f0 (libc.so.6:memmove) redirected to 0x482f7d0 (_vgnU_ifunc_wrapper)
+--8705-- REDIR: 0x5a81190 (libc.so.6:__GI_memcpy) redirected to 0x4849ec8 (__GI_memcpy)
+--8705-- REDIR: 0x5a79890 (libc.so.6:rindex) redirected to 0x4847660 (rindex)
+--8705-- REDIR: 0x5a79440 (libc.so.6:strlen) redirected to 0x4847cd8 (strlen)
+--8705-- REDIR: 0x5a751d0 (libc.so.6:malloc) redirected to 0x4844b88 (malloc)
+--8705-- REDIR: 0x5a78c00 (libc.so.6:strcmp) redirected to 0x4848eb0 (strcmp)
+--8705-- REDIR: 0x5a75e58 (libc.so.6:calloc) redirected to 0x4846a68 (calloc)
+--8705-- REDIR: 0x5a75958 (libc.so.6:realloc) redirected to 0x4846c90 (realloc)
+--8705-- REDIR: 0x5a81180 (libc.so.6:__GI_memmove) redirected to 0x484c8a8 (__GI_memmove)
+--8705-- REDIR: 0x5a78b20 (libc.so.6:index) redirected to 0x4847810 (index)
+--8705-- REDIR: 0x5a78ae0 (libc.so.6:strcat) redirected to 0x4847900 (strcat)
+--8705-- REDIR: 0x5a75838 (libc.so.6:free) redirected to 0x4845ce8 (free)
+--8705-- REDIR: 0x5a7a2f8 (libc.so.6:strstr) redirected to 0x484d738 (strstr)
+--8705-- REDIR: 0x5a7a840 (libc.so.6:memchr) redirected to 0x4849090 (memchr)
+--8705-- REDIR: 0x5a81a00 (libc.so.6:__GI_memset) redirected to 0x484c568 (memset)
+--8705-- REDIR: 0x5a7a940 (libc.so.6:bcmp) redirected to 0x484bd08 (bcmp)
+--8705-- REDIR: 0x581e4c8 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x48451b8 (operator new(unsigned long))
+--8705-- REDIR: 0x5a7c920 (libc.so.6:strchrnul) redirected to 0x484ce40 (strchrnul)
+--8705-- REDIR: 0x5a7aaa8 (libc.so.6:mempcpy) redirected to 0x484cf40 (mempcpy)
+--8705-- REDIR: 0x5a7971c (libc.so.6:strncmp) redirected to 0x4848510 (strncmp)
+--8705-- REDIR: 0x5a7c900 (libc.so.6:rawmemchr) redirected to 0x484ce70 (rawmemchr)
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra-egl/libEGL_nvidia.so.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvidia-glsi.so.32.2.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvidia-rmapi-tegra.so.32.2.1
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvrm_gpu.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libdrm.so.2.4.0
+--8705--    object doesn't have a symbol table
+--8705-- REDIR: 0x5a78d00 (libc.so.6:strcpy) redirected to 0x4847df0 (strcpy)
+--8705-- REDIR: 0x5a79c90 (libc.so.6:strspn) redirected to 0x484d9e0 (strspn)
+--8705-- REDIR: 0x5a78eb8 (libc.so.6:strcspn) redirected to 0x484d900 (strcspn)
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvidia-egl-wayland.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/libwayland-server.so.0.1.0
+--8705--    object doesn't have a symbol table
+--8705-- REDIR: 0x5adc588 (libc.so.6:__strcpy_chk) redirected to 0x484ceb0 (__strcpy_chk)
+--8705-- REDIR: 0x5a79828 (libc.so.6:strncpy) redirected to 0x4847fd0 (strncpy)
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvidia-eglcore.so.32.2.1
+--8705--    object doesn't have a symbol table
+--8705-- REDIR: 0x5a76a68 (libc.so.6:posix_memalign) redirected to 0x4846f38 (posix_memalign)
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvtvmr.so
+--8705--    object doesn't have a symbol table
+--8705-- REDIR: 0x581e590 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4845880 (operator new[](unsigned long))
+--8705-- REDIR: 0x581c3b8 (libstdc++.so.6:operator delete(void*)) redirected to 0x48461e8 (operator delete(void*))
+--8705-- REDIR: 0x581c3d0 (libstdc++.so.6:operator delete[](void*)) redirected to 0x48466e8 (operator delete[](void*))
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libv4l2_nvvidconv.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvid_mapper.so.1.0.0
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvmm_utils.so
+--8705--    object doesn't have a symbol table
+==8705== Warning: noted but unhandled ioctl 0x4e04 with no size/direction hints.
+==8705==    This could cause spurious value errors to appear.
+==8705==    See README_MISSING_SYSCALL_OR_IOCTL for guidance on writing a proper wrapper.
+--8705-- Discarding syms at 0x7857ef0-0x785af5c in /usr/lib/aarch64-linux-gnu/tegra/libv4l2_nvvidconv.so due to munmap()
+--8705-- Discarding syms at 0x4871020-0x4872208 in /usr/lib/aarch64-linux-gnu/tegra/libnvid_mapper.so.1.0.0 due to munmap()
+--8705-- Discarding syms at 0xc1878f0-0xc18fb9c in /usr/lib/aarch64-linux-gnu/tegra/libnvmm_utils.so due to munmap()
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libv4l2_nvvideocodec.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libtegrav4l2.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvmmlite_video.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvmm_utils.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvmmlite.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvmmlite_utils.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvavp.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvmedia.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvtnr.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvparser.so
+--8705--    object doesn't have a symbol table
+--8705-- Reading syms from /usr/lib/aarch64-linux-gnu/tegra/libnvmmlite_image.so
+--8705--    object doesn't have a symbol table
+==8705== Source and destination overlap in memcpy(0x49e0180, 0x49e0180, 208)
+==8705==    at 0x484A080: __GI_memcpy (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+--8705-- REDIR: 0x5a79668 (libc.so.6:strncat) redirected to 0x4847b40 (strncat)
+--8705-- REDIR: 0x5a7ac00 (libc.so.6:stpcpy) redirected to 0x484be68 (stpcpy)
+--8705-- REDIR: 0x5a7ae30 (libc.so.6:strcasecmp) redirected to 0x4848710 (strcasecmp)
+--8705-- WARNING: Serious error when reading debug info
+--8705-- When reading debug info from /tmp/.gljsN0Me (deleted):
+--8705-- failed to stat64/stat this file
+--8705-- WARNING: Serious error when reading debug info
+--8705-- When reading debug info from /tmp/.gljsN0Me (deleted):
+--8705-- failed to stat64/stat this file
+==8705== 
+==8705== Process terminating with default action of signal 2 (SIGINT)
+==8705==    at 0x5AC0AE8: read (read.c:27)
+==8705==    by 0x5A6D64F: _IO_file_underflow@@GLIBC_2.17 (fileops.c:531)
+==8705==    by 0x5A6E69F: _IO_default_uflow (genops.c:380)
+==8705==    by 0x5A68E0B: getchar (getchar.c:39)
+==8705==    by 0x42AE23: main (orwellNvidia.cpp:62)
+==8705== 
+==8705== HEAP SUMMARY:
+==8705==     in use at exit: 52,761,451 bytes in 9,464 blocks
+==8705==   total heap usage: 500,546 allocs, 491,082 frees, 136,352,927 bytes allocated
+==8705== 
+==8705== Searching for pointers to 9,464 not-freed blocks
+==8705== Checked 201,910,184 bytes
+==8705== 
+==8705== 64 bytes in 4 blocks are possibly lost in loss record 1 of 11
+==8705==    at 0x4844B3C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 168 bytes in 1 blocks are definitely lost in loss record 2 of 11
+==8705==    at 0x4844BFC: malloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 184 bytes in 1 blocks are possibly lost in loss record 3 of 11
+==8705==    at 0x4846D10: realloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 3,824 bytes in 57 blocks are still reachable in loss record 4 of 11
+==8705==    at 0x4844B3C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 12,745 bytes in 8 blocks are still reachable in loss record 5 of 11
+==8705==    at 0x4846D10: realloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 23,783 bytes in 126 blocks are possibly lost in loss record 6 of 11
+==8705==    at 0x4844BFC: malloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 339,358 bytes in 58 blocks are possibly lost in loss record 7 of 11
+==8705==    at 0x4846B0C: calloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 1,651,310 bytes in 6,986 blocks are still reachable in loss record 8 of 11
+==8705==    at 0x484522C: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 2,411,391 bytes in 630 blocks are still reachable in loss record 9 of 11
+==8705==    at 0x4846B0C: calloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 8,072,824 bytes in 1,557 blocks are still reachable in loss record 10 of 11
+==8705==    at 0x4844BFC: malloc (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== 40,245,800 bytes in 36 blocks are still reachable in loss record 11 of 11
+==8705==    at 0x48458F4: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== LEAK SUMMARY:
+==8705==    definitely lost: 168 bytes in 1 blocks
+==8705==    indirectly lost: 0 bytes in 0 blocks
+==8705==      possibly lost: 363,389 bytes in 189 blocks
+==8705==    still reachable: 52,397,894 bytes in 9,274 blocks
+==8705==                       of which reachable via heuristic:
+==8705==                         newarray           : 9,240 bytes in 45 blocks
+==8705==                         multipleinheritance: 1,848 bytes in 4 blocks
+==8705==         suppressed: 0 bytes in 0 blocks
+==8705== 
+==8705== ERROR SUMMARY: 7 errors from 6 contexts (suppressed: 0 from 0)
+==8705== 
+==8705== 2 errors in context 1 of 6:
+==8705== Source and destination overlap in memcpy(0x49e0180, 0x49e0180, 208)
+==8705==    at 0x484A080: __GI_memcpy (in /usr/lib/valgrind/vgpreload_memcheck-arm64-linux.so)
+==8705== 
+==8705== ERROR SUMMARY: 7 errors from 6 contexts (suppressed: 0 from 0)

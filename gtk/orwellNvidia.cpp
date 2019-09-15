@@ -38,9 +38,9 @@ int main(int argc, char **argv)
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", 
 						   "NVidiaRenderer", "NvidiaRendererEGL", 
 						   "myRtspClient", "ZLRTSPClient", "Profiler");
-	Gtk::Main kit;
+	//Gtk::Main kit;
 	//"NaluUtils"
-	auto app = Gtk::Application::create(argc, argv, "");
+	//auto app = Gtk::Application::create(argc, argv, "");
 	std::string username;
 	std::string password;
 	std::string rtspUrl;
