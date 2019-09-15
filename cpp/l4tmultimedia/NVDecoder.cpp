@@ -325,7 +325,8 @@ void NVDecoder::captureLoop()
             decodedNvFrame->decodedFrom == DecodedFrame::NVDECODER;
             decodedNvFrame->width = v4l2Format.fmt.pix_mp.width;
             decodedNvFrame->height = v4l2Format.fmt.pix_mp.height;
-            decodedFramesFifo->emplace_back(decodedNvFrame);
+            onNewDecodedFrame(decodedNvFrame);
+            //decodedFramesFifo->emplace_back(decodedNvFrame);
 
             //renderer->render(nvBuffer->planes[0].fd);
             //decodedFramesFifo->emplace_back(std::move(decodedFrame));
@@ -383,7 +384,8 @@ void NVDecoder::run()
         TEST_ERROR(nvVideoDecoder->isInError(), "nvVideoDecoder->isInError() in while loop", 0)
         if (consumedEntirePacket)
         {
-            currentEncodedPacket = encodedPacketsFifo->pop_front();
+            //currentEncodedPacket = encodedPacketsFifo->pop_front();
+            currentEncodedPacket = onAcquireNewPacket();
             currentEncodedPacketSearchPtr = currentEncodedPacket->getFramePointer();
         }
         struct v4l2_buffer v4l2Buffer;
@@ -465,7 +467,7 @@ void NVDecoder::run()
                     bytesWritten += howMuchToTheEnd;
                     while (!naluEnd)
                     {
-                        currentEncodedPacket = encodedPacketsFifo->pop_front();
+                        currentEncodedPacket = currentEncodedPacket = onAcquireNewPacket();
                         //printf("queried another packet\n");
                         //printf("----------Entire packet: \n");
                         //printPacket(currentEncodedPacket->getFramePointer(), currentEncodedPacket->getSize());

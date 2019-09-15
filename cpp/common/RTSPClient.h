@@ -49,9 +49,14 @@ public:
 		this->port = port;
 	}
 	*/
+	/*
 	void setEncodedPacketsFifo(std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo)
 	{
 		this->encodedPacketsFifo = encodedPacketsFifo;
+	}
+	*/
+	void setOnNewPacket(std::function<void(std::shared_ptr<EncodedPacket>)> onNewPacket) {
+		this->onNewPacket = onNewPacket;
 	}
 	/*
 		Initiates the client and connects to the URL
@@ -77,7 +82,8 @@ public:
 
 
 protected:
-	std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo;
+	//std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo;
+	std::function<void(std::shared_ptr<EncodedPacket>)> onNewPacket;
 	std::thread runThread;
 	Transport transport;
 	std::string uri;

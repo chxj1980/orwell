@@ -23,15 +23,10 @@ void OpenglSmartRenderer3::onNotificationFromWorkerThread()
 
 void OpenglSmartRenderer3::run()
 {
-	if (!decodedFramesFifo)
-	{
-		std::cerr << "No decodedFramesFifo setted for this renderer" << std::endl;
-		return;
-	}
 
 	while (true)
 	{
-		auto decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(decodedFramesFifo->pop_front());
+		auto decodedFfmpegFrame = std::dynamic_pointer_cast<DecodedFfmpegFrame>(onAcquireNewDecodedFrame());
 
 		std::unique_lock<std::mutex> lock{mutex};
 		this->decodedFfmpegFrame = decodedFfmpegFrame;

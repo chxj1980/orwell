@@ -210,14 +210,7 @@ int MyRTSPClient::receivePacket()
 		}
 		else
 		{
-			if (!encodedPacketsFifo)
-			{
-				LOG(SLog::CRITICAL_ERROR) << "MyRTSPClient: no encodedPacketsFifo setted, nowhere to send RTSP data!" << this->uri;
-			}
-			else
-			{
-				this->encodedPacketsFifo->emplace_back(myRtspEncodedPacket);
-			}
+			onNewPacket(myRtspEncodedPacket);
 			//decoder->sendPacket(frameBuffer, size);
 		}
 	}

@@ -22,16 +22,32 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     decodedFramesFifo->setPolicy(decodedFrameFifoSizePolicy);
     //Decoders
     decoder = _decoder;
-    decoder->setEncodedPacketsFifo(encodedPacketsFifo);
-    decoder->setDecodedFramesFifo(decodedFramesFifo);
+    //decoder->setEncodedPacketsFifo(encodedPacketsFifo);
+    //decoder->setDecodedFramesFifo(decodedFramesFifo);
+    auto& encodedPacketsFifoReference = encodedPacketsFifo;
+    auto& decodedFramesFifoReference = decodedFramesFifo;
+    //Makes a COPY of the shared_ptrs below from its references
+    //TODO: verify this
+    decoder->setOnAcquireNewPacket([encodedPacketsFifo = encodedPacketsFifoReference]() -> std::shared_ptr<EncodedPacket> {
+        return encodedPacketsFifo->pop_front();
+    });
+    decoder->setOnNewDecodedFrame([decodedFramesFifo = decodedFramesFifoReference](std::shared_ptr<DecodedFrame> decodedFrame){
+        decodedFramesFifo->emplace_back(decodedFrame);
+    });
     //Important, only start thread mode after inserting FIFOs like in above
     decoder->startThreadMode();
     //RTSP client
-    rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
+    //rtspClient->setEncodedPacketsFifo(encodedPacketsFifo);
+    rtspClient->setOnNewPacket([encodedPacketsFifo = encodedPacketsFifoReference](std::shared_ptr<EncodedPacket> encodedPacket){
+        encodedPacketsFifo->emplace_back(encodedPacket);
+    });
     //Important, only start thread mode after inserting FIFOs like in above
     rtspClient->startThreadMode();
     renderer = _renderer;
-    renderer->setDecodedFramesFifo(decodedFramesFifo);
+    //renderer->setDecodedFramesFifo(decodedFramesFifo);
+    renderer->setOnAcquireNewDecodedFrame([decodedFramesFifo = decodedFramesFifoReference]()->std::shared_ptr<DecodedFrame>{
+        return decodedFramesFifo->pop_front();
+    });
     renderer->startThreadMode();
     //profilingThread->addProfilerVariable(rtspClient->bytesPerSecond);
     //profilingThread->addProflingVariable(renderer->fps);
@@ -44,13 +60,14 @@ const int profilingInterval = 250;
 
 ProfilingThread::ProfilingThread()
 {
-    LOGP.applyConfiguration(SLog::Filename("profiler.log")); 
+    LOGP.applyConfiguration(SLog::Filename("profiler.log"));
     LOGP.applyConfiguration(SLog::TO_FILE);
     //LOG.enableCategories("Profiler");
     thread = std::thread(&ProfilingThread::run, this);
 }
-static int bytesToKbytes(std::string s) {
-    auto f = std::stod(s)/1000;
+static int bytesToKbytes(std::string s)
+{
+    auto f = std::stod(s) / 1000;
     return f;
 }
 void ProfilingThread::run()
@@ -65,11 +82,14 @@ void ProfilingThread::run()
         }
         lock.unlock();
         */
-        for(auto cam: Singleton::instance()->getStreamKeys()) {
+        for (auto cam : Singleton::instance()->getStreamKeys())
+        {
             auto orwell = Singleton::instance()->getStream(cam);
             //get weak ptr?
-            LOGP << cam << ": " << orwell->renderer->fps->getSampleString() << " fps" << ", " 
-                 << bytesToKbytes(orwell->rtspClient->bytesPerSecond->getSampleString()) << "kb/s" << ", ";
+            LOGP << cam << ": " << orwell->renderer->fps->getSampleString() << " fps"
+                 << ", "
+                 << bytesToKbytes(orwell->rtspClient->bytesPerSecond->getSampleString()) << "kb/s"
+                 << ", ";
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(profilingInterval));
     }

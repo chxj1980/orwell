@@ -172,13 +172,11 @@ int FfmpegHardwareDecoder::sendPacket(std::shared_ptr<EncodedPacket> encodedPack
 
     //Decodes video into `frame`.
     int r = sendPacket(encodedPacket, decodedFfmpegFrame);
-    if (!decodedFramesFifo)
-    {
-        std::cerr << "No decodedFramesFifo setted in FfmpegHardwareDecoder" << std::endl;
-    }
+    
     //Adds the frame to the end of the FIFO.
     if (r != 0)
-        this->decodedFramesFifo->emplace_back(decodedFfmpegFrame);
+        onNewDecodedFrame(decodedFfmpegFrame);
+        //this->decodedFramesFifo->emplace_back(decodedFfmpegFrame);
     return r;
 }
 

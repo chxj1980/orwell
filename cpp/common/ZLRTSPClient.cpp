@@ -14,31 +14,25 @@ int ZLRTSPClient::init()
             return;
         }
 
-        auto viedoTrack = strongPlayer->getTrack(TrackVideo);
-        if (!viedoTrack)
+        auto videoTrack = strongPlayer->getTrack(TrackVideo);
+        if (!videoTrack)
         {
             this->LOG << "No video track for " << uri;
             return;
         }
-        viedoTrack->addDelegate(std::make_shared<FrameWriterInterfaceHelper>([this](const Frame::Ptr &frame) {
-            if (!this->encodedPacketsFifo)
-            {
-                LOG(SLog::CRITICAL_ERROR) << "ZLRTSPClient: no encodedPacketsFifo setted, nowhere to send RTSP data for " << uri;
-            }
-            else
-            {
-                auto zLRTSPEncodedPacket = std::make_shared<ZLRTSPEncodedPacket>(frame);
-                bytesPerSecond->profile(
-                        [&frame](int& counter) {
-                            counter += frame->size();
-                        },
-                        [](int& counter) {
-                            counter = 0;
-                        });
-                encodedPacketsFifo->emplace_back(zLRTSPEncodedPacket);
-                //LOG << "size: " << frame->size();
-                //LOG << bytesPerSecond->getSampleString() << "kB/s";
-            }
+        videoTrack->addDelegate(std::make_shared<FrameWriterInterfaceHelper>([this](const Frame::Ptr &frame) {
+            auto zLRTSPEncodedPacket = std::make_shared<ZLRTSPEncodedPacket>(frame);
+            bytesPerSecond->profile(
+                [&frame](int &counter) {
+                    counter += frame->size();
+                },
+                [](int &counter) {
+                    counter = 0;
+                });
+            onNewPacket(zLRTSPEncodedPacket);
+            //encodedPacketsFifo->emplace_back(zLRTSPEncodedPacket);
+            //LOG << "size: " << frame->size();
+            //LOG << bytesPerSecond->getSampleString() << "kB/s";
         }));
     });
 

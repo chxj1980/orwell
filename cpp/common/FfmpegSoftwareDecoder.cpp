@@ -36,13 +36,11 @@ int FfmpegSoftwareDecoder::sendPacket(std::shared_ptr<EncodedPacket> encodedPack
 	auto decodedFfmpegFrame = std::make_shared<DecodedFfmpegFrame>();
 	decodedFfmpegFrame->decodedFrom = DecodedFrame::FFMPEG;
 	int r = sendPacket(encodedPacket, decodedFfmpegFrame);
-	if (!decodedFramesFifo)
-	{
-		LOG << "No decodedFramesFifo setted in FfmpegSoftwareDecoder";
-	}
+
 	//If we got a frame
 	if (r == 0)
-		this->decodedFramesFifo->emplace_back(decodedFfmpegFrame);
+		onNewDecodedFrame(decodedFfmpegFrame);
+		//this->decodedFramesFifo->emplace_back(decodedFfmpegFrame);
 	return r;
 }
 

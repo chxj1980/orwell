@@ -157,18 +157,13 @@ void NVidiaRenderer::run()
 		This way, if decodedFramesFifo is empty, this rendering loop will wait, which is good, no CPU time is wasted.
 	*/
 	LOG << "NVidiaRenderer run called";
-	if (!decodedFramesFifo)
-	{
-		std::cerr << "No decodedFramesFifo setted for this renderer" << std::endl;
-		return;
-	}
-	int i = 0;
+	
 	//TODO: run every loop?
 	while (true)
 	{
 		//std::unique_lock<std::mutex> lock{mutex};
 		//TODO: certify that the operation below is MOVING the frame to here, not copying it
-		auto decodedNvFrame =  std::dynamic_pointer_cast<DecodedNvFrame>(decodedFramesFifo->pop_front());
+		auto decodedNvFrame =  std::dynamic_pointer_cast<DecodedNvFrame>(onAcquireNewDecodedFrame());
 		/* 
 		    Since the frame is gone from the fifo, it only exists here. We move it to the renderer and then we 
 		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
@@ -180,7 +175,6 @@ void NVidiaRenderer::run()
 		//lk.unlock();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
-		i++;
 		//std::cout << i << std::endl;
 		queue_draw();
 		//std::cout << "waiting" << std::endl;
