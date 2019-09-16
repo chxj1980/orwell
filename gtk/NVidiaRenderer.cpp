@@ -66,18 +66,25 @@ PFNGLEGLIMAGETARGETTEXTURE2DOESPROC NVidiaRenderer::glEGLImageTargetTexture2DOES
 void NVidiaRenderer::realize()
 {
 	EGLBoolean eglStatus;
-	LOG << "NVidiaRenderer::realize";
-	GtkWidget *widget = glArea.Widget::gobj();
+
 	EGLConfig eglConfig;
 	EGLint n_config;
 	EGLint attributes[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
 						   EGL_NONE};
+	static EGLint rgba8888[] = {
+        EGL_RED_SIZE, 8,
+        EGL_GREEN_SIZE, 8,
+        EGL_BLUE_SIZE, 8,
+        EGL_ALPHA_SIZE, 8,
+        EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+        EGL_NONE,
+    };
 	//TODO: test these attributes
 	EGLint context_attribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
 
 	eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(glArea.get_display()->gobj()));
 
-	eglStatus = eglInitialize(eglDisplay, NULL, NULL);
+	eglStatus = eglInitialize(eglDisplay, 0, 0);
 	if (!eglStatus)
     {
         printf("Error at eglInitialize\n");
@@ -93,7 +100,7 @@ void NVidiaRenderer::realize()
 				break;
 		}
 	}
-	eglStatus = eglChooseConfig(eglDisplay, context_attribs, &eglConfig, 1, &numConfigs);
+	eglStatus = eglChooseConfig(eglDisplay, rgba8888, &eglConfig, 1, &numConfigs);
 	if (!eglStatus)
     {
         printf("Error at eglChooseConfig\n");
@@ -125,7 +132,7 @@ void NVidiaRenderer::realize()
     {
         printf("Error in creating egl surface \n");
     }
-	eglMakeCurrent(&eglDisplay, &eglSurface, &eglSurface, &eglContext);
+	eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
 
     if (eglGetError() != EGL_SUCCESS)
     {
@@ -133,6 +140,7 @@ void NVidiaRenderer::realize()
     }
 
     printf("Got numconfigs as %i\n", numConfigs);
+	
 	/*
     renderer->egl_context =
         eglCreateContext(renderer->egl_display, renderer->eglConfig,
@@ -148,7 +156,70 @@ void NVidiaRenderer::realize()
         goto error;
     }
 	*/
-}
+	/*
+	#define CONTEXT_ES20
+
+    #ifdef CONTEXT_ES20
+        EGLint ai32ContextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2,
+                                                     EGL_NONE };
+    #endif
+
+    // Step 1 - Get the default display.
+    eglDisplay = eglGetDisplay((EGLNativeDisplayType)0);
+	printf("162\n");
+
+    // Step 2 - Initialize EGL.
+    eglInitialize(eglDisplay, 0, 0);
+
+    #ifdef CONTEXT_ES20
+    // Step 3 - Make OpenGL ES the current API.
+    eglBindAPI(EGL_OPENGL_ES_API);
+	printf("170\n");
+
+    // Step 4 - Specify the required configuration attributes.
+    EGLint pi32ConfigAttribs[5];
+    pi32ConfigAttribs[0] = EGL_SURFACE_TYPE;
+    pi32ConfigAttribs[1] = EGL_WINDOW_BIT;
+    pi32ConfigAttribs[2] = EGL_RENDERABLE_TYPE;
+    pi32ConfigAttribs[3] = EGL_OPENGL_ES2_BIT;
+    pi32ConfigAttribs[4] = EGL_NONE;
+    #else
+    EGLint pi32ConfigAttribs[3];
+    pi32ConfigAttribs[0] = EGL_SURFACE_TYPE;
+    pi32ConfigAttribs[1] = EGL_WINDOW_BIT;
+    pi32ConfigAttribs[2] = EGL_NONE;
+    #endif
+
+    // Step 5 - Find a config that matches all requirements.
+    int iConfigs;
+    eglChooseConfig(eglDisplay, pi32ConfigAttribs, &eglConfig, 1,
+                                                    &iConfigs);
+	printf("190\n");
+
+    if (iConfigs != 1) {
+        printf("Error: eglChooseConfig(): config not found.\n");
+        exit(-1);
+    }
+
+    // Step 6 - Create a surface to draw to.
+    eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig,
+                                  (EGLNativeWindowType)NULL, NULL);
+		printf("200\n");
+
+    // Step 7 - Create a context.
+    #ifdef CONTEXT_ES20
+        eglContext = eglCreateContext(eglDisplay, eglConfig, NULL,
+                                               ai32ContextAttribs);
+    #else
+        eglContext = eglCreateContext(eglDisplay, eglConfig, NULL, NULL);
+    #endif
+	printf("209\n");
+
+    // Step 8 - Bind the context to the current thread
+    eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+		printf("213\n");
+	*/
+}	
 
 
 void NVidiaRenderer::run()
@@ -258,8 +329,6 @@ void NVidiaRenderer::glDraw()
 			//vextexInLocation = 0;
 			textureInLocation = glGetAttribLocation(program->get_id(), "aTexCoord");
 
-	
-
 			//textureInLocation = 1;
 			printf("vextexInLocation: %i\n", vextexInLocation);
 			printf("textureInLocation: %i\n", textureInLocation);
@@ -321,7 +390,7 @@ void NVidiaRenderer::glDraw()
 			
 			firstRun = false;
 		}
-		
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 		program->use();
@@ -330,11 +399,10 @@ void NVidiaRenderer::glDraw()
     
 		EGLSyncKHR eglSync;
 		int iErr;
-		hEglImage = NvEGLImageFromFd(eglDisplay, decodedNvFrame->nvBuffer->planes[0].fd);
+		hEglImage = NvEGLImageFromFd(NULL, decodedNvFrame->nvBuffer->planes[0].fd);
 		if (!hEglImage)
-		{
 			printf("Could not get EglImage from fd. Not rendering\n");
-		}
+		
 		glBindVertexArray(vertexArrayObject);
         glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
@@ -343,13 +411,9 @@ void NVidiaRenderer::glDraw()
 
 		iErr = glGetError();
 		if (iErr != GL_NO_ERROR)
-		{
 			printf("glDrawArrays arrays failed:%i\n", iErr);
-		}
-		eglSync = eglCreateSyncKHR(eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
-		if (eglSync == EGL_NO_SYNC_KHR)
-        printf("eglCreateSyncKHR() failed\n");
-		NvDestroyEGLImage(eglDisplay, hEglImage);
+
+		NvDestroyEGLImage(NULL, hEglImage);
 
 		/*
 		eglSync = eglCreateSyncKHR(eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
