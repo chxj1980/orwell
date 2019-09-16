@@ -4,10 +4,10 @@
 SLOG_CATEGORY("NVidiaRenderer")
 
 const std::string vertexShaderSource =
-#include "video.vert"
+#include "nvidia.vert"
 	;
 const std::string fragmentShaderSource =
-#include "color.frag"
+#include "nvidia.frag"
 	;
 
 #define TEST_CONDITION(condition, message, errorCode)      \
@@ -213,7 +213,11 @@ static float vertices[] = {
      0.0f,  0.5f, 0.0f
 };
 
-
+static void glGetErr(std::string line) {
+	int e = glGetError();
+	if (e != GL_NO_ERROR)
+		std::cout << "got error " << e << " in line " << line << std::endl;
+}
 void NVidiaRenderer::glDraw()
 {
 	/*
@@ -233,6 +237,9 @@ void NVidiaRenderer::glDraw()
 			program = std::make_unique<Program>();
 			Shader vertexShader(ShaderType::Vertex);
 			vertexShader.load_from_string(vertexShaderSource);
+			//std::cout << "vertexShaderSource: " << vertexShaderSource;
+			//std::cout << "fragmentShaderSource: " << fragmentShaderSource;
+
 			//) Shader(ShaderType::Vertex, "video.vert")
 			program->attach_shader(vertexShader);
 			/*
@@ -246,12 +253,19 @@ void NVidiaRenderer::glDraw()
 			program->attach_shader(fragmentShader);
 
 			program->link();
+			//TODO: https://stackoverflow.com/questions/15639957/glgetattriblocation-returns-1-when-retrieving-existing-shader-attribute 
 			vextexInLocation = glGetAttribLocation(program->get_id(), "aPos");
+			//vextexInLocation = 0;
 			textureInLocation = glGetAttribLocation(program->get_id(), "aTexCoord");
 
+	
+
+			//textureInLocation = 1;
+			printf("vextexInLocation: %i\n", vextexInLocation);
+			printf("textureInLocation: %i\n", textureInLocation);
 			glGenVertexArrays(1, &vertexArrayObject);
 			glGenBuffers(1, &vertexBufferObject);
-			glGenBuffers(3, pixelBufferObjects);
+			//glGenBuffers(3, pixelBufferObjects);
 
 			glBindVertexArray(vertexArrayObject);
 
@@ -264,21 +278,25 @@ void NVidiaRenderer::glDraw()
 			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
 			glEnableVertexAttribArray(textureInLocation);
 			
-			glActiveTexture(GL_TEXTURE0);
-			//try tex instead of texSampler????
-			GLuint texLocation = glGetUniformLocation(program->get_id(), "tex");
-			printf("texLocation: %i\n", texLocation);
-    		glUniform1i(texLocation, 0);
-			/*
-			int viewport[4];
 
-			glGetIntegerv(GL_VIEWPORT, viewport);
-			glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
-			glScissor(viewport[0], viewport[1], viewport[2], viewport[3]);
-			*/
-			glGenTextures(1, &texture_id);
-			glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
-			//glUniform1i(glGetUniformLocation(program->get_id(), "texSampler"), 0);
+			//try tex instead of texSampler????
+			//GLuint texLocation = glGetUniformLocation(program->get_id(), "tex");
+			//printf("texLocation: %i\n", texLocation);
+    		//glUniform1i(texLocation, 0);
+			
+			//int viewport[4];
+
+			//glGetIntegerv(GL_VIEWPORT, viewport);
+			//glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
+			//glScissor(viewport[0], viewport[1], viewport[2], viewport[3]);
+			glActiveTexture(GL_TEXTURE0);
+			texLocation = glGetUniformLocation(program->get_id(), "tex");
+			glGetErr("294");
+			//VERY IMPORTANT, use the progrm before glUniform1i
+			program->use();
+			glUniform1i(texLocation, 0);
+			glGetErr("300");
+			
 			/*
 			//To be done
 			if (!initiatedFrameBufferObjects)
@@ -295,17 +313,24 @@ void NVidiaRenderer::glDraw()
 				initiatedFrameBufferObjects = true;
 			}
 			*/
+	
+			glGenTextures(1, &texture_id);
+			glGetErr("316");
+			glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
+			glGetErr("318");
+			
 			firstRun = false;
 		}
 		
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 		program->use();
+		
 		EGLImageKHR hEglImage;
     
-		//EGLSyncKHR eglSync;
+		EGLSyncKHR eglSync;
 		int iErr;
-		hEglImage = NvEGLImageFromFd(NULL, decodedNvFrame->nvBuffer->planes[0].fd);
+		hEglImage = NvEGLImageFromFd(eglDisplay, decodedNvFrame->nvBuffer->planes[0].fd);
 		if (!hEglImage)
 		{
 			printf("Could not get EglImage from fd. Not rendering\n");
@@ -321,6 +346,11 @@ void NVidiaRenderer::glDraw()
 		{
 			printf("glDrawArrays arrays failed:%i\n", iErr);
 		}
+		eglSync = eglCreateSyncKHR(eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
+		if (eglSync == EGL_NO_SYNC_KHR)
+        printf("eglCreateSyncKHR() failed\n");
+		NvDestroyEGLImage(eglDisplay, hEglImage);
+
 		/*
 		eglSync = eglCreateSyncKHR(eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
 		if (eglSync == EGL_NO_SYNC_KHR)
@@ -329,7 +359,6 @@ void NVidiaRenderer::glDraw()
 		}
 		eglSwapBuffers(eglDisplay, eglSurface);
 		*/
-		NvDestroyEGLImage(NULL, hEglImage);
 		/*
 		EGLImageKHR hEglImage;
 		bool frame_is_late = false;

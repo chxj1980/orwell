@@ -129,6 +129,7 @@ private:
     unsigned int vertexBufferObject, vertexArrayObject, TBO, EBO;
     GLint vextexInLocation;
     GLint textureInLocation;
+    GLint texLocation;
     std::mutex mutex;
     std::condition_variable conditionVariable;
     static PFNEGLCREATEIMAGEKHRPROC eglCreateImageKHR;

@@ -1,9 +1,9 @@
 R"(
 varying vec2 interp_tc;
-attribute vec4 in_pos;
-attribute vec2 in_tc;
+attribute vec4 aPos;
+attribute vec2 aTexCoord;
 void main() {
-    interp_tc = in_tc;
-    gl_Position = in_pos;
+    interp_tc = aTexCoord;
+    gl_Position = aPos;
 };
 )"
