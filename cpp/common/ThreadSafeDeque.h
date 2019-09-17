@@ -21,23 +21,25 @@ template <typename T>
 class ThreadSafeDequePolicy
 {
 public:
+    //Thread safe because it's called from ThreadSafeDeque when mutex is locked
     virtual void afterEmplaceFront()
     {
     }
-
+    //Thread safe because it's called from ThreadSafeDeque when mutex is locked
     virtual void afterEmplaceBack()
     {
     }
-
+    //Thread safe because it's called from ThreadSafeDeque when mutex is locked
     virtual void afterPopFront()
     {
     }
-
+    //Thread safe because it's called from ThreadSafeDeque when mutex is locked
     virtual void afterPopBack()
     {
     }
 
     std::shared_ptr<std::deque<T>> collection;
+    //Attention, derived classes that have other functions must lock the mutex on these functions
     std::shared_ptr<std::mutex> mutex;
 };
 
@@ -115,6 +117,13 @@ public:
             this->threadSafeDequePolicy = threadSafeDequePolicy;
             this->threadSafeDequePolicy->mutex = this->mutex;
             this->threadSafeDequePolicy->collection = this->collection;
+        });
+    }
+
+    std::shared_ptr<ThreadSafeDequePolicy<T>> getPolicy()
+    {
+        lockAndDo([&] {
+            return threadSafeDequePolicy;
         });
     }
 private:

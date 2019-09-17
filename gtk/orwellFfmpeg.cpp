@@ -48,9 +48,9 @@ int main(int argc, char **argv)
 	username = "admin";
 	password = "19929394";
 	rtspUrl = "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1";
-	username = "admin";
-	password = "ljspqk1.618.@";
-	rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
+	//username = "admin";
+	//password = "ljspqk1.618.@";
+	//rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
 	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
 	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
 	auto renderer = std::make_shared<OpenglSmartRenderer3>();

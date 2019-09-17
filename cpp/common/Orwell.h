@@ -44,6 +44,8 @@ public:
     //explicit Orwell(OnvifURL onvifURL);
     std::shared_ptr<RTSPClient> rtspClient;
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsFifo;
+    std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsCacheFifo;
+    //std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<EncodedPacket>>> encodedPacketsCacheFifoPolicy;
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
     std::shared_ptr<Decoder> decoder;
     std::shared_ptr<VideoRecorder> videoRecorder;
