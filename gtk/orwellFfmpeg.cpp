@@ -53,17 +53,23 @@ int main(int argc, char **argv)
 	rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
 	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
 	std::string cameraAlias("cam1");
-	std::string fileWritePath(".");
+	std::string fileWritePath("./cameras");
 	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
 	auto renderer = std::make_shared<OpenglSmartRenderer3>();
 	auto decoder = std::make_shared<FfmpegSoftwareDecoder>(Decoder::H264);
 	auto orwell = std::make_shared<Orwell>(cameraAlias, rtspClient, decoder, renderer);
 	Singleton::instance()->addStream(cameraAlias, orwell);
-	bool fileOpenResult = orwell->fileWriter->setPath(fileWritePath);
+	bool fileOpenResult = false;
+	try {
+		fileOpenResult = orwell->fileWriter->setPath(fileWritePath);
+	}
+	catch (std::exception& e) {
+        LOG << e.what();
+    }
 	if (!fileOpenResult)
-		LOG << "error opening file: " << orwell->fileWriter->getCurrentPath();
+		LOG << "error opening file: " << orwell->fileWriter->getCurrentFilePath();
 	else {
-		LOG << "writing to file: " << orwell->fileWriter->getCurrentPath();
+		LOG << "writing to file: " << orwell->fileWriter->getCurrentFilePath();
 		orwell->fileWriter->startThreadMode();
 	}
 	ProfilingThread profilingThread;

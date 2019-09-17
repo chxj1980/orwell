@@ -101,12 +101,12 @@ if (COMPILE_TARGET STREQUAL "JETSON_NANO")
 	target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
 	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIB_V4L2} ${LIB_NVJPEG} ${LIB_DRM} ${LIB_EGL} ${LIB_NVBUF}
-	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy zlmediakit zltoolkit)
+	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} -lstdc++fs epoxy zlmediakit zltoolkit)
 else (COMPILE_TARGET STREQUAL "GENERIC_x86_64")
 	target_link_libraries(orwell PRIVATE 
 	AVCODEC_LIB AVUTIL_LIB SWS_SCALE_LIB SWRESAMPLE_LIB 
-	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11}
-	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} epoxy zlmediakit zltoolkit )
+	${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} 
+	myRtspClient-static pthread ${GTKMM_LIBRARIES} ${GLEW_LIBRARY} ${GLU_LIBRARY} ${GL_LIBRARY} -lstdc++fs epoxy zlmediakit zltoolkit )
 endif()
 	#${ZLIB_LIBRARY} ${LIBDL_LIBRARY} ${X11_LIBRARY} ${LIB_VDPAU} ${LIB_VA} ${LIB_VA_DRM} ${LIB_VA_X11} ${LIBDRM_LIBRARY} 
 

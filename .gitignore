@@ -98,3 +98,4 @@ gtk/build/desktoplinux/lab2
 gtk/build/desktoplinux/lab3
 gtk/build/desktoplinux/*.h264
 gtk/build/desktoplinux/cam*/
+gtk/build/desktoplinux/cameras/*

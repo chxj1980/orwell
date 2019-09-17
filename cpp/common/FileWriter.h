@@ -11,6 +11,7 @@
 #include <functional>
 #include <fstream>
 #include <mutex>
+#include <experimental/filesystem>
 
 class FileWriter : public Stoppable
 {
@@ -26,6 +27,7 @@ public:
     virtual void setOnAcquireNewPacket(std::function<std::shared_ptr<EncodedPacket>()> onAcquireNewPacket);
 
     std::string getCurrentPath();
+    std::string getCurrentFilePath();
 
 protected:
     std::thread runThread;

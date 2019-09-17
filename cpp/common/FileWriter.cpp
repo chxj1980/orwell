@@ -28,7 +28,11 @@ void FileWriter::run()
 std::string FileWriter::getCurrentPath() {
     if (cameraAlias.empty() || currentFileName.empty())
         throw std::runtime_error("filename malformed!");
-    return path + "/" + cameraAlias + "/" + currentFileName;
+    return path + "/" + cameraAlias;
+}
+
+std::string FileWriter::getCurrentFilePath() {
+    return getCurrentPath() + "/" + currentFileName;
 }
 
 bool FileWriter::setPath(std::string path)
@@ -36,8 +40,12 @@ bool FileWriter::setPath(std::string path)
     std::unique_lock<std::mutex> lock{pathMutex};
     this->path = path;
     lock.unlock();
+    //because of this we compile with -lstdc++fs
+    namespace fs = std::experimental::filesystem; // In C++17 use std::filesystem.
 
-    file = std::ofstream(getCurrentPath(), std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
+    fs::create_directories(getCurrentPath());    
+    
+    file = std::ofstream(getCurrentFilePath(), std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
     if (!file)
     {
         //Stops the thread
