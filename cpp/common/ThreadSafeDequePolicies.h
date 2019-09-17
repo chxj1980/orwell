@@ -21,7 +21,7 @@ public:
     //Not thread-safe, we must lock the mutex
     void setSize(int maxSize)
     {
-        std::unique_lock<std::mutex> lock{*mutex};
+        std::unique_lock<std::mutex> lock{*this->mutex};
         if (maxSize <= 0)
             throw std::invalid_argument("SizePolicy::setSize received invalid value");
         this->maxSize = maxSize;
@@ -29,13 +29,13 @@ public:
 
     void afterEmplaceFront()
     {
-        if (collection->size() >= maxSize)
-            collection->pop_back();
+        if (this->collection->size() >= maxSize)
+            this->collection->pop_back();
     }
     void afterEmplaceBack()
     {
-        if (collection->size() >= maxSize)
-            collection->pop_front();
+        if (this->collection->size() >= maxSize)
+            this->collection->pop_front();
     }
 
     int maxSize;
@@ -58,7 +58,7 @@ public:
     }
     void setMaximumRamSize(int maxRamSize)
     {
-        std::unique_lock<std::mutex> lock{*mutex};
+        std::unique_lock<std::mutex> lock{*this->mutex};
         if (maxRamSize <= 0)
             throw std::invalid_argument("RamSizePolicy::setSize received invalid value");
         this->maxRamSize = maxRamSize;
@@ -68,24 +68,26 @@ public:
     }
     void afterEmplaceFront()
     {
-        currentRamSize += collection->front()->getSize();
+        currentRamSize += this->collection->front()->getSize();
 
-        if (collection->size() >= maxRamSize)
+        if (currentRamSize >= maxRamSize)
         {
-            currentRamSize -= collection->back()->getSize();
-            collection->pop_back();
+            currentRamSize -= this->collection->back()->getSize();
+            this->collection->pop_back();
         }
     }
     void afterEmplaceBack()
     {
-        currentRamSize += collection->back()->getSize();
+       
+        currentRamSize += this->collection->back()->getSize();
 
-        if (collection->size() >= maxRamSize)
+        if (currentRamSize >= maxRamSize)
         {
-            currentRamSize -= collection->front()->getSize();
-            collection->pop_front();
+            currentRamSize -= this->collection->front()->getSize();
+            this->collection->pop_front();
         }
     }
+    //private:
     //In bytes
     int maxRamSize;
     std::atomic<size_t> currentRamSize;

@@ -9,7 +9,7 @@ const int maxEncodedPacketFifoSize = 40;
 //No more than x decoded video frames
 const int maxDecodedFrameFifoSize = 15;
 //Default size in bytes
-const int defaultMaxRamSizeCacheFifo = 1000000;
+const int defaultMaxRamSizeCacheFifo = 300000;
 std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<EncodedPacket>>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<EncodedPacket>>>(maxEncodedPacketFifoSize);
 std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<DecodedFrame>>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<DecodedFrame>>>(maxDecodedFrameFifoSize);
 
@@ -28,7 +28,7 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     rtspClient = _rtspClient;
     rtspClient->setOnNewPacket([encodedPacketsFifo = encodedPacketsFifoReference, encodedPacketsCacheFifo = encodedPacketsCacheFifoReference](std::shared_ptr<EncodedPacket> encodedPacket) {
         encodedPacketsFifo->emplace_back(encodedPacket);
-        //encodedPacketsCacheFifo->emplace_back(encodedPacket);
+        encodedPacketsCacheFifo->emplace_back(encodedPacket);
     });    
 
     decoder = _decoder;
@@ -84,11 +84,10 @@ void ProfilingThread::run()
             auto encodedPacketsCacheFifoRamSizePolicy = std::dynamic_pointer_cast<RamSizePolicy>(orwell->encodedPacketsCacheFifo->getPolicy());
             //get weak ptr?
             LOGP << cam << ": " << orwell->renderer->fps->getSampleString() << " fps"
-                 << ", "
-                 << bytesToKbytes(orwell->rtspClient->bytesPerSecond->getSampleString()) << "kb/s"
-                 << "encodedPacketsFifo: " << orwell->encodedPacketsFifo->size()
-                 << "decodedFramesFifo: " << orwell->decodedFramesFifo->size()
-                 << "encodedPacketsCacheFifo RAM size" << encodedPacketsCacheFifoRamSizePolicy->getRamSize()
+                 << ", " << bytesToKbytes(orwell->rtspClient->bytesPerSecond->getSampleString()) << "kb/s"
+                 //<< "encodedPacketsFifo: " << orwell->encodedPacketsFifo->size()
+                 //<< "decodedFramesFifo: " << orwell->decodedFramesFifo->size()
+                 << ", " << "cacheFifo RAM size: " << bytesToKbytes(std::to_string(encodedPacketsCacheFifoRamSizePolicy->getRamSize())) << " kb"
                  << ", ";
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(profilingInterval));

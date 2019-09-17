@@ -122,9 +122,14 @@ public:
 
     std::shared_ptr<ThreadSafeDequePolicy<T>> getPolicy()
     {
-        lockAndDo([&] {
-            return threadSafeDequePolicy;
+        /*
+        auto & threadSafeDequePolicy_ = threadSafeDequePolicy;
+        lockAndDo([threadSafeDequePolicy_] {
+            return threadSafeDequePolicy_;
         });
+        */
+        std::unique_lock<std::mutex> lock{*mutex};
+        return threadSafeDequePolicy;
     }
 private:
     /*
