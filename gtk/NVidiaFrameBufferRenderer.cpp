@@ -222,7 +222,7 @@ void NVidiaFrameBufferRenderer::glDraw()
 			glBindTexture(GL_TEXTURE_2D, texture_id);
 			glGetErr("318");
 			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 512, 512, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 512, 512, 0, GL_RED, GL_UNSIGNED_BYTE, d);
 			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 500, 500, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 			firstRun = false;
 		}
@@ -251,8 +251,10 @@ void NVidiaFrameBufferRenderer::glDraw()
 		printf("251\n");
 
 		glReadBuffer(GL_COLOR_ATTACHMENT0);
-		glReadPixels(0, 0, 512, 512, GL_BGR, GL_UNSIGNED_BYTE, r);
-		for (int i = 0; i < 512 * 512; ++i)
+		glReadPixels(0, 0, 512, 512, GL_RED, GL_UNSIGNED_BYTE, r);
+		printf("255\n");
+
+		for (int i = 0; i < 100 * 100; ++i)
 		{
 			printf("%i ", r[i]);
 		}

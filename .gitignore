@@ -99,3 +99,5 @@ gtk/build/desktoplinux/lab3
 gtk/build/desktoplinux/*.h264
 gtk/build/desktoplinux/cam*/
 gtk/build/desktoplinux/cameras/*
+gtk/build/desktoplinux/lab*
+gtk/build/jetson_nano/lab*
