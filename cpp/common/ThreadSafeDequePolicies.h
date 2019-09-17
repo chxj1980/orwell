@@ -78,11 +78,11 @@ public:
     }
     void afterEmplaceBack()
     {
-       
         currentRamSize += this->collection->back()->getSize();
 
         if (currentRamSize >= maxRamSize)
         {
+            std::cout << "eliminate" << std::endl;
             currentRamSize -= this->collection->front()->getSize();
             this->collection->pop_front();
         }

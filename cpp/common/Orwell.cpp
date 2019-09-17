@@ -18,7 +18,7 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     encodedPacketsFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>>();
     encodedPacketsFifo->setPolicy(encodedPacketFifoSizePolicy);
     encodedPacketsCacheFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>>();
-    encodedPacketsCacheFifo->setPolicy(std::make_shared<RamSizePolicy>(defaultMaxRamSizeCacheFifo));
+    //encodedPacketsCacheFifo->setPolicy(std::make_shared<RamSizePolicy>(defaultMaxRamSizeCacheFifo));
     decodedFramesFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>>();
     decodedFramesFifo->setPolicy(decodedFrameFifoSizePolicy);
     //These references help we pass by copy inside the lambda functions
@@ -93,7 +93,7 @@ void ProfilingThread::run()
                  << ", " << bytesToKbytes(orwell->rtspClient->bytesPerSecond->getSampleString()) << "kb/s"
                  //<< "encodedPacketsFifo: " << orwell->encodedPacketsFifo->size()
                  //<< "decodedFramesFifo: " << orwell->decodedFramesFifo->size()
-                 << ", " << "cacheFifo RAM size: " << bytesToKbytes(std::to_string(encodedPacketsCacheFifoRamSizePolicy->getRamSize())) << " kb"
+                 //<< ", " << "cacheFifo RAM size: " << bytesToKbytes(std::to_string(encodedPacketsCacheFifoRamSizePolicy->getRamSize())) << " kb"
                  << ", ";
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(profilingInterval));
