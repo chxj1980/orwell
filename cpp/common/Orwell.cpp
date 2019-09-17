@@ -10,18 +10,16 @@ const int maxEncodedPacketFifoSize = 40;
 const int maxDecodedFrameFifoSize = 15;
 //Default size in bytes
 const int defaultMaxRamSizeCacheFifo = 300000;
-std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<EncodedPacket>>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<EncodedPacket>>>(maxEncodedPacketFifoSize);
-std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<DecodedFrame>>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<DecodedFrame>>>(maxDecodedFrameFifoSize);
 
 Orwell::Orwell(std::string cameraAlias, std::shared_ptr<RTSPClient> _rtspClient, 
                std::shared_ptr<Decoder> _decoder, std::shared_ptr<Renderer> _renderer)
 {
     encodedPacketsFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>>();
-    encodedPacketsFifo->setPolicy(encodedPacketFifoSizePolicy);
+    encodedPacketsFifo->setPolicy(std::make_shared<SizePolicy<std::shared_ptr<EncodedPacket>>>(maxEncodedPacketFifoSize));
     encodedPacketsCacheFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>>();
     //encodedPacketsCacheFifo->setPolicy(std::make_shared<RamSizePolicy>(defaultMaxRamSizeCacheFifo));
     decodedFramesFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>>();
-    decodedFramesFifo->setPolicy(decodedFrameFifoSizePolicy);
+    decodedFramesFifo->setPolicy(std::make_shared<SizePolicy<std::shared_ptr<DecodedFrame>>>(maxDecodedFrameFifoSize));
     //These references help we pass by copy inside the lambda functions
     auto &encodedPacketsFifoReference = encodedPacketsFifo;
     auto &decodedFramesFifoReference = decodedFramesFifo;
