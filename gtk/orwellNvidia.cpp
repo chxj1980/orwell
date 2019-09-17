@@ -53,12 +53,12 @@ int main(int argc, char **argv)
 	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
 	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
 	std::shared_ptr<Decoder> decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
-	auto renderer = std::make_shared<NvidiaRendererEGL>(640, 360, 100, 30);
-	//auto renderer = std::make_shared<NVidiaRenderer>();
+	//auto renderer = std::make_shared<NvidiaRendererEGL>(640, 360, 100, 30);
+	auto renderer = std::make_shared<NVidiaRenderer>();
 	auto orwell = std::make_shared<Orwell>(rtspClient, decoder, renderer);
 	Singleton::instance()->addStream("cam1", orwell);
 	ProfilingThread profilingThread;
-	//return app->run(*renderer.get());
+	return app->run(*renderer.get());
 	getchar();
 
 	//nVidiaRendererEGL.setDecodedFramesFifo(orwell->decodedFramesFifo);
