@@ -644,6 +644,33 @@ home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s:
 	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
 .PHONY : home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.cpp.s
 
+home/dev/orwell/cpp/common/FileWriter.o: home/dev/orwell/cpp/common/FileWriter.cpp.o
+
+.PHONY : home/dev/orwell/cpp/common/FileWriter.o
+
+# target to build an object file
+home/dev/orwell/cpp/common/FileWriter.cpp.o:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FileWriter.cpp.o
+.PHONY : home/dev/orwell/cpp/common/FileWriter.cpp.o
+
+home/dev/orwell/cpp/common/FileWriter.i: home/dev/orwell/cpp/common/FileWriter.cpp.i
+
+.PHONY : home/dev/orwell/cpp/common/FileWriter.i
+
+# target to preprocess a source file
+home/dev/orwell/cpp/common/FileWriter.cpp.i:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FileWriter.cpp.i
+.PHONY : home/dev/orwell/cpp/common/FileWriter.cpp.i
+
+home/dev/orwell/cpp/common/FileWriter.s: home/dev/orwell/cpp/common/FileWriter.cpp.s
+
+.PHONY : home/dev/orwell/cpp/common/FileWriter.s
+
+# target to generate assembly for a file
+home/dev/orwell/cpp/common/FileWriter.cpp.s:
+	$(MAKE) -f CMakeFiles/orwell.dir/build.make CMakeFiles/orwell.dir/home/dev/orwell/cpp/common/FileWriter.cpp.s
+.PHONY : home/dev/orwell/cpp/common/FileWriter.cpp.s
+
 home/dev/orwell/cpp/common/MyRTSPClient.o: home/dev/orwell/cpp/common/MyRTSPClient.cpp.o
 
 .PHONY : home/dev/orwell/cpp/common/MyRTSPClient.o
@@ -1027,6 +1054,9 @@ help:
 	@echo "... home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.o"
 	@echo "... home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.i"
 	@echo "... home/dev/orwell/cpp/common/FfmpegSoftwareDecoder.s"
+	@echo "... home/dev/orwell/cpp/common/FileWriter.o"
+	@echo "... home/dev/orwell/cpp/common/FileWriter.i"
+	@echo "... home/dev/orwell/cpp/common/FileWriter.s"
 	@echo "... home/dev/orwell/cpp/common/MyRTSPClient.o"
 	@echo "... home/dev/orwell/cpp/common/MyRTSPClient.i"
 	@echo "... home/dev/orwell/cpp/common/MyRTSPClient.s"

@@ -13,7 +13,8 @@ const int defaultMaxRamSizeCacheFifo = 300000;
 std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<EncodedPacket>>> encodedPacketFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<EncodedPacket>>>(maxEncodedPacketFifoSize);
 std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<DecodedFrame>>> decodedFrameFifoSizePolicy = std::make_shared<SizePolicy<std::shared_ptr<DecodedFrame>>>(maxDecodedFrameFifoSize);
 
-Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder> _decoder, std::shared_ptr<Renderer> _renderer)
+Orwell::Orwell(std::string cameraAlias, std::shared_ptr<RTSPClient> _rtspClient, 
+               std::shared_ptr<Decoder> _decoder, std::shared_ptr<Renderer> _renderer)
 {
     encodedPacketsFifo = std::make_shared<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>>();
     encodedPacketsFifo->setPolicy(encodedPacketFifoSizePolicy);
@@ -31,7 +32,7 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
         encodedPacketsCacheFifo->emplace_back(encodedPacket);
     });
 
-    fileWriter = std::make_shared<FileWriter>("/mnt/external/cam1/");
+    fileWriter = std::make_shared<FileWriter>(cameraAlias);
     fileWriter->setOnAcquireNewPacket([encodedPacketsCacheFifo = encodedPacketsCacheFifoReference]() -> std::shared_ptr<EncodedPacket> {
         return encodedPacketsCacheFifo->pop_front();
     });
@@ -50,9 +51,8 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
         return decodedFramesFifo->pop_front();
     });
 
-    //Important, only start thread mode after inserting FIFOs like in above
     rtspClient->startThreadMode();
-    fileWriter->startThreadMode();
+    //fileWriter->startThreadMode();
     decoder->startThreadMode();
     renderer->startThreadMode();
 }

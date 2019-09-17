@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 	LOG << "------------ Orwell initiated!";
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", 
 						   "NVidiaRenderer", "NvidiaRendererEGL", 
-						   "myRtspClient", "ZLRTSPClient", "Profiler");
+						   "myRtspClient", "ZLRTSPClient", "Profiler", "FileWriter");
 	Gtk::Main kit;
 	//"NaluUtils"
 	auto app = Gtk::Application::create(argc, argv, "");
@@ -51,12 +51,21 @@ int main(int argc, char **argv)
 	//password = "ljspqk1.618.@";
 	//rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";
 	//auto rtspClient = std::make_shared<MyRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP, username, password);
+	std::string cameraAlias("cam1");
+	std::string fileWritePath("/mnt/external");
 	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
 	std::shared_ptr<Decoder> decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
 	auto renderer = std::make_shared<NvidiaRendererEGL>(640, 360, 100, 30);
 	//auto renderer = std::make_shared<NVidiaRenderer>();
-	auto orwell = std::make_shared<Orwell>(rtspClient, decoder, renderer);
-	Singleton::instance()->addStream("cam1", orwell);
+	auto orwell = std::make_shared<Orwell>(cameraAlias,rtspClient, decoder, renderer);
+	Singleton::instance()->addStream(cameraAlias, orwell);
+	bool fileOpenResult = orwell->fileWriter->setPath(fileWritePath);
+	if (!fileOpenResult)
+		LOG << "error opening file: " << orwell->fileWriter->getCurrentPath();
+	else {
+		LOG << "writing to file: " << orwell->fileWriter->getCurrentPath();
+		orwell->fileWriter->startThreadMode();
+	}
 	ProfilingThread profilingThread;
 	//return app->run(*renderer.get());
 	getchar();

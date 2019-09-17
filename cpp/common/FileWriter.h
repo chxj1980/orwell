@@ -10,47 +10,31 @@
 #include "Stoppable.h"
 #include <functional>
 #include <fstream>
+#include <mutex>
 
 class FileWriter : public Stoppable
 {
 public:
-    FileWriter(std::string path) : path(path)
-    {
-        file = std::ofstream(path + "file1.h264", std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
-    }
+    FileWriter(std::string cameraAlias);
 
-    virtual void run()
-    {
-        if (!file)
-        {
-            std::cout << "Cannot open file!" << std::endl;
-        }
-        else
-        {
-            while (shouldContinue())
-            {
-                auto encodedPacket = onAcquireNewPacket();
-                //TODO: is it ok?????????????
-                file.write(reinterpret_cast<const char *>(encodedPacket.get()->getFramePointer()), encodedPacket.get()->getSize());
-            }
-        }
-    }
+    virtual void run();
 
-    virtual void startThreadMode()
-    {
-        runThread = std::thread(&FileWriter::run, this);
-    }
+    bool setPath(std::string path);
 
-    virtual void setOnAcquireNewPacket(std::function<std::shared_ptr<EncodedPacket>()> onAcquireNewPacket)
-    {
-        this->onAcquireNewPacket = onAcquireNewPacket;
-    }
+    virtual void startThreadMode();
+
+    virtual void setOnAcquireNewPacket(std::function<std::shared_ptr<EncodedPacket>()> onAcquireNewPacket);
+
+    std::string getCurrentPath();
 
 protected:
     std::thread runThread;
     std::function<std::shared_ptr<EncodedPacket>()> onAcquireNewPacket;
+    std::mutex pathMutex;
     std::string path;
     std::ofstream file;
+    std::string cameraAlias;
+    std::string currentFileName = "file1.h264";
 };
 
 #endif // FileWriter_H

@@ -97,3 +97,4 @@ gtk/build/desktoplinux/valgrind-out.txt
 gtk/build/desktoplinux/lab2
 gtk/build/desktoplinux/lab3
 gtk/build/desktoplinux/*.h264
+gtk/build/desktoplinux/cam*/
