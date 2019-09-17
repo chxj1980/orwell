@@ -29,7 +29,6 @@ public:
         {
             while (shouldContinue())
             {
-                std::cout << "." << std::endl;
                 auto encodedPacket = onAcquireNewPacket();
                 //TODO: is it ok?????????????
                 file.write(reinterpret_cast<const char *>(encodedPacket.get()->getFramePointer()), encodedPacket.get()->getSize());

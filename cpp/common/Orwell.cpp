@@ -31,7 +31,7 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
         encodedPacketsCacheFifo->emplace_back(encodedPacket);
     });
 
-    fileWriter = std::make_shared<FileWriter>("");
+    fileWriter = std::make_shared<FileWriter>("/mnt/external/cam1/");
     fileWriter->setOnAcquireNewPacket([encodedPacketsCacheFifo = encodedPacketsCacheFifoReference]() -> std::shared_ptr<EncodedPacket> {
         return encodedPacketsCacheFifo->pop_front();
     });
