@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	std::string rtspUrl;
 	username = "admin";
 	password = "19929394";
-	rtspUrl = "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_1";
+	rtspUrl = "rtsp://admin:19929394@192.168.0.101:10554/tcp/av0_0";
 	//username = "admin";
 	//password = "ljspqk1.618.@";
 	//rtspUrl = "rtsp://192.168.0.118:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif";

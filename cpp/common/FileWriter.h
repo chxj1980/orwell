@@ -16,7 +16,7 @@ class FileWriter : public Stoppable
 public:
     FileWriter(std::string path) : path(path)
     {
-        file = std::ofstream(path, std::ios::in | std::ios::binary | std::ios::app);
+        file = std::ofstream(path + "file1.h264", std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
     }
 
     virtual void run()
@@ -30,7 +30,8 @@ public:
             while (shouldContinue())
             {
                 auto encodedPacket = onAcquireNewPacket();
-                //file.write(static_cast<const char *>(encodedPacket.get()->getFramePointer()), encodedPacket.get()->getSize());
+                //TODO: is it ok?????????????
+                file.write(reinterpret_cast<const char *>(encodedPacket.get()->getFramePointer()), encodedPacket.get()->getSize());
             }
         }
     }

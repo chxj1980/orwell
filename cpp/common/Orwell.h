@@ -21,6 +21,8 @@
 #include "DecodedFrame.h"
 #include "ThreadSafeDequePolicies.h"
 #include "Renderer.h"
+#include "FileWriter.h"
+
 //#include "Profiler.h"
 #ifdef __cplusplus
 #define EXTERNC extern "C"
@@ -47,6 +49,7 @@ public:
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<EncodedPacket>>> encodedPacketsCacheFifo;
     //std::shared_ptr<ThreadSafeDequePolicy<std::shared_ptr<EncodedPacket>>> encodedPacketsCacheFifoPolicy;
     std::shared_ptr<ThreadSafeDeque<std::shared_ptr<DecodedFrame>>> decodedFramesFifo;
+    std::shared_ptr<FileWriter> fileWriter;
     std::shared_ptr<Decoder> decoder;
     std::shared_ptr<VideoRecorder> videoRecorder;
     std::shared_ptr<Renderer> renderer;

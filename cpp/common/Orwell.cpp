@@ -29,7 +29,12 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
     rtspClient->setOnNewPacket([encodedPacketsFifo = encodedPacketsFifoReference, encodedPacketsCacheFifo = encodedPacketsCacheFifoReference](std::shared_ptr<EncodedPacket> encodedPacket) {
         encodedPacketsFifo->emplace_back(encodedPacket);
         encodedPacketsCacheFifo->emplace_back(encodedPacket);
-    });    
+    });
+
+    fileWriter = std::make_shared<FileWriter>("");
+    fileWriter->setOnAcquireNewPacket([encodedPacketsCacheFifo = encodedPacketsCacheFifoReference]() -> std::shared_ptr<EncodedPacket> {
+        return encodedPacketsCacheFifo->pop_front();
+    });
 
     decoder = _decoder;
     //TODO: verify this
@@ -47,6 +52,7 @@ Orwell::Orwell(std::shared_ptr<RTSPClient> _rtspClient, std::shared_ptr<Decoder>
 
     //Important, only start thread mode after inserting FIFOs like in above
     rtspClient->startThreadMode();
+    fileWriter->startThreadMode();
     decoder->startThreadMode();
     renderer->startThreadMode();
 }
