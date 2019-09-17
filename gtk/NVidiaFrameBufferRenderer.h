@@ -1,5 +1,5 @@
-#ifndef NVidiaRenderer_H
-#define NVidiaRenderer_H
+#ifndef NVidiaFrameBufferRenderer_H
+#define NVidiaFrameBufferRenderer_H
 #include "OpenGLArea2.h"
 #include "VideoReceiver.h"
 #include "Program.h"
@@ -69,6 +69,7 @@ public:
     void init();
     
     void glDraw();
+    void glDraw2();
 
     void run();
 
@@ -125,4 +126,4 @@ private:
     unsigned int VBO, VAO;
 };
 
-#endif //NVidiaRenderer_H
+#endif //NVidiaFrameBufferRenderer_H

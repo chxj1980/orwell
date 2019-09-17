@@ -29,6 +29,7 @@
 #include "SLog.h"
 #include "NVDecoder.h"
 #include "ZLRTSPClient.h"
+#include "NVidiaFrameBufferRenderer.h"
 SLOG_CATEGORY("main");
 
 int main(int argc, char **argv)
@@ -37,7 +38,7 @@ int main(int argc, char **argv)
 	LOG << "------------ Orwell initiated!";
 	SLOG_ENABLE_CATEGORIES("main", "NVDecoder", "Decoder", 
 						   "NVidiaRenderer", "NvidiaRendererEGL", 
-						   "myRtspClient", "ZLRTSPClient", "Profiler", "FileWriter");
+						   "myRtspClient", "ZLRTSPClient", "Profiler", "FileWriter", "NVidiaFrameBufferRenderer");
 	Gtk::Main kit;
 	//"NaluUtils"
 	auto app = Gtk::Application::create(argc, argv, "");
@@ -55,8 +56,9 @@ int main(int argc, char **argv)
 	std::string fileWritePath("/mnt/external/cameras");
 	auto rtspClient = std::make_shared<ZLRTSPClient>(rtspUrl, RTSPClient::RTP_OVER_TCP);
 	std::shared_ptr<Decoder> decoder = std::make_shared<NVDecoder>(NVDecoder::NALU, Decoder::H264);
-	auto renderer = std::make_shared<NvidiaRendererEGL>(640, 360, 100, 30);
+	//auto renderer = std::make_shared<NvidiaRendererEGL>(640, 360, 100, 30);
 	//auto renderer = std::make_shared<NVidiaRenderer>();
+	auto renderer = std::make_shared<NVidiaFrameBufferRenderer>();
 	auto orwell = std::make_shared<Orwell>(cameraAlias,rtspClient, decoder, renderer);
 	Singleton::instance()->addStream(cameraAlias, orwell);
 	bool fileOpenResult = orwell->fileWriter->setPath(fileWritePath);
