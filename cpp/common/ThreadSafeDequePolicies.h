@@ -66,23 +66,36 @@ public:
     size_t getRamSize() {
         return currentRamSize.load();
     }
+    //Going to eliminate element in the back, so measure it and take it off of currentRamSize
+    void beforePopBack() {
+            currentRamSize -= this->collection->back()->getSize();
+    }
+    //Going to eliminate element in the front, so measure it and take it off of currentRamSize
+    void beforePopFront() {
+            currentRamSize -= this->collection->front()->getSize();
+    }
+    //Going to add element in the front, so measure it and add to currentRamSize
+    //Also, eliminate elements from back if RAM is high
     void afterEmplaceFront()
     {
         currentRamSize += this->collection->front()->getSize();
 
-        if (currentRamSize >= maxRamSize)
+        while (currentRamSize >= maxRamSize)
         {
+            //TODO: add warning that cache fifo got full and we're losing packets to write
             currentRamSize -= this->collection->back()->getSize();
             this->collection->pop_back();
         }
     }
+    //Going to add element in the back, so measure it and add to currentRamSize
+    //Also, eliminate elements from front if RAM is high
     void afterEmplaceBack()
     {
         currentRamSize += this->collection->back()->getSize();
 
-        if (currentRamSize >= maxRamSize)
+        while (currentRamSize >= maxRamSize)
         {
-            std::cout << "eliminate" << std::endl;
+            //TODO: add warning that cache fifo got full and we're losing packets to write
             currentRamSize -= this->collection->front()->getSize();
             this->collection->pop_front();
         }

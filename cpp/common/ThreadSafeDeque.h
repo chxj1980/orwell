@@ -30,11 +30,11 @@ public:
     {
     }
     //Thread safe because it's called from ThreadSafeDeque when mutex is locked
-    virtual void afterPopFront()
+    virtual void beforePopFront()
     {
     }
     //Thread safe because it's called from ThreadSafeDeque when mutex is locked
-    virtual void afterPopBack()
+    virtual void beforePopBack()
     {
     }
 
@@ -83,10 +83,10 @@ public:
         {
             condNewData.wait(lock);
         }
-        auto elem = std::move(collection->front());
-        collection->pop_front();
         if (threadSafeDequePolicy)
-            threadSafeDequePolicy->afterPopFront();
+            threadSafeDequePolicy->beforePopFront();
+        auto elem = collection->front();
+        collection->pop_front();
         return elem;
     }
 
@@ -97,10 +97,10 @@ public:
         {
             condNewData.wait(lock);
         }
-        auto elem = std::move(collection->back());
-        collection->pop_back();
         if (threadSafeDequePolicy)
-            threadSafeDequePolicy->afterPopBack();
+            threadSafeDequePolicy->beforePopBack();
+        auto elem = collection->back();
+        collection->pop_back();
         return elem;
     }
 

@@ -12,26 +12,37 @@ void FileWriter::run()
 {
     if (!file)
     {
-        LOG << "FileWriter: file "<< getCurrentPath() << " not open, not going to record for camera " << cameraAlias;
+        LOG << "FileWriter: file " << getCurrentPath() << " not open, not going to record for camera " << cameraAlias;
     }
     else
     {
         while (shouldContinue())
         {
-            auto encodedPacket = onAcquireNewPacket();
-            //TODO: is it ok?????????????
-            file.write(reinterpret_cast<const char *>(encodedPacket.get()->getFramePointer()), encodedPacket.get()->getSize());
+            if (onAcquireNewPacket)
+            {
+                auto encodedPacket = onAcquireNewPacket();
+                //TODO: is this reinterpret_cast ok?????????????
+                if (encodedPacket)
+                    file.write(reinterpret_cast<const char *>(encodedPacket.get()->getFramePointer()), encodedPacket.get()->getSize());
+                else
+                    LOG << "NULL encodedPacket received";
+            } else {
+                LOG << "No lambda function passed to FileWriter";
+                stop();
+            }
         }
     }
 }
 
-std::string FileWriter::getCurrentPath() {
+std::string FileWriter::getCurrentPath()
+{
     if (cameraAlias.empty() || currentFileName.empty())
         throw std::runtime_error("filename malformed!");
     return path + "/" + cameraAlias;
 }
 
-std::string FileWriter::getCurrentFilePath() {
+std::string FileWriter::getCurrentFilePath()
+{
     return getCurrentPath() + "/" + currentFileName;
 }
 
@@ -43,8 +54,8 @@ bool FileWriter::setPath(std::string path)
     //because of this we compile with -lstdc++fs
     namespace fs = std::experimental::filesystem; // In C++17 use std::filesystem.
 
-    fs::create_directories(getCurrentPath());    
-    
+    fs::create_directories(getCurrentPath());
+
     file = std::ofstream(getCurrentFilePath(), std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
     if (!file)
     {
