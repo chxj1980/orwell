@@ -113,7 +113,8 @@ private:
     static PFNEGLCLIENTWAITSYNCKHRPROC eglClientWaitSyncKHR;
     static PFNEGLGETSYNCATTRIBKHRPROC eglGetSyncAttribKHR;
     static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES;
-    uint32_t texture_id;
+    uint32_t externalTexture;
+    uint32_t frameBufferTexture;
     int render_fd;
     EGLDisplay eglDisplay;
     EGLSurface eglSurface;
