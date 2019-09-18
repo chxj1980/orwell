@@ -34,53 +34,26 @@ public:
 
     void realize()
     {
-        EGLBoolean eglStatus;
-        EGLConfig eglConfig;
-        EGLint n_config;
-        EGLint context_attribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE};
+        eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+        assertEGLError("eglGetDisplay");
 
-        eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(glArea.get_display()->gobj()));
+        eglInitialize(eglDisplay, nullptr, nullptr);
+        assertEGLError("eglInitialize");
 
-        eglStatus = eglInitialize(eglDisplay, NULL, NULL);
-        if (!eglStatus)
-        {
-            printf("Error at eglInitialize\n");
-            switch (eglStatus)
-            {
-            case EGL_BAD_DISPLAY:
-                printf("EGL_BAD_DISPLAY\n");
-                break;
-            case EGL_NOT_INITIALIZED:
-                printf("EGL_NOT_INITIALIZED\n");
-                break;
-            case EGL_FALSE:
-                printf("EGL_FALSE\n");
-                break;
-            }
-        }
-        eglStatus = eglChooseConfig(eglDisplay, context_attribs, &eglConfig, 1, &numConfigs);
-        if (!eglStatus)
-        {
-            printf("Error at eglChooseConfig\n");
-            switch (eglStatus)
-            {
-            case EGL_BAD_DISPLAY:
-                printf("EGL_BAD_DISPLAY\n");
-                break;
-            case EGL_BAD_ATTRIBUTE:
-                printf("EGL_BAD_ATTRIBUTE\n");
-                break;
-            case EGL_NOT_INITIALIZED:
-                printf("EGL_NOT_INITIALIZED\n");
-                break;
-            case EGL_BAD_PARAMETER:
-                printf("EGL_BAD_PARAMETER\n");
-                break;
-            case EGL_FALSE:
-                printf("EGL_FALSE\n");
-                break;
-            }
-        }
+        eglChooseConfig(eglDisplay, nullptr, &eglConfig, 1, &numConfigs);
+        assertEGLError("eglChooseConfig");
+
+        eglBindAPI(EGL_OPENGL_API);
+        assertEGLError("eglBindAPI");
+
+        eglContext = eglCreateContext(eglDisplay, eglConfig, EGL_NO_CONTEXT, NULL);
+        assertEGLError("eglCreateContext");
+
+        //surface = eglCreatePbufferSurface(eglDisplay, eglConfig, nullptr);
+        //assertEGLError("eglCreatePbufferSurface");
+
+        eglMakeCurrent(eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, eglContext);
+        assertEGLError("eglMakeCurrent");
     };
 
     virtual bool render(const Glib::RefPtr<Gdk::GLContext> &context)

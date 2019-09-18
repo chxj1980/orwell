@@ -25,7 +25,7 @@
         throw std::runtime_error(message); \
     }
 
-class NVidiaFrameBufferRenderer: public Renderer
+class NVidiaFrameBufferRenderer: public Renderer, public OpenGLArea2
 {
 public:
     NVidiaFrameBufferRenderer()
@@ -67,9 +67,10 @@ public:
                    "ERROR getting proc addr of glEGLImageTargetTexture2DOES");
     }
     void init();
-    
+    void realize() {}
     void glDraw();
     void glDraw2();
+    bool render(const Glib::RefPtr<Gdk::GLContext> &context);
 
     void run();
 

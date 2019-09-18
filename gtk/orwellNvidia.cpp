@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 		orwell->fileWriter->startThreadMode();
 	}
 	ProfilingThread profilingThread;
-	//return app->run(*renderer.get());
+	return app->run(*renderer.get());
 	getchar();
 
 	//nVidiaRendererEGL.setDecodedFramesFifo(orwell->decodedFramesFifo);

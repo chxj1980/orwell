@@ -4,10 +4,10 @@
 SLOG_CATEGORY("NVidiaFrameBufferRenderer")
 
 const std::string vertexShaderSource =
-#include "nvidia3.vert"
+#include "nvidia2.vert"
 	;
 const std::string fragmentShaderSource =
-#include "nvidia3.frag"
+#include "nvidia2.frag"
 	;
 
 #define TEST_CONDITION(condition, message, errorCode) \
@@ -84,43 +84,23 @@ void NVidiaFrameBufferRenderer::run()
 	//TODO: run every loop?
 	while (true)
 	{
-		//std::unique_lock<std::mutex> lock{mutex};
-		//TODO: certify that the operation below is MOVING the frame to here, not copying it
 		auto decodedNvFrame = std::dynamic_pointer_cast<DecodedNvFrame>(onAcquireNewDecodedFrame());
+
+		std::unique_lock<std::mutex> lock{mutex};
 		this->decodedNvFrame = decodedNvFrame;
-		/* 
-		    Since the frame is gone from the fifo, it only exists here. We move it to the renderer and then we 
-		    don't need to worry with its lifetime. When another frame arrives, it automatically deletes this one
-		    TODO: verify if this indeed happens
-		*/
-		glDraw();
-		glFinish();
 		if (!firstFrameReceived)
 			firstFrameReceived = true;
+		lock.unlock();
+
+		drawerDispatcher.emit();
 	}
 }
 
-void NVidiaFrameBufferRenderer::glDraw2(){
-	GLuint frameBuffer;
-	glGenFramebuffers(1, &frameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	assertOpenGLError("glBindFramebuffer");
-
-	
-	/*
-	 * Create a texture as color attachment.
-	 */
-	GLuint t;
-	glGenTextures(1, &t);
-
-	glBindTexture(GL_TEXTURE_2D, t);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 500, 500, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-	assertOpenGLError("glTexImage2D");
-	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+bool NVidiaFrameBufferRenderer::render(const Glib::RefPtr<Gdk::GLContext> &context)
+{
+	std::unique_lock<std::mutex> lock{mutex};
+	glDraw();
+	glFinish();
 }
 
 const GLfloat vertices_textures[20] = {
@@ -147,19 +127,13 @@ void NVidiaFrameBufferRenderer::glDraw()
 		we only create the resources after we know the size and pixel format
 		of the received frame. 
 	*/
-	LOG << "glDraw";
 
 	//TODO: discover why, in the beggining, frame has non setted components (0 for integer, for example)
 	if (decodedNvFrame && this->firstFrameReceived && decodedNvFrame->getWidth() != 0)
 	{
-		LOG << "before first run";
-
+		printf("glDraw if\n"); 
 		if (this->firstRun)
 		{
-			for (int i = 0; i < 512 * 512; ++i)
-			{
-				d[i] = 255;
-			}
 			LOG << "firstRun of NVidiaFrameBufferRenderer";
 
 			program = std::make_unique<Program>();
@@ -189,7 +163,7 @@ void NVidiaFrameBufferRenderer::glDraw()
 			//textureInLocation = 1;
 			printf("vextexInLocation: %i\n", vextexInLocation);
 			printf("textureInLocation: %i\n", textureInLocation);
-			
+
 			glGenVertexArrays(1, &vertexArrayObject);
 			glGenBuffers(1, &vertexBufferObject);
 			//glGenBuffers(3, pixelBufferObjects);
@@ -205,36 +179,44 @@ void NVidiaFrameBufferRenderer::glDraw()
 			glVertexAttribPointer(textureInLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(3 * sizeof(GLfloat)));
 			glEnableVertexAttribArray(textureInLocation);
 
-			
 			texLocation = glGetUniformLocation(program->get_id(), "tex");
+			printf("texLocation: %i\n", texLocation);
+
 			glGetErr("294");
 
 			//VERY IMPORTANT, use the progrm before glUniform1i
 			program->use();
 			glGetErr("300");
-
+			
 			glGenFramebuffers(1, &frameBuffer);
 			glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 			assertOpenGLError("glBindFramebuffer");
 			glGenTextures(1, &externalTexture);
 			glBindTexture(GL_TEXTURE_2D, externalTexture);
 			assertOpenGLError("glTexImage2D");
-			
+			assertOpenGLError("198");
+
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, externalTexture, 0);
+			assertOpenGLError("210");
+			
 			firstRun = false;
 		}
+		assertOpenGLError("210");
+
 		//TODO: put these back
-		
-		glUniform1i(texLocation, 0);
-		assertOpenGLError("235");
-		
-		glGetErr("240");
-		
+		//glBindVertexArray(vertexArrayObject);
+		program->use();
+		glActiveTexture(GL_TEXTURE0);
+		//assertOpenGLError("216");
 		glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+		//glBindTexture(GL_TEXTURE_2D, externalTexture);
+	
+		assertOpenGLError("220");
+		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, externalTexture, 0);
 		EGLImageKHR hEglImage;
 
 		EGLSyncKHR eglSync;
@@ -242,17 +224,43 @@ void NVidiaFrameBufferRenderer::glDraw()
 		hEglImage = NvEGLImageFromFd(eglDisplay, decodedNvFrame->nvBuffer->planes[0].fd);
 		if (!hEglImage)
 			printf("Could not get EglImage from fd. Not rendering\n");
+		assertOpenGLError("224");
 
 		//glBindTexture(GL_TEXTURE_EXTERNAL_OES, externalTexture);
-		
-		glActiveTexture(GL_TEXTURE0);
+
+		//glActiveTexture(GL_TEXTURE0);
+		assertOpenGLError("229");
+
 		//glBindTexture(GL_TEXTURE_2D, externalTexture);
+		//glBindTexture(GL_TEXTURE_2D, externalTexture);
+		assertOpenGLError("233");
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, externalTexture);
+		assertOpenGLError("239");
 		glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, hEglImage);
-		//glBindVertexArray(vertexArrayObject);
+		assertOpenGLError("241");
+
+//-------------
+		glReadBuffer(GL_COLOR_ATTACHMENT0);
+		assertOpenGLError("264");
+
+		glReadPixels(0, 0, 512, 512, GL_RED, GL_UNSIGNED_BYTE, r);
+		assertOpenGLError("268");
+
+		for (int i = 0; i < 50; ++i)
+		{
+			printf("%i ", r[i]);
+		}
+		printf("\n");
+//-------------
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		assertOpenGLError("237");
+		glUniform1i(texLocation, 0);
+		assertOpenGLError("243");
+		glBindVertexArray(vertexArrayObject);
 		//glActiveTexture(GL_TEXTURE0+1);
 		//glBindTexture(GL_TEXTURE_2D, frameBufferTexture);
-		//glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		/*
 		iErr = glGetError();
@@ -274,11 +282,14 @@ void NVidiaFrameBufferRenderer::glDraw()
 		}
 		*/
 		//eglSwapBuffers(eglDisplay, eglSurface);
+		/*
 		glReadBuffer(GL_COLOR_ATTACHMENT0);
-		glReadPixels(0, 0, 512, 512, GL_RED, GL_UNSIGNED_BYTE, r);
-		printf("255\n");
+		assertOpenGLError("264");
 
-		for (int i = 0; i < 100 * 100; ++i)
+		glReadPixels(0, 0, 512, 512, GL_RED, GL_UNSIGNED_BYTE, r);
+		assertOpenGLError("268");
+
+		for (int i = 0; i < 50; ++i)
 		{
 			printf("%i ", r[i]);
 		}
@@ -286,6 +297,7 @@ void NVidiaFrameBufferRenderer::glDraw()
 		iErr = glGetError();
 		if (iErr != GL_NO_ERROR)
 			printf("glDrawArrays arrays failed:%i\n", iErr);
-		abort();
+		*/
+		//abort();
 	}
 }
