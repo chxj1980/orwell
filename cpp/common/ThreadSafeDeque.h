@@ -113,7 +113,9 @@ public:
 
     void setPolicy(std::shared_ptr<ThreadSafeDequePolicy<T>> threadSafeDequePolicy)
     {
-        lockAndDo([&] {
+        if (!collection->empty()) 
+            throw std::runtime_error("can only add policy to empty ThreadSafeDeque");
+        lockAndDo([this, threadSafeDequePolicy] {
             this->threadSafeDequePolicy = threadSafeDequePolicy;
             this->threadSafeDequePolicy->mutex = this->mutex;
             this->threadSafeDequePolicy->collection = this->collection;
