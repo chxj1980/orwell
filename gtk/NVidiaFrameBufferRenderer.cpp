@@ -218,23 +218,15 @@ void NVidiaFrameBufferRenderer::glDraw()
 			assertOpenGLError("glBindFramebuffer");
 			
 			glGenTextures(1, &externalTexture);
-			glGenTextures(1, &frameBufferTexture);
-			glGetErr("316");
-			glBindTexture(GL_TEXTURE_EXTERNAL_OES, externalTexture);
-			glActiveTexture(GL_TEXTURE0);
-			glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glBindTexture(GL_TEXTURE_2D, frameBufferTexture);
-			glGetErr("318");
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decodedNvFrame->width, decodedNvFrame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decodedNvFrame->width, decodedNvFrame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+			//glGenTextures(1, &frameBufferTexture);
+			glBindTexture(GL_TEXTURE_2D, externalTexture);
 			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 500, 500, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameBufferTexture, 0);
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			assertOpenGLError("glFramebufferTexture2D");
+			assertOpenGLError("glTexImage2D");
+			
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 			firstRun = false;
 		}
 		//TODO: put these back
@@ -242,6 +234,7 @@ void NVidiaFrameBufferRenderer::glDraw()
 		printf("229\n");
 		glUniform1i(texLocation, 0);
 		assertOpenGLError("235");
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, externalTexture, 0);
 		//glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		//glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		//glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -265,15 +258,15 @@ void NVidiaFrameBufferRenderer::glDraw()
 		
 		glActiveTexture(GL_TEXTURE0);
 		//glBindTexture(GL_TEXTURE_2D, externalTexture);
-		glBindTexture(GL_TEXTURE_EXTERNAL_OES, externalTexture);
-		glEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, hEglImage);
-		glBindVertexArray(vertexArrayObject);
+		glBindTexture(GL_TEXTURE_2D, externalTexture);
+		glEGLImageTargetTexture2DOES(GL_TEXTURE_2D, hEglImage);
+		//glBindVertexArray(vertexArrayObject);
 		//glActiveTexture(GL_TEXTURE0+1);
 		//glBindTexture(GL_TEXTURE_2D, frameBufferTexture);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		printf("251\n");
-
+		/*
 		iErr = glGetError();
 		if (iErr != GL_NO_ERROR)
 			printf("glDrawArrays arrays failed: %i\n", iErr);
@@ -291,7 +284,7 @@ void NVidiaFrameBufferRenderer::glDraw()
 		{
 			printf("eglClientWaitSyncKHR failed!\n");
 		}
-		
+		*/
 		//eglSwapBuffers(eglDisplay, eglSurface);
 		glReadBuffer(GL_COLOR_ATTACHMENT0);
 		glReadPixels(0, 0, 512, 512, GL_RED, GL_UNSIGNED_BYTE, r);
