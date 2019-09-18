@@ -216,36 +216,25 @@ void NVidiaFrameBufferRenderer::glDraw()
 			glGenFramebuffers(1, &frameBuffer);
 			glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 			assertOpenGLError("glBindFramebuffer");
-			
 			glGenTextures(1, &externalTexture);
-			//glGenTextures(1, &frameBufferTexture);
 			glBindTexture(GL_TEXTURE_2D, externalTexture);
-			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 500, 500, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 			assertOpenGLError("glTexImage2D");
 			
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, externalTexture, 0);
 			firstRun = false;
 		}
 		//TODO: put these back
 		
-		printf("229\n");
 		glUniform1i(texLocation, 0);
 		assertOpenGLError("235");
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, externalTexture, 0);
-		//glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		//glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		//glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		//glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		
 		glGetErr("240");
-
-		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameBufferTexture, 0);
 		
-		
-		printf("237\n");
-		//glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 		EGLImageKHR hEglImage;
 
 		EGLSyncKHR eglSync;
@@ -265,7 +254,6 @@ void NVidiaFrameBufferRenderer::glDraw()
 		//glBindTexture(GL_TEXTURE_2D, frameBufferTexture);
 		//glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		printf("251\n");
 		/*
 		iErr = glGetError();
 		if (iErr != GL_NO_ERROR)
