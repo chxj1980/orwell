@@ -4,10 +4,10 @@
 SLOG_CATEGORY("NVidiaFrameBufferRenderer")
 
 const std::string vertexShaderSource =
-#include "nvidia2.vert"
+#include "nvidia3.vert"
 	;
 const std::string fragmentShaderSource =
-#include "nvidia2.frag"
+#include "nvidia3.frag"
 	;
 
 #define TEST_CONDITION(condition, message, errorCode) \
@@ -222,7 +222,7 @@ void NVidiaFrameBufferRenderer::glDraw()
 			glBindTexture(GL_TEXTURE_2D, texture_id);
 			glGetErr("318");
 			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 512, 512, 0, GL_RED, GL_UNSIGNED_BYTE, d);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decodedNvFrame->width, decodedNvFrame->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 500, 500, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 			firstRun = false;
 		}
@@ -235,21 +235,41 @@ void NVidiaFrameBufferRenderer::glDraw()
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_id, 0);
 		assertOpenGLError("glFramebufferTexture2D");
 		printf("237\n");
-		//EGLImageKHR hEglImage;
+		EGLImageKHR hEglImage;
 
-		//EGLSyncKHR eglSync;
+		EGLSyncKHR eglSync;
 		int iErr;
-		//hEglImage = NvEGLImageFromFd(NULL, decodedNvFrame->nvBuffer->planes[0].fd);
-		//if (!hEglImage)
-		//	printf("Could not get EglImage from fd. Not rendering\n");
+		hEglImage = NvEGLImageFromFd(eglDisplay, decodedNvFrame->nvBuffer->planes[0].fd);
+		if (!hEglImage)
+			printf("Could not get EglImage from fd. Not rendering\n");
 
 		//glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture_id);
+		//glBindTexture(GL_TEXTURE_2D, texture_id);
+		glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id);
+		glEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, hEglImage);
 		glBindVertexArray(vertexArrayObject);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		printf("251\n");
 
+		iErr = glGetError();
+		if (iErr != GL_NO_ERROR)
+			printf("glDrawArrays arrays failed: %i\n", iErr);
+		/*
+		eglSync = eglCreateSyncKHR(eglDisplay, EGL_SYNC_FENCE_KHR, NULL);
+		if (eglSync == EGL_NO_SYNC_KHR)
+			printf("eglCreateSyncKHR() failed\n");
+		
+		eglSwapBuffers(eglDisplay, eglSurface);
+		if (eglGetError() != EGL_SUCCESS)
+			printf("Got Error in eglSwapBuffers %i\n", eglGetError());
+
+		if (eglClientWaitSyncKHR (eglDisplay, eglSync,
+					EGL_SYNC_FLUSH_COMMANDS_BIT_KHR, EGL_FOREVER_KHR) == EGL_FALSE)
+		{
+			printf("eglClientWaitSyncKHR failed!\n");
+		}
+		*/
 		glReadBuffer(GL_COLOR_ATTACHMENT0);
 		glReadPixels(0, 0, 512, 512, GL_RED, GL_UNSIGNED_BYTE, r);
 		printf("255\n");
