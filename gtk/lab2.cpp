@@ -28,6 +28,30 @@ public:
         vBox.show();
     };
 
+static void assertOpenGLError(const std::string &msg)
+{
+	GLenum error = glGetError();
+
+	if (error != GL_NO_ERROR)
+	{
+		std::stringstream s;
+		s << "OpenGL error 0x" << std::hex << error << " at " << msg;
+		throw std::runtime_error(s.str());
+	}
+}
+
+static void assertEGLError(const std::string &msg)
+{
+	EGLint error = eglGetError();
+
+	if (error != EGL_SUCCESS)
+	{
+		std::stringstream s;
+		s << "EGL error 0x" << std::hex << error << " at " << msg;
+		throw std::runtime_error(s.str());
+	}
+}
+
 public:
     Gtk::GLArea glArea;
     Gtk::Box vBox{Gtk::ORIENTATION_VERTICAL, false};
@@ -71,6 +95,7 @@ private:
     EGLDisplay eglDisplay;
     EGLSurface eglSurface;
     EGLContext eglContext;
+    EGLConfig eglConfig;
     int numConfigs;
 };
 

@@ -92,7 +92,7 @@ public:
     //virtual void on_realize();
     //virtual bool on_draw (const Cairo::RefPtr<Cairo::Context> &);
     //virtual bool on_configure_event (GdkEventConfigure *event);
-
+    void initEGL(const Glib::RefPtr<Gdk::GLContext> &context);
     void glInit();
     void glDraw();
 
@@ -119,6 +119,7 @@ private:
     int frameHeight = 0;
     int format;
     bool firstRun = true;
+    bool firstRender = true;
     bool initiatedTextures = false;
     bool initiatedFrameBufferObjects = false;
     static const int TEXTURE_NUMBER = 3;

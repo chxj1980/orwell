@@ -241,11 +241,69 @@ void NVidiaRenderer::glInit()
 {
 }
 
+void NVidiaRenderer::initEGL(const Glib::RefPtr<Gdk::GLContext> &context)
+{
+	EGLBoolean eglStatus;
+	GtkWidget *widget = glArea.Widget::gobj();
+	EGLConfig eglConfig;
+	EGLint n_config;
 
+	static EGLint rgba8888[] = {
+        EGL_RED_SIZE, 8,
+        EGL_GREEN_SIZE, 8,
+        EGL_BLUE_SIZE, 8,
+        EGL_ALPHA_SIZE, 8,
+        EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+        EGL_NONE,
+    };
+	//TODO: test these attributes
+	EGLint context_attribs[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
+
+	eglDisplay = eglGetDisplay((EGLNativeDisplayType)gdk_x11_display_get_xdisplay(context->get_display()->gobj()));
+
+	eglStatus = eglInitialize(eglDisplay, 0, 0);
+	if (!eglStatus)
+    {
+        printf("Error at eglInitialize\n");
+	}
+	eglStatus = eglChooseConfig(eglDisplay, rgba8888, &eglConfig, 1, &numConfigs);
+	if (!eglStatus)
+    {
+        printf("Error at eglChooseConfig\n");
+    }
+	eglBindAPI (EGL_OPENGL_API);
+	eglContext = eglCreateContext(eglDisplay, eglConfig, EGL_NO_CONTEXT, context_attribs);
+	if (eglGetError() != EGL_SUCCESS)
+    {
+        printf("Got Error in eglCreateContext \n");
+    }
+	eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, 
+		(EGLNativeWindowType) gdk_x11_window_get_xid(context->get_window()->gobj()), NULL);
+	if (eglSurface == EGL_NO_SURFACE)
+    {
+        printf("Error in creating egl surface \n");
+    }
+	if (eglGetError() != EGL_SUCCESS)
+    {
+        printf("Got Error in eglCreateContext \n");
+    }
+	eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+
+    if (eglGetError() != EGL_SUCCESS)
+    {
+        printf("Error in eglMakeCurrent \n");
+    }
+
+    printf("Got numconfigs as %i\n", numConfigs);
+}
 
 bool NVidiaRenderer::render(const Glib::RefPtr<Gdk::GLContext> &context)
 {
 	std::unique_lock<std::mutex> lock{mutex};
+	if (firstRender) {
+		initEGL(context);
+		firstRender = false;
+	}
 	glDraw();
 	glFinish();
 }
